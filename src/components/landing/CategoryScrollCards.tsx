@@ -16,8 +16,8 @@ export interface CategoryScrollCard {
 
 function CategoryScrollCards({ categoryScrollCards }: Props) {
   return (
-    <ScrollArea className="whitespace-nowrap container relative">
-      <div className="flex w-max space-x-10 p-5 overflow-auto">
+    <ScrollArea className="whitespace-nowrap relative container">
+      <div className="flex w-max space-x-10 py-5 overflow-auto">
         {categoryScrollCards.map(({ alt, imgSrc, href, label }, index) => (
           <figure key={index} className="shrink-0">
             <Link href={href} className="overflow-hidden rounded-md relative">
