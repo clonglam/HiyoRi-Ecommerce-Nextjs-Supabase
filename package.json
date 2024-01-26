@@ -1,28 +1,57 @@
 {
-  "name": "aws-amplify-gen2",
+  "name": "hiyori",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate:pg --config=drizzle.config.ts",
+    "db:push": "drizzle-kit push:pg --config=drizzle.config.ts",
+    "db:pull": "drizzle-kit introspect:pg --config=drizzle.config.ts",
+    "db:studio": "npx drizzle-kit studio",
+    "db:seed": "tsx -r dotenv/config ./src/db/seed.ts"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^6.1.2",
+    "@hookform/resolvers": "^3.3.4",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-separator": "^1.0.3",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@t3-oss/env-nextjs": "^0.8.0",
     "@urql/next": "^1.1.0",
-    "aws-amplify": "^6.0.3",
-    "next": "^14.0.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "dayjs": "^1.11.10",
+    "dotenv": "^16.4.1",
+    "drizzle-orm": "^0.29.3",
+    "lucide-react": "^0.314.0",
+    "next": "14.1.0",
+    "next-themes": "^0.2.1",
+    "postgres": "^3.4.3",
     "react": "^18",
     "react-dom": "^18",
-    "urql": "^4.0.6"
+    "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.49.3",
+    "sonner": "^1.3.1",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7",
+    "vaul": "^0.8.9",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@aws-amplify/backend": "^0.5.4",
-    "@aws-amplify/backend-cli": "^0.9.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "typescript": "^5.3.2"
+    "autoprefixer": "^10.0.1",
+    "drizzle-kit": "^0.20.13",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5"
   }
 }
