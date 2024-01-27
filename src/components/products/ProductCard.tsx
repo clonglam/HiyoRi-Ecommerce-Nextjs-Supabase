@@ -53,13 +53,15 @@ export function ProductCard({
   return (
     <Card className={cn("w-[280px] border-0", className)} {...props}>
       <CardContent className="relative">
-        <Image
-          src={image.src}
-          alt={image.alt}
-          width={280}
-          height={280}
-          className="aspect-[1/1] object-cover object-center"
-        />
+        <Link href={`/products/${id}`}>
+          <Image
+            src={image.src}
+            alt={image.alt}
+            width={280}
+            height={280}
+            className="aspect-[1/1] object-cover object-center"
+          />
+        </Link>
       </CardContent>
       <CardHeader>
         <CardTitle>

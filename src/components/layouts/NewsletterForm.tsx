@@ -6,17 +6,16 @@ import { Button } from "../ui/button"
 
 function NewsletterForm() {
   return (
-    <>
-      NewsletterForm
-      <p>Sign up to Our Newsletter</p>
-      <form>
-        <div>
-          <Label>Email*</Label>
-          <Input placeholder="Email" />
-        </div>
-        <Button type="submit">Submit</Button>
-      </form>
-    </>
+    <form>
+      <h3 className="text-xl mb-5 font-light">Sign up to Our Newsletter</h3>
+      <div className="space-y-3 mb-5">
+        <Label>Email*</Label>
+        <Input placeholder="Email" />
+      </div>
+      <Button type="submit" variant={"outline"} size="lg">
+        Submit
+      </Button>
+    </form>
   )
 }
 

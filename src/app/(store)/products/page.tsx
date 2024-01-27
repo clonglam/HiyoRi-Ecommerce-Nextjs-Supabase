@@ -59,6 +59,7 @@ function ProductsPage({}: Props) {
   return (
     <div className="container min-h-screen">
       <SectionHeader />
+
       <FilterSelections />
 
       <section className="grid grid-cols-2 md:grid-cols-4 w-full">
