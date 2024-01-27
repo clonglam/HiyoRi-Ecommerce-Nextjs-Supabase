@@ -11,6 +11,7 @@ import { siteConfig } from "@/config/site"
 import Link from "next/link"
 import { Icons } from "../icons"
 import Branding from "./Branding"
+import SocialMedias from "./SocialMedias"
 
 export function SideMenu() {
   return (
@@ -46,12 +47,7 @@ export function SideMenu() {
             </p>
           </div>
 
-          <div className="flex gap-x-5 text-muted-foreground">
-            <Icons.gitHub className="w-5 h-5" />
-            <Icons.twitter className="w-5 h-5" />
-            <Icons.facebook className="w-5 h-5" />
-            <Icons.google className="w-5 h-5" />
-          </div>
+          <SocialMedias />
         </SheetFooter>
       </SheetContent>
     </Sheet>

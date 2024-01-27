@@ -13,7 +13,7 @@ type Props = {}
 function CartSheet({}: Props) {
   return (
     <Sheet>
-      <SheetTrigger>Open</SheetTrigger>
+      {/* <SheetTrigger>Open</SheetTrigger> */}
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Are you absolutely sure?</SheetTitle>

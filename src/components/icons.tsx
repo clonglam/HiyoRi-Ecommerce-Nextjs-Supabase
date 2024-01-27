@@ -42,6 +42,7 @@ import {
   Shirt,
   ShoppingBag,
   User,
+  Star,
   Sliders,
   SlidersHorizontal,
   SunMedium,
@@ -54,6 +55,7 @@ import {
   X,
   type LucideIcon,
   type LucideProps,
+  ShoppingBasket,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -74,6 +76,8 @@ export const Icons = {
   user: User,
   cart: ShoppingCart,
   twitter: Twitter,
+  basket: ShoppingBasket,
+  star: Star,
   // verticalThreeDots: MoreVertical,
   // horizontalThreeDots: MoreHorizontal,
   // verticalSliders: Sliders,

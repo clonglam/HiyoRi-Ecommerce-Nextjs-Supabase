@@ -8,6 +8,52 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default function Home() {
+  const productsList = [
+    {
+      id: "0001",
+      image: {
+        src: "/assets/bathroom-planning.jpg",
+        alt: "string",
+      },
+      featured: false,
+      name: "BILD",
+      description: `Poster, 41x51(16x20 ")`,
+      price: 320,
+    },
+    {
+      id: "0002",
+      image: {
+        src: "/assets/bathroom-planning.jpg",
+        alt: "string",
+      },
+      featured: false,
+      name: "BILD",
+      description: `Poster, 41x51(16x20 ")`,
+      price: 320,
+    },
+    {
+      id: "0003",
+      image: {
+        src: "/assets/bathroom-planning.jpg",
+        alt: "string",
+      },
+      featured: false,
+      name: "BILD",
+      description: `Poster, 41x51(16x20 ")`,
+      price: 320,
+    },
+    {
+      id: "0004",
+      image: {
+        src: "/assets/bathroom-planning.jpg",
+        alt: "string",
+      },
+      featured: false,
+      name: "BILD",
+      description: `Poster, 41x51(16x20 ")`,
+      price: 320,
+    },
+  ]
   return (
     <main className="min-h-screen">
       <CategoryScrollCards categoryScrollCards={scollCards} />
@@ -22,12 +68,23 @@ export default function Home() {
         </div>
 
         <ScrollArea>
-          <ProductCard />
+          <div className="flex w-max space-x-10 py-5 overflow-auto">
+            {productsList.map((product, index) => (
+              <ProductCard
+                key={index}
+                id={product.id}
+                name={product.name}
+                description={product.description}
+                image={product.image}
+                price={product.price}
+              />
+            ))}
+          </div>
         </ScrollArea>
       </section>
 
-      <section className="w-full h-[580px] bg-slate-500 grid grid-cols-12 my-16">
-        <div className="relative w-full col-span-8">
+      <section className="max-w-[1500px] mx-auto h-[580px] bg-slate-500 grid grid-cols-12 my-16">
+        <div className="relative w-full h-[580px] col-span-8 overflow-hidden">
           <Image
             src={"/assets/bathroom-planning.jpg"}
             alt=""
@@ -46,7 +103,7 @@ export default function Home() {
             standards - and produce them in a way that keeps great design
             affordable for everyone.
           </p>
-          <Link href="/shop" className={cn(buttonVariants({ size: "lg" }))}>
+          <Link href="/products" className={cn(buttonVariants({ size: "lg" }))}>
             Shop now
           </Link>
         </div>
