@@ -58,23 +58,23 @@ function ProductsPage({}: Props) {
   ]
   return (
     <div className="container min-h-screen">
-      <SectionHeader heading="Shop Now" />
+      <SectionHeader heading="Shop Now">
+        <FilterSelections />
 
-      <FilterSelections />
-
-      <section className="grid grid-cols-2 lg:grid-cols-4 w-full gap-y-8 gap-x-3">
-        {productsList.map(({ id, slug, name, description, price, image }) => (
-          <ProductCard
-            key={id}
-            id={id}
-            slug={slug}
-            name={name}
-            description={description}
-            price={price}
-            image={image}
-          />
-        ))}
-      </section>
+        <section className="grid grid-cols-2 lg:grid-cols-4 w-full gap-y-8 gap-x-3 py-5">
+          {productsList.map(({ id, slug, name, description, price, image }) => (
+            <ProductCard
+              key={id}
+              id={id}
+              slug={slug}
+              name={name}
+              description={description}
+              price={price}
+              image={image}
+            />
+          ))}
+        </section>
+      </SectionHeader>
     </div>
   )
 }

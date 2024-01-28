@@ -52,7 +52,7 @@ function AddProductForm({}: Props) {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Add to Cart</Button>
       </form>
     </Form>
   )
