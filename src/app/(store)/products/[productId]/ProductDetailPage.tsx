@@ -8,10 +8,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { ProductImagesCarousel } from "@/components/products/ProductImagesCarousel"
+import { Props } from "./page"
 
-type Props = {}
-
-function ProductDetailPage({}: Props) {
+export function ProductDetailPage({}: Props) {
   const product = {
     id: "0001",
     slug: "bild-01",
@@ -54,7 +53,7 @@ function ProductDetailPage({}: Props) {
             2
           )}`}</p>
 
-          <AddProductForm id={""} />
+          <AddProductForm />
 
           <p>{product.description}</p>
 
@@ -71,5 +70,3 @@ function ProductDetailPage({}: Props) {
     </div>
   )
 }
-
-export default ProductDetailPage

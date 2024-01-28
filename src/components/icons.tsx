@@ -56,6 +56,7 @@ import {
   type LucideIcon,
   type LucideProps,
   ShoppingBasket,
+  Minus,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -78,13 +79,14 @@ export const Icons = {
   twitter: Twitter,
   basket: ShoppingBasket,
   star: Star,
+  add: Plus,
+  minus: Minus,
   // verticalThreeDots: MoreVertical,
   // horizontalThreeDots: MoreHorizontal,
   // verticalSliders: Sliders,
   // horizontalSliders: SlidersHorizontal,
   // circle: Circle,
   // check: Check,
-  // add: Plus,
   // addCircle: PlusCircle,
   // view: Eye,
   // hide: EyeOff,

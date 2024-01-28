@@ -1,9 +1,15 @@
 import React from "react"
 
-type Props = {}
+type Props = {
+  heading: string
+}
 
-function SectionHeader({}: Props) {
-  return <div>SectionHeader</div>
+function SectionHeader({ heading }: Props) {
+  return (
+    <section>
+      <h1 className="">{heading}</h1>
+    </section>
+  )
 }
 
 export default SectionHeader

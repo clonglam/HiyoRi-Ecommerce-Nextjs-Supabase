@@ -51,7 +51,7 @@ export function ProductCard({
   ...props
 }: ProductCardProps) {
   return (
-    <Card className={cn("w-[280px] border-0", className)} {...props}>
+    <Card className={cn("w-full border-0", className)} {...props}>
       <CardContent className="relative">
         <Link href={`/products/${id}`}>
           <Image
