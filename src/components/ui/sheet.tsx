@@ -73,7 +73,7 @@ const SheetContent = React.forwardRef<
         {children}
         <SheetPrimitive.Close
           className={cn(
-            side === "right" ? " right-12" : "left-12",
+            side === "right" ? "right-6 md:right-12" : "left-6 md:left-12",
             "absolute top-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
           )}
         >

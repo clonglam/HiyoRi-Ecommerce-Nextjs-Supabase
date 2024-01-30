@@ -16,9 +16,6 @@ function Navbar({}: Props) {
         <div className="flex gap-x-3 items-center">
           <SideMenu />
           <Branding />
-          {/* <Link href="/" className="text-xl font-medium">
-            HIYORI
-          </Link> */}
         </div>
 
         <SearchInput />

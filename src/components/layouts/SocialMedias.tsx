@@ -12,10 +12,10 @@ function SocialMedias({ containerClassName, itemsClassName }: Props) {
     <div
       className={cn("flex gap-x-5 text-muted-foreground", containerClassName)}
     >
-      <Icons.gitHub className={cn("w-5 h-5", itemsClassName)} />
-      <Icons.twitter className={cn("w-5 h-5", itemsClassName)} />
-      <Icons.facebook className={cn("w-5 h-5", itemsClassName)} />
-      <Icons.google className={cn("w-5 h-5", itemsClassName)} />
+      <Icons.gitHub className={cn("w-4 h-4 md:w-5 md:h-5", itemsClassName)} />
+      <Icons.twitter className={cn("w-4 h-4 md:w-5 md:h-5", itemsClassName)} />
+      <Icons.facebook className={cn("w-4 h-4 md:w-5 md:h-5", itemsClassName)} />
+      <Icons.google className={cn("w-4 h-4 md:w-5 md:h-5", itemsClassName)} />
     </div>
   )
 }

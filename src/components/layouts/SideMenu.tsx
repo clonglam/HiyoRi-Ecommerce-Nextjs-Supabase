@@ -24,22 +24,23 @@ export function SideMenu() {
 
       <SheetContent
         side="left"
-        className="max-w-xl pr-[4rem]"
-        closeButtonClassName="w-10 h-10"
+        className="w-full md:max-w-xl pr-[4rem]"
+        closeButtonClassName="w-6 h-6 md:w-10 md:h-10"
       >
-        <div className="grid py-8 gap-y-5 ml-[96px] mt-[120px]">
+        <div className="grid py-8 gap-y-5 ml-12 md:ml-[96px] mt-[120px]">
           {siteConfig.mainNav.map(({ title, href }, index) => (
-            <Link key={index} href={href} className="text-4xl">
+            <Link key={index} href={href} className="text-3xl md:text-4xl">
               {title}
             </Link>
           ))}
         </div>
-        <SheetFooter className="fixed bottom-[96px] ml-[96px] grid space-x-0">
-          <Branding className="text-[32px]" />
+
+        <SheetFooter className="fixed grid bottom-[96px] ml-12 md:ml-[96px] space-x-0">
+          <Branding className="text-xl md:text-[32px]" />
 
           <div className="mb-8 text-muted-foreground">
-            <p className="text-[15px] ml-0">{siteConfig.address}</p>
-            <p className="text-[15px] ml-0">
+            <p className="text-xs md:text-[15px] ml-0">{siteConfig.address}</p>
+            <p className="text-xs md:text-[15px] ml-0">
               <span>{siteConfig.phone}</span> {` / `}
               <span>
                 <a>{siteConfig.email}</a>
