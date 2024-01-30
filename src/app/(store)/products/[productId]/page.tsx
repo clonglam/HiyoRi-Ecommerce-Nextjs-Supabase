@@ -148,15 +148,16 @@ function ProductDetailPage({}: Props) {
       <SectionHeader heading={`We Think You'll Love`}>
         <div className="container grid grid-cols-2 lg:grid-cols-4 ">
           {recommendations.map((recomendation, index) => (
-            <ProductCard
-              key={recomendation.id}
-              id={recomendation.id}
-              name={recomendation.name}
-              slug={recomendation.slug}
-              description={recomendation.description}
-              price={recomendation.price}
-              image={recomendation.image}
-            />
+            <div key={recomendation.id}>Product Recomendation Card</div>
+            // <ProductCard
+            //   key={recomendation.id}
+            //   id={recomendation.id}
+            //   name={recomendation.name}
+            //   slug={recomendation.slug}
+            //   description={recomendation.description}
+            //   price={recomendation.price}
+            //   image={recomendation.image}
+            // />
           ))}
         </div>
       </SectionHeader>

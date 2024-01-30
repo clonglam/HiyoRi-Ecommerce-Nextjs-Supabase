@@ -63,15 +63,16 @@ function ProductsPage({}: Props) {
 
         <section className="grid grid-cols-2 lg:grid-cols-4 w-full gap-y-8 gap-x-3 py-5">
           {productsList.map(({ id, slug, name, description, price, image }) => (
-            <ProductCard
-              key={id}
-              id={id}
-              slug={slug}
-              name={name}
-              description={description}
-              price={price}
-              image={image}
-            />
+            <div key={id}></div>
+            // <ProductCard
+            //   key={id}
+            //   id={id}
+            //   slug={slug}
+            //   name={name}
+            //   description={description}
+            //   price={price}
+            //   image={image}
+            // />
           ))}
         </section>
       </SectionHeader>
