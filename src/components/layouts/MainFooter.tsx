@@ -14,7 +14,7 @@ function MainFooter({}: Props) {
       items: [
         {
           title: "Furniture",
-          href: "/categories/furniture",
+          href: "/collections/furniture",
           items: [],
         },
         {

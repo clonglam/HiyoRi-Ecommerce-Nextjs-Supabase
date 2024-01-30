@@ -46,6 +46,10 @@ export type CartItem = {
   quantity: number
 }
 
+export type ImageType = {
+  alt: string
+  src: string
+}
 export interface CheckoutItem extends CartItem {
   price: number
 }

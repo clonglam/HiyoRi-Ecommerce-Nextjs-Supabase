@@ -14,6 +14,7 @@ import {
 import { Icons } from "../icons"
 import { Rating } from "../ui/rating"
 import Link from "next/link"
+import { gql, DocumentType } from "@/gql"
 
 type ProductCard = {
   id: string
@@ -21,42 +22,59 @@ type ProductCard = {
     src: string
     alt: string
   }
-  //   featured: boolean
   name: string
   description: string
   price: number
 }
 
 type CardProps = React.ComponentProps<typeof Card>
+
 type ProductCardProps = CardProps & {
-  id: string
-  name: string
-  slug: string
-  description: string
-  price: number
-  image: {
-    src: string
-    alt: string
-  }
+  product: DocumentType<typeof ProductCardFragment>
 }
+
+const ProductCardFragment = gql(/* GraphQL */ `
+  fragment ProductCardFragment on products {
+    id
+    name
+    description
+    rating
+    images
+    featuredImage: medias {
+      id
+      key
+      alt
+    }
+    sku: product_skusCollection {
+      edges {
+        node {
+          sku
+          price
+          inventory
+        }
+      }
+    }
+    collections {
+      id
+      label
+      slug
+    }
+  }
+`)
 
 export function ProductCard({
   className,
-  id,
-  slug,
-  name,
-  image,
-  description,
-  price,
+
+  product,
   ...props
 }: ProductCardProps) {
   return (
     <Card className={cn("w-full border-0", className)} {...props}>
       <CardContent className="relative">
-        <Link href={`/products/${id}`}>
+        <Link href={`/products/${product.id}`}>
           <Image
-            src={image.src}
-            alt={image.alt}
+            src={`https://hiyori-backpack.s3.us-west-2.amazonaws.com/${product.featuredImage.key}`}
+            alt={product.featuredImage.alt}
             width={280}
             height={280}
             className="aspect-[1/1] object-cover object-center"
@@ -65,11 +83,11 @@ export function ProductCard({
       </CardContent>
       <CardHeader>
         <CardTitle>
-          <Link href={`/products/${id}`}>{name}</Link>
+          <Link href={`/products/${product.id}`}>{product.name}</Link>
         </CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardDescription>{product.description}</CardDescription>
         <div>$382.00</div>
-        <Rating value={3.5} precision={0.5} readOnly />
+        <Rating value={product.rating} precision={0.5} readOnly />
       </CardHeader>
       <CardFooter className="gap-x-5">
         <Button className="rounded-full p-0 h-8 w-8">

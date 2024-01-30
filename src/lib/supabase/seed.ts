@@ -26,6 +26,51 @@ const main = async () => {
     .values([hugo, bob])
     .returning()
 
+  const insertedProducts = await db.insert(schema.products).values([
+    {
+      id: 1,
+      name: "widget 1",
+      description: "This is widget 1 description",
+      rating: 5,
+      storeId: 1,
+      // productSkus: [
+      //   {
+      //     sku: "W0001SR",
+      //     price: 300,
+      //     inventory: 3,
+      //     skuValues: {
+      //       optionValues: { valueName: "S" },
+      //       options: { optionName: "Size" },
+      //     },
+      //   },
+      // ],
+    },
+  ])
+
+  const insertedProductVariants = await db.insert(schema.skuValues).values([
+    {
+      productId: 1,
+      skuId: 1,
+      optionId: 1,
+      valueId: 1,
+      // options:{
+      //   optionName:"Size"
+      // },
+      // productSkus:{
+      // },
+
+      // productId: 1,
+      // price: 300,
+      // inventory: 5,
+      // options: {
+      //   optionName: "Size",
+      // },
+      // optionValues: {
+      //   optionValues: "S",
+      // },
+    },
+  ])
+
   insertedUsers.forEach((user) => {
     console.log(`project ${user.fullName} is added to the DB.`)
   })

@@ -3,19 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "graphql-codegen && next dev",
+    "build": "graphql-codegen --validate && next build",
     "start": "next start",
     "lint": "next lint",
+    "relay": "relay-compiler",
     "db:generate": "drizzle-kit generate:pg --config=drizzle.config.ts",
     "db:push": "drizzle-kit push:pg --config=drizzle.config.ts",
     "db:pull": "drizzle-kit introspect:pg --config=drizzle.config.ts",
     "db:studio": "npx drizzle-kit studio",
-    "db:seed": "tsx -r dotenv/config ./src/db/seed.ts"
+    "db:seed": "tsx -r dotenv/config ./src/db/seed.ts",
+    "codegen": "graphql-codegen",
+    "codegen:fetch": "node --no-warnings scripts/fetchGraphQLSchema ",
+    "codegen:watch": "yarn run codegen -- --watch"
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,tsx}": "prettier --write"
   },
   "dependencies": {
+    "@graphql-yoga/render-graphiql": "^5.1.1",
     "@hookform/resolvers": "^3.3.4",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@parcel/watcher": "^2.4.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
@@ -32,6 +41,7 @@
     "dotenv": "^16.4.1",
     "drizzle-orm": "^0.29.3",
     "embla-carousel-react": "^8.0.0-rc21",
+    "graphql": "^16.8.1",
     "lucide-react": "^0.314.0",
     "next": "14.1.0",
     "next-themes": "^0.2.1",
@@ -40,6 +50,8 @@
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.49.3",
+    "react-relay": "main",
+    "relay-runtime": "main",
     "sonner": "^1.3.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
@@ -47,16 +59,32 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/gql-tag-operations-preset": "^2.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-relay": "^16.0.6",
+    "@types/relay-runtime": "^14.1.22",
+    "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.0.1",
+    "concurrently": "^8.2.2",
+    "cross-undici-fetch": "^0.4.14",
     "drizzle-kit": "^0.20.13",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
+    "eslint-plugin-relay": "^1.8.3",
+    "gradient-string": "^2.0.2",
+    "lint-staged": "^15.2.0",
     "postcss": "^8",
+    "prettier": "^3.2.4",
+    "progress": "^2.0.3",
+    "relay-compiler": "main",
+    "styled-jsx": "^5.1.2",
+    "supabase": "^1.136.3",
     "tailwindcss": "^3.3.0",
     "tsx": "^4.7.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "watchman": "^1.0.0"
   }
 }

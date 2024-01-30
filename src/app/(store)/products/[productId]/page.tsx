@@ -90,7 +90,7 @@ function ProductDetailPage({}: Props) {
     <div className="container min-h-screen ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
         <div className="space-y-8 relative">
-          <div className="relative max-h-[560px]">
+          <div className="relative max-h-[600px]">
             <Image
               src={product.image.src}
               alt={product.image.alt}
@@ -149,6 +149,7 @@ function ProductDetailPage({}: Props) {
         <div className="container grid grid-cols-2 lg:grid-cols-4 ">
           {recommendations.map((recomendation, index) => (
             <ProductCard
+              key={recomendation.id}
               id={recomendation.id}
               name={recomendation.name}
               slug={recomendation.slug}
@@ -160,7 +161,7 @@ function ProductDetailPage({}: Props) {
         </div>
       </SectionHeader>
 
-      <SectionHeader heading={`Product Coments`}>
+      <SectionHeader heading={`Product Comments`}>
         <div></div>
       </SectionHeader>
     </div>
