@@ -12,7 +12,8 @@
     "db:push": "drizzle-kit push:pg --config=drizzle.config.ts",
     "db:pull": "drizzle-kit introspect:pg --config=drizzle.config.ts",
     "db:studio": "npx drizzle-kit studio",
-    "db:seed": "tsx -r dotenv/config ./src/db/seed.ts",
+    "db:seed": "tsx -r dotenv/config ./src/lib/supabase/seed.ts",
+    "db:drop": "drizzle-kit drop --config=drizzle.config.ts",
     "codegen": "graphql-codegen",
     "codegen:fetch": "node --no-warnings scripts/fetchGraphQLSchema ",
     "codegen:watch": "yarn run codegen -- --watch"

@@ -15,6 +15,7 @@ import { Icons } from "../icons"
 import { Rating } from "../ui/rating"
 import Link from "next/link"
 import { gql, DocumentType } from "@/gql"
+import { keytoUrl } from "@/lib/s3/s3"
 
 type ProductCard = {
   id: string
@@ -64,17 +65,17 @@ const ProductCardFragment = gql(/* GraphQL */ `
 
 export function ProductCard({
   className,
-
   product,
   ...props
 }: ProductCardProps) {
+  const { id, name, featuredImage } = product
   return (
-    <Card className={cn("w-full border-0", className)} {...props}>
+    <Card className={cn("w-full border-0 rounded-lg", className)} {...props}>
       <CardContent className="relative">
-        <Link href={`/products/${product.id}`}>
+        <Link href={`/products/${id}`}>
           <Image
-            src={`https://hiyori-backpack.s3.us-west-2.amazonaws.com/${product.featuredImage.key}`}
-            alt={product.featuredImage.alt}
+            src={keytoUrl(featuredImage.key)}
+            alt={featuredImage.alt}
             width={280}
             height={280}
             className="aspect-[1/1] object-cover object-center"
@@ -83,7 +84,7 @@ export function ProductCard({
       </CardContent>
       <CardHeader>
         <CardTitle>
-          <Link href={`/products/${product.id}`}>{product.name}</Link>
+          <Link href={`/products/${id}`}>{name}</Link>
         </CardTitle>
         <CardDescription>{product.description}</CardDescription>
         <div>$382.00</div>

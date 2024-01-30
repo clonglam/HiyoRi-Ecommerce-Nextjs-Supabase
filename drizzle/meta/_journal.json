@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1706595598512,
+      "tag": "0000_perfect_alex_wilder",
+      "breakpoints": true
+    }
+  ]
+}

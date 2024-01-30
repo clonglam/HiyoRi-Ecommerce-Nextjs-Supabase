@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { Suspense } from "react"
 
 export default async function Home() {
   // const productsList = [
@@ -88,9 +89,11 @@ export default async function Home() {
     <main className="min-h-screen">
       <ScrollArea className="whitespace-nowrap relative container">
         <div className="flex w-max space-x-10 py-5 overflow-auto">
-          {data?.collectionScrollCards?.edges.map(({ node }) => (
-            <CollectionsCard collection={node} key={node.id} />
-          ))}
+          <Suspense fallback="loading">
+            {data?.collectionScrollCards?.edges.map(({ node }) => (
+              <CollectionsCard collection={node} key={node.id} />
+            ))}
+          </Suspense>
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
@@ -106,22 +109,15 @@ export default async function Home() {
 
         <ScrollArea>
           <div className="flex w-max space-x-10 py-5 overflow-auto">
-            {data?.products?.edges.map(({ node }, index) => (
-              <ProductCard
-                key={node.id}
-                product={node}
-                // id={product.id}
-                // name={product.name}
-                // description={product.description}
-                // image={product.image}
-                // price={product.price}
-              />
-            ))}
+            <Suspense fallback={"loading"}>
+              {data?.products?.edges.map(({ node }) => (
+                <ProductCard key={node.id} product={node} />
+              ))}
+            </Suspense>
           </div>
         </ScrollArea>
       </section>
 
-      {/* 
       <section className="max-w-[1500px] mx-auto h-[580px] bg-slate-500 grid grid-cols-12 my-16">
         <div className="relative w-full h-[580px] col-span-8 overflow-hidden">
           <Image
@@ -146,7 +142,7 @@ export default async function Home() {
             Shop now
           </Link>
         </div>
-      </section> */}
+      </section>
     </main>
   )
 }

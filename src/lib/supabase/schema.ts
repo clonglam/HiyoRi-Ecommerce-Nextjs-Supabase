@@ -19,16 +19,33 @@ export const users = pgTable("users", {
   fullName: text("full_name"),
   phone: varchar("phone", { length: 256 }),
 })
-
-// https://stackoverflow.com/questions/24923469/modeling-product-variants
-
+export const options = pgTable(
+  "options",
+  {
+    optionId: serial("option_id").unique(),
+    productId: integer("product_id")
+      .notNull()
+      .references(() => products.id, { onDelete: "cascade" }),
+    optionName: text("option_name").notNull(),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({
+        columns: [table.productId, table.optionId],
+      }),
+    }
+  }
+)
 export const optionValues = pgTable(
   "option_values",
   {
     valueId: serial("id").unique(),
     productId: integer("product_id").notNull(),
-    optionId: integer("option_id").notNull(),
-    valueName: text("value_name").notNull(),
+    optionId: integer("option_id")
+      .notNull()
+      .references(() => options.optionId, { onDelete: "cascade" }),
+    value: text("value").notNull(),
+    label: text("label"),
   },
   (table) => {
     return {
@@ -38,8 +55,10 @@ export const optionValues = pgTable(
       productOptions: foreignKey({
         columns: [table.productId, table.optionId],
         foreignColumns: [options.productId, options.optionId],
-        name: "productOptions",
-      }),
+        name: "product_options_fk",
+      })
+        .onDelete("cascade")
+        .onUpdate("cascade"),
     }
   }
 )
@@ -49,7 +68,6 @@ export const productSkus = pgTable(
   {
     skuId: serial("id").notNull(),
     productId: integer("product_id").notNull(),
-
     sku: text("sku").unique(),
     price: decimal("price", { precision: 10, scale: 2 }).notNull().default("0"),
     inventory: integer("inventory").notNull().default(0),
@@ -63,7 +81,9 @@ export const productSkus = pgTable(
         columns: [table.productId],
         foreignColumns: [products.id],
         name: "products",
-      }),
+      })
+        .onDelete("cascade")
+        .onUpdate("cascade"),
     }
   }
 )
@@ -108,6 +128,53 @@ export const products = pgTable(
   }
 )
 
+export const skuValues = pgTable(
+  "sku_values",
+  {
+    productId: integer("product_id").notNull(),
+    skuId: integer("sku_id").notNull(),
+    optionId: integer("option_id")
+      .notNull()
+      .references(() => options.optionId, { onDelete: "cascade" }),
+    valueId: integer("value_id")
+      .notNull()
+      .references(() => optionValues.valueId, { onDelete: "cascade" }),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({
+        columns: [table.productId, table.skuId, table.optionId],
+      }),
+      skus: foreignKey({
+        columns: [table.productId, table.skuId],
+        foreignColumns: [productSkus.productId, productSkus.skuId],
+        name: "product_skus",
+      })
+        .onDelete("cascade")
+        .onUpdate("cascade"),
+      options: () =>
+        foreignKey({
+          columns: [table.productId, table.optionId],
+          foreignColumns: [options.productId, options.optionId],
+          name: "product_options",
+        })
+          .onDelete("cascade")
+          .onUpdate("cascade"),
+      optionValues: foreignKey({
+        columns: [table.productId, table.optionId, table.valueId],
+        foreignColumns: [
+          optionValues.productId,
+          optionValues.optionId,
+          optionValues.valueId,
+        ],
+        name: "option_values",
+      })
+        .onDelete("cascade")
+        .onUpdate("cascade"),
+    }
+  }
+)
+
 export type SelectProducts = InferSelectModel<typeof products>
 export type InsertProducts = InferInsertModel<typeof products>
 
@@ -137,60 +204,10 @@ export type InsertCollection = InferInsertModel<typeof collections>
 
 export const medias = pgTable("medias", {
   id: serial("id").notNull().primaryKey(),
-  alt: varchar("alt", { length: 255 }).notNull(),
   key: varchar("key", { length: 255 }).notNull(),
+  alt: varchar("alt", { length: 255 }).notNull(),
   createdAt: timestamp("created_at", { mode: "string" }).defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }).defaultNow(),
 })
 
-export const options = pgTable(
-  "options",
-  {
-    optionId: serial("id"),
-    productId: integer("product_id").notNull(),
-    optionName: text("option_name").notNull(),
-  },
-  (table) => {
-    return {
-      pk: primaryKey({
-        columns: [table.productId, table.optionId],
-      }),
-    }
-  }
-)
-
-export const skuValues = pgTable(
-  "sku_values",
-  {
-    productId: integer("product_id").notNull(),
-    skuId: integer("sku_id").notNull(),
-    optionId: integer("option_id").notNull(),
-    valueId: integer("value_id").notNull(),
-  },
-  (table) => {
-    return {
-      pk: primaryKey({
-        columns: [table.productId, table.skuId, table.optionId],
-      }),
-      skus: foreignKey({
-        columns: [table.productId, table.skuId],
-        foreignColumns: [productSkus.productId, productSkus.skuId],
-        name: "product_skus",
-      }),
-      options: foreignKey({
-        columns: [table.productId, table.optionId],
-        foreignColumns: [options.productId, options.optionId],
-        name: "product_options",
-      }),
-      optionValues: foreignKey({
-        columns: [table.productId, table.optionId, table.valueId],
-        foreignColumns: [
-          optionValues.productId,
-          optionValues.optionId,
-          optionValues.valueId,
-        ],
-        name: "option_values",
-      }),
-    }
-  }
-)
+// https://stackoverflow.com/questions/24923469/modeling-product-variants
