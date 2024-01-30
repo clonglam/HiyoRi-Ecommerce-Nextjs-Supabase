@@ -13,6 +13,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm"
+import { number } from "zod"
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -69,7 +70,9 @@ export const productSkus = pgTable(
     skuId: serial("id").notNull(),
     productId: integer("product_id").notNull(),
     sku: text("sku").unique(),
-    price: decimal("price", { precision: 10, scale: 2 }).notNull().default("0"),
+    price: decimal("price", { precision: 8, scale: 2 })
+      .notNull()
+      .default("0.00"),
     inventory: integer("inventory").notNull().default(0),
   },
   (table) => {
@@ -93,12 +96,15 @@ export const products = pgTable(
   {
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 191 }).notNull(),
+    slug: varchar("slug", { length: 191 }).notNull().unique(),
     description: text("description"),
-    rating: smallint("rating").notNull().default(0),
+    featured: boolean("featured").default(false),
+    badge: text("badge", { enum: ["new_product", "best_sale", "featured"] }),
+    rating: decimal("rating", { precision: 2, scale: 1 })
+      .notNull()
+      .default("4"),
     tags: json("tags").$type<string[]>().default([]).notNull(),
     images: json("images").$type<number[]>().default([]).notNull(),
-    new: boolean("new").default(false),
-    featured: boolean("featured").default(false),
     createdAt: timestamp("created_at", {
       withTimezone: true,
       mode: "string",
@@ -127,6 +133,8 @@ export const products = pgTable(
     }
   }
 )
+
+export type BadgeType = "best_sale" | "featured" | "new_product"
 
 export const skuValues = pgTable(
   "sku_values",
@@ -184,6 +192,7 @@ export const collections = pgTable(
     id: serial("id").notNull().primaryKey(),
     label: varchar("label", { length: 255 }).notNull(),
     slug: varchar("slug", { length: 255 }).notNull(),
+    order: integer("order"),
     featuredImageId: integer("featured_image_id")
       .notNull()
       .references(() => medias.id, { onDelete: "restrict" }),

@@ -636,6 +636,7 @@ type collections implements Node {
   label: String!
   slug: String!
   featured_image_id: Int!
+  order: Int
   medias: medias!
   productsCollection(
     """Query the first `n` records in the collection"""
@@ -681,6 +682,7 @@ input collectionsFilter {
   label: StringFilter
   slug: StringFilter
   featured_image_id: IntFilter
+  order: IntFilter
   nodeId: IDFilter
 
   """
@@ -701,6 +703,7 @@ input collectionsInsertInput {
   label: String
   slug: String
   featured_image_id: Int
+  order: Int
 }
 
 type collectionsInsertResponse {
@@ -716,12 +719,14 @@ input collectionsOrderBy {
   label: OrderByDirection
   slug: OrderByDirection
   featured_image_id: OrderByDirection
+  order: OrderByDirection
 }
 
 input collectionsUpdateInput {
   label: String
   slug: String
   featured_image_id: Int
+  order: Int
 }
 
 type collectionsUpdateResponse {
@@ -736,29 +741,10 @@ type medias implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
   id: Int!
-  alt: String!
   key: String!
+  alt: String!
   created_at: Datetime
   updated_at: Datetime
-  productsCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: productsFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [productsOrderBy!]
-  ): productsConnection
   collectionsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -778,6 +764,25 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [collectionsOrderBy!]
   ): collectionsConnection
+  productsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: productsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [productsOrderBy!]
+  ): productsConnection
 }
 
 type mediasConnection {
@@ -800,8 +805,8 @@ type mediasEdge {
 
 input mediasFilter {
   id: IntFilter
-  alt: StringFilter
   key: StringFilter
+  alt: StringFilter
   created_at: DatetimeFilter
   updated_at: DatetimeFilter
   nodeId: IDFilter
@@ -821,8 +826,8 @@ input mediasFilter {
 }
 
 input mediasInsertInput {
-  alt: String
   key: String
+  alt: String
   created_at: Datetime
   updated_at: Datetime
 }
@@ -837,15 +842,15 @@ type mediasInsertResponse {
 
 input mediasOrderBy {
   id: OrderByDirection
-  alt: OrderByDirection
   key: OrderByDirection
+  alt: OrderByDirection
   created_at: OrderByDirection
   updated_at: OrderByDirection
 }
 
 input mediasUpdateInput {
-  alt: String
   key: String
+  alt: String
   created_at: Datetime
   updated_at: Datetime
 }
@@ -864,7 +869,8 @@ type option_values implements Node {
   id: Int!
   product_id: Int!
   option_id: Int!
-  value_name: String!
+  value: String!
+  label: String
   options: options!
   sku_valuesCollection(
     """Query the first `n` records in the collection"""
@@ -909,7 +915,8 @@ input option_valuesFilter {
   id: IntFilter
   product_id: IntFilter
   option_id: IntFilter
-  value_name: StringFilter
+  value: StringFilter
+  label: StringFilter
   nodeId: IDFilter
 
   """
@@ -929,7 +936,8 @@ input option_valuesFilter {
 input option_valuesInsertInput {
   product_id: Int
   option_id: Int
-  value_name: String
+  value: String
+  label: String
 }
 
 type option_valuesInsertResponse {
@@ -944,13 +952,15 @@ input option_valuesOrderBy {
   id: OrderByDirection
   product_id: OrderByDirection
   option_id: OrderByDirection
-  value_name: OrderByDirection
+  value: OrderByDirection
+  label: OrderByDirection
 }
 
 input option_valuesUpdateInput {
   product_id: Int
   option_id: Int
-  value_name: String
+  value: String
+  label: String
 }
 
 type option_valuesUpdateResponse {
@@ -964,9 +974,10 @@ type option_valuesUpdateResponse {
 type options implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
-  id: Int!
+  option_id: Int!
   product_id: Int!
   option_name: String!
+  products: products!
   sku_valuesCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1026,7 +1037,7 @@ type optionsEdge {
 }
 
 input optionsFilter {
-  id: IntFilter
+  option_id: IntFilter
   product_id: IntFilter
   option_name: StringFilter
   nodeId: IDFilter
@@ -1059,7 +1070,7 @@ type optionsInsertResponse {
 }
 
 input optionsOrderBy {
-  id: OrderByDirection
+  option_id: OrderByDirection
   product_id: OrderByDirection
   option_name: OrderByDirection
 }
@@ -1191,17 +1202,37 @@ type products implements Node {
   id: Int!
   name: String!
   description: String
-  rating: Int!
+  rating: BigFloat!
   tags: JSON!
-  storeId: Int!
-  created_at: Datetime!
-  featured_image_id: Int!
   images: JSON!
+  created_at: Datetime!
+  storeId: Int!
   collection_id: Int
-  new: Boolean
+  featured_image_id: Int!
+  slug: String!
+  badge: String
   featured: Boolean
   medias: medias!
   collections: collections
+  optionsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: optionsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [optionsOrderBy!]
+  ): optionsConnection
   product_skusCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1245,12 +1276,13 @@ input productsFilter {
   id: IntFilter
   name: StringFilter
   description: StringFilter
-  rating: IntFilter
-  storeId: IntFilter
+  rating: BigFloatFilter
   created_at: DatetimeFilter
-  featured_image_id: IntFilter
+  storeId: IntFilter
   collection_id: IntFilter
-  new: BooleanFilter
+  featured_image_id: IntFilter
+  slug: StringFilter
+  badge: StringFilter
   featured: BooleanFilter
   nodeId: IDFilter
 
@@ -1271,14 +1303,15 @@ input productsFilter {
 input productsInsertInput {
   name: String
   description: String
-  rating: Int
+  rating: BigFloat
   tags: JSON
-  storeId: Int
-  created_at: Datetime
-  featured_image_id: Int
   images: JSON
+  created_at: Datetime
+  storeId: Int
   collection_id: Int
-  new: Boolean
+  featured_image_id: Int
+  slug: String
+  badge: String
   featured: Boolean
 }
 
@@ -1295,25 +1328,27 @@ input productsOrderBy {
   name: OrderByDirection
   description: OrderByDirection
   rating: OrderByDirection
-  storeId: OrderByDirection
   created_at: OrderByDirection
-  featured_image_id: OrderByDirection
+  storeId: OrderByDirection
   collection_id: OrderByDirection
-  new: OrderByDirection
+  featured_image_id: OrderByDirection
+  slug: OrderByDirection
+  badge: OrderByDirection
   featured: OrderByDirection
 }
 
 input productsUpdateInput {
   name: String
   description: String
-  rating: Int
+  rating: BigFloat
   tags: JSON
-  storeId: Int
-  created_at: Datetime
-  featured_image_id: Int
   images: JSON
+  created_at: Datetime
+  storeId: Int
   collection_id: Int
-  new: Boolean
+  featured_image_id: Int
+  slug: String
+  badge: String
   featured: Boolean
 }
 
@@ -1332,9 +1367,9 @@ type sku_values implements Node {
   sku_id: Int!
   option_id: Int!
   value_id: Int!
-  options: options!
-  option_values: option_values!
   product_skus: product_skus!
+  option_values: option_values!
+  options: options!
 }
 
 type sku_valuesConnection {

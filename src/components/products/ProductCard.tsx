@@ -16,17 +16,8 @@ import { Rating } from "../ui/rating"
 import Link from "next/link"
 import { gql, DocumentType } from "@/gql"
 import { keytoUrl } from "@/lib/s3/s3"
-
-type ProductCard = {
-  id: string
-  image: {
-    src: string
-    alt: string
-  }
-  name: string
-  description: string
-  price: number
-}
+import { Badge } from "../ui/badge"
+import { BadgeType } from "@/lib/supabase/schema"
 
 type CardProps = React.ComponentProps<typeof Card>
 
@@ -41,6 +32,8 @@ const ProductCardFragment = gql(/* GraphQL */ `
     description
     rating
     images
+    slug
+    badge
     featuredImage: medias {
       id
       key
@@ -68,29 +61,41 @@ export function ProductCard({
   product,
   ...props
 }: ProductCardProps) {
-  const { id, name, featuredImage } = product
+  const { id, name, slug, featuredImage, badge } = product
+
   return (
     <Card className={cn("w-full border-0 rounded-lg", className)} {...props}>
-      <CardContent className="relative">
-        <Link href={`/products/${id}`}>
+      <CardContent className="relative p-0 mb-5 overflow-hidden">
+        <Link href={`/products/${slug}`}>
           <Image
             src={keytoUrl(featuredImage.key)}
             alt={featuredImage.alt}
             width={280}
             height={280}
-            className="aspect-[1/1] object-cover object-center"
+            className="aspect-[1/1] object-cover object-center hover:scale-[1.02] hover:opacity-70 transition-all duration-500"
           />
         </Link>
+        {badge && (
+          <Badge className="absolute top-0 left-0" variant={badge as BadgeType}>
+            {badge}
+          </Badge>
+        )}
       </CardContent>
-      <CardHeader>
+
+      <CardHeader className="p-0 mb-5">
         <CardTitle>
-          <Link href={`/products/${id}`}>{name}</Link>
+          <Link href={`/products/${slug}`} className="hover:underline">
+            {name}
+          </Link>
         </CardTitle>
-        <CardDescription>{product.description}</CardDescription>
+        <CardDescription className="max-w-[240px] line-clamp-2">
+          {product.description}
+        </CardDescription>
         <div>$382.00</div>
         <Rating value={product.rating} precision={0.5} readOnly />
       </CardHeader>
-      <CardFooter className="gap-x-5">
+
+      <CardFooter className="gap-x-5 p-0">
         <Button className="rounded-full p-0 h-8 w-8">
           <Icons.basket className="h-4 w-4" />
         </Button>

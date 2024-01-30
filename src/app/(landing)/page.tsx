@@ -2,7 +2,6 @@ import CollectionsCard from "@/components/landing/CollectionsCard"
 import ProductCard from "@/components/products/ProductCard"
 import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import { scollCards } from "@/config/collections"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql/urql"
 import { cn } from "@/lib/utils"
@@ -12,65 +11,24 @@ import { notFound } from "next/navigation"
 import { Suspense } from "react"
 
 export default async function Home() {
-  // const productsList = [
-  //   {
-  //     id: "0001",
-  //     image: {
-  //       src: "/assets/bathroom-planning.jpg",
-  //       alt: "string",
-  //     },
-  //     featured: false,
-  //     name: "BILD",
-  //     description: `Poster, 41x51(16x20 ")`,
-  //     price: 320,
-  //   },
-  //   {
-  //     id: "0002",
-  //     image: {
-  //       src: "/assets/bathroom-planning.jpg",
-  //       alt: "string",
-  //     },
-  //     featured: false,
-  //     name: "BILD",
-  //     description: `Poster, 41x51(16x20 ")`,
-  //     price: 320,
-  //   },
-  //   {
-  //     id: "0003",
-  //     image: {
-  //       src: "/assets/bathroom-planning.jpg",
-  //       alt: "string",
-  //     },
-  //     featured: false,
-  //     name: "BILD",
-  //     description: `Poster, 41x51(16x20 ")`,
-  //     price: 320,
-  //   },
-  //   {
-  //     id: "0004",
-  //     image: {
-  //       src: "/assets/bathroom-planning.jpg",
-  //       alt: "string",
-  //     },
-  //     featured: false,
-  //     name: "BILD",
-  //     description: `Poster, 41x51(16x20 ")`,
-  //     price: 320,
-  //   },
-  // ]
-
   const LandingRouteQuery = gql(/* GraphQL */ `
     query LandingRouteQuery {
-      products: productsCollection {
+      products: productsCollection(
+        filter: { featured: { eq: true } }
+        first: 5
+        orderBy: [{ created_at: DescNullsLast }]
+      ) {
         edges {
           node {
             id
-
             ...ProductCardFragment
           }
         }
       }
-      collectionScrollCards: collectionsCollection {
+      collectionScrollCards: collectionsCollection(
+        first: 4
+        orderBy: [{ order: DescNullsLast }]
+      ) {
         edges {
           node {
             id
@@ -115,6 +73,7 @@ export default async function Home() {
               ))}
             </Suspense>
           </div>
+          <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </section>
 
