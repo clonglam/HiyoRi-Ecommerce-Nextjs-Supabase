@@ -79,7 +79,7 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   if (!productsList) return notFound()
 
   return (
-    <div className="min-h-screen container ">
+    <div className="min-h-screen">
       {/* <Header heading={unslugify(params.collectionSlug)} /> */}
       <CollectionBanner
         collectionBannerData={data.collectionsCollection.edges[0].node}
@@ -90,7 +90,7 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
           {`There is no Products in ${unslugify(params.collectionSlug)}.`}
         </section>
       ) : (
-        <section className="grid grid-cols-2 lg:grid-cols-4">
+        <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10 container">
           {productsList.edges.map(({ node }) => (
             <ProductCard key={node.id} product={node} />
           ))}

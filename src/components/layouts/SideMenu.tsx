@@ -17,7 +17,7 @@ export function SideMenu() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" className="p-0">
           <Icons.menu />
         </Button>
       </SheetTrigger>
@@ -36,11 +36,11 @@ export function SideMenu() {
         </div>
 
         <SheetFooter className="fixed grid bottom-[96px] ml-12 md:ml-[96px] space-x-0">
-          <Branding className="text-xl md:text-[32px]" />
+          <Branding className="text-xl md:text-4xl md:mb-3" />
 
           <div className="mb-8 text-muted-foreground">
-            <p className="text-xs md:text-[15px] ml-0">{siteConfig.address}</p>
-            <p className="text-xs md:text-[15px] ml-0">
+            <p className="text-xs md:text-sm ml-0">{siteConfig.address}</p>
+            <p className="text-xs md:text-sm ml-0">
               <span>{siteConfig.phone}</span> {` / `}
               <span>
                 <a>{siteConfig.email}</a>

@@ -6,7 +6,7 @@ import { Button } from "../ui/button"
 
 function NewsletterForm() {
   return (
-    <form>
+    <form className="">
       <h3 className="text-xl mb-5 font-light">Sign up to Our Newsletter</h3>
       <div className="space-y-3 mb-5">
         <Label>Email*</Label>

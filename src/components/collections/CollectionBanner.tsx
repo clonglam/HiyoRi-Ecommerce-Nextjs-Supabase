@@ -25,7 +25,7 @@ function CollectionBanner({
 }) {
   const { label, featuredImage } = collectionBannerData
   return (
-    <div className="relative container-2xl mx-auto h-[280px] w-full overflow-hidden object-center object-cover mb-8">
+    <div className="relative w-full md:container-2xl mx-auto h-[220px] md:h-[280px] overflow-hidden object-center object-cover mb-8">
       <Image
         src={keytoUrl(featuredImage.key)}
         alt={featuredImage.alt}
@@ -33,7 +33,7 @@ function CollectionBanner({
         height={400}
         className="object-center object-cover w-full h-[290px] opacity-50"
       />
-      <h1 className="z-8 absolute bottom-8 left-8 text-5xl font-medium">
+      <h1 className="z-8 absolute bottom-8 left-8 text-2xl md:text-5xl font-medium">
         {label}
       </h1>
     </div>

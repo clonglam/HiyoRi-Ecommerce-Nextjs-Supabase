@@ -5,13 +5,12 @@ import { Input } from "../ui/input"
 import SearchInput from "./SearchInput"
 import { SideMenu } from "./SideMenu"
 import Branding from "./Branding"
+import MobileNavbar from "./MobileNavbar"
 
-type Props = {}
-
-function Navbar({}: Props) {
+function MainNavbar() {
   return (
     <nav className="container bg-background/95">
-      <div className="flex gap-x-8 justify-between items-center">
+      <div className="hidden md:flex gap-x-8 justify-between items-center">
         {/* Menu & branding */}
         <div className="flex gap-x-3 items-center">
           <SideMenu />
@@ -30,8 +29,9 @@ function Navbar({}: Props) {
           <Icons.cart className="h-4 w-4" />
         </div>
       </div>
+      <MobileNavbar />
     </nav>
   )
 }
 
-export default Navbar
+export default MainNavbar

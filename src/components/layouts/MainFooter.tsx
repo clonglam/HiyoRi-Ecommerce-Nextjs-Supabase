@@ -92,9 +92,9 @@ function MainFooter({}: Props) {
   ]
 
   return (
-    <footer className="bg-muted-background mt-[180px] border-t border-zinc-600">
-      <div className="container pb-10 pt-8">
-        <div className="grid grid-cols-5 mb-[80px] gap-x-[100px] place-content-between space-y-9">
+    <footer className="bg-muted-background mt-[80px] md:mt-[180px] border-t border-zinc-600">
+      <div className="container pb-10 pt-4 md:pt-8">
+        <div className="hidden md:grid grid-cols-5 mb-[80px] gap-x-[100px] place-content-between space-y-9">
           <div className="max-w-md col-span-5 lg:col-span-2">
             <NewsletterForm />
           </div>
@@ -115,10 +115,11 @@ function MainFooter({}: Props) {
           </div>
         </div>
 
-        <div className="flex gap-x-5 justify-between items-center">
-          <div className="flex gap-x-5 items-center">
+        <div className="flex gap-x-5 justify-between flex-col md:flex-row md:items-center items-start ">
+          {/* <div className="grid gap-x-5 justify-between items-center"> */}
+          <div className="flex flex-col md:flex-row gap-x-5 md:items-center items-start mb-4 md:mb-0">
             <Branding className="text-3xl" />
-            <div className="text-xs">
+            <div className="text-[10px] font-light">
               <p>{siteConfig.address}</p>
               <p>
                 {siteConfig.phone} / {siteConfig.email}

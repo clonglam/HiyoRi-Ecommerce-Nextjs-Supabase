@@ -64,7 +64,10 @@ export function ProductCard({
   const { id, name, slug, featuredImage, badge } = product
 
   return (
-    <Card className={cn("w-full border-0 rounded-lg", className)} {...props}>
+    <Card
+      className={cn("w-full border-0 rounded-lg py-3 ", className)}
+      {...props}
+    >
       <CardContent className="relative p-0 mb-5 overflow-hidden">
         <Link href={`/products/${slug}`}>
           <Image
@@ -72,7 +75,7 @@ export function ProductCard({
             alt={featuredImage.alt}
             width={280}
             height={280}
-            className="aspect-[1/1] object-cover object-center hover:scale-[1.02] hover:opacity-70 transition-all duration-500"
+            className="aspect-[1/1] object-cover object-center hover:scale-[1.02] hover:opacity-70 transition-all duration-500 w-[280px]"
           />
         </Link>
         {badge && (
@@ -82,25 +85,32 @@ export function ProductCard({
         )}
       </CardContent>
 
-      <CardHeader className="p-0 mb-5">
+      <CardHeader className="p-0 mb-3 md:mb-5">
         <CardTitle>
           <Link href={`/products/${slug}`} className="hover:underline">
             {name}
           </Link>
         </CardTitle>
-        <CardDescription className="max-w-[240px] line-clamp-2">
-          {product.description}
-        </CardDescription>
-        <div>$382.00</div>
-        <Rating value={product.rating} precision={0.5} readOnly />
+
+        <div className="hidden md:block">
+          <CardDescription className="max-w-[240px] line-clamp-2">
+            {product.description}
+          </CardDescription>
+        </div>
+
+        <div className="">$382.00</div>
+
+        <div className="hidden md:block">
+          <Rating value={product.rating} precision={0.5} readOnly />
+        </div>
       </CardHeader>
 
-      <CardFooter className="gap-x-5 p-0">
+      <CardFooter className="gap-x-2 md:gap-x-5 p-0 ">
         <Button className="rounded-full p-0 h-8 w-8">
-          <Icons.basket className="h-4 w-4" />
+          <Icons.basket className="h-5 w-5 md:h-4 md:w-4" />
         </Button>
         <Button variant="ghost" className="rounded-full p-0 h-8 w-8">
-          <Icons.heart className="h-4 w-4" />
+          <Icons.heart className="h-5 w- md:h-4 md:w-4" />
         </Button>
       </CardFooter>
     </Card>
