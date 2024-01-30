@@ -26,7 +26,7 @@ function CollectionsCard({
     <div className="rounded-xl overflow-hidden">
       <figure className="shrink-0">
         <Link
-          href={`/collection/${slug}`}
+          href={`/collections/${slug}`}
           className="overflow-hidden rounded-xl relative"
         >
           <Image

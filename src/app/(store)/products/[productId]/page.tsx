@@ -11,7 +11,7 @@ import { ProductImagesCarousel } from "@/components/products/ProductImagesCarous
 import BuyNowButton from "@/components/products/BuyNowButton"
 import AddToWishListButton from "@/components/wishList/AddToWishListButton"
 import ShipReturns from "@/components/products/ShipReturns"
-import SectionHeader from "@/components/layouts/SectionHeader"
+import Header from "@/components/layouts/Header"
 import { ProductCard } from "@/components/products/ProductCard"
 
 type Props = {}
@@ -145,26 +145,25 @@ function ProductDetailPage({}: Props) {
         </div>
       </div>
 
-      <SectionHeader heading={`We Think You'll Love`}>
-        <div className="container grid grid-cols-2 lg:grid-cols-4 ">
-          {recommendations.map((recomendation, index) => (
-            <div key={recomendation.id}>Product Recomendation Card</div>
-            // <ProductCard
-            //   key={recomendation.id}
-            //   id={recomendation.id}
-            //   name={recomendation.name}
-            //   slug={recomendation.slug}
-            //   description={recomendation.description}
-            //   price={recomendation.price}
-            //   image={recomendation.image}
-            // />
-          ))}
-        </div>
-      </SectionHeader>
+      <Header heading={`We Think You'll Love`} />
+      <div className="container grid grid-cols-2 lg:grid-cols-4 ">
+        {recommendations.map((recomendation, index) => (
+          <div key={recomendation.id}>Product Recomendation Card</div>
+          // <ProductCard
+          //   key={recomendation.id}
+          //   id={recomendation.id}
+          //   name={recomendation.name}
+          //   slug={recomendation.slug}
+          //   description={recomendation.description}
+          //   price={recomendation.price}
+          //   image={recomendation.image}
+          // />
+        ))}
+      </div>
 
-      <SectionHeader heading={`Product Comments`}>
+      <Header heading={`Product Comments`}>
         <div></div>
-      </SectionHeader>
+      </Header>
     </div>
   )
 }
