@@ -79,18 +79,26 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   if (!productsList) return notFound()
 
   return (
-    <div className="min-h-screen container">
+    <div className="min-h-screen container ">
       {/* <Header heading={unslugify(params.collectionSlug)} /> */}
       <CollectionBanner
         collectionBannerData={data.collectionsCollection.edges[0].node}
       />
-      <section className="grid grid-cols-2 lg:grid-cols-4">
-        {productsList.edges.map(({ node }) => (
-          <ProductCard key={node.id} product={node} />
-        ))}
-      </section>
+
+      {productsList.edges.length == 0 ? (
+        <section>
+          {`There is no Products in ${unslugify(params.collectionSlug)}.`}
+        </section>
+      ) : (
+        <section className="grid grid-cols-2 lg:grid-cols-4">
+          {productsList.edges.map(({ node }) => (
+            <ProductCard key={node.id} product={node} />
+          ))}
+        </section>
+      )}
     </div>
   )
 }
 
+// const productList = (product: DocumentType<typeof ProductCardFragment>) => {}
 export default CategoryPage
