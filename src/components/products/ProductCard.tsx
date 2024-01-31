@@ -69,13 +69,13 @@ export function ProductCard({
       {...props}
     >
       <CardContent className="relative p-0 mb-5 overflow-hidden">
-        <Link href={`/products/${slug}`}>
+        <Link href={`/shop/${slug}`}>
           <Image
             src={keytoUrl(featuredImage.key)}
             alt={featuredImage.alt}
-            width={280}
-            height={280}
-            className="aspect-[1/1] object-cover object-center hover:scale-[1.02] hover:opacity-70 transition-all duration-500 w-[280px]"
+            width={400}
+            height={400}
+            className="aspect-[1/1] object-cover object-center hover:scale-[1.02] hover:opacity-70 transition-all duration-500"
           />
         </Link>
         {badge && (
@@ -87,7 +87,7 @@ export function ProductCard({
 
       <CardHeader className="p-0 mb-3 md:mb-5">
         <CardTitle>
-          <Link href={`/products/${slug}`} className="hover:underline">
+          <Link href={`/shop/${slug}`} className="hover:underline">
             {name}
           </Link>
         </CardTitle>

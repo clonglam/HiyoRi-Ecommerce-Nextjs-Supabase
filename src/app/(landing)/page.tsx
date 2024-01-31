@@ -56,12 +56,12 @@ export default async function Home() {
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
 
-      <section className="container">
-        <div className="py-5">
-          <h2 className="font-semibold text-2xl md:text-3xl mb-1 md:mb-4">
+      <section className="container mt-12">
+        <div className="">
+          <h2 className="font-semibold text-2xl md:text-3xl mb-1 md:mb-3">
             Featured Products
           </h2>
-          <p className="max-w-4xl text-sm md:text-lg leading-[1.5] tracking-[-2%]">
+          <p className="max-w-4xl text-sm md:text-md leading-[1.5] tracking-[-2%] mb-2">
             Ideas to help Bring Home to Life based on your recently viewed
             products. Share your space on Instagram and tag @Penpengrian
           </p>
@@ -76,10 +76,10 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="max-w-[1500px] mx-auto h-[620px] md:h-[580px] bg-[#FFF8EE] grid grid-cols-12 my-16">
+      <section className="max-w-[1920px] mx-auto h-[620px] md:h-[580px] bg-[#FFF8EE] grid grid-cols-12 my-16">
         <div className="relative w-full h-[340px] md:h-[580px] col-span-12 md:col-span-8 overflow-hidden">
           <Image
-            src={"/assets/bathroom-planning.jpg"}
+            src={"/assets/cutingcardImage.jpg"}
             alt=""
             fill
             className="object-cover object-center"
@@ -98,7 +98,7 @@ export default async function Home() {
             affordable for everyone.
           </p>
           <Link
-            href="/products"
+            href="/shop"
             className={cn(buttonVariants(), "rounded-full text-xs md:text-md")}
           >
             Shop now

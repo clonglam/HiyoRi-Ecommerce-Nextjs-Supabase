@@ -9,7 +9,7 @@ function EmptyCart() {
     <section className="w-full border border-foreground min-h-[450px] flex flex-col gap-5 justify-center items-center">
       <p className="text-muted-foreground text-sm">Your Cart is empty.</p>
       <Link
-        href="/products"
+        href="/shop"
         className={cn(buttonVariants({ size: "lg" }), "font-semibold")}
       >
         <Icons.cart className="mr-3 w-5 h-5" />

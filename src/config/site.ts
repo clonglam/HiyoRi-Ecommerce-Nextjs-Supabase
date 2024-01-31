@@ -16,7 +16,7 @@ export const siteConfig = {
   mainNav: [
     {
       title: "Shop",
-      href: "/products",
+      href: "/shop",
       description: "All the products we have to offer.",
       items: [],
     },
