@@ -1,13 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/navigation"
-
-import { zodResolver } from "@hookform/resolvers/zod"
+import { useSearchParams, useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { toast } from "sonner"
+import { createClient } from "@/lib/supabase/client"
+import { zodResolver } from "@hookform/resolvers/zod"
 import type { z } from "zod"
 
+import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -18,49 +18,50 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Icons } from "@/components/icons"
+
+import { useToast } from "../ui/use-toast"
 import { PasswordInput } from "./PasswordInput"
-import { authSchema } from "./type"
+import { authSchema } from "./schema"
 
 type Inputs = z.infer<typeof authSchema>
 
 export function SignUpForm() {
   const router = useRouter()
-  // const { isLoaded, signUp } = useSignUp()
-  const [isPending, startTransition] = React.useTransition()
+  const searchParams = useSearchParams()
+  const { toast } = useToast()
+  const supabase = createClient()
+  const [isLoading, setIsLoading] = React.useState(false)
 
-  // react-hook-form
   const form = useForm<Inputs>({
     resolver: zodResolver(authSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: searchParams.get("email") || "",
+      password: searchParams.get("password") || "",
     },
   })
 
-  function onSubmit(data: Inputs) {
-    // if (!isLoaded) return
-    // startTransition(async () => {
-    //   try {
-    //     await signUp.create({
-    //       emailAddress: data.email,
-    //       password: data.password,
-    //     })
-    //     // Send email verification code
-    //     await signUp.prepareEmailAddressVerification({
-    //       strategy: "email_code",
-    //     })
-    //     router.push("/signup/verify-email")
-    //     toast.message("Check your email", {
-    //       description: "We sent you a 6-digit verification code.",
-    //     })
-    //   } catch (error) {
-    //     const unknownError = "Something went wrong, please try again."
-    //     isClerkAPIResponseError(error)
-    //       ? toast.error(error.errors[0]?.longMessage ?? unknownError)
-    //       : toast.error(unknownError)
-    //   }
-    // })
+  async function onSubmit({ email, password }: Inputs) {
+    setIsLoading(true)
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+    const from = searchParams?.get("from")
+
+    if (data) {
+      router.push(from ? from : "/")
+    }
+
+    const unknownError = "Something went wrong, please try again."
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: error?.message || unknownError,
+      })
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -95,8 +96,8 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
-        <Button disabled={isPending}>
-          {isPending && (
+        <Button disabled={isLoading}>
+          {isLoading && (
             <Icons.spinner
               className="mr-2 h-4 w-4 animate-spin"
               aria-hidden="true"

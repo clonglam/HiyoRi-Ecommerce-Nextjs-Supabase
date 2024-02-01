@@ -1,12 +1,12 @@
 "use client"
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter, useSearchParams } from "next/navigation"
+import * as React from "react"
 import { useForm } from "react-hook-form"
-import { toast } from "sonner"
 import * as z from "zod"
 
+import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -17,18 +17,18 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Icons } from "@/components/icons"
+import { createClient } from "@/lib/supabase/client"
 import { PasswordInput } from "./PasswordInput"
-import { authSchema } from "./type"
+import { authSchema } from "./schema"
 
 type Inputs = z.infer<typeof authSchema>
 
 export function SignInForm() {
   const router = useRouter()
-  // const { isLoaded, signIn, setActive } = useSignIn()
+  const searchParams = useSearchParams()
+  const supabase = createClient()
   const [isPending, startTransition] = React.useTransition()
 
-  // react-hook-form
   const form = useForm<Inputs>({
     resolver: zodResolver(authSchema),
     defaultValues: {
@@ -37,28 +37,18 @@ export function SignInForm() {
     },
   })
 
-  function onSubmit(data: Inputs) {
-    // if (!isLoaded) return
-    // startTransition(async () => {
-    //   try {
-    //     const result = await signIn.create({
-    //       identifier: data.email,
-    //       password: data.password,
-    //     })
-    //     if (result.status === "complete") {
-    //       await setActive({ session: result.createdSessionId })
-    //       router.push(`${window.location.origin}/`)
-    //     } else {
-    //       /*Investigate why the login hasn't completed */
-    //       console.log(result)
-    //     }
-    //   } catch (error) {
-    //     const unknownError = "Something went wrong, please try again."
-    //     isClerkAPIResponseError(error)
-    //       ? toast.error(error.errors[0]?.longMessage ?? unknownError)
-    //       : toast.error(unknownError)
-    //   }
-    // })
+  async function onSubmit({ email, password }: Inputs) {
+    try {
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      router.push(searchParams?.get("from") || "/")
+    } catch (err) {
+      const unknownError = "Something went wrong, please try again."
+      // router.push()
+    }
   }
 
   return (

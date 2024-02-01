@@ -1,6 +1,9 @@
 import { type Metadata } from "next"
+import { Suspense } from "react"
 import Link from "next/link"
 
+import OAuthLoginButtons from "@/components/auth/OAuthLoginButtons"
+import { SignUpForm } from "@/components/auth/SignupForm"
 import {
   Card,
   CardContent,
@@ -9,8 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { SignUpForm } from "@/components/auth/SignupForm"
-import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
   title: "Sign Up",
@@ -28,7 +29,13 @@ export default function SignUpPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <SignUpForm />
+          <Suspense
+            fallback={
+              <div className="bg-zinc-400 animate-pulse max-w-xl w-full h-[360px]" />
+            }
+          >
+            <SignUpForm />
+          </Suspense>
 
           <div className="relative mb-10">
             <div className="relative flex justify-center text-xs uppercase">
@@ -41,7 +48,7 @@ export default function SignUpPage() {
             </div>
 
             <div className="w-full py-5">
-              <Button className="w-full">Login with Google</Button>
+              <OAuthLoginButtons />
             </div>
           </div>
         </CardContent>

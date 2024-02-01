@@ -37,6 +37,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "@supabase/auth-helpers-nextjs": "^0.8.7",
+    "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.3",
     "@t3-oss/env-nextjs": "^0.8.0",
     "@urql/next": "^1.1.0",

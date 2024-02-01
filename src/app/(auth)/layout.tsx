@@ -1,10 +1,6 @@
 "use client"
 import Image from "next/image"
-import Link from "next/link"
-
-import { siteConfig } from "@/config/site"
-
-import { Icons } from "@/components/icons"
+import Branding from "@/components/layouts/Branding"
 
 interface AuthLayoutProps {
   children: React.ReactNode
@@ -23,12 +19,8 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background to-background/60 md:to-background/40" />
-          <Link
-            href="/"
-            className="absolute left-8 top-8 z-20 flex items-center text-lg font-bold tracking-tight"
-          >
-            <span>{siteConfig.name}</span>
-          </Link>
+
+          <Branding className="absolute left-8 top-8 z-20" />
         </div>
       </div>
 

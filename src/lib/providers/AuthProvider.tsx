@@ -2,10 +2,9 @@
 
 import { AuthUser } from "@supabase/supabase-js"
 
-import { createContext, useContext, useEffect, useState } from "react"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useToast } from "@/components/ui/use-toast"
-import { env } from "@/env.mjs"
+import { createContext, useContext, useEffect, useState } from "react"
+import createClient from "../supabase/client"
 
 type SupabaseAuthContextType = {
   user: AuthUser | null
@@ -27,13 +26,9 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
   children,
 }) => {
   const [user, setUser] = useState<AuthUser | null>(null)
+  const supabase = createClient()
 
   const { toast } = useToast()
-
-  const supabase = createClientComponentClient({
-    supabaseKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    supabaseUrl: `https://${env.NEXT_PUBLIC_SUPABASE_PROJECT_REF}.supabase.co`,
-  })
 
   useEffect(() => {
     const getUser = async () => {
@@ -46,6 +41,7 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
     }
     getUser()
   }, [supabase, toast])
+
   return (
     <SupabaseAuthContext.Provider value={{ user }}>
       {children}

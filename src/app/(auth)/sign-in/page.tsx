@@ -10,8 +10,9 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import { Button } from "@/components/ui/button"
-import { SignInForm } from "@/components/auth/signinForm"
+import OAuthLoginButtons from "@/components/auth/OAuthLoginButtons"
+import { SignInForm } from "@/components/auth/SigninForm"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "HIYORI | Sign In",
@@ -27,7 +28,13 @@ export default function SignInPage() {
           <CardDescription>Welcome back</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <SignInForm />
+          <Suspense
+            fallback={
+              <div className="bg-zinc-400 animate-pulse max-w-xl w-full h-[360px]" />
+            }
+          >
+            <SignInForm />
+          </Suspense>
 
           <div className="relative mb-10">
             <div className="relative flex justify-center text-xs uppercase">
@@ -40,10 +47,11 @@ export default function SignInPage() {
             </div>
 
             <div className="w-full py-5">
-              <Button className="w-full">Login with Google</Button>
+              <OAuthLoginButtons />
             </div>
           </div>
         </CardContent>
+
         <CardFooter className="flex flex-wrap items-center space-x-2">
           <div className="flex-1 text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
