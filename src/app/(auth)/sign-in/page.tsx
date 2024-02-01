@@ -9,31 +9,38 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+
+import { Button } from "@/components/ui/button"
 import { SignInForm } from "@/components/auth/signinForm"
 
 export const metadata: Metadata = {
   title: "HIYORI | Sign In",
-  description: "Sign in to HIYORI  ",
+  description: "Sign in to HIYORI",
 }
 
 export default function SignInPage() {
   return (
     <section>
-      <Card>
+      <Card className="border-0 shadow-none">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Sign in</CardTitle>
           <CardDescription>Welcome back</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
           <SignInForm />
-          <div className="relative">
+
+          <div className="relative mb-10">
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
+              <div className="absolute inset-0 flex items-center z-0">
+                <span className="w-full border-t" />
+              </div>
+              <span className="bg-background px-2 text-muted-foreground z-10">
                 Or continue with
               </span>
             </div>
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
+
+            <div className="w-full py-5">
+              <Button className="w-full">Login with Google</Button>
             </div>
           </div>
         </CardContent>
@@ -42,7 +49,7 @@ export default function SignInPage() {
             Don&apos;t have an account?{" "}
             <Link
               aria-label="Sign up"
-              href="/signup"
+              href="/sign-up"
               className="text-primary underline-offset-4 transition-colors hover:underline"
             >
               Sign up
@@ -50,7 +57,7 @@ export default function SignInPage() {
           </div>
           <Link
             aria-label="Reset password"
-            href="/signin/reset-password"
+            href="/sign-in/reset-password"
             className="text-sm text-primary underline-offset-4 transition-colors hover:underline"
           >
             Reset password

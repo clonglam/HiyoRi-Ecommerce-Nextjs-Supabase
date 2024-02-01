@@ -2,10 +2,11 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import * as z from "zod"
+import type { z } from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -23,9 +24,9 @@ import { authSchema } from "./type"
 
 type Inputs = z.infer<typeof authSchema>
 
-export function SignInForm() {
+export function SignUpForm() {
   const router = useRouter()
-  // const { isLoaded, signIn, setActive } = useSignIn()
+  // const { isLoaded, signUp } = useSignUp()
   const [isPending, startTransition] = React.useTransition()
 
   // react-hook-form
@@ -41,17 +42,18 @@ export function SignInForm() {
     // if (!isLoaded) return
     // startTransition(async () => {
     //   try {
-    //     const result = await signIn.create({
-    //       identifier: data.email,
+    //     await signUp.create({
+    //       emailAddress: data.email,
     //       password: data.password,
     //     })
-    //     if (result.status === "complete") {
-    //       await setActive({ session: result.createdSessionId })
-    //       router.push(`${window.location.origin}/`)
-    //     } else {
-    //       /*Investigate why the login hasn't completed */
-    //       console.log(result)
-    //     }
+    //     // Send email verification code
+    //     await signUp.prepareEmailAddressVerification({
+    //       strategy: "email_code",
+    //     })
+    //     router.push("/signup/verify-email")
+    //     toast.message("Check your email", {
+    //       description: "We sent you a 6-digit verification code.",
+    //     })
     //   } catch (error) {
     //     const unknownError = "Something went wrong, please try again."
     //     isClerkAPIResponseError(error)
@@ -100,8 +102,8 @@ export function SignInForm() {
               aria-hidden="true"
             />
           )}
-          Sign in
-          <span className="sr-only">Sign in</span>
+          Continue
+          <span className="sr-only">Continue to email verification page</span>
         </Button>
       </form>
     </Form>
