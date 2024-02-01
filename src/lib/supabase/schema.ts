@@ -13,13 +13,13 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm"
-import { number } from "zod"
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   fullName: text("full_name"),
   phone: varchar("phone", { length: 256 }),
 })
+
 export const options = pgTable(
   "options",
   {
@@ -104,6 +104,9 @@ export const products = pgTable(
       .notNull()
       .default("4"),
     tags: json("tags").$type<string[]>().default([]).notNull(),
+    price: decimal("price", { precision: 8, scale: 2 })
+      .notNull()
+      .default("0.00"),
     images: json("images").$type<number[]>().default([]).notNull(),
     createdAt: timestamp("created_at", {
       withTimezone: true,

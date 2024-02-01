@@ -30,7 +30,7 @@ function SearchInput() {
   })
 
   function onSubmit({ search }: z.infer<typeof filterSelectionSchema>) {
-    router.push(`/shop/?q=${search}`)
+    router.push(`/search/?q=${search}`)
   }
 
   return (
@@ -54,7 +54,7 @@ function SearchInput() {
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="Search"
+                  placeholder="Find your Favour Furniture and Bring them to Home"
                   className={cn(
                     isFocused ? "pl-6" : "pl-10",
                     "rounded-full transition-all duration-500"

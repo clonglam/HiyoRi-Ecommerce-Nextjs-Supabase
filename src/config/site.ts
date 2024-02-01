@@ -5,10 +5,9 @@ import { slugify } from "@/lib/utils"
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Skateshop13",
-  description:
-    "An open source e-commerce skateshop build with everything new in Next.js 13.",
-  url: "https://skateshop13.vercel.app/",
+  name: "HIYORI",
+  description: "Ecommerce Application built with NextJS 14",
+  url: "https://hiyori/",
   ogImage: "https://skateshop13.vercel.app/opengraph-image.png",
   address: "1600 Amphitheatre Parkway in Mountain View, California",
   phone: "+1(234)-567-8901",

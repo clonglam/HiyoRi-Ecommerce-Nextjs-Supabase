@@ -9,6 +9,7 @@ import {
   createClient,
 } from "@urql/next"
 import { env } from "../../env.mjs"
+import { SupabaseAuthProvider } from "./AuthProvider"
 
 export default function CustomProvider({ children }: React.PropsWithChildren) {
   const [client, ssr] = useMemo(() => {
@@ -28,8 +29,10 @@ export default function CustomProvider({ children }: React.PropsWithChildren) {
   }, [])
 
   return (
-    <UrqlProvider client={client} ssr={ssr}>
-      {children}
-    </UrqlProvider>
+    <SupabaseAuthProvider>
+      <UrqlProvider client={client} ssr={ssr}>
+        {children}
+      </UrqlProvider>
+    </SupabaseAuthProvider>
   )
 }
