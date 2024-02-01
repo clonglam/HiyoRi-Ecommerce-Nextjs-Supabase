@@ -1,3 +1,4 @@
+import { InferInsertModel, InferSelectModel } from "drizzle-orm"
 import {
   boolean,
   decimal,
@@ -7,89 +8,23 @@ import {
   pgTable,
   primaryKey,
   serial,
-  smallint,
   text,
   timestamp,
+  uuid,
   varchar,
 } from "drizzle-orm/pg-core"
-import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm"
 
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  fullName: text("full_name"),
-  phone: varchar("phone", { length: 256 }),
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: text("name"),
+  email: text("email").unique(),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "string",
+  })
+    .defaultNow()
+    .notNull(),
 })
-
-export const options = pgTable(
-  "options",
-  {
-    optionId: serial("option_id").unique(),
-    productId: integer("product_id")
-      .notNull()
-      .references(() => products.id, { onDelete: "cascade" }),
-    optionName: text("option_name").notNull(),
-  },
-  (table) => {
-    return {
-      pk: primaryKey({
-        columns: [table.productId, table.optionId],
-      }),
-    }
-  }
-)
-export const optionValues = pgTable(
-  "option_values",
-  {
-    valueId: serial("id").unique(),
-    productId: integer("product_id").notNull(),
-    optionId: integer("option_id")
-      .notNull()
-      .references(() => options.optionId, { onDelete: "cascade" }),
-    value: text("value").notNull(),
-    label: text("label"),
-  },
-  (table) => {
-    return {
-      pk: primaryKey({
-        columns: [table.productId, table.optionId, table.valueId],
-      }),
-      productOptions: foreignKey({
-        columns: [table.productId, table.optionId],
-        foreignColumns: [options.productId, options.optionId],
-        name: "product_options_fk",
-      })
-        .onDelete("cascade")
-        .onUpdate("cascade"),
-    }
-  }
-)
-
-export const productSkus = pgTable(
-  "product_skus",
-  {
-    skuId: serial("id").notNull(),
-    productId: integer("product_id").notNull(),
-    sku: text("sku").unique(),
-    price: decimal("price", { precision: 8, scale: 2 })
-      .notNull()
-      .default("0.00"),
-    inventory: integer("inventory").notNull().default(0),
-  },
-  (table) => {
-    return {
-      pk: primaryKey({
-        columns: [table.productId, table.skuId],
-      }),
-      products: foreignKey({
-        columns: [table.productId],
-        foreignColumns: [products.id],
-        name: "products",
-      })
-        .onDelete("cascade")
-        .onUpdate("cascade"),
-    }
-  }
-)
 
 export const products = pgTable(
   "products",
@@ -107,7 +42,7 @@ export const products = pgTable(
     price: decimal("price", { precision: 8, scale: 2 })
       .notNull()
       .default("0.00"),
-    images: json("images").$type<number[]>().default([]).notNull(),
+    imagesId: integer("imagesId"),
     createdAt: timestamp("created_at", {
       withTimezone: true,
       mode: "string",
@@ -137,54 +72,38 @@ export const products = pgTable(
   }
 )
 
-export type BadgeType = "best_sale" | "featured" | "new_product"
-
-export const skuValues = pgTable(
-  "sku_values",
+export const productMedias = pgTable(
+  "product_medias",
   {
-    productId: integer("product_id").notNull(),
-    skuId: integer("sku_id").notNull(),
-    optionId: integer("option_id")
+    id: serial("id").primaryKey(),
+    productId: integer("productId")
       .notNull()
-      .references(() => options.optionId, { onDelete: "cascade" }),
-    valueId: integer("value_id")
+      .references(() => products.id, { onDelete: "cascade" }),
+    mediaId: integer("mediaId")
       .notNull()
-      .references(() => optionValues.valueId, { onDelete: "cascade" }),
+      .references(() => medias.id, { onDelete: "cascade" }),
   },
   (table) => {
     return {
-      pk: primaryKey({
-        columns: [table.productId, table.skuId, table.optionId],
-      }),
-      skus: foreignKey({
-        columns: [table.productId, table.skuId],
-        foreignColumns: [productSkus.productId, productSkus.skuId],
-        name: "product_skus",
+      product: foreignKey({
+        columns: [table.productId],
+        foreignColumns: [products.id],
+        name: "product_media_to_product",
       })
         .onDelete("cascade")
         .onUpdate("cascade"),
-      options: () =>
-        foreignKey({
-          columns: [table.productId, table.optionId],
-          foreignColumns: [options.productId, options.optionId],
-          name: "product_options",
-        })
-          .onDelete("cascade")
-          .onUpdate("cascade"),
-      optionValues: foreignKey({
-        columns: [table.productId, table.optionId, table.valueId],
-        foreignColumns: [
-          optionValues.productId,
-          optionValues.optionId,
-          optionValues.valueId,
-        ],
-        name: "option_values",
+      media: foreignKey({
+        columns: [table.mediaId],
+        foreignColumns: [medias.id],
+        name: "product_media_to_media",
       })
         .onDelete("cascade")
         .onUpdate("cascade"),
     }
   }
 )
+
+export type BadgeType = "best_sale" | "featured" | "new_product"
 
 export type SelectProducts = InferSelectModel<typeof products>
 export type InsertProducts = InferInsertModel<typeof products>
@@ -223,3 +142,121 @@ export const medias = pgTable("medias", {
 })
 
 // https://stackoverflow.com/questions/24923469/modeling-product-variants
+
+// export const skuValues = pgTable(
+//   "sku_values",
+//   {
+//     productId: integer("product_id").notNull(),
+//     skuId: integer("sku_id").notNull(),
+//     optionId: integer("option_id")
+//       .notNull()
+//       .references(() => options.optionId, { onDelete: "cascade" }),
+//     valueId: integer("value_id")
+//       .notNull()
+//       .references(() => optionValues.valueId, { onDelete: "cascade" }),
+//   },
+//   (table) => {
+//     return {
+//       pk: primaryKey({
+//         columns: [table.productId, table.skuId, table.optionId],
+//       }),
+//       skus: foreignKey({
+//         columns: [table.productId, table.skuId],
+//         foreignColumns: [productSkus.productId, productSkus.skuId],
+//         name: "product_skus",
+//       })
+//         .onDelete("cascade")
+//         .onUpdate("cascade"),
+//       options: () =>
+//         foreignKey({
+//           columns: [table.productId, table.optionId],
+//           foreignColumns: [options.productId, options.optionId],
+//           name: "product_options",
+//         })
+//           .onDelete("cascade")
+//           .onUpdate("cascade"),
+//       optionValues: foreignKey({
+//         columns: [table.productId, table.optionId, table.valueId],
+//         foreignColumns: [
+//           optionValues.productId,
+//           optionValues.optionId,
+//           optionValues.valueId,
+//         ],
+//         name: "option_values",
+//       })
+//         .onDelete("cascade")
+//         .onUpdate("cascade"),
+//     }
+//   }
+// )
+
+// export const options = pgTable(
+//   "options",
+//   {
+//     optionId: serial("option_id").unique(),
+//     productId: integer("product_id")
+//       .notNull()
+//       .references(() => products.id, { onDelete: "cascade" }),
+//     optionName: text("option_name").notNull(),
+//   },
+//   (table) => {
+//     return {
+//       pk: primaryKey({
+//         columns: [table.productId, table.optionId],
+//       }),
+//     }
+//   }
+// )
+// export const optionValues = pgTable(
+//   "option_values",
+//   {
+//     valueId: serial("id").unique(),
+//     productId: integer("product_id").notNull(),
+//     optionId: integer("option_id")
+//       .notNull()
+//       .references(() => options.optionId, { onDelete: "cascade" }),
+//     value: text("value").notNull(),
+//     label: text("label"),
+//   },
+//   (table) => {
+//     return {
+//       pk: primaryKey({
+//         columns: [table.productId, table.optionId, table.valueId],
+//       }),
+//       productOptions: foreignKey({
+//         columns: [table.productId, table.optionId],
+//         foreignColumns: [options.productId, options.optionId],
+//         name: "product_options_fk",
+//       })
+//         .onDelete("cascade")
+//         .onUpdate("cascade"),
+//     }
+//   }
+// )
+
+// export const productSkus = pgTable(
+//   "product_skus",
+//   {
+//     skuId: serial("id").notNull(),
+//     productId: integer("product_id").notNull(),
+//     sku: text("sku").unique(),
+//     price: decimal("price", { precision: 8, scale: 2 })
+//       .notNull()
+//       .default("0.00"),
+//     inventory: integer("inventory").notNull().default(0),
+//   },
+//   (table) => {
+//     return {
+//       pk: primaryKey({
+//         columns: [table.productId, table.skuId],
+//       }),
+//       products: foreignKey({
+//         columns: [table.productId],
+//         foreignColumns: [products.id],
+//         name: "products",
+//       })
+//         .onDelete("cascade")
+//         .onUpdate("cascade"),
+//     }
+//   }
+// )

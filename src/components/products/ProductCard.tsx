@@ -31,23 +31,15 @@ const ProductCardFragment = gql(/* GraphQL */ `
     name
     description
     rating
-    images
     slug
     badge
+    price
     featuredImage: medias {
       id
       key
       alt
     }
-    sku: product_skusCollection {
-      edges {
-        node {
-          sku
-          price
-          inventory
-        }
-      }
-    }
+
     collections {
       id
       label
@@ -61,7 +53,7 @@ export function ProductCard({
   product,
   ...props
 }: ProductCardProps) {
-  const { id, name, slug, featuredImage, badge } = product
+  const { id, name, slug, featuredImage, badge, price } = product
 
   return (
     <Card
@@ -69,7 +61,7 @@ export function ProductCard({
       {...props}
     >
       <CardContent className="relative p-0 mb-5 overflow-hidden">
-        <Link href={`/shop/${slug}`}>
+        <Link href={`/products/${slug}`}>
           <Image
             src={keytoUrl(featuredImage.key)}
             alt={featuredImage.alt}
@@ -98,7 +90,7 @@ export function ProductCard({
           </CardDescription>
         </div>
 
-        <div className="">$382.00</div>
+        <div className="">${price}</div>
 
         <div className="hidden md:block">
           <Rating value={product.rating} precision={0.5} readOnly />

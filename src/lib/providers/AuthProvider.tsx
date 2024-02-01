@@ -1,9 +1,8 @@
 "use client"
 
-import { AuthUser } from "@supabase/supabase-js"
-
-import { useToast } from "@/components/ui/use-toast"
 import { createContext, useContext, useEffect, useState } from "react"
+import { AuthUser } from "@supabase/supabase-js"
+import { useToast } from "@/components/ui/use-toast"
 import createClient from "../supabase/client"
 
 type SupabaseAuthContextType = {
