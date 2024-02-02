@@ -48,12 +48,12 @@ async function OAuthLoginButtons() {
 
       <Button onClick={signWithGithub} disabled={isLoading}>
         {isLoading && (
-          <Icons.gitHub
+          <Icons.spinner
             className="mr-2 h-4 w-4 animate-spin"
             aria-hidden="true"
           />
         )}
-        <Icons.google className="w-4 h-4 mr-5" />
+        <Icons.gitHub className="w-4 h-4 mr-5" />
         Sign in with Github
       </Button>
     </div>

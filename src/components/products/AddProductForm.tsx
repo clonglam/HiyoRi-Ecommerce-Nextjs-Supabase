@@ -14,17 +14,13 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-type Props = {
-  id: string
-}
-
 import * as z from "zod"
 
 const formSchema = z.object({
   quantity: z.number().min(0).max(8),
 })
 
-function AddProductForm({}: Props) {
+function AddProductForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,7 +42,7 @@ function AddProductForm({}: Props) {
             <FormItem>
               <FormLabel>Quantity</FormLabel>
               <FormControl>
-                <QuantityInput {...field} />
+                <QuantityInput {...field} className="" />
               </FormControl>
               <FormMessage />
             </FormItem>

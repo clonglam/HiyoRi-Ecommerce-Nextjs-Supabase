@@ -2,14 +2,15 @@
 import React from "react"
 import { Icons } from "../icons"
 
-export interface QuantityInputProps {
-  value: number
-  onChange: (data: number) => void
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   maxQuantity?: number
+  onChange: (...event: any[]) => void
+  value: number
 }
 
-const QuantityInput = React.forwardRef<HTMLInputElement, QuantityInputProps>(
-  ({ maxQuantity = 8, value, onChange, ...props }, ref) => {
+const QuantityInput = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ maxQuantity = 8, onChange, value, ...props }, ref) => {
     const addOne = () => {
       if (value < maxQuantity) {
         onChange(value + 1)
@@ -24,12 +25,12 @@ const QuantityInput = React.forwardRef<HTMLInputElement, QuantityInputProps>(
     return (
       <div className="max-w-36 h-12 border-2 border-input rounded-full relative flex items-center justify-between py-2 px-4">
         <input
+          {...props}
           type="number"
           value={value}
           ref={ref}
           onChange={(event) => onChange(event.target.valueAsNumber)}
-          className="flex-1 text-center shadow-none  focus:ring-transparent focus:ring-0 active:ring-0 focus:border-none focus:ring-offset-0 max-w-10 order-2 h-8"
-          {...props}
+          className="w-6 flex-1 text-center shadow-none  focus:ring-transparent focus:ring-0 active:ring-0 focus:border-none focus:ring-offset-0 max-w-6 order-2 h-8"
         />
         <button type="button" className="text-xl order-1" onClick={minusOne}>
           <Icons.minus />

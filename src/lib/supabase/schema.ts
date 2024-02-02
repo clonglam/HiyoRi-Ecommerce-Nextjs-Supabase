@@ -14,6 +14,9 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 
+// User Trigger
+// https://supabase.com/docs/guides/auth/managing-user-data
+//
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name"),
@@ -82,6 +85,7 @@ export const productMedias = pgTable(
     mediaId: integer("mediaId")
       .notNull()
       .references(() => medias.id, { onDelete: "cascade" }),
+    priority: integer("priority"),
   },
   (table) => {
     return {

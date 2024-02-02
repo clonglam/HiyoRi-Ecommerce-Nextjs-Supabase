@@ -592,6 +592,25 @@ type medias implements Node {
   alt: String!
   created_at: Datetime
   updated_at: Datetime
+  product_mediasCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: product_mediasFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [product_mediasOrderBy!]
+  ): product_mediasConnection
   collectionsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -630,25 +649,6 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [productsOrderBy!]
   ): productsConnection
-  product_mediasCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: product_mediasFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [product_mediasOrderBy!]
-  ): product_mediasConnection
 }
 
 type mediasConnection {
@@ -735,6 +735,7 @@ type product_medias implements Node {
   id: Int!
   productId: Int!
   mediaId: Int!
+  priority: Int
   media: medias!
   product: products!
 }
@@ -761,6 +762,7 @@ input product_mediasFilter {
   id: IntFilter
   productId: IntFilter
   mediaId: IntFilter
+  priority: IntFilter
   nodeId: IDFilter
 
   """
@@ -780,6 +782,7 @@ input product_mediasFilter {
 input product_mediasInsertInput {
   productId: Int
   mediaId: Int
+  priority: Int
 }
 
 type product_mediasInsertResponse {
@@ -794,11 +797,13 @@ input product_mediasOrderBy {
   id: OrderByDirection
   productId: OrderByDirection
   mediaId: OrderByDirection
+  priority: OrderByDirection
 }
 
 input product_mediasUpdateInput {
   productId: Int
   mediaId: Int
+  priority: Int
 }
 
 type product_mediasUpdateResponse {

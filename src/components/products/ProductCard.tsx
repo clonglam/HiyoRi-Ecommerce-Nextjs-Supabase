@@ -61,7 +61,7 @@ export function ProductCard({
       {...props}
     >
       <CardContent className="relative p-0 mb-5 overflow-hidden">
-        <Link href={`/products/${slug}`}>
+        <Link href={`/shop/${slug}`}>
           <Image
             src={keytoUrl(featuredImage.key)}
             alt={featuredImage.alt}
