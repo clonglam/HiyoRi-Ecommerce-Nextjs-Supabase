@@ -3,8 +3,6 @@ import { keytoUrl } from "@/lib/s3/s3"
 import Image from "next/image"
 import React from "react"
 
-type Props = {}
-
 const CollectionBannerFragment = gql(/* GraphQL */ `
   fragment CollectionBannerFragment on collections {
     id

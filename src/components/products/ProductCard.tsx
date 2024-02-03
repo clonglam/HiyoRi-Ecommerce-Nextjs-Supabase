@@ -18,14 +18,15 @@ import { gql, DocumentType } from "@/gql"
 import { keytoUrl } from "@/lib/s3/s3"
 import { Badge } from "../ui/badge"
 import { BadgeType } from "@/lib/supabase/schema"
+import AddToCartButton from "../cart/AddToCartButton"
 
 type CardProps = React.ComponentProps<typeof Card>
 
-type ProductCardProps = CardProps & {
+export type ProductCardProps = CardProps & {
   product: DocumentType<typeof ProductCardFragment>
 }
 
-const ProductCardFragment = gql(/* GraphQL */ `
+export const ProductCardFragment = gql(/* GraphQL */ `
   fragment ProductCardFragment on products {
     id
     name
@@ -98,9 +99,8 @@ export function ProductCard({
       </CardHeader>
 
       <CardFooter className="gap-x-2 md:gap-x-5 p-0 ">
-        <Button className="rounded-full p-0 h-8 w-8">
-          <Icons.basket className="h-5 w-5 md:h-4 md:w-4" />
-        </Button>
+        <AddToCartButton productId={id} />
+
         <Button variant="ghost" className="rounded-full p-0 h-8 w-8">
           <Icons.heart className="h-5 w- md:h-4 md:w-4" />
         </Button>

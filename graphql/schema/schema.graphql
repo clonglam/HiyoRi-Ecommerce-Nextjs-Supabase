@@ -124,6 +124,17 @@ scalar JSON
 
 """The root type for creating and mutating data"""
 type Mutation {
+  """Deletes zero or more records from the `cart` collection"""
+  deleteFromcartCollection(
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: cartFilter
+
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+  ): cartDeleteResponse!
+
   """Deletes zero or more records from the `collections` collection"""
   deleteFromcollectionsCollection(
     """Restricts the mutation's impact to records matching the criteria"""
@@ -134,6 +145,17 @@ type Mutation {
     """
     atMost: Int! = 1
   ): collectionsDeleteResponse!
+
+  """Deletes zero or more records from the `comments` collection"""
+  deleteFromcommentsCollection(
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: commentsFilter
+
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+  ): commentsDeleteResponse!
 
   """Deletes zero or more records from the `medias` collection"""
   deleteFrommediasCollection(
@@ -168,19 +190,36 @@ type Mutation {
     atMost: Int! = 1
   ): productsDeleteResponse!
 
-  """Deletes zero or more records from the `users` collection"""
-  deleteFromusersCollection(
+  """Deletes zero or more records from the `profiles` collection"""
+  deleteFromprofilesCollection(
     """Restricts the mutation's impact to records matching the criteria"""
-    filter: usersFilter
+    filter: profilesFilter
 
     """
     The maximum number of records in the collection permitted to be affected
     """
     atMost: Int! = 1
-  ): usersDeleteResponse!
+  ): profilesDeleteResponse!
+
+  """Deletes zero or more records from the `user_wishlist` collection"""
+  deleteFromuser_wishlistCollection(
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: user_wishlistFilter
+
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+  ): user_wishlistDeleteResponse!
+
+  """Adds one or more `cart` records to the collection"""
+  insertIntocartCollection(objects: [cartInsertInput!]!): cartInsertResponse
 
   """Adds one or more `collections` records to the collection"""
   insertIntocollectionsCollection(objects: [collectionsInsertInput!]!): collectionsInsertResponse
+
+  """Adds one or more `comments` records to the collection"""
+  insertIntocommentsCollection(objects: [commentsInsertInput!]!): commentsInsertResponse
 
   """Adds one or more `medias` records to the collection"""
   insertIntomediasCollection(objects: [mediasInsertInput!]!): mediasInsertResponse
@@ -191,8 +230,27 @@ type Mutation {
   """Adds one or more `products` records to the collection"""
   insertIntoproductsCollection(objects: [productsInsertInput!]!): productsInsertResponse
 
-  """Adds one or more `users` records to the collection"""
-  insertIntousersCollection(objects: [usersInsertInput!]!): usersInsertResponse
+  """Adds one or more `profiles` records to the collection"""
+  insertIntoprofilesCollection(objects: [profilesInsertInput!]!): profilesInsertResponse
+
+  """Adds one or more `user_wishlist` records to the collection"""
+  insertIntouser_wishlistCollection(objects: [user_wishlistInsertInput!]!): user_wishlistInsertResponse
+
+  """Updates zero or more records in the `cart` collection"""
+  updatecartCollection(
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: cartUpdateInput!
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: cartFilter
+
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+  ): cartUpdateResponse!
 
   """Updates zero or more records in the `collections` collection"""
   updatecollectionsCollection(
@@ -209,6 +267,22 @@ type Mutation {
     """
     atMost: Int! = 1
   ): collectionsUpdateResponse!
+
+  """Updates zero or more records in the `comments` collection"""
+  updatecommentsCollection(
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: commentsUpdateInput!
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: commentsFilter
+
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+  ): commentsUpdateResponse!
 
   """Updates zero or more records in the `medias` collection"""
   updatemediasCollection(
@@ -258,21 +332,37 @@ type Mutation {
     atMost: Int! = 1
   ): productsUpdateResponse!
 
-  """Updates zero or more records in the `users` collection"""
-  updateusersCollection(
+  """Updates zero or more records in the `profiles` collection"""
+  updateprofilesCollection(
     """
     Fields that are set will be updated for all records matching the `filter`
     """
-    set: usersUpdateInput!
+    set: profilesUpdateInput!
 
     """Restricts the mutation's impact to records matching the criteria"""
-    filter: usersFilter
+    filter: profilesFilter
 
     """
     The maximum number of records in the collection permitted to be affected
     """
     atMost: Int! = 1
-  ): usersUpdateResponse!
+  ): profilesUpdateResponse!
+
+  """Updates zero or more records in the `user_wishlist` collection"""
+  updateuser_wishlistCollection(
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: user_wishlistUpdateInput!
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: user_wishlistFilter
+
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+  ): user_wishlistUpdateResponse!
 }
 
 interface Node {
@@ -315,6 +405,27 @@ type PageInfo {
 
 """The root type for querying data"""
 type Query {
+  """A pagable collection of type `cart`"""
+  cartCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: cartFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [cartOrderBy!]
+  ): cartConnection
+
   """A pagable collection of type `collections`"""
   collectionsCollection(
     """Query the first `n` records in the collection"""
@@ -335,6 +446,27 @@ type Query {
     """Sort order to apply to the collection"""
     orderBy: [collectionsOrderBy!]
   ): collectionsConnection
+
+  """A pagable collection of type `comments`"""
+  commentsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: commentsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [commentsOrderBy!]
+  ): commentsConnection
 
   """A pagable collection of type `medias`"""
   mediasCollection(
@@ -405,8 +537,8 @@ type Query {
     orderBy: [productsOrderBy!]
   ): productsConnection
 
-  """A pagable collection of type `users`"""
-  usersCollection(
+  """A pagable collection of type `profiles`"""
+  profilesCollection(
     """Query the first `n` records in the collection"""
     first: Int
 
@@ -420,11 +552,32 @@ type Query {
     after: Cursor
 
     """Filters to apply to the results set when querying from the collection"""
-    filter: usersFilter
+    filter: profilesFilter
 
     """Sort order to apply to the collection"""
-    orderBy: [usersOrderBy!]
-  ): usersConnection
+    orderBy: [profilesOrderBy!]
+  ): profilesConnection
+
+  """A pagable collection of type `user_wishlist`"""
+  user_wishlistCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: user_wishlistFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [user_wishlistOrderBy!]
+  ): user_wishlistConnection
 }
 
 """
@@ -474,6 +627,95 @@ input UUIDFilter {
   in: [UUID!]
   is: FilterIs
   neq: UUID
+}
+
+type cart implements Node {
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  id: Int!
+  quantity: Int!
+  productId: Int!
+  userId: UUID!
+  created_at: Datetime!
+  product: products!
+}
+
+type cartConnection {
+  edges: [cartEdge!]!
+  pageInfo: PageInfo!
+}
+
+type cartDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [cart!]!
+}
+
+type cartEdge {
+  cursor: String!
+  node: cart!
+}
+
+input cartFilter {
+  id: IntFilter
+  quantity: IntFilter
+  productId: IntFilter
+  userId: UUIDFilter
+  created_at: DatetimeFilter
+  nodeId: IDFilter
+
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [cartFilter!]
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [cartFilter!]
+
+  """Negates a filter"""
+  not: cartFilter
+}
+
+input cartInsertInput {
+  quantity: Int
+  productId: Int
+  userId: UUID
+  created_at: Datetime
+}
+
+type cartInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [cart!]!
+}
+
+input cartOrderBy {
+  id: OrderByDirection
+  quantity: OrderByDirection
+  productId: OrderByDirection
+  userId: OrderByDirection
+  created_at: OrderByDirection
+}
+
+input cartUpdateInput {
+  quantity: Int
+  productId: Int
+  userId: UUID
+  created_at: Datetime
+}
+
+type cartUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [cart!]!
 }
 
 type collections implements Node {
@@ -584,6 +826,96 @@ type collectionsUpdateResponse {
   records: [collections!]!
 }
 
+type comments implements Node {
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  id: Int!
+  productId: Int!
+  profileId: Int!
+  comment: String!
+  created_at: Datetime!
+  profile: profiles!
+  product: products!
+}
+
+type commentsConnection {
+  edges: [commentsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type commentsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [comments!]!
+}
+
+type commentsEdge {
+  cursor: String!
+  node: comments!
+}
+
+input commentsFilter {
+  id: IntFilter
+  productId: IntFilter
+  profileId: IntFilter
+  comment: StringFilter
+  created_at: DatetimeFilter
+  nodeId: IDFilter
+
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [commentsFilter!]
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [commentsFilter!]
+
+  """Negates a filter"""
+  not: commentsFilter
+}
+
+input commentsInsertInput {
+  productId: Int
+  profileId: Int
+  comment: String
+  created_at: Datetime
+}
+
+type commentsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [comments!]!
+}
+
+input commentsOrderBy {
+  id: OrderByDirection
+  productId: OrderByDirection
+  profileId: OrderByDirection
+  comment: OrderByDirection
+  created_at: OrderByDirection
+}
+
+input commentsUpdateInput {
+  productId: Int
+  profileId: Int
+  comment: String
+  created_at: Datetime
+}
+
+type commentsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [comments!]!
+}
+
 type medias implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
@@ -592,25 +924,6 @@ type medias implements Node {
   alt: String!
   created_at: Datetime
   updated_at: Datetime
-  product_mediasCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: product_mediasFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [product_mediasOrderBy!]
-  ): product_mediasConnection
   collectionsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -630,6 +943,25 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [collectionsOrderBy!]
   ): collectionsConnection
+  product_mediasCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: product_mediasFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [product_mediasOrderBy!]
+  ): product_mediasConnection
   productsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -830,9 +1162,28 @@ type products implements Node {
   badge: String
   featured: Boolean
   price: BigFloat!
-  imagesId: Int
-  collections: collections
+  totalComments: Int!
   medias: medias!
+  collections: collections
+  commentsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: commentsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [commentsOrderBy!]
+  ): commentsConnection
   product_mediasCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -852,6 +1203,44 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [product_mediasOrderBy!]
   ): product_mediasConnection
+  cartCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: cartFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [cartOrderBy!]
+  ): cartConnection
+  user_wishlistCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: user_wishlistFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [user_wishlistOrderBy!]
+  ): user_wishlistConnection
 }
 
 type productsConnection {
@@ -885,7 +1274,7 @@ input productsFilter {
   badge: StringFilter
   featured: BooleanFilter
   price: BigFloatFilter
-  imagesId: IntFilter
+  totalComments: IntFilter
   nodeId: IDFilter
 
   """
@@ -915,7 +1304,7 @@ input productsInsertInput {
   badge: String
   featured: Boolean
   price: BigFloat
-  imagesId: Int
+  totalComments: Int
 }
 
 type productsInsertResponse {
@@ -939,7 +1328,7 @@ input productsOrderBy {
   badge: OrderByDirection
   featured: OrderByDirection
   price: OrderByDirection
-  imagesId: OrderByDirection
+  totalComments: OrderByDirection
 }
 
 input productsUpdateInput {
@@ -955,7 +1344,7 @@ input productsUpdateInput {
   badge: String
   featured: Boolean
   price: BigFloat
-  imagesId: Int
+  totalComments: Int
 }
 
 type productsUpdateResponse {
@@ -966,87 +1355,193 @@ type productsUpdateResponse {
   records: [products!]!
 }
 
-type users implements Node {
+type profiles implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
-  id: UUID!
+  id: Int!
   name: String
   email: String
+  userId: UUID
   created_at: Datetime!
+  commentsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: commentsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [commentsOrderBy!]
+  ): commentsConnection
 }
 
-type usersConnection {
-  edges: [usersEdge!]!
+type profilesConnection {
+  edges: [profilesEdge!]!
   pageInfo: PageInfo!
 }
 
-type usersDeleteResponse {
+type profilesDeleteResponse {
   """Count of the records impacted by the mutation"""
   affectedCount: Int!
 
   """Array of records impacted by the mutation"""
-  records: [users!]!
+  records: [profiles!]!
 }
 
-type usersEdge {
+type profilesEdge {
   cursor: String!
-  node: users!
+  node: profiles!
 }
 
-input usersFilter {
-  id: UUIDFilter
+input profilesFilter {
+  id: IntFilter
   name: StringFilter
   email: StringFilter
+  userId: UUIDFilter
   created_at: DatetimeFilter
   nodeId: IDFilter
 
   """
   Returns true only if all its inner filters are true, otherwise returns false
   """
-  and: [usersFilter!]
+  and: [profilesFilter!]
 
   """
   Returns true if at least one of its inner filters is true, otherwise returns false
   """
-  or: [usersFilter!]
+  or: [profilesFilter!]
 
   """Negates a filter"""
-  not: usersFilter
+  not: profilesFilter
 }
 
-input usersInsertInput {
-  id: UUID
+input profilesInsertInput {
   name: String
   email: String
+  userId: UUID
   created_at: Datetime
 }
 
-type usersInsertResponse {
+type profilesInsertResponse {
   """Count of the records impacted by the mutation"""
   affectedCount: Int!
 
   """Array of records impacted by the mutation"""
-  records: [users!]!
+  records: [profiles!]!
 }
 
-input usersOrderBy {
+input profilesOrderBy {
   id: OrderByDirection
   name: OrderByDirection
   email: OrderByDirection
+  userId: OrderByDirection
   created_at: OrderByDirection
 }
 
-input usersUpdateInput {
-  id: UUID
+input profilesUpdateInput {
   name: String
   email: String
+  userId: UUID
   created_at: Datetime
 }
 
-type usersUpdateResponse {
+type profilesUpdateResponse {
   """Count of the records impacted by the mutation"""
   affectedCount: Int!
 
   """Array of records impacted by the mutation"""
-  records: [users!]!
+  records: [profiles!]!
+}
+
+type user_wishlist implements Node {
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  id: Int!
+  productId: Int!
+  userId: UUID!
+  created_at: Datetime!
+  product: products!
+}
+
+type user_wishlistConnection {
+  edges: [user_wishlistEdge!]!
+  pageInfo: PageInfo!
+}
+
+type user_wishlistDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [user_wishlist!]!
+}
+
+type user_wishlistEdge {
+  cursor: String!
+  node: user_wishlist!
+}
+
+input user_wishlistFilter {
+  id: IntFilter
+  productId: IntFilter
+  userId: UUIDFilter
+  created_at: DatetimeFilter
+  nodeId: IDFilter
+
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [user_wishlistFilter!]
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [user_wishlistFilter!]
+
+  """Negates a filter"""
+  not: user_wishlistFilter
+}
+
+input user_wishlistInsertInput {
+  productId: Int
+  userId: UUID
+  created_at: Datetime
+}
+
+type user_wishlistInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [user_wishlist!]!
+}
+
+input user_wishlistOrderBy {
+  id: OrderByDirection
+  productId: OrderByDirection
+  userId: OrderByDirection
+  created_at: OrderByDirection
+}
+
+input user_wishlistUpdateInput {
+  productId: Int
+  userId: UUID
+  created_at: Datetime
+}
+
+type user_wishlistUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [user_wishlist!]!
 }

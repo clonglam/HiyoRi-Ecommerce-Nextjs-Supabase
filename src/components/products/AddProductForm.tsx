@@ -3,7 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "../ui/button"
 import { QuantityInput } from "./QuantityInput"
-
+import { useMutation } from "urql"
+import { gql } from "@/gql"
 import {
   Form,
   FormControl,
@@ -15,23 +16,60 @@ import {
 } from "@/components/ui/form"
 
 import * as z from "zod"
+import { SupabaseClient } from "@supabase/supabase-js"
+import createClient from "@/lib/supabase/client"
+import { useAuth } from "@/lib/providers/AuthProvider"
 
 const formSchema = z.object({
   quantity: z.number().min(0).max(8),
 })
 
-function AddProductForm() {
+export const AddProductToCart = gql(/* GraphQL */ `
+  mutation AddProductToCart($productId: Int, $userId: UUID, $quantity: Int) {
+    insertIntocartCollection(
+      objects: { userId: $userId, productId: $productId, quantity: $quantity }
+    ) {
+      affectedCount
+      records {
+        id
+        userId
+        productId
+      }
+    }
+  }
+`)
+
+function AddProductForm({ productId }: { productId: number }) {
+  const [cartResult, addToCart] = useMutation(AddProductToCart)
+  const { user } = useAuth()
+  const maxQuantity = 8
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       quantity: 1,
     },
   })
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    if (user) {
+      // add Product to Carts.
+      // server one
+    }
+    // Add the product to local storage
+
     console.log(values)
   }
+
+  const addOne = () => {
+    const currQuantity = form.getValues("quantity")
+    if (currQuantity < maxQuantity) form.setValue("quantity", currQuantity + 1)
+  }
+  const minusOne = () => {
+    const currQuantity = form.getValues("quantity")
+    if (currQuantity > 1) form.setValue("quantity", currQuantity - 1)
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -42,7 +80,12 @@ function AddProductForm() {
             <FormItem>
               <FormLabel>Quantity</FormLabel>
               <FormControl>
-                <QuantityInput {...field} className="" />
+                <QuantityInput
+                  {...field}
+                  className=""
+                  addOneHandler={addOne}
+                  minusOneHandler={minusOne}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

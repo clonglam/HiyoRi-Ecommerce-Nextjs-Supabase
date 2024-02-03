@@ -6,6 +6,8 @@ import SearchInput from "./SearchInput"
 import { SideMenu } from "./SideMenu"
 import AuthButton from "../auth/AuthButton"
 
+import NavLinkButton from "./NavLinkButton"
+
 async function MainNavbar() {
   return (
     <nav className="container bg-background/95">
@@ -21,8 +23,14 @@ async function MainNavbar() {
         {/* Nav Action */}
         <div className="flex gap-x-5 relative">
           <AuthButton />
-          <Icons.heart className="h-4 w-4" />
-          <Icons.cart className="h-4 w-4" />
+
+          <NavLinkButton href={"/wishlist"}>
+            <Icons.heart className="w-4 h-4" aria-label="wishlist" />
+          </NavLinkButton>
+
+          <NavLinkButton href={"/cart"}>
+            <Icons.cart className="w-4 h-4" aria-label="cart" />
+          </NavLinkButton>
         </div>
       </div>
       <MobileNavbar />

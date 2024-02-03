@@ -1,29 +1,28 @@
 "use client"
 import React from "react"
 import { Icons } from "../icons"
+import { cn } from "@/lib/utils"
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  maxQuantity?: number
   onChange: (...event: any[]) => void
   value: number
+  addOneHandler: () => void
+  minusOneHandler: () => void
 }
 
 const QuantityInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ maxQuantity = 8, onChange, value, ...props }, ref) => {
-    const addOne = () => {
-      if (value < maxQuantity) {
-        onChange(value + 1)
-      }
-    }
-    const minusOne = () => {
-      if (value > 1) {
-        onChange(value - 1)
-      }
-    }
-
+  (
+    { onChange, addOneHandler, minusOneHandler, value, className, ...props },
+    ref
+  ) => {
     return (
-      <div className="max-w-36 h-12 border-2 border-input rounded-full relative flex items-center justify-between py-2 px-4">
+      <div
+        className={cn(
+          "max-w-36 h-12 border-2 border-input rounded-full relative flex items-center justify-between py-2 px-4",
+          className
+        )}
+      >
         <input
           {...props}
           type="number"
@@ -32,10 +31,18 @@ const QuantityInput = React.forwardRef<HTMLInputElement, InputProps>(
           onChange={(event) => onChange(event.target.valueAsNumber)}
           className="w-6 flex-1 text-center shadow-none  focus:ring-transparent focus:ring-0 active:ring-0 focus:border-none focus:ring-offset-0 max-w-6 order-2 h-8"
         />
-        <button type="button" className="text-xl order-1" onClick={minusOne}>
+        <button
+          type="button"
+          className="text-xl order-1"
+          onClick={minusOneHandler}
+        >
           <Icons.minus />
         </button>
-        <button type="button" className="text-xl order-3" onClick={addOne}>
+        <button
+          type="button"
+          className="text-xl order-3"
+          onClick={addOneHandler}
+        >
           <Icons.add />
         </button>
       </div>

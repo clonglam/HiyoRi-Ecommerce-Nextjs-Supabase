@@ -6,7 +6,6 @@ import {
   integer,
   json,
   pgTable,
-  primaryKey,
   serial,
   text,
   timestamp,
@@ -17,10 +16,11 @@ import {
 // User Trigger
 // https://supabase.com/docs/guides/auth/managing-user-data
 //
-export const users = pgTable("users", {
-  id: uuid("id").defaultRandom().primaryKey(),
+export const profiles = pgTable("profiles", {
+  id: serial("id").primaryKey(),
   name: text("name"),
   email: text("email").unique(),
+  userId: uuid("userId"),
   createdAt: timestamp("created_at", {
     withTimezone: true,
     mode: "string",
@@ -28,6 +28,102 @@ export const users = pgTable("users", {
     .defaultNow()
     .notNull(),
 })
+
+export const cart = pgTable(
+  "cart",
+  {
+    id: serial("id").primaryKey(),
+    quantity: integer("quantity").notNull(),
+    productId: integer("productId")
+      .notNull()
+      .references(() => products.id, { onDelete: "cascade" }),
+    userId: uuid("userId").notNull(),
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+      mode: "string",
+    })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => {
+    return {
+      product: foreignKey({
+        columns: [table.productId],
+        foreignColumns: [products.id],
+        name: "cart_to_product",
+      })
+        .onDelete("cascade")
+        .onUpdate("cascade"),
+    }
+  }
+)
+
+export const userWishlist = pgTable(
+  "user_wishlist",
+  {
+    id: serial("id").primaryKey(),
+    productId: integer("productId")
+      .notNull()
+      .references(() => products.id, { onDelete: "cascade" }),
+    userId: uuid("userId").notNull(),
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+      mode: "string",
+    })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => {
+    return {
+      product: foreignKey({
+        columns: [table.productId],
+        foreignColumns: [products.id],
+        name: "user_wishlist_to_product",
+      })
+        .onDelete("cascade")
+        .onUpdate("cascade"),
+    }
+  }
+)
+
+export const comments = pgTable(
+  "comments",
+  {
+    id: serial("id").primaryKey(),
+    productId: integer("productId")
+      .notNull()
+      .references(() => products.id, { onDelete: "cascade" }),
+    profileId: integer("profileId")
+      .notNull()
+      .references(() => profiles.id),
+    comment: text("comment").notNull(),
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+      mode: "string",
+    })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => {
+    return {
+      product: foreignKey({
+        columns: [table.productId],
+        foreignColumns: [products.id],
+        name: "comment_to_product",
+      })
+        .onDelete("cascade")
+        .onUpdate("cascade"),
+
+      profile: foreignKey({
+        columns: [table.profileId],
+        foreignColumns: [profiles.id],
+        name: "comment_to_profile",
+      })
+        .onDelete("cascade")
+        .onUpdate("cascade"),
+    }
+  }
+)
 
 export const products = pgTable(
   "products",
@@ -45,7 +141,7 @@ export const products = pgTable(
     price: decimal("price", { precision: 8, scale: 2 })
       .notNull()
       .default("0.00"),
-    imagesId: integer("imagesId"),
+    totalComments: integer("totalComments").default(0).notNull(),
     createdAt: timestamp("created_at", {
       withTimezone: true,
       mode: "string",

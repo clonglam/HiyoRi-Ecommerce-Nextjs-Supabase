@@ -6,7 +6,7 @@ import { Icons } from "../icons"
 
 function EmptyCart() {
   return (
-    <section className="w-full border border-foreground min-h-[450px] flex flex-col gap-5 justify-center items-center">
+    <section className="w-full border border-foreground min-h-[450px] flex flex-col gap-5 justify-center items-center col-span-12">
       <p className="text-muted-foreground text-sm">Your Cart is empty.</p>
       <Link
         href="/shop"
