@@ -97,9 +97,7 @@ function CartItemCard({ item, userId, refetch }: CartItemCardProps) {
         <CardDescription className="grow line-clamp-2">
           {product.description}
         </CardDescription>
-      </CardHeader>
 
-      <CardFooter className="gap-x-2 md:gap-x-5 p-0 ">
         <QuantityInput
           className=""
           value={productQuantity}
@@ -107,6 +105,19 @@ function CartItemCard({ item, userId, refetch }: CartItemCardProps) {
           addOneHandler={addOneHandler}
           minusOneHandler={minusOneHandler}
         />
+      </CardHeader>
+
+      <CardFooter className="gap-x-2 md:gap-x-5 p-0 ">
+        {/* <QuantityInput
+          className=""
+          value={productQuantity}
+          onChange={onChangeHandler}
+          addOneHandler={addOneHandler}
+          minusOneHandler={minusOneHandler}
+        /> */}
+
+        <p>$ {product.price}</p>
+
         <Button
           className=""
           aria-label="Remove Item"

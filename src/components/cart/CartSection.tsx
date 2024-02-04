@@ -7,6 +7,8 @@ import React from "react"
 import CartItemCard from "./CartItemCard"
 import EmptyCart from "./EmptyCart"
 import { Button } from "../ui/button"
+import SubtotoalCard from "./SubtotoalCard"
+import { Currency } from "lucide-react"
 
 type Props = {}
 
@@ -43,7 +45,7 @@ function CartSection({}: Props) {
       {data?.cartCollection && data.cartCollection.edges.length > 0 ? (
         <section
           aria-label="Cart Section"
-          className="grid grid-cols-12 gap-x-6 "
+          className="grid grid-cols-12 gap-x-6 gap-y-5"
         >
           <div className="col-span-12 md:col-span-9">
             {data.cartCollection?.edges.map(({ node }) => (
@@ -56,10 +58,17 @@ function CartSection({}: Props) {
             ))}
           </div>
 
-          <div className="col-span-12 md:col-span-3">
-            <h2>Subtototal:</h2> <span>$200.00</span>
-            <Button>Check out</Button>
-          </div>
+          <SubtotoalCard
+            className="col-span-12 md:col-span-3"
+            subtotal={data.cartCollection?.edges.reduce(
+              (acc, cur) => acc + cur.node.quantity * cur.node.product.price,
+              0
+            )}
+            productcount={data.cartCollection?.edges.reduce(
+              (acc, cur) => acc + cur.node.quantity,
+              0
+            )}
+          />
         </section>
       ) : (
         <EmptyCart />
