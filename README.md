@@ -1,18 +1,23 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Project Features
 
-First, run the development server:
+1. User Management
+2. Product Management
+3. Product Stocking
+4. Category
+5. Product Variation
+6. Grahpql Fetching
+7. Payment
+8. Shipping
+9. Order Status
+10. Reviews & Comments
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Overview
+
+We plan to handle the whole system in AWS Amplify.
+
+1. User Searching Product
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

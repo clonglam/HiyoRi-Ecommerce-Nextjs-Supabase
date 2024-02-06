@@ -1,8 +1,8 @@
 import { gql } from "@/gql"
 
 export const AddCartProduct = gql(/* GraphQL */ `
-  mutation AddCartProduct($productId: Int, $userId: UUID, $quantity: Int) {
-    insertIntocartCollection(
+  mutation AddCartsProduct($productId: Int, $userId: UUID, $quantity: Int) {
+    insertIntocartsCollection(
       objects: { userId: $userId, productId: $productId, quantity: $quantity }
     ) {
       affectedCount
@@ -15,16 +15,16 @@ export const AddCartProduct = gql(/* GraphQL */ `
   }
 `)
 
-export const RemoveCartProduct = gql(/* GraphQL */ `
-  mutation RemoveCartProduct($cartId: Int) {
-    deleteFromcartCollection(filter: { id: { eq: $cartId } }) {
+export const RemoveCartsProduct = gql(/* GraphQL */ `
+  mutation RemoveCartsProduct($cartId: Int) {
+    deleteFromcartsCollection(filter: { id: { eq: $cartId } }) {
       affectedCount
     }
   }
 `)
-export const UpdateCartProduct = gql(/* GraphQL */ `
+export const UpdateCartsProduct = gql(/* GraphQL */ `
   mutation updateCartsCollection($id: Int, $newQuantity: Int) {
-    updatecartCollection(
+    updatecartsCollection(
       filter: { id: { eq: $id } }
       set: { quantity: $newQuantity }
     ) {

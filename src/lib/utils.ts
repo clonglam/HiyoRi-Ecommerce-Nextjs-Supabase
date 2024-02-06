@@ -6,6 +6,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export const getURL = () => {
+  let url = process?.env?.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+
+  url = url.includes("http") ? url : `https://${url}`
+  url = url.charAt(url.length - 1) === "/" ? url : `${url}/`
+  return url
+}
+
 export function formatPrice(price: number | string) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",

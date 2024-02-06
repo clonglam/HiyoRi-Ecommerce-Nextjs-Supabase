@@ -4,7 +4,7 @@ import { Button } from "../ui/button"
 import { Icons } from "../icons"
 import { createClient } from "@/lib/supabase/client"
 
-async function OAuthLoginButtons() {
+function OAuthLoginButtons() {
   const [isLoading, setIsLoading] = useState(false)
   const supabase = createClient()
 

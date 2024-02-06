@@ -1,10 +1,12 @@
-import { InferInsertModel, InferSelectModel } from "drizzle-orm"
+import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm"
+import { float } from "drizzle-orm/mysql-core"
 import {
   boolean,
   decimal,
   foreignKey,
   integer,
   json,
+  pgEnum,
   pgTable,
   serial,
   text,
@@ -29,8 +31,8 @@ export const profiles = pgTable("profiles", {
     .notNull(),
 })
 
-export const cart = pgTable(
-  "cart",
+export const carts = pgTable(
+  "carts",
   {
     id: serial("id").primaryKey(),
     quantity: integer("quantity").notNull(),
@@ -57,6 +59,13 @@ export const cart = pgTable(
     }
   }
 )
+
+export const cartsRelations = relations(carts, ({ one }) => ({
+  product: one(products, {
+    fields: [carts.productId],
+    references: [products.id],
+  }),
+}))
 
 export const userWishlist = pgTable(
   "user_wishlist",
@@ -170,6 +179,58 @@ export const products = pgTable(
     }
   }
 )
+
+export const orders = pgTable("orders", {
+  id: text("id").primaryKey(),
+  amountTotal: integer("amount_total").notNull(),
+  amountSubtotal: integer("amount_subtotal").notNull(),
+  paymentStatus: text("payment_status").notNull(),
+  email: text("email"),
+  name: text("name").notNull(),
+  paymentMethodTypes: text("payment_method_types").notNull(),
+  userId: uuid("userId").notNull(),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "string",
+  })
+    .defaultNow()
+    .notNull(),
+})
+
+export type SelectOrders = InferSelectModel<typeof orders>
+export type InsertOrders = InferInsertModel<typeof orders>
+export type PaymentStatus = "paid" | "unpaid" | "no_payment_required"
+export const ordersRelations = relations(orders, ({ one }) => ({
+  address: one(address),
+}))
+
+export const address = pgTable("address", {
+  id: serial("id").primaryKey(),
+  city: text("city").notNull(),
+  country: text("country").notNull(),
+  line1: text("line1").notNull(),
+  line2: text("line2").notNull(),
+  postal_code: text("postal_code").notNull(),
+  state: text("state").notNull(),
+  orderId: text("orderId").references(() => orders.id, {
+    onDelete: "cascade",
+  }),
+  userProfileId: integer("userProfileId").references(() => profiles.id, {
+    onDelete: "cascade",
+  }),
+})
+
+export const addressRelations = relations(address, ({ one }) => ({
+  order: one(orders, {
+    fields: [address.id],
+    references: [orders.id],
+  }),
+  profile: one(profiles, {
+    fields: [address.userProfileId],
+    references: [profiles.id],
+  }),
+}))
+export type InsertAddress = InferInsertModel<typeof address>
 
 export const productMedias = pgTable(
   "product_medias",

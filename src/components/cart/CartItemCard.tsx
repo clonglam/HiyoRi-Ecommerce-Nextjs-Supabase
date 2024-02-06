@@ -17,10 +17,10 @@ import {
 } from "@/components/ui/card"
 import { UseQueryExecute, useMutation } from "@urql/next"
 import Link from "next/link"
-import { RemoveCartProduct, UpdateCartProduct } from "./query"
+import { RemoveCartsProduct, UpdateCartsProduct } from "./query"
 
 export const CartItemCardFragment = gql(/* GraphQL */ `
-  fragment CartItemCardFragment on cart {
+  fragment CartItemCardFragment on carts {
     id
     quantity
     product {
@@ -47,9 +47,9 @@ type CartItemCardProps = React.ComponentProps<typeof Card> & {
 function CartItemCard({ item, userId, refetch }: CartItemCardProps) {
   const { id, quantity, product } = item
   const [productQuantity, setProductQuantity] = useState(quantity)
-  const [_, removeCartProduct] = useMutation(RemoveCartProduct)
+  const [_, removeCartProduct] = useMutation(RemoveCartsProduct)
   const [updateCartProductResponse, updateCartProduct] =
-    useMutation(UpdateCartProduct)
+    useMutation(UpdateCartsProduct)
 
   const addOneHandler = () => {
     if (productQuantity < 8) {
@@ -71,7 +71,7 @@ function CartItemCard({ item, userId, refetch }: CartItemCardProps) {
 
   const removeItemHandler = async () => {
     const response = await removeCartProduct({ cartId: id })
-    if (response.data?.deleteFromcartCollection.affectedCount) {
+    if (response.data?.deleteFromcartsCollection.affectedCount) {
       refetch({ requestPolicy: "network-only" })
     }
   }

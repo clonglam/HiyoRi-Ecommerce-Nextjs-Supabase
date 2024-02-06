@@ -30,7 +30,7 @@ async function CartPage() {
           }
         }
       }
-      cartCollection(filter: { userId: { eq: $userId } }, first: 15) {
+      cartsCollection(filter: { userId: { eq: $userId } }, first: 15) {
         edges {
           node {
             ...CartItemCardFragment
