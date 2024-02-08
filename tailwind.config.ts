@@ -18,9 +18,13 @@ const config = {
         lg: "3rem",
         xl: "3rem",
         "2xl": "3rem",
+        "3xl": "3rem",
+        "4xl": "3rem",
       },
       screens: {
         "2xl": "1700px",
+        "3xl": "1900px",
+        "4xl": "2100px",
       },
     },
     extend: {

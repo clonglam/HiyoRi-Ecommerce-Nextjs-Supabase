@@ -158,7 +158,7 @@ export const products = pgTable(
       .defaultNow()
       .notNull(),
 
-    storeId: integer("storeId").notNull(),
+    storeId: integer("storeId").default(1),
     collectionId: integer("collection_id"),
     featuredImageId: integer("featured_image_id")
       .notNull()

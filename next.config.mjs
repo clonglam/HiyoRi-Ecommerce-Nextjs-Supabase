@@ -3,15 +3,6 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  compiler: {
-    relay: {
-      src: "./",
-      schema: "schema.graphql",
-      language: "typescript",
-      artifactDirectory: "__generated__",
-      nodeInterfaceIdField: "nodeId",
-    },
-  },
   images: {
     remotePatterns: [
       {

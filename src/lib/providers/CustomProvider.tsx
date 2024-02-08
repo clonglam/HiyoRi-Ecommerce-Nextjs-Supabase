@@ -14,6 +14,7 @@ import { SupabaseAuthProvider } from "./AuthProvider"
 export default function CustomProvider({ children }: React.PropsWithChildren) {
   const [client, ssr] = useMemo(() => {
     const ssr = ssrExchange()
+
     const client = createClient({
       url: `https://${env.NEXT_PUBLIC_SUPABASE_PROJECT_REF}.supabase.co/graphql/v1`,
       exchanges: [cacheExchange, ssr, fetchExchange],

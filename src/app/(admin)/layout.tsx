@@ -8,7 +8,7 @@ type Props = { children: ReactNode }
 function StoreLayout({ children }: Props) {
   return (
     <main>
-      <Navbar />
+      <Navbar adminLayout={true} />
       {children}
       <CartSheet />
       <MainFooter />

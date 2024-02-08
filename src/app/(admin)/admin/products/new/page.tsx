@@ -17,17 +17,6 @@ async function NewProjectPage({}: Props) {
       heading="Add Project"
       description="Input the field below, after that press Add Project button to save the project."
     >
-      {/* <SectionHeader
-        header="Add Project"
-        description="Input the field below, after that press Add Project button to save the project."
-      >
-        <Link
-          href="/admin/projects"
-          className={buttonVariants({ variant: "dark" })}
-        >
-          Back
-        </Link>
-      </SectionHeader> */}
       <div className="">
         <ProductForm />
       </div>

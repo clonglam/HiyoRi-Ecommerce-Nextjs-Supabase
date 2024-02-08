@@ -6,10 +6,19 @@ import SearchInput from "./SearchInput"
 import { SideMenu } from "./SideMenu"
 
 import NavLinkButton from "./NavLinkButton"
+import { cn } from "@/lib/utils"
 
-async function MainNavbar() {
+interface MainNavbarProps {
+  adminLayout?: boolean
+}
+async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
   return (
-    <nav className="container bg-background/95">
+    <nav
+      className={cn(
+        "bg-background/95",
+        adminLayout ? "mx-auto px-[3rem] max-w-[2500px] py-3" : "container"
+      )}
+    >
       <div className="hidden md:flex gap-x-8 justify-between items-center">
         {/* Menu & branding */}
         <div className="flex gap-x-3 items-center">
@@ -17,7 +26,7 @@ async function MainNavbar() {
           <Branding />
         </div>
 
-        <SearchInput />
+        {adminLayout ? <></> : <SearchInput />}
 
         {/* Nav Action */}
         <div className="flex gap-x-5 relative items-center">

@@ -31,7 +31,10 @@ async function ProductsPage({ searchParams }: AdminProjectsPageProps) {
 
   if (!data) return notFound()
   return (
-    <AdminShell heading="Products" description={""}>
+    <AdminShell
+      heading="Products"
+      description={"Edit products from the dashboard. "}
+    >
       <DataTable
         columns={ProductsColumns}
         data={data.productsCollection?.edges || []}

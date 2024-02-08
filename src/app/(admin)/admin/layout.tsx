@@ -1,58 +1,37 @@
-import { SettingSidebarNav } from "@/components/setting/SettingSidebar"
-import { Separator } from "@/components/ui/separator"
-import { Metadata } from "next"
-import Image from "next/image"
+import { redirect } from "next/navigation"
+import Link from "next/link"
+import { cookies } from "next/headers"
+import { createClient } from "@/lib/supabase/server"
+import { dashboardConfig } from "@/config/dashboard"
+import { ScrollArea } from "@/components/ui/scrollArea"
+import { SidebarNav } from "@/components/admin/SidebarNav"
 
-export const metadata: Metadata = {
-  title: "Admin Dashboard",
-  description: "Admin Dashboard",
-}
-
-const sidebarNavItems = [
-  {
-    title: "Products",
-    href: "/admin/products",
-  },
-  {
-    title: "Orders",
-    href: "/admin/orders",
-  },
-  {
-    title: "Appearance",
-    href: "/examples/forms/appearance",
-  },
-  {
-    title: "Notifications",
-    href: "/examples/forms/notifications",
-  },
-  {
-    title: "Display",
-    href: "/examples/forms/display",
-  },
-]
-
-interface SettingsLayoutProps {
+interface DashboardLayoutProps {
   children: React.ReactNode
 }
 
-export default function SettingsLayout({ children }: SettingsLayoutProps) {
+export default async function DashboardLayout({
+  children,
+}: DashboardLayoutProps) {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser()
+  if (authError || !user) {
+    redirect("/sign-in")
+  }
+
   return (
-    <>
-      <div className="space-y-6 p-10 pb-16">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Admin</h2>
-          <p className="text-muted-foreground">
-            Manage your account settings and set e-mail preferences.
-          </p>
-        </div>
-        <Separator className="my-6" />
-        <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <aside className="-mx-4 lg:w-1/5">
-            <SettingSidebarNav items={sidebarNavItems} />
-          </aside>
-          <div className="flex-1 lg:max-w-2xl min-h-[30vh]">{children}</div>
-        </div>
-      </div>
-    </>
+    <div className="mx-auto px-[3rem] max-w-[2500px] pt-5 flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10 bg-white">
+      <aside className="fixed top-14 z-30 -ml-2 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 overflow-y-auto border-r md:sticky md:block">
+        <ScrollArea className="py-6 pr-6 lg:py-8">
+          <SidebarNav items={dashboardConfig.sidebarNav} />
+        </ScrollArea>
+      </aside>
+      <main className="flex w-full flex-col overflow-hidden">{children}</main>
+    </div>
   )
 }

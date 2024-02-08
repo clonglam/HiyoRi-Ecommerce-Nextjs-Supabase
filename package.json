@@ -7,7 +7,6 @@
     "build": " next build",
     "start": "next start",
     "lint": "next lint",
-    "relay": "relay-compiler",
     "db:generate": "drizzle-kit generate:pg --config=drizzle.config.ts",
     "db:push": "drizzle-kit push:pg --config=drizzle.config.ts",
     "db:pull": "drizzle-kit introspect:pg --config=drizzle.config.ts",
@@ -16,7 +15,7 @@
     "db:drop": "drizzle-kit drop --config=drizzle.config.ts",
     "codegen": "graphql-codegen",
     "codegen:fetch": "node --no-warnings scripts/fetchGraphQLSchema ",
-    "codegen:watch": "yarn run codegen -- --watch"
+    "codegen:watch": "npm run codegen --watch"
   },
   "lint-staged": {
     "*.{js,css,md,ts,tsx}": "prettier --write"
@@ -29,6 +28,7 @@
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
     "@radix-ui/react-avatar": "^1.0.4",
+    "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-label": "^2.0.2",
@@ -44,6 +44,7 @@
     "@supabase/supabase-js": "^2.39.3",
     "@t3-oss/env-nextjs": "^0.8.0",
     "@tanstack/react-table": "^8.11.8",
+    "@urql/exchange-graphcache": "^6.4.1",
     "@urql/next": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -52,6 +53,7 @@
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
     "embla-carousel-react": "^8.0.0-rc21",
+    "graphql-codegen": "^0.4.0",
     "lucide-react": "^0.314.0",
     "nanoid": "^5.0.5",
     "next": "14.1.0",
