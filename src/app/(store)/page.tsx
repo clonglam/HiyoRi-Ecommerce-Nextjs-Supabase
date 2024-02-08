@@ -1,7 +1,12 @@
-import CollectionsCard from "@/components/landing/CollectionsCard"
-import ProductCard from "@/components/products/ProductCard"
+import CollectionsCard, {
+  CollectionsCardSkeleton,
+} from "@/components/landing/CollectionsCard"
+import ProductCard, {
+  ProductCardSkeleton,
+} from "@/components/products/ProductCard"
 import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { Skeleton } from "@/components/ui/skeleton"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql/urql"
 import { cn } from "@/lib/utils"
@@ -47,7 +52,11 @@ export default async function Home() {
     <main className="min-h-screen">
       <ScrollArea className="whitespace-nowrap relative container">
         <div className="flex w-max space-x-10 py-5 overflow-auto">
-          <Suspense fallback="loading">
+          <Suspense
+            fallback={[...Array(6)].map((_, index) => (
+              <CollectionsCardSkeleton key={index} />
+            ))}
+          >
             {data?.collectionScrollCards?.edges.map(({ node }) => (
               <CollectionsCard collection={node} key={node.id} />
             ))}
@@ -68,7 +77,11 @@ export default async function Home() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12 py-5 overflow-auto">
-          <Suspense fallback={"loading"}>
+          <Suspense
+            fallback={[...Array(4)].map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
+          >
             {data?.products?.edges.map(({ node }) => (
               <ProductCard key={node.id} product={node} />
             ))}

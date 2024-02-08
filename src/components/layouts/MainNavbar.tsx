@@ -1,10 +1,9 @@
-import Link from "next/link"
+import UserNav from "../auth/UserNav"
 import { Icons } from "../icons"
 import Branding from "./Branding"
 import MobileNavbar from "./MobileNavbar"
 import SearchInput from "./SearchInput"
 import { SideMenu } from "./SideMenu"
-import AuthButton from "../auth/AuthButton"
 
 import NavLinkButton from "./NavLinkButton"
 
@@ -21,10 +20,10 @@ async function MainNavbar() {
         <SearchInput />
 
         {/* Nav Action */}
-        <div className="flex gap-x-5 relative">
-          <AuthButton />
+        <div className="flex gap-x-5 relative items-center">
+          <UserNav />
 
-          <NavLinkButton href={"/wishlist"}>
+          <NavLinkButton href={"/wish-list"}>
             <Icons.heart className="w-4 h-4" aria-label="wishlist" />
           </NavLinkButton>
 

@@ -25,6 +25,7 @@ export const env = createEnv({
     NEXT_PUBLIC_S3_BUCKET: z.string(),
     NEXT_PUBLIC_S3_REGION: z.string(),
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
+    NEXT_PUBLIC_SUPABASE_URL: z.string(),
   },
 
   /**
@@ -34,6 +35,7 @@ export const env = createEnv({
 
   runtimeEnv: {
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     DATABASE_URL: process.env.DATABASE_URL,
     NEXT_PUBLIC_SUPABASE_PROJECT_REF:
       process.env.NEXT_PUBLIC_SUPABASE_PROJECT_REF,

@@ -5,7 +5,7 @@ import React, { ReactNode } from "react"
 
 type Props = { children: ReactNode }
 
-function MainLayout({ children }: Props) {
+function StoreLayout({ children }: Props) {
   return (
     <main>
       <Navbar />
@@ -16,4 +16,4 @@ function MainLayout({ children }: Props) {
   )
 }
 
-export default MainLayout
+export default StoreLayout

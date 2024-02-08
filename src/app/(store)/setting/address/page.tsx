@@ -54,7 +54,7 @@ async function CartPage() {
   console.log("data", data)
 
   return (
-    <div className="min-h-screen container">
+    <div className="min-h-screen w-full">
       <section className="flex justify-between items-center py-8">
         <h1 className="text-3xl">Your Cart</h1>
         <Link href="/shop">Continue shopping</Link>

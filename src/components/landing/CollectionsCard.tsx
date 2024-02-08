@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { gql, DocumentType } from "@/gql"
 import { keytoUrl } from "@/lib/s3/s3"
+import { Skeleton } from "../ui/skeleton"
 
 const CollectionCardFragment = gql(/* GraphQL */ `
   fragment CollectionCardFragment on collections {
@@ -46,3 +47,7 @@ function CollectionsCard({
 }
 
 export default CollectionsCard
+
+export const CollectionsCardSkeleton = () => (
+  <Skeleton className="rounded-xl overflow-hidden relative h-[200px] md:w-[350px] w-[220px]" />
+)

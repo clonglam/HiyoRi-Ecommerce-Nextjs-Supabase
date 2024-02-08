@@ -19,6 +19,7 @@ import { keytoUrl } from "@/lib/s3/s3"
 import { Badge } from "../ui/badge"
 import { BadgeType } from "@/lib/supabase/schema"
 import AddToCartButton from "../cart/AddToCartButton"
+import { Skeleton } from "../ui/skeleton"
 
 type CardProps = React.ComponentProps<typeof Card>
 
@@ -40,11 +41,27 @@ export const ProductCardFragment = gql(/* GraphQL */ `
       key
       alt
     }
-
     collections {
       id
       label
       slug
+    }
+    cartsCollection {
+      edges {
+        node {
+          id
+          productId
+          quantity
+        }
+      }
+    }
+    user_wishlistCollection {
+      edges {
+        node {
+          id
+          productId
+        }
+      }
     }
   }
 `)
@@ -54,7 +71,10 @@ export function ProductCard({
   product,
   ...props
 }: ProductCardProps) {
-  const { id, name, slug, featuredImage, badge, price } = product
+  const { id, name, slug, featuredImage, badge, price, cartsCollection } =
+    product
+
+  const cartProduct = cartsCollection?.edges
 
   return (
     <Card
@@ -99,7 +119,19 @@ export function ProductCard({
       </CardHeader>
 
       <CardFooter className="gap-x-2 md:gap-x-5 p-0 ">
-        <AddToCartButton productId={id} />
+        <AddToCartButton
+          productId={id}
+          productCartId={
+            cartProduct && cartProduct.length > 0
+              ? cartProduct[0].node.id
+              : undefined
+          }
+          quantity={
+            cartProduct && cartProduct.length > 0
+              ? cartProduct[0].node.quantity + 1
+              : undefined
+          }
+        />
 
         <Button variant="ghost" className="rounded-full p-0 h-8 w-8">
           <Icons.heart className="h-5 w- md:h-4 md:w-4" />
@@ -110,3 +142,15 @@ export function ProductCard({
 }
 
 export default ProductCard
+
+export const ProductCardSkeleton = () => (
+  <div className="w-full border rounded-lg py-3">
+    <Skeleton className="w-[400px] h-[400px] mb-5" />
+    <div className="space-y-2">
+      <Skeleton className="w-[120px] h-6" />
+      <Skeleton className="w-[180px] h-4" />
+      <Skeleton className="w-[160px] h-4" />
+      <Skeleton className="w-[80px] h-4" />
+    </div>
+  </div>
+)

@@ -5,31 +5,47 @@ import { Button, ButtonProps } from "../ui/button"
 import { Icons } from "../icons"
 import { nanoid } from "nanoid"
 import useCartStore from "./useCartStore"
-import { useMutation } from "@urql/next"
+import { cacheExchange, useClient, useMutation } from "@urql/next"
 import { AddProductToCart } from "../products/AddProductForm"
 import { useAuth } from "@/lib/providers/AuthProvider"
 import { useToast } from "../ui/use-toast"
+import { UpdateCartsProduct } from "./query"
+import { gql } from "@/gql"
+import { carts } from "@/lib/supabase/schema"
 
 interface AddToCartButtonProps extends ButtonProps {
   productId: number
+  productCartId?: number
   quantity?: number
 }
 
-function AddToCartButton({ productId, quantity = 1 }: AddToCartButtonProps) {
+function AddToCartButton({
+  productId,
+  productCartId,
+  quantity = 1,
+}: AddToCartButtonProps) {
+  const client = useClient() // Get the urql client
   const addItem = useCartStore((s) => s.addItem)
   const { toast } = useToast()
+
   const [cartResult, addToCart] = useMutation(AddProductToCart)
+  const [updateCartResult, updateCart] = useMutation(UpdateCartsProduct)
   const { user } = useAuth()
 
   const onClickHandler = () => {
     if (user) {
-      console.log("We got a user", user)
-      addToCart({
-        productId: productId,
-        quantity: quantity,
-        userId: user.id,
-      })
+      if (productCartId) {
+        updateCart({ id: productCartId, newQuantity: quantity })
+      } else {
+        addToCart({
+          productId: productId,
+          quantity: quantity,
+          userId: user.id,
+        })
+      }
     }
+
+    // client.
 
     addItem({
       id: nanoid(),

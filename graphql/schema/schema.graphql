@@ -1155,25 +1155,6 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [product_mediasOrderBy!]
   ): product_mediasConnection
-  collectionsCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: collectionsFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [collectionsOrderBy!]
-  ): collectionsConnection
   productsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1193,6 +1174,25 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [productsOrderBy!]
   ): productsConnection
+  collectionsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: collectionsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [collectionsOrderBy!]
+  ): collectionsConnection
 }
 
 type mediasConnection {
