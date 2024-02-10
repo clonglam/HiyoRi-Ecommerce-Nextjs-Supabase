@@ -1,4 +1,3 @@
-import TestToastButton from "@/components/TestToastButton"
 import CollectionsCard, {
   CollectionsCardSkeleton,
 } from "@/components/landing/CollectionsCard"
@@ -7,7 +6,6 @@ import ProductCard, {
 } from "@/components/products/ProductCard"
 import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import { Skeleton } from "@/components/ui/skeleton"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql/urql"
 import { cn } from "@/lib/utils"
@@ -89,7 +87,7 @@ export default async function Home() {
           </Suspense>
         </div>
       </section>
-      <TestToastButton />
+
       <section className="max-w-[1920px] mx-auto h-[620px] md:h-[580px] bg-[#FFF8EE] grid grid-cols-12 my-16">
         <div className="relative w-full h-[340px] md:h-[580px] col-span-12 md:col-span-8 overflow-hidden">
           <Image

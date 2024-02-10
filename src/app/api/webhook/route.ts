@@ -5,7 +5,7 @@ import { InsertOrders, PaymentStatus, orders } from "@/lib/supabase/schema"
 import { headers } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
-import { address } from "./../../../lib/supabase/schema"
+import { address } from "@/lib/supabase/schema"
 
 const relevantEvents = new Set([
   "product.created",

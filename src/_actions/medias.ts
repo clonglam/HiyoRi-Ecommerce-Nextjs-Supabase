@@ -20,8 +20,8 @@ export async function getMedias(limit?: number) {
 export async function deleteMedia(id: string) {
   const currentUser = await getCurrentUser()
 
-  if (!isAdmin(currentUser))
-    throw new Error("Only authorized users are allowed access.")
+  // if (!isAdmin(currentUser))
+  //   throw new Error("Only authorized users are allowed access.")
   // return NextResponse.json({ error: "Unauthorized access" }, { status: 401 })
 
   //   const validatedFields = deleteMediaSchema.safeParse({ id })

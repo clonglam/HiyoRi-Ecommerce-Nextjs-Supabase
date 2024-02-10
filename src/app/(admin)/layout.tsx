@@ -1,7 +1,6 @@
-import CartSheet from "@/components/cart/CartSheet"
 import MainFooter from "@/components/layouts/MainFooter"
 import Navbar from "@/components/layouts/MainNavbar"
-import React, { ReactNode } from "react"
+import { ReactNode } from "react"
 
 type Props = { children: ReactNode }
 

@@ -1,6 +1,6 @@
 import { env } from "@/env.mjs"
 
-import { createServerClient } from "@supabase/ssr"
+import { CookieOptions, createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
 
 export function createClient(cookieStore: ReturnType<typeof cookies>) {
@@ -12,14 +12,15 @@ export function createClient(cookieStore: ReturnType<typeof cookies>) {
         get(name: string) {
           return cookieStore.get(name)?.value
         },
+        set(name: string, value: string, options: CookieOptions) {
+          cookieStore.set({ name, value, ...options })
+        },
+        remove(name: string, options: CookieOptions) {
+          cookieStore.set({ name, value: "", ...options })
+        },
       },
     }
   )
 }
 
-const supabaseServerClient = () => {
-  const cookieStore = cookies()
-  return createClient(cookieStore)
-}
-
-export default supabaseServerClient
+export default createClient

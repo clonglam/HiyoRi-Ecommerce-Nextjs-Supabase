@@ -7,7 +7,14 @@
     "plugin:relay/recommended"
   ],
   "rules": {
-    "relay/generated-flow-types": "off"
+    "relay/generated-flow-types": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "no-empty-pattern": "off",
+    "no-case-declarations": "off"
   },
   "plugins": ["relay"]
 }

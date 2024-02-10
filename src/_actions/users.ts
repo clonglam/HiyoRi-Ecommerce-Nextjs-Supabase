@@ -1,13 +1,16 @@
 "use server"
 
 import db from "@/lib/supabase/db"
-import supabaseServerClient from "@/lib/supabase/server"
-import { eq } from "drizzle-orm"
-import { profiles } from "./../lib/supabase/schema"
+import createServerClient from "@/lib/supabase/server"
 import { User } from "@supabase/supabase-js"
+import { eq } from "drizzle-orm"
+import { cookies } from "next/headers"
+import { profiles } from "./../lib/supabase/schema"
 
 export const getCurrentUser = async () => {
-  const supabase = supabaseServerClient()
+  const cookieStore = cookies()
+  const supabase = createServerClient(cookieStore)
+
   const userResponse = await supabase.auth.getUser()
   return userResponse.data.user
 }

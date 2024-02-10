@@ -9,6 +9,5 @@ export function createClient() {
   )
 }
 
-const sbc = createClient()
-
-export default sbc
+const supabaseClient = createClient()
+export default supabaseClient

@@ -1,9 +1,7 @@
-import React from "react"
+import { redirect } from "next/navigation"
 
-type Props = {}
-
-function AdminDashboard({}: Props) {
-  return <div>AdminDashboard</div>
+async function AdminDashboard() {
+  redirect("/admin/dashboard")
 }
 
 export default AdminDashboard

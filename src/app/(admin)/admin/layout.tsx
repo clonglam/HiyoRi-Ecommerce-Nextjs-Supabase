@@ -1,10 +1,9 @@
-import { redirect } from "next/navigation"
-import Link from "next/link"
-import { cookies } from "next/headers"
-import { createClient } from "@/lib/supabase/server"
-import { dashboardConfig } from "@/config/dashboard"
-import { ScrollArea } from "@/components/ui/scrollArea"
 import { SidebarNav } from "@/components/admin/SidebarNav"
+import { ScrollArea } from "@/components/ui/scrollArea"
+import { dashboardConfig } from "@/config/dashboard"
+import createServerClient from "@/lib/supabase/server"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -14,7 +13,7 @@ export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+  const supabase = createServerClient(cookieStore)
 
   const {
     data: { user },

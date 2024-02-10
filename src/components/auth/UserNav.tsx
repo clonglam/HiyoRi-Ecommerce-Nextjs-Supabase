@@ -16,7 +16,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
-import sbc from "@/lib/supabase/client"
+import supabaseClient from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { User } from "@supabase/supabase-js"
 
@@ -30,7 +30,7 @@ function UserNav({ currentUser, isAdmin }: UserNavProps) {
   const { user } = useAuth()
 
   const logout = () => {
-    sbc.auth.signOut()
+    supabaseClient.auth.signOut()
     router.refresh()
   }
 
