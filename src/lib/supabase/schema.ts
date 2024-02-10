@@ -18,11 +18,11 @@ import {
 // User Trigger
 // https://supabase.com/docs/guides/auth/managing-user-data
 //
+
 export const profiles = pgTable("profiles", {
-  id: serial("id").primaryKey(),
+  id: uuid("id").notNull().primaryKey(),
   name: text("name"),
   email: text("email").unique(),
-  userId: uuid("userId"),
   createdAt: timestamp("created_at", {
     withTimezone: true,
     mode: "string",
@@ -102,7 +102,7 @@ export const comments = pgTable(
     productId: integer("productId")
       .notNull()
       .references(() => products.id, { onDelete: "cascade" }),
-    profileId: integer("profileId")
+    profileId: uuid("profileId")
       .notNull()
       .references(() => profiles.id),
     comment: text("comment").notNull(),
@@ -215,7 +215,7 @@ export const address = pgTable("address", {
   orderId: text("orderId").references(() => orders.id, {
     onDelete: "cascade",
   }),
-  userProfileId: integer("userProfileId").references(() => profiles.id, {
+  userProfileId: uuid("userProfileId").references(() => profiles.id, {
     onDelete: "cascade",
   }),
 })

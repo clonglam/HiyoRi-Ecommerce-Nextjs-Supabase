@@ -11,6 +11,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
     STRIPE_SECRET_KEY: z.string(),
     STRIPE_WEBHOOK_SECERT_KEY: z.string(),
+    DATABASE_SERVICE_ROLE: z.string(),
   },
 
   /**
@@ -35,6 +36,7 @@ export const env = createEnv({
 
   runtimeEnv: {
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    DATABASE_SERVICE_ROLE: process.env.DATABASE_SERVICE_ROLE,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     DATABASE_URL: process.env.DATABASE_URL,
     NEXT_PUBLIC_SUPABASE_PROJECT_REF:

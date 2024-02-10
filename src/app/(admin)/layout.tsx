@@ -10,7 +10,6 @@ function StoreLayout({ children }: Props) {
     <main>
       <Navbar adminLayout={true} />
       {children}
-      <CartSheet />
       <MainFooter />
     </main>
   )

@@ -3,10 +3,14 @@ import React, { useState } from "react"
 import { Button } from "../ui/button"
 import { Icons } from "../icons"
 import { createClient } from "@/lib/supabase/client"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/lib/providers/AuthProvider"
 
 function OAuthLoginButtons() {
   const [isLoading, setIsLoading] = useState(false)
   const supabase = createClient()
+  const router = useRouter()
+  const user = useAuth()
 
   const signWithGoogle = async () => {
     setIsLoading(true)
@@ -15,8 +19,10 @@ function OAuthLoginButtons() {
       provider: "google",
     })
 
+    if (error) {
+      router.push("/sign-in")
+    }
     console.log("data", data)
-    console.log("error", error)
 
     setIsLoading(false)
   }

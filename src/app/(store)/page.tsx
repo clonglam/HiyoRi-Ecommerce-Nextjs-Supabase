@@ -1,3 +1,4 @@
+import TestToastButton from "@/components/TestToastButton"
 import CollectionsCard, {
   CollectionsCardSkeleton,
 } from "@/components/landing/CollectionsCard"
@@ -88,7 +89,7 @@ export default async function Home() {
           </Suspense>
         </div>
       </section>
-
+      <TestToastButton />
       <section className="max-w-[1920px] mx-auto h-[620px] md:h-[580px] bg-[#FFF8EE] grid grid-cols-12 my-16">
         <div className="relative w-full h-[340px] md:h-[580px] col-span-12 md:col-span-8 overflow-hidden">
           <Image

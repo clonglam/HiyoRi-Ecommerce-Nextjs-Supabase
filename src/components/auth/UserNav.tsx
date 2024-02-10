@@ -16,18 +16,25 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
-import createClient from "@/lib/supabase/client"
+import sbc from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
+import { User } from "@supabase/supabase-js"
 
-function UserNav() {
-  const { user } = useAuth()
+interface UserNavProps {
+  currentUser: User | null
+  isAdmin: boolean
+}
+
+function UserNav({ currentUser, isAdmin }: UserNavProps) {
   const router = useRouter()
-  const supabase = createClient()
+  const { user } = useAuth()
 
   const logout = () => {
-    supabase.auth.signOut()
+    sbc.auth.signOut()
     router.refresh()
   }
+
+  console.log("user", user)
   return (
     <>
       {user ? (
@@ -73,7 +80,28 @@ function UserNav() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem onClick={() => supabase.auth.signOut()}>
+            {isAdmin === true && (
+              <DropdownMenuGroup>
+                <Link href="/admin">
+                  <DropdownMenuItem>
+                    Admin
+                    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                </Link>
+                <DropdownMenuItem>
+                  Billing
+                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  Settings
+                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem>New Team</DropdownMenuItem>
+              </DropdownMenuGroup>
+            )}
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem onClick={logout}>
               Log out
               <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
             </DropdownMenuItem>

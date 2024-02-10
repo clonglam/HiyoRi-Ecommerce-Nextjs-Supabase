@@ -21,9 +21,9 @@ import { Input } from "@/components/ui/input"
 
 import { useToast } from "../ui/use-toast"
 import { PasswordInput } from "./PasswordInput"
-import { authSchema } from "./schema"
+import { signupSchema } from "./schema"
 
-type Inputs = z.infer<typeof authSchema>
+type Inputs = z.infer<typeof signupSchema>
 
 export function SignUpForm() {
   const router = useRouter()
@@ -33,19 +33,25 @@ export function SignUpForm() {
   const [isLoading, setIsLoading] = React.useState(false)
 
   const form = useForm<Inputs>({
-    resolver: zodResolver(authSchema),
+    resolver: zodResolver(signupSchema),
     defaultValues: {
+      name: searchParams.get("name") || "",
       email: searchParams.get("email") || "",
       password: searchParams.get("password") || "",
     },
   })
 
-  async function onSubmit({ email, password }: Inputs) {
+  async function onSubmit({ email, password, name }: Inputs) {
     setIsLoading(true)
 
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          name,
+        },
+      },
     })
     const from = searchParams?.get("from")
 
@@ -70,6 +76,20 @@ export function SignUpForm() {
         className="grid gap-4"
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="How should we call you?" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="email"

@@ -7,11 +7,16 @@ import { SideMenu } from "./SideMenu"
 
 import NavLinkButton from "./NavLinkButton"
 import { cn } from "@/lib/utils"
+import { getCurrentUser, isAdmin } from "@/_actions/users"
 
 interface MainNavbarProps {
   adminLayout?: boolean
 }
 async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
+  const currentUser = await getCurrentUser()
+
+  // const admin = await isAdmin(currentUser)
+
   return (
     <nav
       className={cn(
@@ -30,7 +35,7 @@ async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
 
         {/* Nav Action */}
         <div className="flex gap-x-5 relative items-center">
-          <UserNav />
+          <UserNav currentUser={currentUser} isAdmin={false} />
 
           <NavLinkButton href={"/wish-list"}>
             <Icons.heart className="w-4 h-4" aria-label="wishlist" />

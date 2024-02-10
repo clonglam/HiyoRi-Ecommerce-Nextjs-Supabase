@@ -936,8 +936,8 @@ type collections implements Node {
   id: Int!
   label: String!
   slug: String!
-  featured_image_id: Int!
   order: Int
+  featured_image_id: Int!
   medias: medias!
   productsCollection(
     """Query the first `n` records in the collection"""
@@ -982,8 +982,8 @@ input collectionsFilter {
   id: IntFilter
   label: StringFilter
   slug: StringFilter
-  featured_image_id: IntFilter
   order: IntFilter
+  featured_image_id: IntFilter
   nodeId: IDFilter
 
   """
@@ -1003,8 +1003,8 @@ input collectionsFilter {
 input collectionsInsertInput {
   label: String
   slug: String
-  featured_image_id: Int
   order: Int
+  featured_image_id: Int
 }
 
 type collectionsInsertResponse {
@@ -1019,15 +1019,15 @@ input collectionsOrderBy {
   id: OrderByDirection
   label: OrderByDirection
   slug: OrderByDirection
-  featured_image_id: OrderByDirection
   order: OrderByDirection
+  featured_image_id: OrderByDirection
 }
 
 input collectionsUpdateInput {
   label: String
   slug: String
-  featured_image_id: Int
   order: Int
+  featured_image_id: Int
 }
 
 type collectionsUpdateResponse {
@@ -1136,6 +1136,25 @@ type medias implements Node {
   alt: String!
   created_at: Datetime
   updated_at: Datetime
+  collectionsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: collectionsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [collectionsOrderBy!]
+  ): collectionsConnection
   product_mediasCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1174,25 +1193,6 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [productsOrderBy!]
   ): productsConnection
-  collectionsCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: collectionsFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [collectionsOrderBy!]
-  ): collectionsConnection
 }
 
 type mediasConnection {
@@ -1277,12 +1277,12 @@ type orders implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
   id: String!
-  amount_subtotal: Int!
   amount_total: Int!
+  amount_subtotal: Int!
+  payment_status: String!
   email: String
   name: String!
   payment_method_types: String!
-  payment_status: String!
   userId: UUID!
   created_at: Datetime!
   addressCollection(
@@ -1326,12 +1326,12 @@ type ordersEdge {
 
 input ordersFilter {
   id: StringFilter
-  amount_subtotal: IntFilter
   amount_total: IntFilter
+  amount_subtotal: IntFilter
+  payment_status: StringFilter
   email: StringFilter
   name: StringFilter
   payment_method_types: StringFilter
-  payment_status: StringFilter
   userId: UUIDFilter
   created_at: DatetimeFilter
   nodeId: IDFilter
@@ -1352,12 +1352,12 @@ input ordersFilter {
 
 input ordersInsertInput {
   id: String
-  amount_subtotal: Int
   amount_total: Int
+  amount_subtotal: Int
+  payment_status: String
   email: String
   name: String
   payment_method_types: String
-  payment_status: String
   userId: UUID
   created_at: Datetime
 }
@@ -1372,24 +1372,24 @@ type ordersInsertResponse {
 
 input ordersOrderBy {
   id: OrderByDirection
-  amount_subtotal: OrderByDirection
   amount_total: OrderByDirection
+  amount_subtotal: OrderByDirection
+  payment_status: OrderByDirection
   email: OrderByDirection
   name: OrderByDirection
   payment_method_types: OrderByDirection
-  payment_status: OrderByDirection
   userId: OrderByDirection
   created_at: OrderByDirection
 }
 
 input ordersUpdateInput {
   id: String
-  amount_subtotal: Int
   amount_total: Int
+  amount_subtotal: Int
+  payment_status: String
   email: String
   name: String
   payment_method_types: String
-  payment_status: String
   userId: UUID
   created_at: Datetime
 }
@@ -1409,8 +1409,8 @@ type product_medias implements Node {
   productId: Int!
   mediaId: Int!
   priority: Int
-  media: medias!
   product: products!
+  media: medias!
 }
 
 type product_mediasConnection {
@@ -1492,21 +1492,21 @@ type products implements Node {
   nodeId: ID!
   id: Int!
   name: String!
+  slug: String!
   description: String
+  featured: Boolean
+  badge: String
   rating: BigFloat!
   tags: JSON!
-  created_at: Datetime!
-  storeId: Int!
-  collection_id: Int
-  featured_image_id: Int!
-  slug: String!
-  badge: String
-  featured: Boolean
   price: BigFloat!
   totalComments: Int!
+  created_at: Datetime!
+  storeId: Int
+  collection_id: Int
+  featured_image_id: Int!
   medias: medias!
   collections: collections
-  user_wishlistCollection(
+  cartsCollection(
     """Query the first `n` records in the collection"""
     first: Int
 
@@ -1520,11 +1520,11 @@ type products implements Node {
     after: Cursor
 
     """Filters to apply to the results set when querying from the collection"""
-    filter: user_wishlistFilter
+    filter: cartsFilter
 
     """Sort order to apply to the collection"""
-    orderBy: [user_wishlistOrderBy!]
-  ): user_wishlistConnection
+    orderBy: [cartsOrderBy!]
+  ): cartsConnection
   commentsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1563,7 +1563,7 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [product_mediasOrderBy!]
   ): product_mediasConnection
-  cartsCollection(
+  user_wishlistCollection(
     """Query the first `n` records in the collection"""
     first: Int
 
@@ -1577,11 +1577,11 @@ type products implements Node {
     after: Cursor
 
     """Filters to apply to the results set when querying from the collection"""
-    filter: cartsFilter
+    filter: user_wishlistFilter
 
     """Sort order to apply to the collection"""
-    orderBy: [cartsOrderBy!]
-  ): cartsConnection
+    orderBy: [user_wishlistOrderBy!]
+  ): user_wishlistConnection
 }
 
 type productsConnection {
@@ -1605,17 +1605,17 @@ type productsEdge {
 input productsFilter {
   id: IntFilter
   name: StringFilter
+  slug: StringFilter
   description: StringFilter
+  featured: BooleanFilter
+  badge: StringFilter
   rating: BigFloatFilter
+  price: BigFloatFilter
+  totalComments: IntFilter
   created_at: DatetimeFilter
   storeId: IntFilter
   collection_id: IntFilter
   featured_image_id: IntFilter
-  slug: StringFilter
-  badge: StringFilter
-  featured: BooleanFilter
-  price: BigFloatFilter
-  totalComments: IntFilter
   nodeId: IDFilter
 
   """
@@ -1634,18 +1634,18 @@ input productsFilter {
 
 input productsInsertInput {
   name: String
+  slug: String
   description: String
+  featured: Boolean
+  badge: String
   rating: BigFloat
   tags: JSON
+  price: BigFloat
+  totalComments: Int
   created_at: Datetime
   storeId: Int
   collection_id: Int
   featured_image_id: Int
-  slug: String
-  badge: String
-  featured: Boolean
-  price: BigFloat
-  totalComments: Int
 }
 
 type productsInsertResponse {
@@ -1659,33 +1659,33 @@ type productsInsertResponse {
 input productsOrderBy {
   id: OrderByDirection
   name: OrderByDirection
+  slug: OrderByDirection
   description: OrderByDirection
+  featured: OrderByDirection
+  badge: OrderByDirection
   rating: OrderByDirection
+  price: OrderByDirection
+  totalComments: OrderByDirection
   created_at: OrderByDirection
   storeId: OrderByDirection
   collection_id: OrderByDirection
   featured_image_id: OrderByDirection
-  slug: OrderByDirection
-  badge: OrderByDirection
-  featured: OrderByDirection
-  price: OrderByDirection
-  totalComments: OrderByDirection
 }
 
 input productsUpdateInput {
   name: String
+  slug: String
   description: String
+  featured: Boolean
+  badge: String
   rating: BigFloat
   tags: JSON
+  price: BigFloat
+  totalComments: Int
   created_at: Datetime
   storeId: Int
   collection_id: Int
   featured_image_id: Int
-  slug: String
-  badge: String
-  featured: Boolean
-  price: BigFloat
-  totalComments: Int
 }
 
 type productsUpdateResponse {
@@ -1702,27 +1702,9 @@ type profiles implements Node {
   id: Int!
   name: String
   email: String
-  userId: UUID
+  role: String
+  userId: UUID!
   created_at: Datetime!
-  commentsCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: commentsFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [commentsOrderBy!]
-  ): commentsConnection
   addressCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1742,6 +1724,25 @@ type profiles implements Node {
     """Sort order to apply to the collection"""
     orderBy: [addressOrderBy!]
   ): addressConnection
+  commentsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: commentsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [commentsOrderBy!]
+  ): commentsConnection
 }
 
 type profilesConnection {
@@ -1766,6 +1767,7 @@ input profilesFilter {
   id: IntFilter
   name: StringFilter
   email: StringFilter
+  role: StringFilter
   userId: UUIDFilter
   created_at: DatetimeFilter
   nodeId: IDFilter
@@ -1787,6 +1789,7 @@ input profilesFilter {
 input profilesInsertInput {
   name: String
   email: String
+  role: String
   userId: UUID
   created_at: Datetime
 }
@@ -1803,6 +1806,7 @@ input profilesOrderBy {
   id: OrderByDirection
   name: OrderByDirection
   email: OrderByDirection
+  role: OrderByDirection
   userId: OrderByDirection
   created_at: OrderByDirection
 }
@@ -1810,6 +1814,7 @@ input profilesOrderBy {
 input profilesUpdateInput {
   name: String
   email: String
+  role: String
   userId: UUID
   created_at: Datetime
 }

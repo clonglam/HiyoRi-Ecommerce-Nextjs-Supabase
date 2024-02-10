@@ -17,11 +17,9 @@ import CheckoutButton from "./CheckoutButton"
 import EmptyCart from "./EmptyCart"
 import { Skeleton } from "../ui/skeleton"
 import { FetchCartQueryQuery } from "@/gql/graphql"
-import { useFragment } from "react-relay/relay-hooks/useFragment"
-import { FragmentType } from "relay-runtime"
 
 export const FetchCartQuery = gql(/* GraphQL */ `
-  fragment FetchCartQuery($userId: UUID, $first: Int, $after: Cursor) {
+  query FetchCartQuery($userId: UUID, $first: Int, $after: Cursor) {
     cartsCollection(
       first: $first
       filter: { userId: { eq: $userId } }
@@ -36,13 +34,10 @@ export const FetchCartQuery = gql(/* GraphQL */ `
     }
   }
 `)
-type Props = {
-  products: DocumentType<typeof FetchCartQuery>
-}
-function CartSection(props: Props) {
+
+function CartSection() {
   const { user } = useAuth()
 
-  const film = useFragment(FetchCartQuery, props.products)
   const [{ data, fetching, error }, refetch] = useQuery({
     query: FetchCartQuery,
     variables: {
