@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "graphql-codegen & next build",
     "start": "next start",
     "lint": "next lint",
     "db:generate": "drizzle-kit generate:pg --config=drizzle.config.ts",
@@ -14,7 +14,7 @@
     "db:seed": "tsx -r dotenv/config ./src/lib/supabase/seed.ts",
     "db:drop": "drizzle-kit drop --config=drizzle.config.ts",
     "codegen": "graphql-codegen",
-    "codegen:fetch": "node --no-warnings scripts/fetchGraphQLSchema ",
+    "codegen:fetch": "node --no-warnings scripts/fetchGraphQLSchema",
     "codegen:watch": "npm run codegen -- --watch"
   },
   "lint-staged": {
