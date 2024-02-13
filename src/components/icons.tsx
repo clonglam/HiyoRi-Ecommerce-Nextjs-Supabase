@@ -86,6 +86,7 @@ export const Icons = {
   hide: EyeOff,
   billing: CreditCard,
   store: ShoppingBag,
+  edit: Edit,
   // verticalThreeDots: MoreVertical,
   // horizontalThreeDots: MoreHorizontal,
   // verticalSliders: Sliders,
@@ -95,7 +96,6 @@ export const Icons = {
   // addCircle: PlusCircle,
 
   // trash: Trash,
-  // edit: Edit,
   // crop: Crop,
   // reset: RefreshCw,
   // downlaod: Download,

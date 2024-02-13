@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/form"
 
 import Link from "next/link"
-
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -28,10 +27,19 @@ import {
 } from "@/components/ui/select"
 import { Button, buttonVariants } from "@/components/ui/button"
 
-import { InsertProducts, SelectProducts, products } from "@/lib/supabase/schema"
+import {
+  InsertProducts,
+  SelectMedia,
+  SelectProducts,
+  products,
+} from "@/lib/supabase/schema"
 import { Icons } from "@/components/icons"
 import TagsField from "@/components/ui/tagsField"
 import FeaturedImageField from "@/components/media/FeaturedImageField"
+import ImageDialog from "@/components/media/ImageDialog"
+import { createProductAction, updateProductAction } from "@/_actions/products"
+import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 type ProductsFormProps = {
   product?: SelectProducts
@@ -39,9 +47,12 @@ type ProductsFormProps = {
 
 function ProductFrom({ product }: ProductsFormProps) {
   const [isPending, startTransition] = useTransition()
+  const router = useRouter()
+  const { toast } = useToast()
 
   const form = useForm<InsertProducts>({
     resolver: zodResolver(createInsertSchema(products)),
+    defaultValues: { ...product },
   })
 
   const {
@@ -52,16 +63,24 @@ function ProductFrom({ product }: ProductsFormProps) {
   } = form
 
   const onSubmit = handleSubmit(async (data: InsertProducts) => {
-    console.log("data", data)
-
     startTransition(async () => {
-      // try {
-      //   category
-      //     ? await editCategoryAction(category.id, data)
-      //     : await addCategoryAction(data)
-      // } catch (err) {
-      //   console.log("unexpected Error Occured")
-      // }
+      try {
+        product
+          ? await updateProductAction(product.id, data)
+          : await createProductAction(data)
+
+        router.push("/admin/products")
+        router.refresh()
+
+        toast({
+          title: `Product is ${product ? "updated" : "created"}.`,
+          description: `${data.name}`,
+        })
+      } catch (err) {
+        console.log("err", err)
+        console.log("unexpected Error Occured")
+        toast
+      }
     })
   })
 
@@ -69,15 +88,14 @@ function ProductFrom({ product }: ProductsFormProps) {
     <Form {...form}>
       <form
         id="project-form"
-        className="gap-x-5 flex gap-y-5 flex-col"
+        className="gap-x-5 flex gap-y-5 flex-col px-3"
         onSubmit={onSubmit}
       >
-        <div className="flex flex-col gap-y-5">
+        <div className="flex flex-col gap-y-5 max-w-[500px]">
           <FormItem>
             <FormLabel className="text-sm">name*</FormLabel>
             <FormControl>
               <Input
-                defaultValue={product?.name}
                 aria-invalid={!!form.formState.errors.name}
                 placeholder="Type Product Name."
                 {...register("name")}
@@ -150,6 +168,7 @@ function ProductFrom({ product }: ProductsFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
+                    <SelectItem value={null}>-</SelectItem>
                     <SelectItem value="new_product">New Product</SelectItem>
                     <SelectItem value="best_sale">Best Sale</SelectItem>
                     <SelectItem value="featured">featured</SelectItem>
@@ -197,29 +216,26 @@ function ProductFrom({ product }: ProductsFormProps) {
             <FormMessage />
           </FormItem>
 
-          <FormItem>
-            <FormLabel className="text-sm">FeaturedImageId*</FormLabel>
-            <FormControl>
-              <Input
-                defaultValue={product?.featuredImageId}
-                aria-invalid={!!form.formState.errors.featuredImageId}
-                placeholder="featuredImageId"
-                {...register("featuredImageId", { valueAsNumber: true })}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
+          <FormField
+            control={form.control}
+            name="featuredImageId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Featured Image*</FormLabel>
+                <ImageDialog
+                  defaultValue={product?.featuredImageId}
+                  onChange={field.onChange}
+                  value={field.value}
+                />
 
-          <FormItem>
-            <FormLabel className="text-sm">Featured Image</FormLabel>
-            <FormControl>
-              <FeaturedImageField
-                name={"featuredImage"}
-                defaultValue={product?.featuredImageId}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
+                <FormDescription>
+                  Drag n Drop the image to above section or click the button to
+                  select from Image gallery.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         <div className="py-8 flex gap-x-5 items-center">

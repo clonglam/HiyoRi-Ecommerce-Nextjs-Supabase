@@ -3,10 +3,16 @@ import { env } from "@/env.mjs"
 import { CookieOptions, createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
 
-export function createClient(cookieStore: ReturnType<typeof cookies>) {
+export function createClient({
+  cookieStore,
+  isAdmin = false,
+}: {
+  cookieStore: ReturnType<typeof cookies>
+  isAdmin?: boolean
+}) {
   return createServerClient(
     `https://${env.NEXT_PUBLIC_SUPABASE_PROJECT_REF}.supabase.co`,
-    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    isAdmin ? env.DATABASE_SERVICE_ROLE : env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         get(name: string) {

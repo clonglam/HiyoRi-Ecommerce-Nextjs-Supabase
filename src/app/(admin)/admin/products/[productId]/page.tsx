@@ -1,50 +1,33 @@
-// import { db } from "@/db"
-// import { eq } from "drizzle-orm"
-// import { notFound } from "next/navigation"
-
-// import DashboardWrapper from "@/components/dashboard/DashboardWrapper"
-
-// import { buttonVariants } from "@/components/ui/button"
-// import { projects } from "@/db/schema/projects"
-// import { Link } from "lucide-react"
-// import ProjectForm from "@/components/dashboard/projects/ProjectForm"
+import AdminShell from "@/components/admin/AdminShell"
+import ProductForm from "@/components/admin/products/ProductForm"
+import db from "@/lib/supabase/db"
+import { products } from "@/lib/supabase/schema"
+import { eq } from "drizzle-orm"
+import { notFound } from "next/navigation"
 
 type EditProjectPageProps = {
   params: {
-    projectId: string
+    productId: string
   }
 }
 
 async function EditProjectPage({
-  params: { projectId },
+  params: { productId },
 }: EditProjectPageProps) {
-  // const project = await db.query.projects.findFirst({
-  //   where: eq(projects.id, projectId),
-  //   with: {
-  //     projectsToCategories: { with: { category: true } },
-  //   },
-  // })
-
-  // const categories = await db.query.categories.findMany()
-
-  // if (!project || !categories) return notFound()
+  const product = await db.query.products.findFirst({
+    where: eq(products.id, parseInt(productId)),
+  })
+  if (!product) return notFound()
 
   return (
-    <></>
-    // <DashboardWrapper
-    //   header="Edit Project"
-    //   description="You can add/edit the project from the dashboard"
-    //   sectionAction={
-    //     <Link
-    //       href="/admin/projects"
-    //       className={buttonVariants({ variant: "dark" })}
-    //     >
-    //       Back
-    //     </Link>
-    //   }
-    // >
-    //   <ProjectForm project={project} categories={categories} />
-    // </DashboardWrapper>
+    <AdminShell
+      heading="Add Project"
+      description="Input the field below, after that press Add Project button to save the project."
+    >
+      <div className="">
+        <ProductForm product={product} />
+      </div>
+    </AdminShell>
   )
 }
 

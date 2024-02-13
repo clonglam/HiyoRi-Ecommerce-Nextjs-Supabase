@@ -20,12 +20,14 @@ import { Input } from "@/components/ui/input"
 import { createClient } from "@/lib/supabase/client"
 import { PasswordInput } from "./PasswordInput"
 import { authSchema } from "./schema"
+import { useToast } from "../ui/use-toast"
 
 type Inputs = z.infer<typeof authSchema>
 
 export function SignInForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { toast } = useToast()
   const supabase = createClient()
   const [isPending, startTransition] = React.useTransition()
 
@@ -39,15 +41,17 @@ export function SignInForm() {
 
   async function onSubmit({ email, password }: Inputs) {
     try {
-      await supabase.auth.signInWithPassword({
+      const user = await supabase.auth.signInWithPassword({
         email,
         password,
       })
 
+      console.log("user", user)
+      toast({ title: "Login Sucess" })
       router.push(searchParams?.get("from") || "/")
     } catch (err) {
       const unknownError = "Something went wrong, please try again."
-      // router.push()
+      toast({ title: "Error", description: unknownError })
     }
   }
 

@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { gql, DocumentType } from "@/gql"
 
-export const ProductsTableFragment = gql(/* GraphQL */ `
-  fragment ProductsTableFragment on products {
+export const ProductColumnFragment = gql(/* GraphQL */ `
+  fragment ProductColumnFragment on products {
     id
     name
     description
@@ -22,6 +22,8 @@ export const ProductsTableFragment = gql(/* GraphQL */ `
     slug
     badge
     price
+    badge
+    featured
     featuredImage: medias {
       id
       key
@@ -36,18 +38,18 @@ export const ProductsTableFragment = gql(/* GraphQL */ `
 `)
 
 export const ProductsColumns: ColumnDef<{
-  node: DocumentType<typeof ProductsTableFragment>
+  node: DocumentType<typeof ProductColumnFragment>
 }>[] = [
   {
     accessorKey: "name",
-    header: () => <div className="text-left capitalize">Label</div>,
+    header: () => <div className="text-left capitalize">Product Name</div>,
     cell: ({ row }) => {
       const product = row.original.node
 
       return (
         <Link
-          href={`categories/${product.id}`}
-          className="text-center font-medium capitalize px-3"
+          href={`/admin/products/${product.id}`}
+          className="text-center font-medium capitalize px-3 hover:underline"
         >
           {product.name}
         </Link>
@@ -61,6 +63,28 @@ export const ProductsColumns: ColumnDef<{
       const product = row.original.node
 
       return <div className="font-medium">{product.slug}</div>
+    },
+  },
+  {
+    accessorKey: "Collection",
+    header: () => <div className="">Collection</div>,
+    cell: ({ row }) => {
+      const product = row.original.node
+
+      return (
+        <div className="font-medium">
+          {product.collections ? product.collections.label : "-"}
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "featured",
+    header: () => <div className="">Featured</div>,
+    cell: ({ row }) => {
+      const product = row.original.node
+
+      return <div className="font-medium">{`${product.featured}`}</div>
     },
   },
   {
@@ -96,7 +120,7 @@ export const ProductsColumns: ColumnDef<{
               href={`/admin/products/${product.id}`}
               className={buttonVariants({ variant: "ghost" })}
             >
-              Edit Category
+              Edit Product
             </Link>
             {/* <DeleteCategoryDialog categoryId={category.id} /> */}
           </DropdownMenuContent>

@@ -21,11 +21,11 @@ import { useRouter } from "next/navigation"
 import { User } from "@supabase/supabase-js"
 
 interface UserNavProps {
-  currentUser: User | null
-  isAdmin: boolean
+  // currentUser: User | null
+  // isAdmin: boolean
 }
 
-function UserNav({ currentUser, isAdmin }: UserNavProps) {
+function UserNav({}: UserNavProps) {
   const router = useRouter()
   const { user } = useAuth()
 
@@ -80,7 +80,7 @@ function UserNav({ currentUser, isAdmin }: UserNavProps) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
 
-            {isAdmin === true && (
+            {user.role === "ADMIN" && (
               <DropdownMenuGroup>
                 <Link href="/admin">
                   <DropdownMenuItem>

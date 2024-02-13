@@ -8,7 +8,7 @@ import createServerClient from "@/lib/supabase/server"
 
 export async function login(data: { email: string; password: string }) {
   const cookieStore = cookies()
-  const supabase = createServerClient(cookieStore)
+  const supabase = createServerClient({ cookieStore })
 
   const { error } = await supabase.auth.signInWithPassword(data)
 
@@ -22,7 +22,7 @@ export async function login(data: { email: string; password: string }) {
 
 export async function signup(formData: FormData) {
   const cookieStore = cookies()
-  const supabase = createServerClient(cookieStore)
+  const supabase = createServerClient({ cookieStore })
 
   // type-casting here for convenience
   // in practice, you should validate your inputs

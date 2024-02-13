@@ -25,7 +25,6 @@ export const Dropzone: FC<DropzoneProps> = ({
     ...rest,
   })
 
-  console.log("previewUrl", previewUrl)
   return (
     <div className="dropzone-section">
       <div {...getRootProps()} className="dropzone-container">

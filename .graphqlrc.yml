@@ -3,7 +3,7 @@ documents: ./src/**/*.{graphql,js,ts,jsx,tsx}
 extensions:
   codegen:
     generates:
-      ./src/app/gql:
+      ./src/gql:
         preset: gql-tag-operations-preset
     hooks:
       afterOneFileWrite:

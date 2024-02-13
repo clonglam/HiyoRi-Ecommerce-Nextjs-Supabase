@@ -13,10 +13,6 @@ interface MainNavbarProps {
   adminLayout?: boolean
 }
 async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
-  const currentUser = await getCurrentUser()
-
-  // const admin = await isAdmin(currentUser)
-
   return (
     <nav
       className={cn(
@@ -35,7 +31,7 @@ async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
 
         {/* Nav Action */}
         <div className="flex gap-x-5 relative items-center">
-          <UserNav currentUser={currentUser} isAdmin={false} />
+          <UserNav />
 
           <NavLinkButton href={"/wish-list"}>
             <Icons.heart className="w-4 h-4" aria-label="wishlist" />

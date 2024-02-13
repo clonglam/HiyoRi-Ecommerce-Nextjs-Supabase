@@ -15,36 +15,26 @@ async function MediasPage({}: Props) {
       heading="Medias"
       description="You can add/edit the medias from the dashboard"
     >
-      <div
-        className="grid max-w-[1200px] mx-auto gap-3 gap-y-5"
-        style={{
-          gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-        }}
-      >
+      <div className="grid max-w-[1200px] mx-auto gap-3 gap-y-5 grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8">
         <Link
           href={"/admin/medias/new"}
-          className=" h-[120px] border-2 border-dashed border-zinc-400 text-zinc-400 flex flex-col justify-center items-center"
+          className=" h-[120px] w-[120px] border-2 border-dashed border-zinc-400 text-zinc-400 flex flex-col justify-center items-center"
         >
           <Icons.add size={32} />
           <p className="text-sm">Add media</p>
         </Link>
 
         {medias.map((media) => (
-          <Link
-            href={`/admin/medias/${media.id}`}
-            className="object-contain object-center group relative h-[120px] w-[120px]"
-            key={media.key}
-          >
-            <Image
-              src={keytoUrl(media.key)}
-              alt={media.alt}
-              width={120}
-              height={120}
-              style={{
-                objectFit: "cover", // cover, contain, none
-              }}
-              className="group-hover:opacity-30 transition-all duration-300 object-contain"
-            />
+          <Link href={`/admin/medias/${media.id}`} key={media.key}>
+            <div className="object-center group relative h-[120px] w-[120px]">
+              <Image
+                src={keytoUrl(media.key)}
+                alt={media.alt}
+                width={120}
+                height={120}
+                className="group-hover:opacity-30 transition-all duration-300 h-[120px] w-[120px] object-cover"
+              />
+            </div>
           </Link>
         ))}
       </div>

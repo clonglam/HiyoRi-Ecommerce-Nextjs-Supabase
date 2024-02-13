@@ -3,11 +3,9 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "next/core-web-vitals",
-    "plugin:relay/recommended"
+    "next/core-web-vitals"
   ],
   "rules": {
-    "relay/generated-flow-types": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
@@ -15,6 +13,5 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "no-empty-pattern": "off",
     "no-case-declarations": "off"
-  },
-  "plugins": ["relay"]
+  }
 }

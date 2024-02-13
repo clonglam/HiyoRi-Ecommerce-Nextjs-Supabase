@@ -13,7 +13,7 @@ export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   const cookieStore = cookies()
-  const supabase = createServerClient(cookieStore)
+  const supabase = createServerClient({ cookieStore })
 
   const {
     data: { user },

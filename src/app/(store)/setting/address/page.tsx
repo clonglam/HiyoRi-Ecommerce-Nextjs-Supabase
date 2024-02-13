@@ -10,7 +10,7 @@ import { Suspense } from "react"
 
 async function CartPage() {
   const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+  const supabase = createClient({ cookieStore })
 
   const {
     data: { user },

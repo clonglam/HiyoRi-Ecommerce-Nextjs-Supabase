@@ -31,6 +31,9 @@ export const profiles = pgTable("profiles", {
     .notNull(),
 })
 
+export type SelectUserProfiles = InferSelectModel<typeof profiles>
+export type InsertUserProfiles = InferInsertModel<typeof profiles>
+
 export const carts = pgTable(
   "carts",
   {
@@ -153,7 +156,6 @@ export const products = pgTable(
     totalComments: integer("totalComments").default(0).notNull(),
     createdAt: timestamp("created_at", {
       withTimezone: true,
-      mode: "string",
     })
       .defaultNow()
       .notNull(),
@@ -180,6 +182,13 @@ export const products = pgTable(
   }
 )
 
+export const productsRelations = relations(products, ({ one }) => ({
+  featuredImage: one(productMedias, {
+    fields: [products.featuredImageId],
+    references: [productMedias.id],
+  }),
+}))
+
 export const orders = pgTable("orders", {
   id: text("id").primaryKey(),
   amountTotal: integer("amount_total").notNull(),
@@ -191,7 +200,6 @@ export const orders = pgTable("orders", {
   userId: uuid("userId").notNull(),
   createdAt: timestamp("created_at", {
     withTimezone: true,
-    mode: "string",
   })
     .defaultNow()
     .notNull(),
@@ -301,6 +309,9 @@ export const medias = pgTable("medias", {
   createdAt: timestamp("created_at", { mode: "string" }).defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }).defaultNow(),
 })
+
+export type SelectMedia = InferSelectModel<typeof medias>
+export type InsertMedia = InferInsertModel<typeof medias>
 
 // https://stackoverflow.com/questions/24923469/modeling-product-variants
 
