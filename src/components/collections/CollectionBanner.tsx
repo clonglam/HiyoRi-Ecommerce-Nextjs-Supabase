@@ -1,5 +1,5 @@
 import { gql, DocumentType } from "@/gql"
-import { keytoUrl } from "@/lib/s3/s3"
+import { keytoUrl } from "@/lib/utils"
 import Image from "next/image"
 import React from "react"
 

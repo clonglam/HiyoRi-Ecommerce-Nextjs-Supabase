@@ -2,8 +2,9 @@ import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { gql, DocumentType } from "@/gql"
-import { keytoUrl } from "@/lib/s3/s3"
+
 import { Skeleton } from "../ui/skeleton"
+import { keytoUrl } from "@/lib/utils"
 
 const CollectionCardFragment = gql(/* GraphQL */ `
   fragment CollectionCardFragment on collections {

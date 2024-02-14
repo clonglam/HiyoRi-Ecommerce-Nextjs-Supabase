@@ -1,11 +1,12 @@
 "use client"
 import React, { useState } from "react"
 import { gql, DocumentType } from "@/gql"
-import { keytoUrl } from "@/lib/s3/s3"
+
 import Image from "next/image"
 import { Medias } from "@/gql/graphql"
 import medias from "@/lib/supabase/seedData/medias"
 import { Icons } from "../icons"
+import { keytoUrl } from "@/lib/utils"
 
 type ProductImageShowcaseProps = React.HTMLAttributes<HTMLDivElement> & {
   data: DocumentType<typeof ProductImageShowcaseFragment>

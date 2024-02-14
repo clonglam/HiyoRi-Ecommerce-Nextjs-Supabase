@@ -1,7 +1,8 @@
 import { getMedias } from "@/_actions/medias"
 import AdminShell from "@/components/admin/AdminShell"
 import { Icons } from "@/components/icons"
-import { keytoUrl } from "@/lib/s3/s3"
+import { keytoUrl } from "@/lib/utils"
+
 import Image from "next/image"
 import Link from "next/link"
 

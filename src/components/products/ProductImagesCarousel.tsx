@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Image from "next/image"
-import { keytoUrl } from "@/lib/s3/s3"
+import { keytoUrl } from "@/lib/utils"
 
 type ProductImagesCarouselProps = React.ComponentProps<typeof Carousel> & {
   images: DocumentType<typeof CarouselImagesFragment>[]

@@ -1,6 +1,14 @@
 import React, { ReactNode } from "react"
-import CloseButton from "./CloseButton"
 import { cn } from "@/lib/utils"
+import CloseButton from "./CloseButton"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 type Props = {
   header: string
@@ -10,26 +18,29 @@ type Props = {
 
 function Modal({ header, containerClassName, children }: Props) {
   return (
-    <div
+    <section
       className={cn(
         "fixed z-50 inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"
       )}
     >
-      <div
+      <Card
         className={cn(
-          "relative top-20 mx-auto p-5 border container w-full shadow-lg rounded-md bg-white min-h-[680px]",
+          "relative max-w-full inset-0 md:inset-20 md:max-w-2xl lg:max-w-[960px] xl:max-w-[1080px] top-20 mx-auto p-5 border container w-full shadow-lg rounded-md bg-white min-h-[480px]",
           containerClassName
         )}
       >
-        <div className="mb-5">
+        <CardHeader className="p-0 mb-3 md:mb-5">
           <h1 className="font-semibold text-lg leading-5 tracking-tight">
             {header}
           </h1>
           <CloseButton />
-        </div>
-        {children}
-      </div>
-    </div>
+        </CardHeader>
+
+        <CardContent className="relative p-0 mb-5 overflow-hidden">
+          {children}
+        </CardContent>
+      </Card>
+    </section>
   )
 }
 

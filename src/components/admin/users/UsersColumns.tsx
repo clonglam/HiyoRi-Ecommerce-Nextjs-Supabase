@@ -32,6 +32,14 @@ export const UsersColumns: ColumnDef<User>[] = [
     },
   },
   {
+    accessorKey: "name",
+    header: () => <div className="text-left capitalize">Name</div>,
+    cell: ({ row }) => {
+      const user = row.original
+      return <p>{user.user_metadata.name || "-"}</p>
+    },
+  },
+  {
     accessorKey: "email",
     header: () => <div className="text-left capitalize">Email</div>,
     cell: ({ row }) => {
@@ -47,56 +55,38 @@ export const UsersColumns: ColumnDef<User>[] = [
       return <p>{user.role}</p>
     },
   },
-  // {
-  //   accessorKey: "slug",
-  //   header: () => <div className="">Slug</div>,
-  //   cell: ({ row }) => {
-  //     const product = row.original.node
 
-  //     return <div className="font-medium">{product.slug}</div>
-  //   },
-  // },
-  // {
-  //   accessorKey: "price",
-  //   header: () => <div className="">Price</div>,
-  //   cell: ({ row }) => {
-  //     const product = row.original.node
+  {
+    id: "actions",
+    header: () => <div className="text-center capitalize">Actions</div>,
+    cell: ({ row }) => {
+      const product = row.original
 
-  //     return <div className="font-medium">{`$ ${product.price}`}</div>
-  //   },
-  // },
-  // {
-  //   id: "actions",
-  //   header: () => <div className="text-center capitalize">Actions</div>,
-  //   cell: ({ row }) => {
-  //     const product = row.original.node
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="start"
+            className="flex flex-col items-start"
+          >
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant="ghost" className="h-8 w-8 p-0">
-  //             <span className="sr-only">Open menu</span>
-  //             <MoreHorizontal className="h-4 w-4" />
-  //           </Button>
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent
-  //           align="start"
-  //           className="flex flex-col items-start"
-  //         >
-  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
-  //           <Link
-  //             href={`/admin/products/${product.id}`}
-  //             className={buttonVariants({ variant: "ghost" })}
-  //           >
-  //             Edit Category
-  //           </Link>
-  //           {/* <DeleteCategoryDialog categoryId={category.id} /> */}
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     )
-  //   },
-  // },
+            <Link
+              href={`/admin/products/${product.id}`}
+              className={buttonVariants({ variant: "ghost" })}
+            >
+              Edit User
+            </Link>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    },
+  },
 ]
 
 const DeleteCategoryDialog = ({ categoryId }: { categoryId: string }) => {

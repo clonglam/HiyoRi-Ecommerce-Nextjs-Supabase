@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs"
 import { clsx, type ClassValue } from "clsx"
 import dayjs from "dayjs"
 import { twMerge } from "tailwind-merge"
@@ -12,6 +13,12 @@ export const getURL = () => {
   url = url.includes("http") ? url : `https://${url}`
   url = url.charAt(url.length - 1) === "/" ? url : `${url}/`
   return url
+}
+
+export const keytoUrl = (key?: string) => {
+  return key
+    ? `https://${env.NEXT_PUBLIC_S3_BUCKET}.s3.${env.NEXT_PUBLIC_S3_REGION}.amazonaws.com/${key}`
+    : "https://hiyori-backpack.s3.us-west-2.amazonaws.com/public/bathroom-planning.jpg"
 }
 
 export function formatPrice(price: number | string) {

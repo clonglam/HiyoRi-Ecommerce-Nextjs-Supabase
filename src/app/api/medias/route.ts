@@ -1,66 +1,78 @@
+"use server"
+
+import { env } from "@/env.mjs"
+import { uploadImage } from "@/lib/s3/s3"
+import db from "@/lib/supabase/db"
+import { medias, productMedias } from "@/lib/supabase/schema"
+import { mediaSchema } from "@/validations/medias"
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3"
 import { nanoid } from "nanoid"
 import { NextRequest, NextResponse } from "next/server"
+import sharp from "sharp"
+import { z } from "zod"
 
 export async function POST(request: NextRequest) {
-  //   const session = await getServerSession(authOptions)
+  // const session = await getServerSession(authOptions)
   //   if (!session) return NextResponse.json({}, { status: 401 })
+  const formData = await request.formData()
+  const data = Object.fromEntries(formData) as z.infer<typeof mediaSchema>
+  const validation = mediaSchema.safeParse(data)
 
-  // const formData = await request.formData()
-  // const data = Object.fromEntries(formData) as ImageUploaderData
-  // const validation = imageSchema.safeParse(data)
+  if (validation.success === false) {
+    return NextResponse.json(validation.error.format(), { status: 400 })
+  }
 
-  // if (!validation.success)
-  //   return NextResponse.json(validation.error.format(), { status: 400 })
+  const uploadResponse = await Promise.all(
+    Object.entries(data).map(async ([index, file]) => {
+      const fileExtension = file.type.split("/")[1]
+      const key = nanoid() + "." + fileExtension
 
-  // const { buffer, mimeType } = await fileToStream(data)
-  // const fileExtension = mimeType.split("/")[1] // Extracts the subtype from the MIME type
-  // const key = nanoid() + "." + fileExtension // Appends the file extension to the nanoid
-
-  // const params = {
-  //   Bucket: "hugo-coding",
-  //   Key: key,
-  //   Body: buffer,
-  //   ContentType: mimeType, // Change the content type accordingly
-  // }
-
-  // const response = await uploadImage(params)
-
-  // const newMedia = await db
-  //   .insert(medias)
-  //   .values({
-  //     name: data.image.name,
-  //     key: key,
-  //   })
-  //   .returning()
-
-  return NextResponse.json(
-    {
-      data: "",
-    },
-    // {
-    //   data: newMedia[0],
-    //   preview: "https://hugo-coding.s3.us-west-1.amazonaws.com/" + key,
-    // },
-    { status: 201 }
+      const params = {
+        Bucket: env.NEXT_PUBLIC_S3_BUCKET,
+        Key: "public/" + key,
+        Body: Buffer.from(await file.arrayBuffer()),
+        ContentType: file.type,
+      }
+      console.log("params.Key", params.Key)
+      try {
+        const s3Response = await uploadImage(params)
+        if (s3Response) {
+          const insertedMedia = await db
+            .insert(medias)
+            .values({ alt: file.name, key: params.Key })
+            .returning()
+          console.log("insertedMedia", insertedMedia)
+          return { index, medias: insertedMedia }
+        }
+        return null
+      } catch (err) {
+        console.log("error", err)
+        return null
+      }
+    })
   )
+
+  console.log("uploadResponse", uploadResponse)
+
+  return NextResponse.json(uploadResponse, { status: 201 })
 }
 
-// const fileToStream = async ({ image, name }: ImageUploaderData) => {
-//   // Upload Image to S3 bucket
-//   const mimeType = image.type
-//   const buffer = Buffer.from(await image.arrayBuffer())
+const fileToStream = async (file: File) => {
+  // Upload Image to S3 bucket
+  const mimeType = file.type
+  const buffer = Buffer.from(await file.arrayBuffer())
 
-//   const imageBuffer = await sharp(buffer)
-//   const metadata = await imageBuffer.metadata()
+  const imageBuffer = await sharp(buffer)
+  const metadata = await imageBuffer.metadata()
 
-//   if (mimeType !== "image/gif")
-//     return {
-//       mimeType: "image/webp",
-//       buffer: await sharp(buffer).webp().toBuffer(),
-//     }
+  if (mimeType !== "image/gif")
+    return {
+      mimeType: "image/webp",
+      buffer: await sharp(buffer).webp().toBuffer(),
+    }
 
-//   return {
-//     mimeType: "image/gif",
-//     buffer,
-//   }
-// }
+  return {
+    mimeType: "image/gif",
+    buffer,
+  }
+}

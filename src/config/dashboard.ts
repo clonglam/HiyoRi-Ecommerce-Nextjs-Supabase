@@ -31,8 +31,14 @@ export const dashboardConfig: DashboardConfig = {
       items: [],
     },
     {
-      title: "Category",
-      href: "/admin/categories",
+      title: "Collections",
+      href: "/admin/collections",
+      icon: "billing",
+      items: [],
+    },
+    {
+      title: "Orders",
+      href: "/admin/orders",
       icon: "billing",
       items: [],
     },

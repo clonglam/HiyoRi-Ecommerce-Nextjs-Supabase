@@ -2,14 +2,17 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import React, { useState } from "react"
-import { useDropzone } from "react-dropzone"
-import { Icons } from "../icons"
+import { gql } from "@/gql"
+import { SelectMedia } from "@/lib/supabase/schema"
+import { FileWithPreview } from "@/types"
+import { useQuery } from "@urql/next"
+import React, { useEffect, useState } from "react"
+import { FileWithPath, useDropzone } from "react-dropzone"
+import { Icons } from "../../icons"
 import ImageGrid from "./ImageGrid"
 import ImagePreviewCard from "./ImagePreviewCard"
 
@@ -19,6 +22,16 @@ type Props = {
   multiple?: boolean
   value: number
 }
+export const FetchMediaGridQuery = gql(/* GraphQL */ `
+  query FetchMediaGridQuery($first: Int, $after: Cursor) {
+    mediasCollection(first: $first, after: $after) {
+      __typename
+      edges {
+        ...MediaGridFragment
+      }
+    }
+  }
+`)
 
 function ImageDialog({
   multiple = false,
@@ -26,19 +39,64 @@ function ImageDialog({
   onChange,
   value,
 }: Props) {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [files, setFiles] = useState<FileWithPreview[]>([])
   const [dialogOpen, setDialogOpen] = React.useState(false)
+
+  const [{ data, fetching, error }, refetch] = useQuery({
+    query: FetchMediaGridQuery,
+    variables: {
+      first: 15,
+    },
+  })
+
   const onClickHandler = (mediaId: number) => {
     onChange(mediaId)
     setDialogOpen(false)
   }
-  const onDrop = (data: any) => {
-    console.log("Recieved data", data)
+
+  const onDrop = async (acceptedFiles: FileWithPath[]) => {
+    console.log("Recieved data", acceptedFiles)
+
+    const uploadFiles = acceptedFiles.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      })
+    )
+    setFiles(uploadFiles)
+
+    const formData = new FormData()
+    for (let i = 0; i < uploadFiles.length; i++) {
+      formData.append(`files[${i}]`, uploadFiles[i])
+    }
+
+    try {
+      const response = await fetch("/api/medias", {
+        method: "POST",
+        body: formData,
+      })
+      const data = (await response.json()) as {
+        index: string
+        media: SelectMedia
+      }[]
+
+      console.log("CLient Recieved Data", data)
+      if (data) {
+        // setUploadedFilesUrls(data.uploadedFilesUrls)
+      }
+    } catch (error) {
+      console.error("Error uploading files:", error)
+      // Handle upload error
+    }
   }
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview))
+  }, [])
 
   const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
     onDrop,
-    multiple,
+    multiple: true,
     noClick: true,
     noKeyboard: true,
   })
@@ -75,10 +133,12 @@ function ImageDialog({
                   </div>
                 ) : (
                   <ImageGrid
+                    uploadingFiles={files}
                     defaultImageId={value}
                     showAddMediaButton={false}
                     containerClassName={"gap-x-8"}
                     onClickHandler={onClickHandler}
+                    medias={data.mediasCollection.edges}
                     AddMediaButtonComponent={
                       <button
                         type="button"

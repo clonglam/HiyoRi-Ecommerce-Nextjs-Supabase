@@ -1,15 +1,15 @@
 "use client"
-import { keytoUrl } from "@/lib/s3/s3"
+
 import Image from "next/image"
 import React from "react"
-import { Card } from "../ui/card"
+import { Card } from "../../ui/card"
 import { DocumentType, gql } from "@/gql"
 
 import { SelectMedia } from "@/lib/supabase/schema"
 import { useQuery } from "@urql/next"
-import { Skeleton } from "../ui/skeleton"
-import { Icons } from "../icons"
-import { cn } from "@/lib/utils"
+import { Skeleton } from "../../ui/skeleton"
+import { Icons } from "../../icons"
+import { cn, keytoUrl } from "@/lib/utils"
 
 interface ImagePreviewCard extends React.ComponentProps<typeof Card> {
   onClick: () => void

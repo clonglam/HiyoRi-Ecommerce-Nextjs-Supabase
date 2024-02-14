@@ -62,21 +62,18 @@ function UserNav({}: UserNavProps) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <Link href="/profile">
-                <DropdownMenuItem>
-                  Profile
-                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                </DropdownMenuItem>
+              <Link href="/orders">
+                <DropdownMenuItem>Orders</DropdownMenuItem>
               </Link>
-              <DropdownMenuItem>
-                Billing
-                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                Settings
-                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem>New Team</DropdownMenuItem>
+              <Link href="/wish-list">
+                <DropdownMenuItem>Wishlist</DropdownMenuItem>
+              </Link>
+              <Link href="/cart">
+                <DropdownMenuItem>Cart</DropdownMenuItem>
+              </Link>
+              <Link href="/setting">
+                <DropdownMenuItem>Setting</DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
 

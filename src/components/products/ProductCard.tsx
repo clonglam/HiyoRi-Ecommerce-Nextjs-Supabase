@@ -1,7 +1,7 @@
 import React from "react"
 import Image from "next/image"
 
-import { cn } from "@/lib/utils"
+import { cn, keytoUrl } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -15,7 +15,7 @@ import { Icons } from "../icons"
 import { Rating } from "../ui/rating"
 import Link from "next/link"
 import { gql, DocumentType } from "@/gql"
-import { keytoUrl } from "@/lib/s3/s3"
+
 import { Badge } from "../ui/badge"
 import { BadgeType } from "@/lib/supabase/schema"
 import AddToCartButton from "../cart/AddToCartButton"

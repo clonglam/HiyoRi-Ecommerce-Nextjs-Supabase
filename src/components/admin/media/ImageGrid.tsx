@@ -1,35 +1,33 @@
 "use client"
-import React, { ReactNode } from "react"
 import { DocumentType, gql } from "@/gql"
-import Image from "next/image"
-import { useQuery } from "@urql/next"
-import Link from "next/link"
-import { Icons } from "../icons"
-import { keytoUrl } from "@/lib/s3/s3"
-import { cn } from "@/lib/utils"
-import { Button } from "../ui/button"
 
-type Props = {
+import { cn, keytoUrl } from "@/lib/utils"
+import { FileWithPreview } from "@/types"
+import Image from "next/image"
+import Link from "next/link"
+import { ReactNode } from "react"
+import { Icons } from "../../icons"
+
+const MediaGridFragment = gql(/* GraphQL */ `
+  fragment MediaGridFragment on mediasEdge {
+    cursor
+    node {
+      id
+      alt
+      key
+    }
+  }
+`)
+
+type ImageGridProps = {
   showAddMediaButton?: boolean
   AddMediaButtonComponent?: ReactNode
   containerClassName: string
   defaultImageId: number
   onClickHandler: (mediaId: number) => void
+  uploadingFiles: FileWithPreview[]
+  medias: DocumentType<typeof MediaGridFragment>[]
 }
-
-export const FetchMediaGridQuery = gql(/* GraphQL */ `
-  query FetchMediaGridQuery($first: Int, $after: Cursor) {
-    mediasCollection(first: $first, after: $after) {
-      edges {
-        node {
-          id
-          alt
-          key
-        }
-      }
-    }
-  }
-`)
 
 function ImageGrid({
   showAddMediaButton = true,
@@ -37,13 +35,9 @@ function ImageGrid({
   containerClassName,
   onClickHandler,
   defaultImageId,
-}: Props) {
-  const [{ data, fetching, error }, refetch] = useQuery({
-    query: FetchMediaGridQuery,
-    variables: {
-      first: 15,
-    },
-  })
+  uploadingFiles,
+  medias,
+}: ImageGridProps) {
   return (
     <div
       className={cn(
@@ -63,8 +57,20 @@ function ImageGrid({
 
       {AddMediaButtonComponent}
 
-      {data.mediasCollection.edges.map(({ node: media }) => (
-        // <Link href={`/admin/medias/${media.id}`} key={media.key}>
+      {uploadingFiles.map((file, index) => (
+        <div key={index}>
+          <Image
+            src={file.preview}
+            alt={file.name}
+            width={120}
+            height={120}
+            onLoad={() => {
+              URL.revokeObjectURL(file.preview)
+            }}
+          />
+        </div>
+      ))}
+      {medias.map(({ node: media }) => (
         <button
           key={media.id}
           type="button"
@@ -84,7 +90,6 @@ function ImageGrid({
             )}
           />
         </button>
-        // </Link>
       ))}
     </div>
   )

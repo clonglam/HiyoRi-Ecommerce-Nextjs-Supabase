@@ -1,6 +1,6 @@
 "use client"
 import { DocumentType, gql } from "@/gql"
-import { keytoUrl } from "@/lib/s3/s3"
+
 import Image from "next/image"
 import React, { useState } from "react"
 import { Icons } from "../icons"
@@ -18,6 +18,7 @@ import {
 import { UseQueryExecute, useMutation } from "@urql/next"
 import Link from "next/link"
 import { RemoveCartsProduct, UpdateCartsProduct } from "./query"
+import { keytoUrl } from "@/lib/utils"
 
 export const CartItemCardFragment = gql(/* GraphQL */ `
   fragment CartItemCardFragment on carts {

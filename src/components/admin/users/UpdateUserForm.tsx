@@ -19,7 +19,6 @@ import Link from "next/link"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
-import { createUser } from "@/_actions/authAdmin"
 import { PasswordInput } from "@/components/auth/PasswordInput"
 import { Icons } from "@/components/icons"
 import { useToast } from "@/components/ui/use-toast"
