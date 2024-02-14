@@ -2,8 +2,8 @@ import React from "react"
 
 type Props = {}
 
-function BillingPage({}: Props) {
-  return <div>Billing Page</div>
+function AccountPage({}: Props) {
+  return <div>Account Page</div>
 }
 
-export default BillingPage
+export default AccountPage

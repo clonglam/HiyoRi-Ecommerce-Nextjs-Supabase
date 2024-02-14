@@ -22,8 +22,8 @@ const sidebarNavItems = [
     href: "/setting/address",
   },
   {
-    title: "News",
-    href: "/setting/news",
+    title: "News Letter",
+    href: "/setting/newsletter",
   },
 ]
 
