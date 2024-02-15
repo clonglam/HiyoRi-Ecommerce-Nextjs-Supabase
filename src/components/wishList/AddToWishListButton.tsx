@@ -7,7 +7,7 @@ type Props = {}
 
 function AddToWishListButton({}: Props) {
   const AddProductToWishList = gql(/* GraphQL */ `
-    mutation AddProductToWishList($productId: Int, $userId: UUID) {
+    mutation AddProductToWishList($productId: String, $userId: UUID) {
       insertIntouser_wishlistCollection(
         objects: { userId: $userId, productId: $productId }
       ) {

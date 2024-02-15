@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server"
 import { getClient } from "@/lib/urql/urql"
 import { cookies } from "next/headers"
 import Link from "next/link"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { Suspense } from "react"
 
 async function CartPage() {
@@ -17,7 +17,7 @@ async function CartPage() {
     error: authError,
   } = await supabase.auth.getUser()
   if (authError || !user) {
-    // redirect("/")
+    redirect("/sign-in")
   }
 
   const CartPageQuery = gql(/* GraphQL */ `

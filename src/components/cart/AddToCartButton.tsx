@@ -14,8 +14,8 @@ import { gql } from "@/gql"
 import { carts } from "@/lib/supabase/schema"
 
 interface AddToCartButtonProps extends ButtonProps {
-  productId: number
-  productCartId?: number
+  productId: string
+  productCartId?: string
   quantity?: number
 }
 

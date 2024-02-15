@@ -25,7 +25,7 @@ const formSchema = z.object({
 })
 
 export const AddProductToCart = gql(/* GraphQL */ `
-  mutation AddProductToCart($productId: Int, $userId: UUID, $quantity: Int) {
+  mutation AddProductToCart($productId: String, $userId: UUID, $quantity: Int) {
     insertIntocartsCollection(
       objects: { userId: $userId, productId: $productId, quantity: $quantity }
     ) {
@@ -39,7 +39,7 @@ export const AddProductToCart = gql(/* GraphQL */ `
   }
 `)
 
-function AddProductForm({ productId }: { productId: number }) {
+function AddProductForm({ productId }: { productId: string }) {
   const [cartResult, addToCart] = useMutation(AddProductToCart)
   const { user } = useAuth()
   const maxQuantity = 8

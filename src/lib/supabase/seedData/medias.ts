@@ -3,22 +3,22 @@ import * as schema from "../schema"
 
 const medias = [
   {
-    id: 1,
+    id: "1",
     key: "public/bathroom-planning.jpg",
     alt: "bathroom-planning-category",
   },
   {
-    id: 2,
+    id: "2",
     key: "public/kitchen-planning.jpg",
     alt: "kitchen-planning-category",
   },
   {
-    id: 3,
+    id: "3",
     key: "public/living-room-planning.jpg",
     alt: "living-room-planning-category",
   },
   {
-    id: 4,
+    id: "4",
     key: "public/bedroom-planning.jpg",
     alt: "bedroom-planning-category",
   },

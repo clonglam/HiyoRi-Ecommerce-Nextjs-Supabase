@@ -14,7 +14,7 @@ export const createProductAction = async (product: InsertProducts) => {
 }
 
 export const updateProductAction = async (
-  productId: number,
+  productId: string,
   product: InsertProducts
 ) => {
   createInsertSchema(products).parse(product)

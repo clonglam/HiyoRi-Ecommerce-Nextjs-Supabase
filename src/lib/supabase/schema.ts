@@ -14,6 +14,7 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core"
+import { createId } from "@paralleldrive/cuid2"
 
 // User Trigger
 // https://supabase.com/docs/guides/auth/managing-user-data
@@ -37,9 +38,12 @@ export type InsertUserProfiles = InferInsertModel<typeof profiles>
 export const carts = pgTable(
   "carts",
   {
-    id: serial("id").primaryKey(),
+    id: text("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => createId()),
     quantity: integer("quantity").notNull(),
-    productId: integer("productId")
+    productId: text("productId")
       .notNull()
       .references(() => products.id, { onDelete: "cascade" }),
     userId: uuid("userId").notNull(),
@@ -73,8 +77,11 @@ export const cartsRelations = relations(carts, ({ one }) => ({
 export const userWishlist = pgTable(
   "user_wishlist",
   {
-    id: serial("id").primaryKey(),
-    productId: integer("productId")
+    id: text("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => createId()),
+    productId: text("productId")
       .notNull()
       .references(() => products.id, { onDelete: "cascade" }),
     userId: uuid("userId").notNull(),
@@ -101,8 +108,11 @@ export const userWishlist = pgTable(
 export const comments = pgTable(
   "comments",
   {
-    id: serial("id").primaryKey(),
-    productId: integer("productId")
+    id: text("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => createId()),
+    productId: text("productId")
       .notNull()
       .references(() => products.id, { onDelete: "cascade" }),
     profileId: uuid("profileId")
@@ -140,7 +150,10 @@ export const comments = pgTable(
 export const products = pgTable(
   "products",
   {
-    id: serial("id").primaryKey(),
+    id: text("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => createId()),
     name: varchar("name", { length: 191 }).notNull(),
     slug: varchar("slug", { length: 191 }).notNull().unique(),
     description: text("description"),
@@ -160,9 +173,11 @@ export const products = pgTable(
       .defaultNow()
       .notNull(),
 
-    storeId: integer("storeId").default(1),
-    collectionId: integer("collection_id"),
-    featuredImageId: integer("featured_image_id")
+    stock: integer("stock").default(8),
+    collectionId: text("collection_id").references(() => collections.id, {
+      onDelete: "set null",
+    }),
+    featuredImageId: text("featured_image_id")
       .notNull()
       .references(() => medias.id, { onDelete: "restrict" }),
   },
@@ -189,15 +204,19 @@ export const productsRelations = relations(products, ({ one }) => ({
   }),
 }))
 
-export const orders = pgTable("orders", {
-  id: text("id").primaryKey(),
-  amountTotal: integer("amount_total").notNull(),
-  amountSubtotal: integer("amount_subtotal").notNull(),
+export const shopOrders = pgTable("shop_orders", {
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  amountTotal: decimal("amount_total").notNull(),
+  amountSubtotal: decimal("amount_subtotal").notNull(),
   paymentStatus: text("payment_status").notNull(),
   email: text("email"),
   name: text("name").notNull(),
   paymentMethodTypes: text("payment_method_types").notNull(),
-  userId: uuid("userId").notNull(),
+  userId: uuid("userId"),
+  addressId: text("addressId").notNull(),
   createdAt: timestamp("created_at", {
     withTimezone: true,
   })
@@ -205,22 +224,83 @@ export const orders = pgTable("orders", {
     .notNull(),
 })
 
-export type SelectOrders = InferSelectModel<typeof orders>
-export type InsertOrders = InferInsertModel<typeof orders>
+export type SelectShopOrders = InferSelectModel<typeof shopOrders>
+export type InsertShopOrders = InferInsertModel<typeof shopOrders>
 export type PaymentStatus = "paid" | "unpaid" | "no_payment_required"
-export const ordersRelations = relations(orders, ({ one }) => ({
-  address: one(address),
+export const ordersRelations = relations(shopOrders, ({ one }) => ({
+  address: one(address, {
+    fields: [shopOrders.addressId],
+    references: [address.id],
+  }),
+}))
+
+export const orderLines = pgTable(
+  "order_lines",
+  {
+    id: text("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => createId()),
+    productId: text("product_id")
+      .notNull()
+      .references(() => products.id, { onDelete: "restrict" }),
+    orderId: text("orderId")
+      .notNull()
+      .references(() => shopOrders.id, { onDelete: "restrict" }),
+    quantity: integer("quantity").notNull(),
+    price: decimal("price").notNull(),
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+    })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => {
+    return {
+      product: foreignKey({
+        columns: [table.productId],
+        foreignColumns: [products.id],
+        name: "order_lines_to_product",
+      })
+        .onDelete("restrict")
+        .onUpdate("cascade"),
+      order: foreignKey({
+        columns: [table.orderId],
+        foreignColumns: [shopOrders.id],
+        name: "order_lines_to_shop_orders",
+      })
+        .onDelete("restrict")
+        .onUpdate("cascade"),
+    }
+  }
+)
+
+export type SelectOrderLines = InferSelectModel<typeof orderLines>
+export type InsertOrderLines = InferInsertModel<typeof orderLines>
+
+export const orderLinesRelations = relations(orderLines, ({ one }) => ({
+  product: one(products, {
+    fields: [orderLines.productId],
+    references: [products.id],
+  }),
+  orderId: one(shopOrders, {
+    fields: [orderLines.productId],
+    references: [shopOrders.id],
+  }),
 }))
 
 export const address = pgTable("address", {
-  id: serial("id").primaryKey(),
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
   city: text("city").notNull(),
   country: text("country").notNull(),
   line1: text("line1").notNull(),
   line2: text("line2").notNull(),
   postal_code: text("postal_code").notNull(),
   state: text("state").notNull(),
-  orderId: text("orderId").references(() => orders.id, {
+  orderId: text("orderId").references(() => shopOrders.id, {
     onDelete: "cascade",
   }),
   userProfileId: uuid("userProfileId").references(() => profiles.id, {
@@ -229,9 +309,9 @@ export const address = pgTable("address", {
 })
 
 export const addressRelations = relations(address, ({ one }) => ({
-  order: one(orders, {
+  order: one(shopOrders, {
     fields: [address.id],
-    references: [orders.id],
+    references: [shopOrders.id],
   }),
   profile: one(profiles, {
     fields: [address.userProfileId],
@@ -243,11 +323,14 @@ export type InsertAddress = InferInsertModel<typeof address>
 export const productMedias = pgTable(
   "product_medias",
   {
-    id: serial("id").primaryKey(),
-    productId: integer("productId")
+    id: text("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => createId()),
+    productId: text("productId")
       .notNull()
       .references(() => products.id, { onDelete: "cascade" }),
-    mediaId: integer("mediaId")
+    mediaId: text("mediaId")
       .notNull()
       .references(() => medias.id, { onDelete: "cascade" }),
     priority: integer("priority"),
@@ -280,11 +363,14 @@ export type InsertProducts = InferInsertModel<typeof products>
 export const collections = pgTable(
   "collections",
   {
-    id: serial("id").notNull().primaryKey(),
+    id: text("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => createId()),
     label: varchar("label", { length: 255 }).notNull(),
     slug: varchar("slug", { length: 255 }).notNull(),
     order: integer("order"),
-    featuredImageId: integer("featured_image_id")
+    featuredImageId: text("featured_image_id")
       .notNull()
       .references(() => medias.id, { onDelete: "restrict" }),
   },
@@ -303,7 +389,10 @@ export type SelectCollection = InferSelectModel<typeof collections>
 export type InsertCollection = InferInsertModel<typeof collections>
 
 export const medias = pgTable("medias", {
-  id: serial("id").notNull().primaryKey(),
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
   key: varchar("key", { length: 255 }).notNull(),
   alt: varchar("alt", { length: 255 }).notNull(),
   createdAt: timestamp("created_at", { mode: "string" }).defaultNow(),

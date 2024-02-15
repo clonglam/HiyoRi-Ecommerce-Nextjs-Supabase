@@ -3,29 +3,29 @@ import * as schema from "../schema"
 
 const collections = [
   {
-    id: 1,
+    id: "1",
     label: "Bathroom Planning",
     slug: "bathroom-planning",
-    featuredImageId: 1,
+    featuredImageId: "1",
   },
   {
-    id: 2,
+    id: "2",
     label: "Kitchen Planning",
     slug: "kitchen-planning",
-    featuredImageId: 2,
+    featuredImageId: "2",
   },
   {
-    id: 3,
+    id: "3",
     label: "Living Room Planning",
     slug: "living-room-planning",
-    featuredImageId: 3,
+    featuredImageId: "3",
     order: 9,
   },
   {
-    id: 4,
+    id: "4",
     label: "Bedroom Planning",
     slug: "Bedroom-planning",
-    featuredImageId: 4,
+    featuredImageId: "4",
   },
 ]
 

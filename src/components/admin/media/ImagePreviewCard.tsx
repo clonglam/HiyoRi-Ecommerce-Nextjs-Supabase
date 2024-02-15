@@ -13,11 +13,11 @@ import { cn, keytoUrl } from "@/lib/utils"
 
 interface ImagePreviewCard extends React.ComponentProps<typeof Card> {
   onClick: () => void
-  mediaId: number
+  mediaId: string
 }
 
 export const FetchMediaQuery = gql(/* GraphQL */ `
-  query FetchMediaQuery($mediaId: Int) {
+  query FetchMediaQuery($mediaId: String) {
     mediasCollection(filter: { id: { eq: $mediaId } }) {
       edges {
         node {

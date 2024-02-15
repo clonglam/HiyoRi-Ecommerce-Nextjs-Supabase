@@ -3,7 +3,7 @@ import { create } from "zustand"
 export interface CartItem {
   id: string
   quantity: number
-  productId: number
+  productId: string
   userId: string | null
   createdAt: string // Assuming ISO string format
 }
@@ -11,8 +11,8 @@ export interface CartItem {
 interface CartState {
   items: CartItem[]
   addItem: (item: CartItem) => void
-  removeItem: (productId: number) => void
-  updateItemQuantity: (productId: number, quantity: number) => void
+  removeItem: (productId: string) => void
+  updateItemQuantity: (productId: string, quantity: number) => void
   clearCart: () => void
   syncCart: (cartItems: CartItem[]) => void
 }

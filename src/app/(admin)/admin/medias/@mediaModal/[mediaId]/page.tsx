@@ -8,7 +8,7 @@ import { notFound } from "next/navigation"
 type Props = { params: { mediaId: string } }
 
 async function EditMediaModals({ params: { mediaId } }: Props) {
-  const media = await getMedia(parseInt(mediaId))
+  const media = await getMedia(mediaId)
   if (!media) return notFound()
 
   return (

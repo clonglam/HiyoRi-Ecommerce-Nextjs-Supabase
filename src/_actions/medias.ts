@@ -10,7 +10,7 @@ import { productMedias } from "@/lib/supabase/schema"
 import supabaseServerClient from "@/lib/supabase/server"
 import { z } from "zod"
 
-export async function getMedia(id: number) {
+export async function getMedia(id: string) {
   return await db.query.medias.findFirst({ where: eq(productMedias.id, id) })
 }
 

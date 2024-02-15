@@ -23,8 +23,8 @@ type ImageGridProps = {
   showAddMediaButton?: boolean
   AddMediaButtonComponent?: ReactNode
   containerClassName: string
-  defaultImageId: number
-  onClickHandler: (mediaId: number) => void
+  defaultImageId: string
+  onClickHandler: (mediaId: string) => void
   uploadingFiles: FileWithPreview[]
   medias: DocumentType<typeof MediaGridFragment>[]
 }

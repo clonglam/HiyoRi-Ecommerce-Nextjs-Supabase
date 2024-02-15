@@ -15,7 +15,7 @@ async function EditProjectPage({
   params: { productId },
 }: EditProjectPageProps) {
   const product = await db.query.products.findFirst({
-    where: eq(products.id, parseInt(productId)),
+    where: eq(products.id, productId),
   })
   if (!product) return notFound()
 

@@ -7,7 +7,7 @@ import { getStripe } from "@/lib/stripe/stripeClient"
 import { toast, useToast } from "../ui/use-toast"
 
 type CheckoutButtonProps = React.ComponentProps<typeof Button> & {
-  order: { id: number; quantity: number }[]
+  order: { id: string; quantity: number }[]
 }
 
 function CheckoutButton({ order, ...props }: CheckoutButtonProps) {

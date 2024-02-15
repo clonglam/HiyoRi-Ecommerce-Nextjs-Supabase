@@ -5,7 +5,7 @@ import { medias } from "@/lib/supabase/schema"
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   const media = await db.query.medias.findFirst({
     where: eq(medias.id, params.id),

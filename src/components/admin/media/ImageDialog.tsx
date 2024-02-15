@@ -17,10 +17,10 @@ import ImageGrid from "./ImageGrid"
 import ImagePreviewCard from "./ImagePreviewCard"
 
 type Props = {
-  onChange: (data: number) => void
-  defaultValue?: number
+  onChange: (data: string) => void
+  defaultValue?: string
   multiple?: boolean
-  value: number
+  value: string
 }
 export const FetchMediaGridQuery = gql(/* GraphQL */ `
   query FetchMediaGridQuery($first: Int, $after: Cursor) {
@@ -49,7 +49,7 @@ function ImageDialog({
     },
   })
 
-  const onClickHandler = (mediaId: number) => {
+  const onClickHandler = (mediaId: string) => {
     onChange(mediaId)
     setDialogOpen(false)
   }
