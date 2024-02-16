@@ -26,6 +26,7 @@ function FilterSelections({}: Props) {
   const form = useForm<z.infer<typeof filterSelectionSchema>>({
     resolver: zodResolver(filterSelectionSchema),
   })
+
   function onSubmit(values: z.infer<typeof filterSelectionSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.

@@ -1,13 +1,14 @@
+import dynamic from "next/dynamic"
 import UserNav from "../auth/UserNav"
 import { Icons } from "../icons"
 import Branding from "./Branding"
 import MobileNavbar from "./MobileNavbar"
-import SearchInput from "./SearchInput"
 import { SideMenu } from "./SideMenu"
 
 import NavLinkButton from "./NavLinkButton"
 import { cn } from "@/lib/utils"
 import { getCurrentUser, isAdmin } from "@/_actions/users"
+const SearchInput = dynamic(() => import("./SearchInput"), { ssr: false })
 
 interface MainNavbarProps {
   adminLayout?: boolean

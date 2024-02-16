@@ -15,7 +15,7 @@ import {
 import { cn } from "@/lib/utils"
 import { Icons } from "../icons"
 import { Input } from "../ui/input"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 const filterSelectionSchema = z.object({
   search: z.string(),
@@ -23,14 +23,16 @@ const filterSelectionSchema = z.object({
 
 function SearchInput() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [isFocused, setIsFocused] = useState(false)
 
   const form = useForm<z.infer<typeof filterSelectionSchema>>({
     resolver: zodResolver(filterSelectionSchema),
+    defaultValues: { search: searchParams.get("search") || "" },
   })
 
   function onSubmit({ search }: z.infer<typeof filterSelectionSchema>) {
-    router.push(`/search/?q=${search}`)
+    router.push(`/shop/?search=${search}`)
   }
 
   return (

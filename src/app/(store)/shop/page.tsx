@@ -1,6 +1,8 @@
+import { searchProductsAction } from "@/_actions/products"
 import Header from "@/components/layouts/Header"
 import FilterSelections from "@/components/products/FilterSelections"
 import { ProductCard } from "@/components/products/ProductCard"
+import SearchProductsGrid from "@/components/products/SearchProductsGrid"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql/urql"
 import { notFound } from "next/navigation"
@@ -18,7 +20,7 @@ async function ProductsPage({ searchParams }: ProductsPageProps) {
     per_page,
     sort,
     categories,
-    subcategories,
+    search = "",
     price_range,
     store_ids,
     store_page,
@@ -26,27 +28,10 @@ async function ProductsPage({ searchParams }: ProductsPageProps) {
 
   // Products transaction
   const limit = typeof per_page === "string" ? parseInt(per_page) : 8
-  const offset = typeof page === "string" ? (parseInt(page) - 1) * limit : 0
 
-  const ProductsPageQuery = gql(/* GraphQL */ `
-    query ProductsPageQuery($searchWord: String) {
-      productsCollection(
-        filter: { slug: { eq: $searchWord } }
-        orderBy: [{ created_at: DescNullsLast }]
-      ) {
-        edges {
-          node {
-            id
-            ...ProductCardFragment
-          }
-        }
-      }
-    }
-  `)
+  const query = typeof search === "string" ? search : search.join(".")
 
-  const { data } = await getClient().query(ProductsPageQuery, {
-    searchWord: "",
-  })
+  const data = await searchProductsAction({ query })
 
   if (!data) return notFound()
 
@@ -55,11 +40,10 @@ async function ProductsPage({ searchParams }: ProductsPageProps) {
       <Header heading="Shop Now" />
       <FilterSelections />
 
-      <section className="grid grid-cols-2 lg:grid-cols-4 w-full gap-y-8 gap-x-3 py-5">
-        {data.productsCollection?.edges.map(({ node }) => (
-          <ProductCard key={node.id} product={node} />
-        ))}
-      </section>
+      <SearchProductsGrid
+        searchResult={data.productdIds}
+        hasNext={data.hasNext}
+      />
     </div>
   )
 }
