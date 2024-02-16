@@ -32,7 +32,9 @@ function SearchInput() {
   })
 
   function onSubmit({ search }: z.infer<typeof filterSelectionSchema>) {
-    router.push(`/shop/?search=${search}`)
+    !search || search.length === 0
+      ? router.push(`/shop`)
+      : router.push(`/shop/?search=${search}`)
   }
 
   return (

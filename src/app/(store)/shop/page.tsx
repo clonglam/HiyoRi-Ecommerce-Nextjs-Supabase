@@ -33,16 +33,15 @@ async function ProductsPage({ searchParams }: ProductsPageProps) {
 
   const data = await searchProductsAction({ query })
 
-  if (!data) return notFound()
-
   return (
     <div className="container min-h-screen">
       <Header heading="Shop Now" />
       <FilterSelections />
 
       <SearchProductsGrid
-        searchResult={data.productdIds}
-        hasNext={data.hasNext}
+        searchResults={data?.productdIds || null}
+        hasNext={data?.hasNext}
+        searchWord={query}
       />
     </div>
   )

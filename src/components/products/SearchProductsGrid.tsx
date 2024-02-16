@@ -1,29 +1,21 @@
 "use client"
-import React from "react"
-import ProductCard from "./ProductCard"
-import { DocumentType, gql } from "@/gql"
+import { gql } from "@/gql"
 import { useQuery } from "@urql/next"
+import ProductCard from "./ProductCard"
 
 type SearchResult = {
   id: string
 }
 
 type SearchProductsGridProps = {
-  searchResult: SearchResult[] | null
+  searchResults: SearchResult[] | null
+  searchWord: string
   hasNext: boolean
 }
 
 export const FetchSearchProductsQuery = gql(/* GraphQL */ `
-  query FetchSearchProductsQuery(
-    $productIds: [String!]
-    $first: Int
-    $after: Cursor
-  ) {
-    productsCollection(
-      first: $first
-      filter: { id: { in: $productIds } }
-      after: $after
-    ) {
+  query FetchSearchProductsQuery($productIds: [String!], $first: Int) {
+    productsCollection(first: $first, filter: { id: { in: $productIds } }) {
       edges {
         node {
           id
@@ -33,23 +25,37 @@ export const FetchSearchProductsQuery = gql(/* GraphQL */ `
     }
   }
 `)
+export const ListProductsByFeaturedQuery = gql(/* GraphQL */ `
+  query ListProductsByFeaturedQuery($first: Int, $after: Cursor) {
+    productsCollection(first: $first, after: $after) {
+      edges {
+        node {
+          id
+          ...ProductCardFragment
+        }
+      }
+    }
+  }
+`)
+
 function SearchProductsGrid({
-  searchResult,
+  searchResults,
   hasNext,
+  searchWord,
 }: SearchProductsGridProps) {
+  console.log("searchResult ", searchResults)
   const [{ data, fetching, error }, refetch] = useQuery(
-    searchResult
+    searchResults !== null
       ? {
           query: FetchSearchProductsQuery,
           variables: {
-            productIds: searchResult.map(({ id }) => id),
+            productIds: searchResults.map(({ id }) => id),
             first: 8,
           },
         }
       : {
-          query: FetchSearchProductsQuery,
+          query: ListProductsByFeaturedQuery,
           variables: {
-            productIds: [],
             first: 8,
           },
         }
@@ -57,11 +63,18 @@ function SearchProductsGrid({
 
   console.log("Search PRoduct Grid", data)
   return (
-    <section className="grid grid-cols-2 lg:grid-cols-4 w-full gap-y-8 gap-x-3 py-5">
-      {data.productsCollection.edges.map(({ node }) => (
-        <ProductCard key={node.id} product={node} />
-      ))}
-    </section>
+    <div>
+      <p>
+        {searchResults === null
+          ? `Search Result ${searchWord}: There is no product.`
+          : `Shown ${searchResults.length} Reuslts.`}
+      </p>
+      <section className="grid grid-cols-2 lg:grid-cols-4 w-full gap-y-8 gap-x-3 py-5">
+        {data.productsCollection.edges.map(({ node }) => (
+          <ProductCard key={node.id} product={node} />
+        ))}
+      </section>
+    </div>
   )
 }
 
