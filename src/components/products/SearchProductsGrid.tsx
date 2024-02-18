@@ -61,12 +61,11 @@ function SearchProductsGrid({
         }
   )
 
-  console.log("Search PRoduct Grid", data)
   return (
     <div>
       <p>
         {searchResults === null
-          ? `Search Result ${searchWord}: There is no product.`
+          ? `There are no results for "${searchWord}.`
           : `Shown ${searchResults.length} Reuslts.`}
       </p>
       <section className="grid grid-cols-2 lg:grid-cols-4 w-full gap-y-8 gap-x-3 py-5">

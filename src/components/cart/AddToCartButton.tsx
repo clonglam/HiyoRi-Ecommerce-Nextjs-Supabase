@@ -8,10 +8,11 @@ import useCartStore from "./useCartStore"
 import { cacheExchange, useClient, useMutation } from "@urql/next"
 import { AddProductToCart } from "../products/AddProductForm"
 import { useAuth } from "@/lib/providers/AuthProvider"
-import { useToast } from "../ui/use-toast"
+
 import { UpdateCartsProduct } from "./query"
 import { gql } from "@/gql"
 import { carts } from "@/lib/supabase/schema"
+import { useToast } from "../ui/use-toast"
 
 interface AddToCartButtonProps extends ButtonProps {
   productId: string

@@ -1,12 +1,14 @@
+import { listCollectionsAction } from "@/_actions/collections"
 import { searchProductsAction } from "@/_actions/products"
 import Header from "@/components/layouts/Header"
 import FilterSelections from "@/components/products/FilterSelections"
 import { ProductCard } from "@/components/products/ProductCard"
 import SearchProductsGrid from "@/components/products/SearchProductsGrid"
+import { Skeleton } from "@/components/ui/skeleton"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql/urql"
 import { notFound } from "next/navigation"
-import React from "react"
+import React, { Suspense } from "react"
 
 interface ProductsPageProps {
   searchParams: {
@@ -19,7 +21,7 @@ async function ProductsPage({ searchParams }: ProductsPageProps) {
     page,
     per_page,
     sort,
-    categories,
+    collections,
     search = "",
     price_range,
     store_ids,
@@ -31,12 +33,21 @@ async function ProductsPage({ searchParams }: ProductsPageProps) {
 
   const query = typeof search === "string" ? search : search.join(".")
 
-  const data = await searchProductsAction({ query })
+  const data = await searchProductsAction({
+    query,
+    sort: typeof sort === "string" ? sort : null,
+    collections: typeof collections === "string" ? collections : null,
+  })
+
+  const collectionsData = await listCollectionsAction()
 
   return (
     <div className="container min-h-screen">
       <Header heading="Shop Now" />
-      <FilterSelections />
+
+      <Suspense fallback={<Skeleton></Skeleton>}>
+        <FilterSelections collections={collectionsData} />
+      </Suspense>
 
       <SearchProductsGrid
         searchResults={data?.productdIds || null}

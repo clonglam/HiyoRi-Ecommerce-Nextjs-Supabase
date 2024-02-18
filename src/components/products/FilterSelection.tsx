@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactComponentElement } from "react"
 import {
   Select,
   SelectContent,
@@ -11,7 +11,7 @@ import {
 
 type Selection = { value: string; label: string }
 
-type Props = {
+type SelectionFilterProps = React.ComponentProps<typeof Select> & {
   selectionLabel?: string
   items: Selection[]
   placeholder?: string
@@ -21,9 +21,10 @@ function FilterSelection({
   items,
   selectionLabel = "",
   placeholder = "",
-}: Props) {
+  ...props
+}: SelectionFilterProps) {
   return (
-    <Select>
+    <Select {...props}>
       <SelectTrigger className="min-w-[90px] max-w-[180px] rounded-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

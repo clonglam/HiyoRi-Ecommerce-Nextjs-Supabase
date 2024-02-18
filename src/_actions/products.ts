@@ -1,29 +1,54 @@
 "use server"
+
 import db from "@/lib/supabase/db"
 import { InsertProducts, products, collections } from "@/lib/supabase/schema"
+import { SearchProductActionSchema, SortEnum } from "@/validations/products"
 import {
   Column,
   ColumnBaseConfig,
   ColumnDataType,
+  asc,
   desc,
   eq,
   like,
   sql,
 } from "drizzle-orm"
 import { createInsertSchema } from "drizzle-zod"
+import { z } from "zod"
 
-export async function searchProductsAction({
-  query,
-  limit = 15,
-}: {
+const productOrder = (data: SortEnum) => {
+  switch (data) {
+    case SortEnum["BEST_MATCH"]:
+      return desc(products.createdAt)
+    case SortEnum["PRICE_LOW_TO_HIGH"]:
+      return asc(products.price)
+    case SortEnum["PRICE_HIGH_TO_LOW"]:
+      return desc(products.price)
+    case SortEnum["NEWEST"]:
+      return desc(products.createdAt)
+    case SortEnum["NAME_ASCE"]:
+      return asc(products.name)
+    default:
+      return desc(products.createdAt)
+  }
+}
+
+type SearchProductsActionProps = {
   query: string
   limit?: number
-}) {
-  if (typeof query !== "string") {
-    throw new Error("Invalid input.")
-  }
+  collections?: string
+  sort?: string
+}
 
-  if (query.length === 0) return null
+export async function searchProductsAction(data: SearchProductsActionProps) {
+  const validate = SearchProductActionSchema.safeParse(data)
+  console.log("valu", validate)
+  if (!validate.success) throw new Error("Invalid input.")
+
+  const { query, sort, limit = 15 } = data
+  // if (typeof query !== "string") {
+  // }
+  // if (sort) if (query.length === 0) return null
 
   // This is the temporary soultion for Drizzle ORM with postgresql
   const filteredProducts = await db
@@ -43,7 +68,7 @@ export async function searchProductsAction({
         `%${query.toLowerCase()}%`
       )
     )
-    .orderBy(desc(products.createdAt))
+    .orderBy(productOrder(sort as SortEnum))
     .limit(limit + 1)
 
   return {
