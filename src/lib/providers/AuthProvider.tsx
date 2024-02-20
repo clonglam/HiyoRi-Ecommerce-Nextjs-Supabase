@@ -1,10 +1,11 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
-import { AuthUser, Session } from "@supabase/supabase-js"
+import useCartStore, { CartItems } from "@/components/cart/useCartStore"
 import { useToast } from "@/components/ui/use-toast"
+import { AuthUser } from "@supabase/supabase-js"
+import { nanoid } from "nanoid"
+import { createContext, useContext, useEffect, useState } from "react"
 import supabase from "../supabase/client"
-import useCartStore from "@/components/cart/useCartStore"
 
 type SupabaseAuthContextType = {
   user: AuthUser | null
@@ -26,9 +27,7 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
   children,
 }) => {
   const [user, setUser] = useState<AuthUser | null>(null)
-  // const [session, setSession] = useState<Session | null>(null)
-  const cart = useCartStore((s) => s.cart)
-
+  const removeAllCartStorage = useCartStore((s) => s.removeAllProducts)
   const { toast } = useToast()
 
   useEffect(() => {
@@ -42,7 +41,6 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
           supabase.auth.getUser().then(({ data }) => {
             setUser(data.user)
           })
-          console.log("cart", cart)
           break
         case "PASSWORD_RECOVERY":
           supabase.auth.signOut()
@@ -52,7 +50,29 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
         case "SIGNED_IN":
           supabase.auth.getUser().then(({ data }) => {
             setUser(data.user)
+
+            const { cart } = JSON.parse(localStorage.getItem("cart")) as {
+              cart: CartItems
+            }
+
+            const storageCarts = Object.entries(cart).map(
+              ([productId, productValue]) => ({
+                id: nanoid(),
+                productId,
+                quantity: productValue.quantity,
+                userId: data.user.id,
+              })
+            )
+            console.log("!!! storageCart", storageCarts)
+
+            supabase
+              .from("carts")
+              .insert(storageCarts)
+              .then((data) => {
+                console.log("sync Cart Data Res", data)
+              })
           })
+
           toast({
             title: "Welcome Back.",
             description: "Your are arleady signed in.",
@@ -60,6 +80,7 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
           break
         case "SIGNED_OUT":
           setUser(null)
+          removeAllCartStorage()
           break
 
         case "TOKEN_REFRESHED":

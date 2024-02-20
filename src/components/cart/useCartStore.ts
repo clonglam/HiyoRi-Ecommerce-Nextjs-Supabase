@@ -12,6 +12,7 @@ type CartStore = {
   cart: CartItems
   addProductToCart: (id: string, quantity: number) => void
   removeProduct: (id: string) => void
+  removeAllProducts: () => void
 }
 
 const useCartStore = create<CartStore>(
@@ -35,11 +36,12 @@ const useCartStore = create<CartStore>(
       removeProduct: (id) =>
         set((state) => {
           const updatedCart = { ...state.cart }
-          delete updatedCart[id] // Remove the product by its id
+          delete updatedCart[id]
           return {
-            cart: updatedCart, // Return the updated cart without the removed product
+            cart: updatedCart,
           }
         }),
+      removeAllProducts: () => set(() => ({ cart: {} })),
     }),
     { name: "cart" }
   )

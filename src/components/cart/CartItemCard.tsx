@@ -39,7 +39,6 @@ export const CartItemCardFragment = gql(/* GraphQL */ `
 type CartItemCardProps = React.ComponentProps<typeof Card> & {
   product: DocumentType<typeof CartItemCardFragment>
   disabled?: boolean
-  refetch: UseQueryExecute
   addOneHandler: () => void
   minusOneHandler: () => void
   removeHandler: () => void

@@ -80,33 +80,9 @@ function GuestCartSection() {
     toast({ title: "Product Removed." })
   }
 
-  // const onChangeHandler = (value: number) => {
-  //   if (value < 8 && value > 1) {
-  //     if (guest) {
-  //       // setCartStorage({
-  //       //   productId: product.id,
-  //       //   quantity: value,
-  //       // })
-  //       // setValue(getCartStorage()[product.id].quantity)
-  //     } else {
-  //       updateCartProduct({ id: product.id, newQuantity: value })
-  //     }
-  //   }
-  // }
-
-  // const minusOneHandler = () => {
-  //   if (quantity > 1) {
-  //     if (guest) {
-  //       addProductToCart(product.id, -1)
-  //     } else {
-  //       updateCartProduct({ id: product.id, newQuantity: quantity - 1 })
-  //     }
-  //   }
-  // }
-
   return (
     <>
-      {cartItems ? (
+      {Object.keys(cartItems).length > 0 ? (
         <section
           aria-label="Cart Section"
           className="grid grid-cols-12 gap-x-6 gap-y-5"

@@ -36,3 +36,17 @@ export const UpdateCartsProduct = gql(/* GraphQL */ `
     }
   }
 `)
+
+export const ListCartQuery = gql(/* GraphQL */ `
+  query ListCartQuery($userId: UUID) {
+    cartsCollection(filter: { userId: { eq: $userId } }) {
+      edges {
+        node {
+          id
+          quantity
+          productId
+        }
+      }
+    }
+  }
+`)

@@ -43,6 +43,8 @@ const documents = {
     types.RemoveCartsMutationDocument,
   "\n  mutation updateCartsCollection($id: String, $newQuantity: Int) {\n    updatecartsCollection(\n      filter: { id: { eq: $id } }\n      set: { quantity: $newQuantity }\n    ) {\n      affectedCount\n      records {\n        id\n        quantity\n      }\n    }\n  }\n":
     types.UpdateCartsCollectionDocument,
+  "\n  query ListCartQuery($userId: UUID) {\n    cartsCollection(filter: { userId: { eq: $userId } }) {\n      edges {\n        node {\n          id\n          quantity\n          productId\n        }\n      }\n    }\n  }\n":
+    types.ListCartQueryDocument,
   "\n  fragment CollectionBannerFragment on collections {\n    id\n    label\n    slug\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n  }\n":
     types.CollectionBannerFragmentFragmentDoc,
   "\n  fragment CollectionCardFragment on collections {\n    label\n    slug\n    featuredImage: medias {\n      key\n      alt\n    }\n  }\n":
@@ -173,6 +175,12 @@ export function gql(
 export function gql(
   source: "\n  mutation updateCartsCollection($id: String, $newQuantity: Int) {\n    updatecartsCollection(\n      filter: { id: { eq: $id } }\n      set: { quantity: $newQuantity }\n    ) {\n      affectedCount\n      records {\n        id\n        quantity\n      }\n    }\n  }\n",
 ): (typeof documents)["\n  mutation updateCartsCollection($id: String, $newQuantity: Int) {\n    updatecartsCollection(\n      filter: { id: { eq: $id } }\n      set: { quantity: $newQuantity }\n    ) {\n      affectedCount\n      records {\n        id\n        quantity\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  query ListCartQuery($userId: UUID) {\n    cartsCollection(filter: { userId: { eq: $userId } }) {\n      edges {\n        node {\n          id\n          quantity\n          productId\n        }\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query ListCartQuery($userId: UUID) {\n    cartsCollection(filter: { userId: { eq: $userId } }) {\n      edges {\n        node {\n          id\n          quantity\n          productId\n        }\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

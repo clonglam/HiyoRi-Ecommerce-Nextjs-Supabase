@@ -1,6 +1,8 @@
 "use client"
-import { DocumentType, gql } from "@/gql"
-import { useAuth } from "@/lib/providers/AuthProvider"
+import { gql } from "@/gql"
+import { FetchCartQueryQuery } from "@/gql/graphql"
+import { expectedErrorsHandler } from "@/lib/urql/urql"
+import { User } from "@supabase/supabase-js"
 import { useMutation, useQuery } from "@urql/next"
 import { notFound } from "next/navigation"
 import { useMemo, useState } from "react"
@@ -12,15 +14,12 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card"
+import { Skeleton } from "../ui/skeleton"
+import { useToast } from "../ui/use-toast"
 import CartItemCard from "./CartItemCard"
 import CheckoutButton from "./CheckoutButton"
 import EmptyCart from "./EmptyCart"
-import { Skeleton } from "../ui/skeleton"
-import { FetchCartQueryQuery } from "@/gql/graphql"
-import { User } from "@supabase/supabase-js"
 import { RemoveCartsMutation, UpdateCartsProduct } from "./query"
-import { useToast } from "../ui/use-toast"
-import { expectedErrorsHandler } from "@/lib/urql/urql"
 
 export const FetchCartQuery = gql(/* GraphQL */ `
   query FetchCartQuery($userId: UUID, $first: Int, $after: Cursor) {
@@ -41,24 +40,21 @@ export const FetchCartQuery = gql(/* GraphQL */ `
     }
   }
 `)
+
 type AuthorizedCartSectionProps = { user: User }
 
 function AuthorizedCartSection({ user }: AuthorizedCartSectionProps) {
-  const [{ data, fetching, error }, refetch] = useQuery({
+  const [{ data, fetching, error }, reexecuteQuery] = useQuery({
     query: FetchCartQuery,
     variables: {
       userId: user.id,
-      first: 8,
     },
   })
+  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const [, updateCartProduct] = useMutation(UpdateCartsProduct)
   const [, removeCart] = useMutation(RemoveCartsMutation)
-
-  const { toast } = useToast()
-
   const subtotal = useMemo(() => calcSubtotal(data), [data])
-
   const productCount = useMemo(() => calcProductCount(data), [data])
 
   if (fetching) {
@@ -117,6 +113,10 @@ function AuthorizedCartSection({ user }: AuthorizedCartSectionProps) {
     setIsLoading(true)
 
     const res = await removeCart({ cartId: cartId })
+    console.log("res", res)
+    reexecuteQuery({ requestPolicy: "network-only" })
+
+    toast({ title: "Removed a Product." })
 
     if (res.error) {
       toast({
@@ -142,7 +142,6 @@ function AuthorizedCartSection({ user }: AuthorizedCartSectionProps) {
                 id={node.id}
                 product={node.product}
                 quantity={node.quantity}
-                refetch={refetch}
                 addOneHandler={() => addOneHandler(node.id, node.quantity)}
                 minusOneHandler={() => minusOneHandler(node.id, node.quantity)}
                 removeHandler={() => removeHandler(node.id)}
