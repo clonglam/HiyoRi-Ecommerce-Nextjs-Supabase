@@ -14,7 +14,10 @@ import { Skeleton } from "../ui/skeleton"
 import EmptyCart from "./EmptyCart"
 import CartItemCard from "./CartItemCard"
 import CheckoutButton from "./CheckoutButton"
-import useCartStore, { CartItems, calcProductCount } from "./useCartStore"
+import useCartStore, {
+  CartItems,
+  calcProductCountStorage,
+} from "./useCartStore"
 import { useToast } from "../ui/use-toast"
 
 const FetchGuestCartQuery = gql(/* GraphQL */ `
@@ -57,7 +60,10 @@ function GuestCartSection() {
     [data, cartItems]
   )
 
-  const productCount = useMemo(() => calcProductCount(cartItems), [cartItems])
+  const productCount = useMemo(
+    () => calcProductCountStorage(cartItems),
+    [cartItems]
+  )
   if (fetching) return LoadingCartSection()
   if (error) return <div>Error</div>
 
@@ -94,7 +100,6 @@ function GuestCartSection() {
                 id={node.id}
                 product={node}
                 quantity={cartItems[node.id].quantity}
-                refetch={refetch}
                 addOneHandler={() =>
                   addOneHandler(node.id, cartItems[node.id].quantity)
                 }

@@ -36,21 +36,21 @@ export const AddProductToCart = gql(/* GraphQL */ `
       objects: {
         id: $id
         productId: $productId
-        userId: $userId
+        user_id: $userId
         quantity: $quantity
       }
     ) {
       affectedCount
       records {
         id
-        userId
+        user_id
       }
     }
   }
 `)
 
 function AddProductForm({ productId }: { productId: string }) {
-  const [cartResult, addToCart] = useMutation(AddProductToCart)
+  const [, addToCart] = useMutation(AddProductToCart)
   const { user } = useAuth()
   const maxQuantity = 8
 

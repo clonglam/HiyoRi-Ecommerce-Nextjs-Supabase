@@ -5,12 +5,9 @@ import Branding from "./Branding"
 import MobileNavbar from "./MobileNavbar"
 import { SideMenu } from "./SideMenu"
 
-import NavLinkButton from "./NavLinkButton"
 import { cn } from "@/lib/utils"
-import { getCurrentUser, isAdmin } from "@/_actions/users"
-// import CartNav from "../cart/CartNav"
-import { Suspense } from "react"
-const CartNav = dynamic(() => import("../cart/CartNav"), { ssr: false })
+import CartNav from "../cart/CartNav"
+import NavLinkButton from "./NavLinkButton"
 const SearchInput = dynamic(() => import("./SearchInput"), { ssr: false })
 
 interface MainNavbarProps {

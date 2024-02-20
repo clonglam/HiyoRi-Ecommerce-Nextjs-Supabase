@@ -2,21 +2,24 @@
 
 import useCartStore, { CartItems } from "@/components/cart/useCartStore"
 import { useToast } from "@/components/ui/use-toast"
-import { AuthUser } from "@supabase/supabase-js"
+import { AuthUser, Session } from "@supabase/supabase-js"
 import { nanoid } from "nanoid"
 import { createContext, useContext, useEffect, useState } from "react"
 import supabase from "../supabase/client"
 
 type SupabaseAuthContextType = {
   user: AuthUser | null
+  session: Session | null
 }
 
 const SupabaseAuthContext = createContext<SupabaseAuthContextType>({
   user: null,
+  session: null,
 })
 
 export const useAuth = () => {
-  return useContext(SupabaseAuthContext)
+  const client = useContext(SupabaseAuthContext)
+  return client
 }
 
 interface SupabaseAuthProviderProps {
@@ -27,6 +30,7 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
   children,
 }) => {
   const [user, setUser] = useState<AuthUser | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
   const removeAllCartStorage = useCartStore((s) => s.removeAllProducts)
   const { toast } = useToast()
 
@@ -35,6 +39,8 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       console.log("_event", _event)
+
+      setSession(session)
 
       switch (_event) {
         case "INITIAL_SESSION":
@@ -105,7 +111,7 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
   }, [])
 
   return (
-    <SupabaseAuthContext.Provider value={{ user }}>
+    <SupabaseAuthContext.Provider value={{ user, session }}>
       {children}
     </SupabaseAuthContext.Provider>
   )

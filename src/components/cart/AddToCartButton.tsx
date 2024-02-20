@@ -32,14 +32,18 @@ function AddToCartButton({
 
   const userAddProduct = async () => {
     console.log("User is Logined so we add Product with mutation")
+    console.log("cartId", cartId)
     try {
       if (!cartId) {
-        const res = await addToCart({
+        const newCartItem = {
           id: nanoid(),
           productId: productId,
           userId: user.id,
           quantity: quantity,
-        })
+        }
+        console.log("newCartItem", newCartItem)
+        const res = await addToCart(newCartItem)
+        console.log("res Add New CArt", res)
 
         if (res) toast({ title: "Sucess, Added a Product to the Cart." })
       } else {
@@ -47,7 +51,7 @@ function AddToCartButton({
           id: cartId,
           newQuantity: quantity,
         })
-
+        console.log("res Update CArt", res)
         if (res) toast({ title: "Sucess, Added a Product to the Cart." })
       }
     } catch (err) {

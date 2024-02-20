@@ -25,7 +25,7 @@ export const FetchCartQuery = gql(/* GraphQL */ `
   query FetchCartQuery($userId: UUID, $first: Int, $after: Cursor) {
     cartsCollection(
       first: $first
-      filter: { userId: { eq: $userId } }
+      filter: { user_id: { eq: $userId } }
       after: $after
     ) {
       edges {
@@ -41,9 +41,9 @@ export const FetchCartQuery = gql(/* GraphQL */ `
   }
 `)
 
-type AuthorizedCartSectionProps = { user: User }
+type UserCartSectionProps = { user: User }
 
-function AuthorizedCartSection({ user }: AuthorizedCartSectionProps) {
+function UserCartSection({ user }: UserCartSectionProps) {
   const [{ data, fetching, error }, reexecuteQuery] = useQuery({
     query: FetchCartQuery,
     variables: {
@@ -54,8 +54,10 @@ function AuthorizedCartSection({ user }: AuthorizedCartSectionProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [, updateCartProduct] = useMutation(UpdateCartsProduct)
   const [, removeCart] = useMutation(RemoveCartsMutation)
-  const subtotal = useMemo(() => calcSubtotal(data), [data])
-  const productCount = useMemo(() => calcProductCount(data), [data])
+
+  const cart = data && data.cartsCollection ? data.cartsCollection.edges : []
+  const subtotal = useMemo(() => calcSubtotal(cart), [cart])
+  const productCount = useMemo(() => calcProductCount(cart), [cart])
 
   if (fetching) {
     return <LoadingCartSection />
@@ -177,7 +179,7 @@ function AuthorizedCartSection({ user }: AuthorizedCartSectionProps) {
   )
 }
 
-export default AuthorizedCartSection
+export default UserCartSection
 
 const LoadingCartSection = () => (
   <section
@@ -211,21 +213,14 @@ const LoadingCartSection = () => (
   </section>
 )
 
-const calcProductCount = (data?: FetchCartQueryQuery) => {
-  const cartEdges =
-    data && data.cartsCollection ? data.cartsCollection.edges : []
-  if (!cartEdges.length) return 0
-
-  return cartEdges.reduce((acc, cur) => acc + cur.node.quantity, 0)
+export const calcProductCount = (data: { node: { quantity: number } }[]) => {
+  return data.reduce((acc, cur) => acc + cur.node.quantity, 0)
 }
 
-const calcSubtotal = (data?: FetchCartQueryQuery) => {
-  const cartEdges =
-    data && data.cartsCollection ? data.cartsCollection.edges : []
-
-  if (!cartEdges.length) return 0
-
-  return cartEdges.reduce(
+const calcSubtotal = (
+  data: { node: { quantity: number; product: { price: number } } }[]
+) => {
+  return data.reduce(
     (acc, cur) => acc + cur.node.quantity * cur.node.product.price,
     0
   )

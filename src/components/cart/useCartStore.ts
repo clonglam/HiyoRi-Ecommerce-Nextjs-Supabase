@@ -47,7 +47,7 @@ const useCartStore = create<CartStore>(
   )
 )
 
-export const calcProductCount = (cartItems: CartItems) => {
+export const calcProductCountStorage = (cartItems: CartItems) => {
   if (!cartItems) return 0
   return Object.values(cartItems).reduce((acc, cur) => acc + cur.quantity, 0)
 }

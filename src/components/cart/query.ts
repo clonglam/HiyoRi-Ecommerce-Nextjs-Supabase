@@ -3,12 +3,12 @@ import { gql } from "@/gql"
 export const AddCartProduct = gql(/* GraphQL */ `
   mutation AddCartsProduct($productId: String, $userId: UUID, $quantity: Int) {
     insertIntocartsCollection(
-      objects: { userId: $userId, productId: $productId, quantity: $quantity }
+      objects: { user_id: $userId, productId: $productId, quantity: $quantity }
     ) {
       affectedCount
       records {
         id
-        userId
+        user_id
         productId
       }
     }
@@ -39,7 +39,7 @@ export const UpdateCartsProduct = gql(/* GraphQL */ `
 
 export const ListCartQuery = gql(/* GraphQL */ `
   query ListCartQuery($userId: UUID) {
-    cartsCollection(filter: { userId: { eq: $userId } }) {
+    cartsCollection(filter: { user_id: { eq: $userId } }) {
       edges {
         node {
           id

@@ -900,7 +900,7 @@ type carts implements Node {
   id: String!
   quantity: Int!
   productId: String!
-  userId: UUID!
+  user_id: UUID!
   created_at: Datetime!
   product: products!
 }
@@ -927,7 +927,7 @@ input cartsFilter {
   id: StringFilter
   quantity: IntFilter
   productId: StringFilter
-  userId: UUIDFilter
+  user_id: UUIDFilter
   created_at: DatetimeFilter
   nodeId: IDFilter
 
@@ -949,7 +949,7 @@ input cartsInsertInput {
   id: String
   quantity: Int
   productId: String
-  userId: UUID
+  user_id: UUID
   created_at: Datetime
 }
 
@@ -965,7 +965,7 @@ input cartsOrderBy {
   id: OrderByDirection
   quantity: OrderByDirection
   productId: OrderByDirection
-  userId: OrderByDirection
+  user_id: OrderByDirection
   created_at: OrderByDirection
 }
 
@@ -973,7 +973,7 @@ input cartsUpdateInput {
   id: String
   quantity: Int
   productId: String
-  userId: UUID
+  user_id: UUID
   created_at: Datetime
 }
 

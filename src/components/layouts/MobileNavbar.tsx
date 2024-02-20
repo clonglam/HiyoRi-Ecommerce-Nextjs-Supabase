@@ -1,10 +1,6 @@
-// import CartNav from "../cart/CartNav"
-import dynamic from "next/dynamic"
-const CartNav = dynamic(() => import("../cart/CartNav"), { ssr: false })
-import { Icons } from "../icons"
+import CartNav from "../cart/CartNav"
 import Branding from "./Branding"
 import MobileSearchInput from "./MobileSearchInput"
-import NavLinkButton from "./NavLinkButton"
 import { SideMenu } from "./SideMenu"
 
 type Props = {}

@@ -54,7 +54,7 @@ export const ProductCardFragment = gql(/* GraphQL */ `
           id
           productId
           quantity
-          userId
+          user_id
         }
       }
     }

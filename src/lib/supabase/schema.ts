@@ -46,7 +46,7 @@ export const carts = pgTable(
     productId: text("productId")
       .notNull()
       .references(() => products.id, { onDelete: "cascade" }),
-    userId: uuid("userId").notNull(),
+    userId: uuid("user_id").notNull(),
     createdAt: timestamp("created_at", {
       withTimezone: true,
       mode: "string",

@@ -1,39 +1,12 @@
 "use client"
 
-import { useEffect, useMemo } from "react"
-import {
-  UrqlProvider,
-  ssrExchange,
-  cacheExchange,
-  fetchExchange,
-  createClient,
-} from "@urql/next"
-import { env } from "../../env.mjs"
 import { SupabaseAuthProvider } from "./AuthProvider"
+import UrqlProvider from "./UrqlProvider"
 
 export default function CustomProvider({ children }: React.PropsWithChildren) {
-  const [client, ssr] = useMemo(() => {
-    const ssr = ssrExchange()
-
-    const client = createClient({
-      url: `https://${env.NEXT_PUBLIC_SUPABASE_PROJECT_REF}.supabase.co/graphql/v1`,
-      exchanges: [cacheExchange, ssr, fetchExchange],
-      fetchOptions: {
-        headers: {
-          apiKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-        },
-      },
-      suspense: true,
-    })
-
-    return [client, ssr]
-  }, [])
-
   return (
     <SupabaseAuthProvider>
-      <UrqlProvider client={client} ssr={ssr}>
-        {children}
-      </UrqlProvider>
+      <UrqlProvider>{children}</UrqlProvider>
     </SupabaseAuthProvider>
   )
 }
