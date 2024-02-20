@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+
 import { Icons } from "../icons"
 import { Rating } from "../ui/rating"
 import Link from "next/link"
@@ -18,8 +19,9 @@ import { gql, DocumentType } from "@/gql"
 
 import { Badge } from "../ui/badge"
 import { BadgeType } from "@/lib/supabase/schema"
-import AddToCartButton from "../cart/AddToCartButton"
+
 import { Skeleton } from "../ui/skeleton"
+import AddToCartButton from "../cart/AddToCartButton"
 
 type CardProps = React.ComponentProps<typeof Card>
 
@@ -52,6 +54,7 @@ export const ProductCardFragment = gql(/* GraphQL */ `
           id
           productId
           quantity
+          userId
         }
       }
     }
@@ -121,11 +124,7 @@ export function ProductCard({
       <CardFooter className="gap-x-2 md:gap-x-5 p-0 ">
         <AddToCartButton
           productId={id}
-          productCartId={
-            cartProduct && cartProduct.length > 0
-              ? cartProduct[0].node.id
-              : undefined
-          }
+          cartId={cartProduct.length > 0 ? cartProduct[0].node.id : undefined}
           quantity={
             cartProduct && cartProduct.length > 0
               ? cartProduct[0].node.quantity + 1
@@ -142,15 +141,3 @@ export function ProductCard({
 }
 
 export default ProductCard
-
-export const ProductCardSkeleton = () => (
-  <div className="w-full border rounded-lg py-3">
-    <Skeleton className="w-[400px] h-[400px] mb-5" />
-    <div className="space-y-2">
-      <Skeleton className="w-[120px] h-6" />
-      <Skeleton className="w-[180px] h-4" />
-      <Skeleton className="w-[160px] h-4" />
-      <Skeleton className="w-[80px] h-4" />
-    </div>
-  </div>
-)

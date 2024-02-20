@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { Button } from "../ui/button"
 import { QuantityInput } from "./QuantityInput"
 import { useMutation } from "urql"
-import { gql } from "@/gql"
+
 import {
   Form,
   FormControl,
@@ -19,21 +19,31 @@ import * as z from "zod"
 import { SupabaseClient } from "@supabase/supabase-js"
 import createClient from "@/lib/supabase/client"
 import { useAuth } from "@/lib/providers/AuthProvider"
+import { gql } from "@/gql"
 
 const formSchema = z.object({
   quantity: z.number().min(0).max(8),
 })
 
 export const AddProductToCart = gql(/* GraphQL */ `
-  mutation AddProductToCart($productId: String, $userId: UUID, $quantity: Int) {
+  mutation AddProductToCart(
+    $id: String
+    $productId: String
+    $userId: UUID!
+    $quantity: Int
+  ) {
     insertIntocartsCollection(
-      objects: { userId: $userId, productId: $productId, quantity: $quantity }
+      objects: {
+        id: $id
+        productId: $productId
+        userId: $userId
+        quantity: $quantity
+      }
     ) {
       affectedCount
       records {
         id
         userId
-        productId
       }
     }
   }

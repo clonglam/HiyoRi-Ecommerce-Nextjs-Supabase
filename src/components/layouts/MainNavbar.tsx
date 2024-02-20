@@ -8,6 +8,9 @@ import { SideMenu } from "./SideMenu"
 import NavLinkButton from "./NavLinkButton"
 import { cn } from "@/lib/utils"
 import { getCurrentUser, isAdmin } from "@/_actions/users"
+// import CartNav from "../cart/CartNav"
+import { Suspense } from "react"
+const CartNav = dynamic(() => import("../cart/CartNav"), { ssr: false })
 const SearchInput = dynamic(() => import("./SearchInput"), { ssr: false })
 
 interface MainNavbarProps {
@@ -38,9 +41,7 @@ async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
             <Icons.heart className="w-4 h-4" aria-label="wishlist" />
           </NavLinkButton>
 
-          <NavLinkButton href={"/cart"}>
-            <Icons.cart className="w-4 h-4" aria-label="cart" />
-          </NavLinkButton>
+          <CartNav />
         </div>
       </div>
       <MobileNavbar />

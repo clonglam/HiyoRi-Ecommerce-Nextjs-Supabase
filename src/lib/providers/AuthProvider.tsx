@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { AuthUser, Session } from "@supabase/supabase-js"
 import { useToast } from "@/components/ui/use-toast"
 import supabase from "../supabase/client"
+import useCartStore from "@/components/cart/useCartStore"
 
 type SupabaseAuthContextType = {
   user: AuthUser | null
@@ -26,6 +27,7 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
 }) => {
   const [user, setUser] = useState<AuthUser | null>(null)
   // const [session, setSession] = useState<Session | null>(null)
+  const cart = useCartStore((s) => s.cart)
 
   const { toast } = useToast()
 
@@ -40,6 +42,7 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
           supabase.auth.getUser().then(({ data }) => {
             setUser(data.user)
           })
+          console.log("cart", cart)
           break
         case "PASSWORD_RECOVERY":
           supabase.auth.signOut()

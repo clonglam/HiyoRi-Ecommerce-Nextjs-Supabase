@@ -2,13 +2,9 @@ import { listCollectionsAction } from "@/_actions/collections"
 import { searchProductsAction } from "@/_actions/products"
 import Header from "@/components/layouts/Header"
 import FilterSelections from "@/components/products/FilterSelections"
-import { ProductCard } from "@/components/products/ProductCard"
 import SearchProductsGrid from "@/components/products/SearchProductsGrid"
 import { Skeleton } from "@/components/ui/skeleton"
-import { gql } from "@/gql"
-import { getClient } from "@/lib/urql/urql"
-import { notFound } from "next/navigation"
-import React, { Suspense } from "react"
+import { Suspense } from "react"
 
 interface ProductsPageProps {
   searchParams: {

@@ -103,12 +103,12 @@ function FilterSheet({ collections }: Props) {
               <h3 className="text-sm font-medium tracking-wide text-foreground">
                 Subcategories
               </h3>
-              <MultiSelect
+              {/* <MultiSelect
                 placeholder="Select subcategories"
                 selected={selectedSubcategories}
                 setSelected={setSelectedSubcategories}
                 options={subcategories}
-              />
+              /> */}
             </div>
           ) : null}
           {false ? (

@@ -12,6 +12,7 @@
     "react-hooks/exhaustive-deps": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "no-empty-pattern": "off",
-    "no-case-declarations": "off"
+    "no-case-declarations": "off",
+    "no-constant-condition": "off"
   }
 }

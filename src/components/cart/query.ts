@@ -15,8 +15,8 @@ export const AddCartProduct = gql(/* GraphQL */ `
   }
 `)
 
-export const RemoveCartsProduct = gql(/* GraphQL */ `
-  mutation RemoveCartsProduct($cartId: String) {
+export const RemoveCartsMutation = gql(/* GraphQL */ `
+  mutation RemoveCartsMutation($cartId: String) {
     deleteFromcartsCollection(filter: { id: { eq: $cartId } }) {
       affectedCount
     }

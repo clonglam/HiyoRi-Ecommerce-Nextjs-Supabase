@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       data: { user },
     } = await supabase.auth.getUser()
 
-    if (!user) return new NextResponse("User not found.", { status: 402 })
+    // if (!user) return new NextResponse("User not found.", { status: 402 })
 
     const cartItems = await db.query.carts.findMany({
       with: { product: true },
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       //@ts-ignore
       payment_method_types: ["card"],
       billing_address_collection: "required",
-      client_reference_id: user.id,
+      client_reference_id: user ? user.id : "N/A",
       line_items: cartItems.map((item) => ({
         price_data: {
           currency: "usd",
@@ -52,6 +52,7 @@ export async function POST(request: Request) {
       success_url: `${getURL()}/dashboard`,
       cancel_url: `${getURL()}/dashboard`,
     })
+
     return NextResponse.json({ sessionId: session.id })
   } catch (error: any) {
     console.log(error)

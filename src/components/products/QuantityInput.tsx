@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  onChange: (...event: any[]) => void
+  onChange?: (...event: any[]) => void
   value: number
   addOneHandler: () => void
   minusOneHandler: () => void
@@ -53,3 +53,4 @@ const QuantityInput = React.forwardRef<HTMLInputElement, InputProps>(
 QuantityInput.displayName = "QuantityInput"
 
 export { QuantityInput }
+export default QuantityInput

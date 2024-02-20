@@ -1,3 +1,6 @@
+// import CartNav from "../cart/CartNav"
+import dynamic from "next/dynamic"
+const CartNav = dynamic(() => import("../cart/CartNav"), { ssr: false })
 import { Icons } from "../icons"
 import Branding from "./Branding"
 import MobileSearchInput from "./MobileSearchInput"
@@ -16,9 +19,7 @@ function MobileNavbar({}: Props) {
 
       <Branding />
 
-      <NavLinkButton href={"/cart"}>
-        <Icons.cart className="w-4 h-4" aria-label="cart" />
-      </NavLinkButton>
+      <CartNav />
     </div>
   )
 }

@@ -1,9 +1,8 @@
 import CollectionsCard, {
   CollectionsCardSkeleton,
 } from "@/components/landing/CollectionsCard"
-import ProductCard, {
-  ProductCardSkeleton,
-} from "@/components/products/ProductCard"
+import ProductCard from "@/components/products/ProductCard"
+import { ProductCardSkeleton } from "@/components/products/ProductCardSkeleton"
 import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { gql } from "@/gql"

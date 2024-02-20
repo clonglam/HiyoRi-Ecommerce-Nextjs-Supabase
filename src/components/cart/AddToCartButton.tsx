@@ -1,66 +1,70 @@
 "use client"
-import React from "react"
-import type { CartItem } from "./useCartStore"
-import { Button, ButtonProps } from "../ui/button"
-import { Icons } from "../icons"
-import { nanoid } from "nanoid"
-import useCartStore from "./useCartStore"
-import { cacheExchange, useClient, useMutation } from "@urql/next"
-import { AddProductToCart } from "../products/AddProductForm"
-import { useAuth } from "@/lib/providers/AuthProvider"
 
-import { UpdateCartsProduct } from "./query"
-import { gql } from "@/gql"
-import { carts } from "@/lib/supabase/schema"
+import { useAuth } from "@/lib/providers/AuthProvider"
+import { useMutation } from "@urql/next"
+import { Icons } from "../icons"
+import { AddProductToCart } from "../products/AddProductForm"
+import { Button, ButtonProps } from "../ui/button"
+
+import { nanoid } from "nanoid"
 import { useToast } from "../ui/use-toast"
+import { UpdateCartsProduct } from "./query"
+import useCartStore from "./useCartStore"
 
 interface AddToCartButtonProps extends ButtonProps {
   productId: string
-  productCartId?: string
   quantity?: number
+  cartId?: string
 }
 
 function AddToCartButton({
   productId,
-  productCartId,
   quantity = 1,
+  cartId,
 }: AddToCartButtonProps) {
-  const client = useClient() // Get the urql client
-  const addItem = useCartStore((s) => s.addItem)
+  const { user } = useAuth()
   const { toast } = useToast()
 
-  const [cartResult, addToCart] = useMutation(AddProductToCart)
-  const [updateCartResult, updateCart] = useMutation(UpdateCartsProduct)
-  const { user } = useAuth()
+  const [, addToCart] = useMutation(AddProductToCart)
+  const [, updateCart] = useMutation(UpdateCartsProduct)
 
-  const onClickHandler = () => {
-    if (user) {
-      if (productCartId) {
-        updateCart({ id: productCartId, newQuantity: quantity })
-      } else {
-        addToCart({
+  const addProductToCart = useCartStore((s) => s.addProductToCart)
+
+  const userAddProduct = async () => {
+    console.log("User is Logined so we add Product with mutation")
+    try {
+      if (!cartId) {
+        const res = await addToCart({
+          id: nanoid(),
           productId: productId,
-          quantity: quantity,
           userId: user.id,
+          quantity: quantity,
         })
+
+        if (res) toast({ title: "Sucess, Added a Product to the Cart." })
+      } else {
+        const res = await updateCart({
+          id: cartId,
+          newQuantity: quantity,
+        })
+
+        if (res) toast({ title: "Sucess, Added a Product to the Cart." })
       }
+    } catch (err) {
+      toast({ title: "Error, Unexpected Error occurred." })
     }
+  }
 
-    // client.
-
-    addItem({
-      id: nanoid(),
-      productId,
-      quantity,
-      userId: null,
-      createdAt: Date.now().toString(),
-    })
-
+  const guestAddProduct = () => {
+    addProductToCart(productId, 1)
     toast({ title: "Sucess, Added a Product to the Cart." })
   }
 
   return (
-    <Button className="rounded-full p-0 h-8 w-8" onClick={onClickHandler}>
+    <Button
+      className="rounded-full p-0 h-8 w-8"
+      onClick={user ? userAddProduct : guestAddProduct}
+    >
       <Icons.basket className="h-5 w-5 md:h-4 md:w-4" />
     </Button>
   )

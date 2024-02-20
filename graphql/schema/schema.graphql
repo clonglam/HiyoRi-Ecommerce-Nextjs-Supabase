@@ -794,8 +794,8 @@ type address implements Node {
   state: String!
   orderId: String
   userProfileId: UUID
-  order: shop_orders
   userProfile: profiles
+  order: shop_orders
 }
 
 type addressConnection {
@@ -1556,25 +1556,6 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [order_linesOrderBy!]
   ): order_linesConnection
-  cartsCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: cartsFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [cartsOrderBy!]
-  ): cartsConnection
   user_wishlistCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1594,25 +1575,6 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [user_wishlistOrderBy!]
   ): user_wishlistConnection
-  commentsCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: commentsFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [commentsOrderBy!]
-  ): commentsConnection
   product_mediasCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1632,6 +1594,44 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [product_mediasOrderBy!]
   ): product_mediasConnection
+  commentsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: commentsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [commentsOrderBy!]
+  ): commentsConnection
+  cartsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: cartsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [cartsOrderBy!]
+  ): cartsConnection
 }
 
 type productsConnection {
@@ -1884,25 +1884,6 @@ type shop_orders implements Node {
   userId: UUID
   created_at: Datetime!
   addressId: String!
-  addressCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: addressFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [addressOrderBy!]
-  ): addressConnection
   order_linesCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1922,6 +1903,25 @@ type shop_orders implements Node {
     """Sort order to apply to the collection"""
     orderBy: [order_linesOrderBy!]
   ): order_linesConnection
+  addressCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: addressFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [addressOrderBy!]
+  ): addressConnection
 }
 
 type shop_ordersConnection {

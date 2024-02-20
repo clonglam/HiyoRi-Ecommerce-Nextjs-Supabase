@@ -1,58 +1,11 @@
 import CartSection from "@/components/cart/CartSection"
+import CartSectionSkeleton from "@/components/cart/CartSectionSkeleton"
 import RecommendationProducts from "@/components/products/RecommendationProducts"
-import { gql } from "@/gql"
-import { createClient } from "@/lib/supabase/server"
-import { getClient } from "@/lib/urql/urql"
-import { cookies } from "next/headers"
+import RecommendationProductsSkeleton from "@/components/products/RecommendationProductsSkeleton"
 import Link from "next/link"
-import { notFound, redirect } from "next/navigation"
 import { Suspense } from "react"
 
 async function CartPage() {
-  const cookieStore = cookies()
-  const supabase = createClient({ cookieStore })
-
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser()
-  if (authError || !user) {
-    redirect("/sign-in")
-  }
-
-  const CartPageQuery = gql(/* GraphQL */ `
-    query CartPageQuery($first: Int!, $userId: UUID) {
-      recommendations: productsCollection(first: $first) {
-        edges {
-          node {
-            id
-            ...ProductCardFragment
-          }
-        }
-      }
-      cartsCollection(filter: { userId: { eq: $userId } }, first: 15) {
-        __typename
-        edges {
-          node {
-            ...CartItemCardFragment
-          }
-        }
-        pageInfo {
-          hasNextPage
-        }
-      }
-    }
-  `)
-
-  const { data, error } = await getClient().query(CartPageQuery, {
-    first: 4,
-    userId: user?.id,
-  })
-
-  console.log("error", error)
-  if (!data || !data.recommendations) return notFound()
-  console.log("data", data)
-
   return (
     <div className="min-h-screen container">
       <section className="flex justify-between items-center py-8">
@@ -60,14 +13,12 @@ async function CartPage() {
         <Link href="/shop">Continue shopping</Link>
       </section>
 
-      <Suspense fallback={<div>I am Loading</div>}>
+      <Suspense fallback={<CartSectionSkeleton />}>
         <CartSection />
       </Suspense>
 
-      <Suspense fallback={<div>I am Loading</div>}>
-        <RecommendationProducts
-          recommendationsEdge={data.recommendations.edges}
-        />
+      <Suspense fallback={<RecommendationProductsSkeleton />}>
+        <RecommendationProducts />
       </Suspense>
     </div>
   )
