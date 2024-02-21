@@ -14,7 +14,7 @@ export const GetCartCountQuery = gql(/* GraphQL */ `
     cartsCollection {
       edges {
         node {
-          productId
+          product_id
           user_id
           quantity
         }

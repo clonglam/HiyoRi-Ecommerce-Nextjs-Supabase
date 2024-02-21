@@ -898,10 +898,10 @@ type carts implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
   quantity: Int!
-  productId: String!
+  product_id: String!
   user_id: UUID!
   created_at: Datetime!
-  product: products!
+  products: products!
 }
 
 type cartsConnection {
@@ -924,7 +924,7 @@ type cartsEdge {
 
 input cartsFilter {
   quantity: IntFilter
-  productId: StringFilter
+  product_id: StringFilter
   user_id: UUIDFilter
   created_at: DatetimeFilter
   nodeId: IDFilter
@@ -945,7 +945,7 @@ input cartsFilter {
 
 input cartsInsertInput {
   quantity: Int
-  productId: String
+  product_id: String
   user_id: UUID
   created_at: Datetime
 }
@@ -960,14 +960,14 @@ type cartsInsertResponse {
 
 input cartsOrderBy {
   quantity: OrderByDirection
-  productId: OrderByDirection
+  product_id: OrderByDirection
   user_id: OrderByDirection
   created_at: OrderByDirection
 }
 
 input cartsUpdateInput {
   quantity: Int
-  productId: String
+  product_id: String
   user_id: UUID
   created_at: Datetime
 }
@@ -1190,6 +1190,25 @@ type medias implements Node {
   alt: String!
   created_at: Datetime
   updated_at: Datetime
+  product_mediasCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: product_mediasFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [product_mediasOrderBy!]
+  ): product_mediasConnection
   productsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1228,25 +1247,6 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [collectionsOrderBy!]
   ): collectionsConnection
-  product_mediasCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: product_mediasFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [product_mediasOrderBy!]
-  ): product_mediasConnection
 }
 
 type mediasConnection {
@@ -1338,8 +1338,8 @@ type order_lines implements Node {
   quantity: Int!
   price: BigFloat!
   created_at: Datetime!
-  products: products!
   order: shop_orders!
+  products: products!
 }
 
 type order_linesConnection {
@@ -1433,8 +1433,8 @@ type product_medias implements Node {
   productId: String!
   mediaId: String!
   priority: Int
-  product: products!
   media: medias!
+  product: products!
 }
 
 type product_mediasConnection {
@@ -1551,44 +1551,6 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [order_linesOrderBy!]
   ): order_linesConnection
-  user_wishlistCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: user_wishlistFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [user_wishlistOrderBy!]
-  ): user_wishlistConnection
-  product_mediasCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: product_mediasFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [product_mediasOrderBy!]
-  ): product_mediasConnection
   commentsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1608,6 +1570,25 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [commentsOrderBy!]
   ): commentsConnection
+  user_wishlistCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: user_wishlistFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [user_wishlistOrderBy!]
+  ): user_wishlistConnection
   cartsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1627,6 +1608,25 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [cartsOrderBy!]
   ): cartsConnection
+  product_mediasCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: product_mediasFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [product_mediasOrderBy!]
+  ): product_mediasConnection
 }
 
 type productsConnection {
@@ -2022,11 +2022,10 @@ type shop_ordersUpdateResponse {
 type user_wishlist implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
-  id: String!
-  productId: String!
-  userId: UUID!
+  product_id: String!
+  user_id: UUID!
   created_at: Datetime!
-  product: products!
+  products: products!
 }
 
 type user_wishlistConnection {
@@ -2048,9 +2047,8 @@ type user_wishlistEdge {
 }
 
 input user_wishlistFilter {
-  id: StringFilter
-  productId: StringFilter
-  userId: UUIDFilter
+  product_id: StringFilter
+  user_id: UUIDFilter
   created_at: DatetimeFilter
   nodeId: IDFilter
 
@@ -2069,9 +2067,8 @@ input user_wishlistFilter {
 }
 
 input user_wishlistInsertInput {
-  id: String
-  productId: String
-  userId: UUID
+  product_id: String
+  user_id: UUID
   created_at: Datetime
 }
 
@@ -2084,16 +2081,14 @@ type user_wishlistInsertResponse {
 }
 
 input user_wishlistOrderBy {
-  id: OrderByDirection
-  productId: OrderByDirection
-  userId: OrderByDirection
+  product_id: OrderByDirection
+  user_id: OrderByDirection
   created_at: OrderByDirection
 }
 
 input user_wishlistUpdateInput {
-  id: String
-  productId: String
-  userId: UUID
+  product_id: String
+  user_id: UUID
   created_at: Datetime
 }
 

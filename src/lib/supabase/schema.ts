@@ -39,12 +39,8 @@ export type InsertUserProfiles = InferInsertModel<typeof profiles>
 export const carts = pgTable(
   "carts",
   {
-    // id: text("id")
-    //   .notNull()
-    //   .primaryKey()
-    //   .$defaultFn(() => createId()),
     quantity: integer("quantity").notNull(),
-    productId: text("productId")
+    productId: text("product_id")
       .notNull()
       .references(() => products.id, { onDelete: "cascade" }),
     userId: uuid("user_id").notNull(),
@@ -82,14 +78,10 @@ export const cartsRelations = relations(carts, ({ one }) => ({
 export const userWishlist = pgTable(
   "user_wishlist",
   {
-    id: text("id")
-      .notNull()
-      .primaryKey()
-      .$defaultFn(() => createId()),
-    productId: text("productId")
+    productId: text("product_id")
       .notNull()
       .references(() => products.id, { onDelete: "cascade" }),
-    userId: uuid("userId").notNull(),
+    userId: uuid("user_id").notNull(),
     createdAt: timestamp("created_at", {
       withTimezone: true,
       mode: "string",
@@ -99,6 +91,10 @@ export const userWishlist = pgTable(
   },
   (table) => {
     return {
+      pkWithCustomName: primaryKey({
+        name: "user_wishlist_pk",
+        columns: [table.userId, table.productId],
+      }),
       product: foreignKey({
         columns: [table.productId],
         foreignColumns: [products.id],

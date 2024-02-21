@@ -30,10 +30,10 @@ export const FetchCartQuery = gql(/* GraphQL */ `
     ) {
       edges {
         node {
-          productId
+          product_id
           user_id
           quantity
-          product {
+          product: products {
             ...CartItemCardFragment
           }
         }
@@ -70,12 +70,13 @@ function UserCartSection({ user }: UserCartSectionProps) {
 
   if (!data || !data.cartsCollection) return notFound()
 
-  const addOneHandler = async (cartId: string, quantity: number) => {
+  const addOneHandler = async (productId: string, quantity: number) => {
     if (quantity < 8) {
       setIsLoading(true)
 
       const res = await updateCartProduct({
-        id: cartId,
+        productId: productId,
+        userId: user.id,
         newQuantity: quantity + 1,
       })
 
@@ -91,12 +92,13 @@ function UserCartSection({ user }: UserCartSectionProps) {
     }
   }
 
-  const minusOneHandler = async (cartId: string, quantity: number) => {
+  const minusOneHandler = async (productId: string, quantity: number) => {
     if (quantity > 1) {
       setIsLoading(true)
 
       const res = await updateCartProduct({
-        id: cartId,
+        productId: productId,
+        userId: user.id,
         newQuantity: quantity - 1,
       })
 
@@ -112,10 +114,10 @@ function UserCartSection({ user }: UserCartSectionProps) {
     }
   }
 
-  const removeHandler = async (cartId: string) => {
+  const removeHandler = async (productId: string) => {
     setIsLoading(true)
 
-    const res = await removeCart({ cartId: cartId })
+    const res = await removeCart({ productId, userId: user.id })
     console.log("res", res)
     reexecuteQuery({ requestPolicy: "network-only" })
 
@@ -141,13 +143,17 @@ function UserCartSection({ user }: UserCartSectionProps) {
           <div className="col-span-12 md:col-span-9 max-h-[420px] overflow-y-auto">
             {data.cartsCollection?.edges.map(({ node }) => (
               <CartItemCard
-                key={node.id}
-                id={node.id}
+                key={node.product_id}
+                id={node.product_id}
                 product={node.product}
                 quantity={node.quantity}
-                addOneHandler={() => addOneHandler(node.id, node.quantity)}
-                minusOneHandler={() => minusOneHandler(node.id, node.quantity)}
-                removeHandler={() => removeHandler(node.id)}
+                addOneHandler={() =>
+                  addOneHandler(node.product_id, node.quantity)
+                }
+                minusOneHandler={() =>
+                  minusOneHandler(node.product_id, node.quantity)
+                }
+                removeHandler={() => removeHandler(node.product_id)}
                 disabled={isLoading}
               />
             ))}

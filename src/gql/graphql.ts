@@ -720,8 +720,8 @@ export type Carts = Node & {
   created_at: Scalars["Datetime"];
   /** Globally Unique Record Identifier */
   nodeId: Scalars["ID"];
-  product: Products;
-  productId: Scalars["String"];
+  product_id: Scalars["String"];
+  products: Products;
   quantity: Scalars["Int"];
   user_id: Scalars["UUID"];
 };
@@ -755,14 +755,14 @@ export type CartsFilter = {
   not?: InputMaybe<CartsFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<CartsFilter>>;
-  productId?: InputMaybe<StringFilter>;
+  product_id?: InputMaybe<StringFilter>;
   quantity?: InputMaybe<IntFilter>;
   user_id?: InputMaybe<UuidFilter>;
 };
 
 export type CartsInsertInput = {
   created_at?: InputMaybe<Scalars["Datetime"]>;
-  productId?: InputMaybe<Scalars["String"]>;
+  product_id?: InputMaybe<Scalars["String"]>;
   quantity?: InputMaybe<Scalars["Int"]>;
   user_id?: InputMaybe<Scalars["UUID"]>;
 };
@@ -777,14 +777,14 @@ export type CartsInsertResponse = {
 
 export type CartsOrderBy = {
   created_at?: InputMaybe<OrderByDirection>;
-  productId?: InputMaybe<OrderByDirection>;
+  product_id?: InputMaybe<OrderByDirection>;
   quantity?: InputMaybe<OrderByDirection>;
   user_id?: InputMaybe<OrderByDirection>;
 };
 
 export type CartsUpdateInput = {
   created_at?: InputMaybe<Scalars["Datetime"]>;
-  productId?: InputMaybe<Scalars["String"]>;
+  product_id?: InputMaybe<Scalars["String"]>;
   quantity?: InputMaybe<Scalars["Int"]>;
   user_id?: InputMaybe<Scalars["UUID"]>;
 };
@@ -1690,12 +1690,11 @@ export type Shop_OrdersUpdateResponse = {
 export type User_Wishlist = Node & {
   __typename?: "user_wishlist";
   created_at: Scalars["Datetime"];
-  id: Scalars["String"];
   /** Globally Unique Record Identifier */
   nodeId: Scalars["ID"];
-  product: Products;
-  productId: Scalars["String"];
-  userId: Scalars["UUID"];
+  product_id: Scalars["String"];
+  products: Products;
+  user_id: Scalars["UUID"];
 };
 
 export type User_WishlistConnection = {
@@ -1722,21 +1721,19 @@ export type User_WishlistFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<User_WishlistFilter>>;
   created_at?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<StringFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
   not?: InputMaybe<User_WishlistFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<User_WishlistFilter>>;
-  productId?: InputMaybe<StringFilter>;
-  userId?: InputMaybe<UuidFilter>;
+  product_id?: InputMaybe<StringFilter>;
+  user_id?: InputMaybe<UuidFilter>;
 };
 
 export type User_WishlistInsertInput = {
   created_at?: InputMaybe<Scalars["Datetime"]>;
-  id?: InputMaybe<Scalars["String"]>;
-  productId?: InputMaybe<Scalars["String"]>;
-  userId?: InputMaybe<Scalars["UUID"]>;
+  product_id?: InputMaybe<Scalars["String"]>;
+  user_id?: InputMaybe<Scalars["UUID"]>;
 };
 
 export type User_WishlistInsertResponse = {
@@ -1749,16 +1746,14 @@ export type User_WishlistInsertResponse = {
 
 export type User_WishlistOrderBy = {
   created_at?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
-  productId?: InputMaybe<OrderByDirection>;
-  userId?: InputMaybe<OrderByDirection>;
+  product_id?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
 };
 
 export type User_WishlistUpdateInput = {
   created_at?: InputMaybe<Scalars["Datetime"]>;
-  id?: InputMaybe<Scalars["String"]>;
-  productId?: InputMaybe<Scalars["String"]>;
-  userId?: InputMaybe<Scalars["UUID"]>;
+  product_id?: InputMaybe<Scalars["String"]>;
+  user_id?: InputMaybe<Scalars["UUID"]>;
 };
 
 export type User_WishlistUpdateResponse = {
@@ -1853,7 +1848,7 @@ export type CollectionRouteQueryQuery = {
                   __typename?: "cartsEdge";
                   node: {
                     __typename?: "carts";
-                    productId: string;
+                    product_id: string;
                     quantity: number;
                     user_id: any;
                   };
@@ -1863,11 +1858,7 @@ export type CollectionRouteQueryQuery = {
                 __typename?: "user_wishlistConnection";
                 edges: Array<{
                   __typename?: "user_wishlistEdge";
-                  node: {
-                    __typename?: "user_wishlist";
-                    id: string;
-                    productId: string;
-                  };
+                  node: { __typename?: "user_wishlist"; product_id: string };
                 }>;
               } | null;
             };
@@ -1968,7 +1959,7 @@ export type LandingRouteQueryQuery = {
             __typename?: "cartsEdge";
             node: {
               __typename?: "carts";
-              productId: string;
+              product_id: string;
               quantity: number;
               user_id: any;
             };
@@ -1978,11 +1969,7 @@ export type LandingRouteQueryQuery = {
           __typename?: "user_wishlistConnection";
           edges: Array<{
             __typename?: "user_wishlistEdge";
-            node: {
-              __typename?: "user_wishlist";
-              id: string;
-              productId: string;
-            };
+            node: { __typename?: "user_wishlist"; product_id: string };
           }>;
         } | null;
       };
@@ -2094,7 +2081,7 @@ export type ProductDetailPageQueryQuery = {
             __typename?: "cartsEdge";
             node: {
               __typename?: "carts";
-              productId: string;
+              product_id: string;
               quantity: number;
               user_id: any;
             };
@@ -2104,11 +2091,7 @@ export type ProductDetailPageQueryQuery = {
           __typename?: "user_wishlistConnection";
           edges: Array<{
             __typename?: "user_wishlistEdge";
-            node: {
-              __typename?: "user_wishlist";
-              id: string;
-              productId: string;
-            };
+            node: { __typename?: "user_wishlist"; product_id: string };
           }>;
         } | null;
       };
@@ -2203,7 +2186,7 @@ export type GetCartCountQueryQuery = {
       __typename?: "cartsEdge";
       node: {
         __typename?: "carts";
-        productId: string;
+        product_id: string;
         user_id: any;
         quantity: number;
       };
@@ -2255,7 +2238,7 @@ export type FetchCartQueryQuery = {
       __typename?: "cartsEdge";
       node: {
         __typename?: "carts";
-        productId: string;
+        product_id: string;
         user_id: any;
         quantity: number;
         product: {
@@ -2292,7 +2275,7 @@ export type AddCartsProductMutation = {
       __typename?: "carts";
       quantity: number;
       user_id: any;
-      productId: string;
+      product_id: string;
     }>;
   } | null;
 };
@@ -2324,7 +2307,7 @@ export type UpdateCartsCollectionMutation = {
     records: Array<{
       __typename?: "carts";
       user_id: any;
-      productId: string;
+      product_id: string;
       quantity: number;
     }>;
   };
@@ -2344,7 +2327,7 @@ export type ListCartQueryQuery = {
         __typename?: "carts";
         quantity: number;
         user_id: any;
-        productId: string;
+        product_id: string;
       };
     }>;
   } | null;
@@ -2421,7 +2404,7 @@ export type AddProductToCartMutation = {
     affectedCount: number;
     records: Array<{
       __typename?: "carts";
-      productId: string;
+      product_id: string;
       user_id: any;
       quantity: number;
     }>;
@@ -2455,7 +2438,7 @@ export type ProductCardFragmentFragment = {
       __typename?: "cartsEdge";
       node: {
         __typename?: "carts";
-        productId: string;
+        product_id: string;
         quantity: number;
         user_id: any;
       };
@@ -2465,7 +2448,7 @@ export type ProductCardFragmentFragment = {
     __typename?: "user_wishlistConnection";
     edges: Array<{
       __typename?: "user_wishlistEdge";
-      node: { __typename?: "user_wishlist"; id: string; productId: string };
+      node: { __typename?: "user_wishlist"; product_id: string };
     }>;
   } | null;
 };
@@ -2544,7 +2527,7 @@ export type RecomendationProductsQueryQuery = {
             __typename?: "cartsEdge";
             node: {
               __typename?: "carts";
-              productId: string;
+              product_id: string;
               quantity: number;
               user_id: any;
             };
@@ -2554,11 +2537,7 @@ export type RecomendationProductsQueryQuery = {
           __typename?: "user_wishlistConnection";
           edges: Array<{
             __typename?: "user_wishlistEdge";
-            node: {
-              __typename?: "user_wishlist";
-              id: string;
-              productId: string;
-            };
+            node: { __typename?: "user_wishlist"; product_id: string };
           }>;
         } | null;
       };
@@ -2604,7 +2583,7 @@ export type FetchSearchProductsQueryQuery = {
             __typename?: "cartsEdge";
             node: {
               __typename?: "carts";
-              productId: string;
+              product_id: string;
               quantity: number;
               user_id: any;
             };
@@ -2614,11 +2593,7 @@ export type FetchSearchProductsQueryQuery = {
           __typename?: "user_wishlistConnection";
           edges: Array<{
             __typename?: "user_wishlistEdge";
-            node: {
-              __typename?: "user_wishlist";
-              id: string;
-              productId: string;
-            };
+            node: { __typename?: "user_wishlist"; product_id: string };
           }>;
         } | null;
       };
@@ -2664,7 +2639,7 @@ export type ListProductsByFeaturedQueryQuery = {
             __typename?: "cartsEdge";
             node: {
               __typename?: "carts";
-              productId: string;
+              product_id: string;
               quantity: number;
               user_id: any;
             };
@@ -2674,11 +2649,7 @@ export type ListProductsByFeaturedQueryQuery = {
           __typename?: "user_wishlistConnection";
           edges: Array<{
             __typename?: "user_wishlistEdge";
-            node: {
-              __typename?: "user_wishlist";
-              id: string;
-              productId: string;
-            };
+            node: { __typename?: "user_wishlist"; product_id: string };
           }>;
         } | null;
       };
@@ -2698,9 +2669,8 @@ export type AddProductToWishListMutation = {
     affectedCount: number;
     records: Array<{
       __typename?: "user_wishlist";
-      id: string;
-      userId: any;
-      productId: string;
+      user_id: any;
+      product_id: string;
     }>;
   } | null;
 };
@@ -3111,7 +3081,7 @@ export const ProductCardFragmentFragmentDoc = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                             {
                               kind: "Field",
@@ -3150,11 +3120,7 @@ export const ProductCardFragmentFragmentDoc = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                           ],
                         },
@@ -3747,7 +3713,7 @@ export const CollectionRouteQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                             {
                               kind: "Field",
@@ -3786,11 +3752,7 @@ export const CollectionRouteQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                           ],
                         },
@@ -4302,7 +4264,7 @@ export const LandingRouteQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                             {
                               kind: "Field",
@@ -4341,11 +4303,7 @@ export const LandingRouteQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                           ],
                         },
@@ -4822,7 +4780,7 @@ export const ProductDetailPageQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                             {
                               kind: "Field",
@@ -4861,11 +4819,7 @@ export const ProductDetailPageQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                           ],
                         },
@@ -5112,7 +5066,7 @@ export const GetCartCountQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                             {
                               kind: "Field",
@@ -5405,7 +5359,7 @@ export const FetchCartQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                             {
                               kind: "Field",
@@ -5417,7 +5371,8 @@ export const FetchCartQueryDocument = {
                             },
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "product" },
+                              alias: { kind: "Name", value: "product" },
+                              name: { kind: "Name", value: "products" },
                               selectionSet: {
                                 kind: "SelectionSet",
                                 selections: [
@@ -5532,7 +5487,7 @@ export const AddCartsProductDocument = {
                     },
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "productId" },
+                      name: { kind: "Name", value: "product_id" },
                       value: {
                         kind: "Variable",
                         name: { kind: "Name", value: "productId" },
@@ -5573,7 +5528,7 @@ export const AddCartsProductDocument = {
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "productId" },
+                        name: { kind: "Name", value: "product_id" },
                       },
                     ],
                   },
@@ -5638,7 +5593,7 @@ export const RemoveCartsMutationDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "productId" },
+                      name: { kind: "Name", value: "product_id" },
                       value: {
                         kind: "ObjectValue",
                         fields: [
@@ -5740,7 +5695,7 @@ export const UpdateCartsCollectionDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "productId" },
+                      name: { kind: "Name", value: "product_id" },
                       value: {
                         kind: "ObjectValue",
                         fields: [
@@ -5812,7 +5767,7 @@ export const UpdateCartsCollectionDocument = {
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "productId" },
+                        name: { kind: "Name", value: "product_id" },
                       },
                       {
                         kind: "Field",
@@ -5908,7 +5863,7 @@ export const ListCartQueryDocument = {
                             },
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                           ],
                         },
@@ -5975,7 +5930,7 @@ export const AddProductToCartDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "productId" },
+                      name: { kind: "Name", value: "product_id" },
                       value: {
                         kind: "Variable",
                         name: { kind: "Name", value: "productId" },
@@ -6016,7 +5971,7 @@ export const AddProductToCartDocument = {
                     selections: [
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "productId" },
+                        name: { kind: "Name", value: "product_id" },
                       },
                       {
                         kind: "Field",
@@ -6177,7 +6132,7 @@ export const RecomendationProductsQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                             {
                               kind: "Field",
@@ -6216,11 +6171,7 @@ export const RecomendationProductsQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                           ],
                         },
@@ -6415,7 +6366,7 @@ export const FetchSearchProductsQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                             {
                               kind: "Field",
@@ -6454,11 +6405,7 @@ export const FetchSearchProductsQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                           ],
                         },
@@ -6626,7 +6573,7 @@ export const ListProductsByFeaturedQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                             {
                               kind: "Field",
@@ -6665,11 +6612,7 @@ export const ListProductsByFeaturedQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "productId" },
+                              name: { kind: "Name", value: "product_id" },
                             },
                           ],
                         },
@@ -6728,7 +6671,7 @@ export const AddProductToWishListDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "userId" },
+                      name: { kind: "Name", value: "user_id" },
                       value: {
                         kind: "Variable",
                         name: { kind: "Name", value: "userId" },
@@ -6736,7 +6679,7 @@ export const AddProductToWishListDocument = {
                     },
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "productId" },
+                      name: { kind: "Name", value: "product_id" },
                       value: {
                         kind: "Variable",
                         name: { kind: "Name", value: "productId" },
@@ -6759,14 +6702,13 @@ export const AddProductToWishListDocument = {
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "userId" },
+                        name: { kind: "Name", value: "user_id" },
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "productId" },
+                        name: { kind: "Name", value: "product_id" },
                       },
                     ],
                   },

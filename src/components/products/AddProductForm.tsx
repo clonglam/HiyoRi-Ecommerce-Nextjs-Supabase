@@ -32,11 +32,11 @@ export const AddProductToCart = gql(/* GraphQL */ `
     $quantity: Int
   ) {
     insertIntocartsCollection(
-      objects: { productId: $productId, user_id: $userId, quantity: $quantity }
+      objects: { product_id: $productId, user_id: $userId, quantity: $quantity }
     ) {
       affectedCount
       records {
-        productId
+        product_id
         user_id
         quantity
       }

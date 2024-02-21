@@ -9,13 +9,12 @@ function AddToWishListButton({}: Props) {
   const AddProductToWishList = gql(/* GraphQL */ `
     mutation AddProductToWishList($productId: String, $userId: UUID) {
       insertIntouser_wishlistCollection(
-        objects: { userId: $userId, productId: $productId }
+        objects: { user_id: $userId, product_id: $productId }
       ) {
         affectedCount
         records {
-          id
-          userId
-          productId
+          user_id
+          product_id
         }
       }
     }

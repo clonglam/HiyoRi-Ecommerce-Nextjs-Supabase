@@ -51,7 +51,7 @@ export const ProductCardFragment = gql(/* GraphQL */ `
     cartsCollection {
       edges {
         node {
-          productId
+          product_id
           quantity
           user_id
         }
@@ -60,8 +60,7 @@ export const ProductCardFragment = gql(/* GraphQL */ `
     user_wishlistCollection {
       edges {
         node {
-          id
-          productId
+          product_id
         }
       }
     }
@@ -124,7 +123,7 @@ export function ProductCard({
         <AddToCartButton
           productId={id}
           cartId={
-            cartProduct.length > 0 ? cartProduct[0].node.productId : undefined
+            cartProduct.length > 0 ? cartProduct[0].node.product_id : undefined
           }
           quantity={
             cartProduct && cartProduct.length > 0
