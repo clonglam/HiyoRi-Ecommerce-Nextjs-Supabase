@@ -51,7 +51,6 @@ export const ProductCardFragment = gql(/* GraphQL */ `
     cartsCollection {
       edges {
         node {
-          id
           productId
           quantity
           user_id
@@ -124,7 +123,9 @@ export function ProductCard({
       <CardFooter className="gap-x-2 md:gap-x-5 p-0 ">
         <AddToCartButton
           productId={id}
-          cartId={cartProduct.length > 0 ? cartProduct[0].node.id : undefined}
+          cartId={
+            cartProduct.length > 0 ? cartProduct[0].node.productId : undefined
+          }
           quantity={
             cartProduct && cartProduct.length > 0
               ? cartProduct[0].node.quantity + 1

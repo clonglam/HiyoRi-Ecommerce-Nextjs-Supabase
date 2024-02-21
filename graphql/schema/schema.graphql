@@ -897,7 +897,6 @@ type addressUpdateResponse {
 type carts implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
-  id: String!
   quantity: Int!
   productId: String!
   user_id: UUID!
@@ -924,7 +923,6 @@ type cartsEdge {
 }
 
 input cartsFilter {
-  id: StringFilter
   quantity: IntFilter
   productId: StringFilter
   user_id: UUIDFilter
@@ -946,7 +944,6 @@ input cartsFilter {
 }
 
 input cartsInsertInput {
-  id: String
   quantity: Int
   productId: String
   user_id: UUID
@@ -962,7 +959,6 @@ type cartsInsertResponse {
 }
 
 input cartsOrderBy {
-  id: OrderByDirection
   quantity: OrderByDirection
   productId: OrderByDirection
   user_id: OrderByDirection
@@ -970,7 +966,6 @@ input cartsOrderBy {
 }
 
 input cartsUpdateInput {
-  id: String
   quantity: Int
   productId: String
   user_id: UUID

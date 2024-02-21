@@ -7,7 +7,7 @@ export const AddCartProduct = gql(/* GraphQL */ `
     ) {
       affectedCount
       records {
-        id
+        quantity
         user_id
         productId
       }
@@ -16,21 +16,29 @@ export const AddCartProduct = gql(/* GraphQL */ `
 `)
 
 export const RemoveCartsMutation = gql(/* GraphQL */ `
-  mutation RemoveCartsMutation($cartId: String) {
-    deleteFromcartsCollection(filter: { id: { eq: $cartId } }) {
+  mutation RemoveCartsMutation($productId: String!, $userId: UUID!) {
+    deleteFromcartsCollection(
+      filter: { productId: { eq: $productId }, user_id: { eq: $userId } }
+    ) {
       affectedCount
     }
   }
 `)
+
 export const UpdateCartsProduct = gql(/* GraphQL */ `
-  mutation updateCartsCollection($id: String, $newQuantity: Int) {
+  mutation updateCartsCollection(
+    $userId: UUID
+    $productId: String
+    $newQuantity: Int
+  ) {
     updatecartsCollection(
-      filter: { id: { eq: $id } }
+      filter: { productId: { eq: $productId }, user_id: { eq: $userId } }
       set: { quantity: $newQuantity }
     ) {
       affectedCount
       records {
-        id
+        user_id
+        productId
         quantity
       }
     }
@@ -42,8 +50,8 @@ export const ListCartQuery = gql(/* GraphQL */ `
     cartsCollection(filter: { user_id: { eq: $userId } }) {
       edges {
         node {
-          id
           quantity
+          user_id
           productId
         }
       }

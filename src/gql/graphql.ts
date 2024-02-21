@@ -718,7 +718,6 @@ export type AddressUpdateResponse = {
 export type Carts = Node & {
   __typename?: "carts";
   created_at: Scalars["Datetime"];
-  id: Scalars["String"];
   /** Globally Unique Record Identifier */
   nodeId: Scalars["ID"];
   product: Products;
@@ -751,7 +750,6 @@ export type CartsFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<CartsFilter>>;
   created_at?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<StringFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
   not?: InputMaybe<CartsFilter>;
@@ -764,7 +762,6 @@ export type CartsFilter = {
 
 export type CartsInsertInput = {
   created_at?: InputMaybe<Scalars["Datetime"]>;
-  id?: InputMaybe<Scalars["String"]>;
   productId?: InputMaybe<Scalars["String"]>;
   quantity?: InputMaybe<Scalars["Int"]>;
   user_id?: InputMaybe<Scalars["UUID"]>;
@@ -780,7 +777,6 @@ export type CartsInsertResponse = {
 
 export type CartsOrderBy = {
   created_at?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
   productId?: InputMaybe<OrderByDirection>;
   quantity?: InputMaybe<OrderByDirection>;
   user_id?: InputMaybe<OrderByDirection>;
@@ -788,7 +784,6 @@ export type CartsOrderBy = {
 
 export type CartsUpdateInput = {
   created_at?: InputMaybe<Scalars["Datetime"]>;
-  id?: InputMaybe<Scalars["String"]>;
   productId?: InputMaybe<Scalars["String"]>;
   quantity?: InputMaybe<Scalars["Int"]>;
   user_id?: InputMaybe<Scalars["UUID"]>;
@@ -1858,7 +1853,6 @@ export type CollectionRouteQueryQuery = {
                   __typename?: "cartsEdge";
                   node: {
                     __typename?: "carts";
-                    id: string;
                     productId: string;
                     quantity: number;
                     user_id: any;
@@ -1974,7 +1968,6 @@ export type LandingRouteQueryQuery = {
             __typename?: "cartsEdge";
             node: {
               __typename?: "carts";
-              id: string;
               productId: string;
               quantity: number;
               user_id: any;
@@ -2101,7 +2094,6 @@ export type ProductDetailPageQueryQuery = {
             __typename?: "cartsEdge";
             node: {
               __typename?: "carts";
-              id: string;
               productId: string;
               quantity: number;
               user_id: any;
@@ -2209,7 +2201,12 @@ export type GetCartCountQueryQuery = {
     __typename?: "cartsConnection";
     edges: Array<{
       __typename?: "cartsEdge";
-      node: { __typename?: "carts"; id: string; quantity: number };
+      node: {
+        __typename?: "carts";
+        productId: string;
+        user_id: any;
+        quantity: number;
+      };
     }>;
   } | null;
 };
@@ -2258,7 +2255,8 @@ export type FetchCartQueryQuery = {
       __typename?: "cartsEdge";
       node: {
         __typename?: "carts";
-        id: string;
+        productId: string;
+        user_id: any;
         quantity: number;
         product: {
           __typename?: "products";
@@ -2292,7 +2290,7 @@ export type AddCartsProductMutation = {
     affectedCount: number;
     records: Array<{
       __typename?: "carts";
-      id: string;
+      quantity: number;
       user_id: any;
       productId: string;
     }>;
@@ -2300,7 +2298,8 @@ export type AddCartsProductMutation = {
 };
 
 export type RemoveCartsMutationMutationVariables = Exact<{
-  cartId?: InputMaybe<Scalars["String"]>;
+  productId: Scalars["String"];
+  userId: Scalars["UUID"];
 }>;
 
 export type RemoveCartsMutationMutation = {
@@ -2312,7 +2311,8 @@ export type RemoveCartsMutationMutation = {
 };
 
 export type UpdateCartsCollectionMutationVariables = Exact<{
-  id?: InputMaybe<Scalars["String"]>;
+  userId?: InputMaybe<Scalars["UUID"]>;
+  productId?: InputMaybe<Scalars["String"]>;
   newQuantity?: InputMaybe<Scalars["Int"]>;
 }>;
 
@@ -2321,7 +2321,12 @@ export type UpdateCartsCollectionMutation = {
   updatecartsCollection: {
     __typename?: "cartsUpdateResponse";
     affectedCount: number;
-    records: Array<{ __typename?: "carts"; id: string; quantity: number }>;
+    records: Array<{
+      __typename?: "carts";
+      user_id: any;
+      productId: string;
+      quantity: number;
+    }>;
   };
 };
 
@@ -2337,8 +2342,8 @@ export type ListCartQueryQuery = {
       __typename?: "cartsEdge";
       node: {
         __typename?: "carts";
-        id: string;
         quantity: number;
+        user_id: any;
         productId: string;
       };
     }>;
@@ -2404,7 +2409,6 @@ export type OrdersListFragmentFragment = {
 };
 
 export type AddProductToCartMutationVariables = Exact<{
-  id?: InputMaybe<Scalars["String"]>;
   productId?: InputMaybe<Scalars["String"]>;
   userId: Scalars["UUID"];
   quantity?: InputMaybe<Scalars["Int"]>;
@@ -2415,7 +2419,12 @@ export type AddProductToCartMutation = {
   insertIntocartsCollection?: {
     __typename?: "cartsInsertResponse";
     affectedCount: number;
-    records: Array<{ __typename?: "carts"; id: string; user_id: any }>;
+    records: Array<{
+      __typename?: "carts";
+      productId: string;
+      user_id: any;
+      quantity: number;
+    }>;
   } | null;
 };
 
@@ -2446,7 +2455,6 @@ export type ProductCardFragmentFragment = {
       __typename?: "cartsEdge";
       node: {
         __typename?: "carts";
-        id: string;
         productId: string;
         quantity: number;
         user_id: any;
@@ -2536,7 +2544,6 @@ export type RecomendationProductsQueryQuery = {
             __typename?: "cartsEdge";
             node: {
               __typename?: "carts";
-              id: string;
               productId: string;
               quantity: number;
               user_id: any;
@@ -2597,7 +2604,6 @@ export type FetchSearchProductsQueryQuery = {
             __typename?: "cartsEdge";
             node: {
               __typename?: "carts";
-              id: string;
               productId: string;
               quantity: number;
               user_id: any;
@@ -2658,7 +2664,6 @@ export type ListProductsByFeaturedQueryQuery = {
             __typename?: "cartsEdge";
             node: {
               __typename?: "carts";
-              id: string;
               productId: string;
               quantity: number;
               user_id: any;
@@ -3104,10 +3109,6 @@ export const ProductCardFragmentFragmentDoc = {
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
                             {
                               kind: "Field",
                               name: { kind: "Name", value: "productId" },
@@ -3746,10 +3747,6 @@ export const CollectionRouteQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
                               name: { kind: "Name", value: "productId" },
                             },
                             {
@@ -4305,10 +4302,6 @@ export const LandingRouteQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
                               name: { kind: "Name", value: "productId" },
                             },
                             {
@@ -4829,10 +4822,6 @@ export const ProductDetailPageQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
                               name: { kind: "Name", value: "productId" },
                             },
                             {
@@ -5123,7 +5112,11 @@ export const GetCartCountQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
+                              name: { kind: "Name", value: "productId" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "user_id" },
                             },
                             {
                               kind: "Field",
@@ -5412,7 +5405,11 @@ export const FetchCartQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
+                              name: { kind: "Name", value: "productId" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "user_id" },
                             },
                             {
                               kind: "Field",
@@ -5566,7 +5563,10 @@ export const AddCartsProductDocument = {
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "quantity" },
+                      },
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "user_id" },
@@ -5601,9 +5601,26 @@ export const RemoveCartsMutationDocument = {
           kind: "VariableDefinition",
           variable: {
             kind: "Variable",
-            name: { kind: "Name", value: "cartId" },
+            name: { kind: "Name", value: "productId" },
           },
-          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "userId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: { kind: "NamedType", name: { kind: "Name", value: "UUID" } },
+          },
         },
       ],
       selectionSet: {
@@ -5621,7 +5638,7 @@ export const RemoveCartsMutationDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "id" },
+                      name: { kind: "Name", value: "productId" },
                       value: {
                         kind: "ObjectValue",
                         fields: [
@@ -5630,7 +5647,24 @@ export const RemoveCartsMutationDocument = {
                             name: { kind: "Name", value: "eq" },
                             value: {
                               kind: "Variable",
-                              name: { kind: "Name", value: "cartId" },
+                              name: { kind: "Name", value: "productId" },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "user_id" },
+                      value: {
+                        kind: "ObjectValue",
+                        fields: [
+                          {
+                            kind: "ObjectField",
+                            name: { kind: "Name", value: "eq" },
+                            value: {
+                              kind: "Variable",
+                              name: { kind: "Name", value: "userId" },
                             },
                           },
                         ],
@@ -5668,7 +5702,18 @@ export const UpdateCartsCollectionDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "userId" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "UUID" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "productId" },
+          },
           type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
         },
         {
@@ -5695,7 +5740,7 @@ export const UpdateCartsCollectionDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "id" },
+                      name: { kind: "Name", value: "productId" },
                       value: {
                         kind: "ObjectValue",
                         fields: [
@@ -5704,7 +5749,24 @@ export const UpdateCartsCollectionDocument = {
                             name: { kind: "Name", value: "eq" },
                             value: {
                               kind: "Variable",
-                              name: { kind: "Name", value: "id" },
+                              name: { kind: "Name", value: "productId" },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "user_id" },
+                      value: {
+                        kind: "ObjectValue",
+                        fields: [
+                          {
+                            kind: "ObjectField",
+                            name: { kind: "Name", value: "eq" },
+                            value: {
+                              kind: "Variable",
+                              name: { kind: "Name", value: "userId" },
                             },
                           },
                         ],
@@ -5744,7 +5806,14 @@ export const UpdateCartsCollectionDocument = {
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "user_id" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "productId" },
+                      },
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "quantity" },
@@ -5831,11 +5900,11 @@ export const ListCartQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
+                              name: { kind: "Name", value: "quantity" },
                             },
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "quantity" },
+                              name: { kind: "Name", value: "user_id" },
                             },
                             {
                               kind: "Field",
@@ -5863,11 +5932,6 @@ export const AddProductToCartDocument = {
       operation: "mutation",
       name: { kind: "Name", value: "AddProductToCart" },
       variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
-          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
-        },
         {
           kind: "VariableDefinition",
           variable: {
@@ -5911,14 +5975,6 @@ export const AddProductToCartDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "id" },
-                      value: {
-                        kind: "Variable",
-                        name: { kind: "Name", value: "id" },
-                      },
-                    },
-                    {
-                      kind: "ObjectField",
                       name: { kind: "Name", value: "productId" },
                       value: {
                         kind: "Variable",
@@ -5958,10 +6014,17 @@ export const AddProductToCartDocument = {
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "productId" },
+                      },
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "user_id" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "quantity" },
                       },
                     ],
                   },
@@ -6112,10 +6175,6 @@ export const RecomendationProductsQueryDocument = {
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
                             {
                               kind: "Field",
                               name: { kind: "Name", value: "productId" },
@@ -6356,10 +6415,6 @@ export const FetchSearchProductsQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
                               name: { kind: "Name", value: "productId" },
                             },
                             {
@@ -6569,10 +6624,6 @@ export const ListProductsByFeaturedQueryDocument = {
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
                             {
                               kind: "Field",
                               name: { kind: "Name", value: "productId" },

@@ -36,7 +36,6 @@ function AddToCartButton({
     try {
       if (!cartId) {
         const newCartItem = {
-          id: nanoid(),
           productId: productId,
           userId: user.id,
           quantity: quantity,
@@ -48,7 +47,8 @@ function AddToCartButton({
         if (res) toast({ title: "Sucess, Added a Product to the Cart." })
       } else {
         const res = await updateCart({
-          id: cartId,
+          productId: productId,
+          userId: user.id,
           newQuantity: quantity,
         })
         console.log("res Update CArt", res)

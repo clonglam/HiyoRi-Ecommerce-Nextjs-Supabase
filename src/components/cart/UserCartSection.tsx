@@ -30,7 +30,8 @@ export const FetchCartQuery = gql(/* GraphQL */ `
     ) {
       edges {
         node {
-          id
+          productId
+          user_id
           quantity
           product {
             ...CartItemCardFragment

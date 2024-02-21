@@ -8,6 +8,7 @@ import {
   json,
   pgEnum,
   pgTable,
+  primaryKey,
   serial,
   text,
   timestamp,
@@ -38,10 +39,10 @@ export type InsertUserProfiles = InferInsertModel<typeof profiles>
 export const carts = pgTable(
   "carts",
   {
-    id: text("id")
-      .notNull()
-      .primaryKey()
-      .$defaultFn(() => createId()),
+    // id: text("id")
+    //   .notNull()
+    //   .primaryKey()
+    //   .$defaultFn(() => createId()),
     quantity: integer("quantity").notNull(),
     productId: text("productId")
       .notNull()
@@ -56,6 +57,10 @@ export const carts = pgTable(
   },
   (table) => {
     return {
+      pkWithCustomName: primaryKey({
+        name: "user_poduct_cart_id",
+        columns: [table.userId, table.productId],
+      }),
       product: foreignKey({
         columns: [table.productId],
         foreignColumns: [products.id],

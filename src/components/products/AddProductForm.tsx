@@ -27,23 +27,18 @@ const formSchema = z.object({
 
 export const AddProductToCart = gql(/* GraphQL */ `
   mutation AddProductToCart(
-    $id: String
     $productId: String
     $userId: UUID!
     $quantity: Int
   ) {
     insertIntocartsCollection(
-      objects: {
-        id: $id
-        productId: $productId
-        user_id: $userId
-        quantity: $quantity
-      }
+      objects: { productId: $productId, user_id: $userId, quantity: $quantity }
     ) {
       affectedCount
       records {
-        id
+        productId
         user_id
+        quantity
       }
     }
   }
