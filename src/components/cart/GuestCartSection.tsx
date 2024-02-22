@@ -122,10 +122,12 @@ function GuestCartSection() {
 
             <CardFooter className="gap-x-2 md:gap-x-5 px-3">
               <CheckoutButton
-                order={data.productsCollection.edges.map(({ node }) => ({
-                  id: node.id,
-                  quantity: cartItems[node.id].quantity,
-                }))}
+                guest={true}
+                order={cartItems}
+                // order={data.productsCollection.edges.map(({ node }) => ({
+                //   id: node.id,
+                //   quantity: cartItems[node.id].quantity,
+                // }))}
               />
             </CardFooter>
           </Card>

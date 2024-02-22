@@ -1,27 +1,28 @@
 import db from "../db"
 import * as schema from "../schema"
-import { InsertShopOrders } from "../schema"
+import { InsertOrders } from "../schema"
 
-const orders: InsertShopOrders[] = [
+const orders: InsertOrders[] = [
   {
     id: "1",
-    amountTotal: "5301.00",
-    amountSubtotal: "6000.00",
-    paymentStatus: "Paid",
+    amount: "5301.00",
+    currency: "cad",
+    order_status: "Paid",
+    payment_status: "paid",
     email: "hugolam922@gmail.com",
     name: "Hugo",
-    paymentMethodTypes: "",
+    payment_method: "",
     addressId: "2",
-    userId: "02b6ecb6-f7a8-463f-9230-75c6cc48f492",
+    user_id: "02b6ecb6-f7a8-463f-9230-75c6cc48f492",
   },
 ]
 
 const seedShopOrders = async () => {
   try {
-    await db.delete(schema.shopOrders)
+    await db.delete(schema.orders)
 
     const insertedCollections = await db
-      .insert(schema.shopOrders)
+      .insert(schema.orders)
       .values(orders)
       .onConflictDoNothing()
       .returning()

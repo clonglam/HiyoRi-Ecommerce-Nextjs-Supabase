@@ -39,16 +39,24 @@ function CartNav() {
     pause: shouldPause,
   })
 
-  const cartEdges =
-    data && data.cartsCollection ? data.cartsCollection.edges : []
+  if (fetching || error)
+    return (
+      <NavLinkButton href={"/cart"}>
+        <div className="relative w-4 h-4">
+          <Icons.cart className="w-4 h-4" aria-label="cart" />
+        </div>
+      </NavLinkButton>
+    )
+  // const cartEdges =
+  //   data && data.cartsCollection ? data.cartsCollection.edges : []
 
-  const productCount = useMemo(() => calcProductCount(cartEdges), [cartEdges])
+  // const productCount = useMemo(() => calcProductCount(cartEdges), [cartEdges])
   return (
     <NavLinkButton href={"/cart"}>
       <div className="relative w-4 h-4">
         <Icons.cart className="w-4 h-4" aria-label="cart" />
         <Badge className="absolute block rounded-full w-4 h-4 p-0 -top-2 -right-2 text-[10px] text-center align-middle">
-          {user ? productCount : productCountStorage}
+          {user ? productCountStorage : productCountStorage}
         </Badge>
       </div>
     </NavLinkButton>

@@ -10,6 +10,7 @@ import {
   asc,
   desc,
   eq,
+  inArray,
   like,
   sql,
 } from "drizzle-orm"
@@ -97,4 +98,11 @@ export const updateProductAction = async (
 
   console.log("insertedProduct", insertedProduct)
   return insertedProduct
+}
+
+export const getProductsByIds = async (productIds: string[]) => {
+  return await db
+    .select()
+    .from(products)
+    .where(inArray(products.id, productIds))
 }

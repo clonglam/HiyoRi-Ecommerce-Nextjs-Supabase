@@ -9,10 +9,10 @@ import React from "react"
 
 const OrderPageQuery = gql(/* GraphQL */ `
   query OrderPageQuery($first: Int!, $userId: UUID) {
-    shop_ordersCollection(
+    ordersCollection(
       first: $first
       orderBy: [{ created_at: DescNullsLast }]
-      filter: { userId: { eq: $userId } }
+      filter: { user_id: { eq: $userId } }
     ) {
       __typename
       edges {
@@ -46,7 +46,7 @@ async function OrderPage() {
   return (
     <Shell className="container ">
       <h1 className="pb-8 text-3xl font-semibold border-b">Orders</h1>
-      <OrdersList orders={data.shop_ordersCollection.edges} />
+      <OrdersList orders={data.ordersCollection.edges} />
     </Shell>
   )
 }

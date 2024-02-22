@@ -6,7 +6,6 @@ import { Icons } from "../icons"
 import { AddProductToCart } from "../products/AddProductForm"
 import { Button, ButtonProps } from "../ui/button"
 
-import { nanoid } from "nanoid"
 import { useToast } from "../ui/use-toast"
 import { UpdateCartsProduct } from "./query"
 import useCartStore from "./useCartStore"
@@ -51,7 +50,7 @@ function AddToCartButton({
           userId: user.id,
           newQuantity: quantity,
         })
-        console.log("res Update CArt", res)
+        console.log("updated cart", res)
         if (res) toast({ title: "Sucess, Added a Product to the Cart." })
       }
     } catch (err) {

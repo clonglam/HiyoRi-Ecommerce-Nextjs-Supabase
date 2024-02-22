@@ -18,14 +18,8 @@ import {
 } from "../ui/dropdown-menu"
 import supabaseClient from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
-import { User } from "@supabase/supabase-js"
 
-interface UserNavProps {
-  // currentUser: User | null
-  // isAdmin: boolean
-}
-
-function UserNav({}: UserNavProps) {
+function UserNav() {
   const router = useRouter()
   const { user } = useAuth()
 
@@ -34,7 +28,6 @@ function UserNav({}: UserNavProps) {
     router.refresh()
   }
 
-  console.log("user", user)
   return (
     <>
       {user ? (
@@ -46,7 +39,9 @@ function UserNav({}: UserNavProps) {
             >
               <Avatar className="h-8 w-8 focus:ring-0 border-0">
                 <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                <AvatarFallback>SC</AvatarFallback>
+                <AvatarFallback>
+                  {user.user_metadata.name || "N"}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -54,7 +49,9 @@ function UserNav({}: UserNavProps) {
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">shadcn</p>
+                <p className="text-sm font-medium leading-none">
+                  {user.user_metadata.name || "username"}
+                </p>
                 <p className="text-xs leading-none text-muted-foreground">
                   {user.email}
                 </p>

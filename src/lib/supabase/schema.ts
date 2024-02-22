@@ -1,21 +1,18 @@
+import { createId } from "@paralleldrive/cuid2"
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm"
-import { float } from "drizzle-orm/mysql-core"
 import {
   boolean,
   decimal,
   foreignKey,
   integer,
   json,
-  pgEnum,
   pgTable,
   primaryKey,
-  serial,
   text,
   timestamp,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core"
-import { createId } from "@paralleldrive/cuid2"
 
 // User Trigger
 // https://supabase.com/docs/guides/auth/managing-user-data
@@ -205,32 +202,51 @@ export const productsRelations = relations(products, ({ one }) => ({
   }),
 }))
 
-export const shopOrders = pgTable("shop_orders", {
-  id: text("id")
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => createId()),
-  amountTotal: decimal("amount_total").notNull(),
-  amountSubtotal: decimal("amount_subtotal").notNull(),
-  paymentStatus: text("payment_status").notNull(),
-  email: text("email"),
-  name: text("name").notNull(),
-  paymentMethodTypes: text("payment_method_types").notNull(),
-  userId: uuid("userId"),
-  addressId: text("addressId").notNull(),
-  createdAt: timestamp("created_at", {
-    withTimezone: true,
-  })
-    .defaultNow()
-    .notNull(),
-})
-
-export type SelectShopOrders = InferSelectModel<typeof shopOrders>
-export type InsertShopOrders = InferInsertModel<typeof shopOrders>
 export type PaymentStatus = "paid" | "unpaid" | "no_payment_required"
-export const ordersRelations = relations(shopOrders, ({ one }) => ({
+
+export const orders = pgTable(
+  "orders",
+  {
+    id: text("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => createId()),
+    amount: decimal("amount", { precision: 8, scale: 2 }).notNull(),
+    currency: text("currency").notNull(),
+    email: text("email"),
+    name: text("name"),
+    user_id: uuid("user_id").references(() => profiles.id, {
+      onDelete: "no action",
+    }),
+    order_status: text("order_status"),
+    addressId: text("addressId"),
+    stripe_payment_intent_id: text("stripe_payment_intent_id"),
+    payment_status: text("payment_status", {
+      enum: ["paid", "unpaid", "no_payment_required"],
+    }).notNull(),
+    payment_method: text("payment_method"),
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+    })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => {
+    return {
+      profile: foreignKey({
+        columns: [table.user_id],
+        foreignColumns: [profiles.id],
+        name: "orders_profiles_fk",
+      }),
+    }
+  }
+)
+
+export type SelectOrders = InferSelectModel<typeof orders>
+export type InsertOrders = InferInsertModel<typeof orders>
+export const ordersRelations = relations(orders, ({ one }) => ({
   address: one(address, {
-    fields: [shopOrders.addressId],
+    fields: [orders.addressId],
     references: [address.id],
   }),
 }))
@@ -247,9 +263,9 @@ export const orderLines = pgTable(
       .references(() => products.id, { onDelete: "restrict" }),
     orderId: text("orderId")
       .notNull()
-      .references(() => shopOrders.id, { onDelete: "restrict" }),
+      .references(() => orders.id, { onDelete: "restrict" }),
     quantity: integer("quantity").notNull(),
-    price: decimal("price").notNull(),
+    price: decimal("price", { precision: 8, scale: 2 }).notNull(),
     createdAt: timestamp("created_at", {
       withTimezone: true,
     })
@@ -267,7 +283,7 @@ export const orderLines = pgTable(
         .onUpdate("cascade"),
       order: foreignKey({
         columns: [table.orderId],
-        foreignColumns: [shopOrders.id],
+        foreignColumns: [orders.id],
         name: "order_lines_to_shop_orders",
       })
         .onDelete("restrict")
@@ -284,9 +300,9 @@ export const orderLinesRelations = relations(orderLines, ({ one }) => ({
     fields: [orderLines.productId],
     references: [products.id],
   }),
-  orderId: one(shopOrders, {
+  orderId: one(orders, {
     fields: [orderLines.productId],
-    references: [shopOrders.id],
+    references: [orders.id],
   }),
 }))
 
@@ -295,25 +311,18 @@ export const address = pgTable("address", {
     .notNull()
     .primaryKey()
     .$defaultFn(() => createId()),
-  city: text("city").notNull(),
-  country: text("country").notNull(),
-  line1: text("line1").notNull(),
-  line2: text("line2").notNull(),
-  postal_code: text("postal_code").notNull(),
-  state: text("state").notNull(),
-  orderId: text("orderId").references(() => shopOrders.id, {
-    onDelete: "cascade",
-  }),
+  city: text("city"),
+  country: text("country"),
+  line1: text("line1"),
+  line2: text("line2"),
+  postal_code: text("postal_code"),
+  state: text("state"),
   userProfileId: uuid("userProfileId").references(() => profiles.id, {
     onDelete: "cascade",
   }),
 })
 
 export const addressRelations = relations(address, ({ one }) => ({
-  order: one(shopOrders, {
-    fields: [address.id],
-    references: [shopOrders.id],
-  }),
   profile: one(profiles, {
     fields: [address.userProfileId],
     references: [profiles.id],

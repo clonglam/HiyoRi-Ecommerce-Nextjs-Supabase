@@ -190,6 +190,17 @@ type Mutation {
     atMost: Int! = 1
   ): order_linesDeleteResponse!
 
+  """Deletes zero or more records from the `orders` collection"""
+  deleteFromordersCollection(
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: ordersFilter
+
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+  ): ordersDeleteResponse!
+
   """Deletes zero or more records from the `product_medias` collection"""
   deleteFromproduct_mediasCollection(
     """Restricts the mutation's impact to records matching the criteria"""
@@ -223,17 +234,6 @@ type Mutation {
     atMost: Int! = 1
   ): profilesDeleteResponse!
 
-  """Deletes zero or more records from the `shop_orders` collection"""
-  deleteFromshop_ordersCollection(
-    """Restricts the mutation's impact to records matching the criteria"""
-    filter: shop_ordersFilter
-
-    """
-    The maximum number of records in the collection permitted to be affected
-    """
-    atMost: Int! = 1
-  ): shop_ordersDeleteResponse!
-
   """Deletes zero or more records from the `user_wishlist` collection"""
   deleteFromuser_wishlistCollection(
     """Restricts the mutation's impact to records matching the criteria"""
@@ -263,6 +263,9 @@ type Mutation {
   """Adds one or more `order_lines` records to the collection"""
   insertIntoorder_linesCollection(objects: [order_linesInsertInput!]!): order_linesInsertResponse
 
+  """Adds one or more `orders` records to the collection"""
+  insertIntoordersCollection(objects: [ordersInsertInput!]!): ordersInsertResponse
+
   """Adds one or more `product_medias` records to the collection"""
   insertIntoproduct_mediasCollection(objects: [product_mediasInsertInput!]!): product_mediasInsertResponse
 
@@ -271,9 +274,6 @@ type Mutation {
 
   """Adds one or more `profiles` records to the collection"""
   insertIntoprofilesCollection(objects: [profilesInsertInput!]!): profilesInsertResponse
-
-  """Adds one or more `shop_orders` records to the collection"""
-  insertIntoshop_ordersCollection(objects: [shop_ordersInsertInput!]!): shop_ordersInsertResponse
 
   """Adds one or more `user_wishlist` records to the collection"""
   insertIntouser_wishlistCollection(objects: [user_wishlistInsertInput!]!): user_wishlistInsertResponse
@@ -374,6 +374,22 @@ type Mutation {
     atMost: Int! = 1
   ): order_linesUpdateResponse!
 
+  """Updates zero or more records in the `orders` collection"""
+  updateordersCollection(
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: ordersUpdateInput!
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: ordersFilter
+
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+  ): ordersUpdateResponse!
+
   """Updates zero or more records in the `product_medias` collection"""
   updateproduct_mediasCollection(
     """
@@ -421,22 +437,6 @@ type Mutation {
     """
     atMost: Int! = 1
   ): profilesUpdateResponse!
-
-  """Updates zero or more records in the `shop_orders` collection"""
-  updateshop_ordersCollection(
-    """
-    Fields that are set will be updated for all records matching the `filter`
-    """
-    set: shop_ordersUpdateInput!
-
-    """Restricts the mutation's impact to records matching the criteria"""
-    filter: shop_ordersFilter
-
-    """
-    The maximum number of records in the collection permitted to be affected
-    """
-    atMost: Int! = 1
-  ): shop_ordersUpdateResponse!
 
   """Updates zero or more records in the `user_wishlist` collection"""
   updateuser_wishlistCollection(
@@ -627,6 +627,27 @@ type Query {
     orderBy: [order_linesOrderBy!]
   ): order_linesConnection
 
+  """A pagable collection of type `orders`"""
+  ordersCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: ordersFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [ordersOrderBy!]
+  ): ordersConnection
+
   """A pagable collection of type `product_medias`"""
   product_mediasCollection(
     """Query the first `n` records in the collection"""
@@ -689,27 +710,6 @@ type Query {
     """Sort order to apply to the collection"""
     orderBy: [profilesOrderBy!]
   ): profilesConnection
-
-  """A pagable collection of type `shop_orders`"""
-  shop_ordersCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: shop_ordersFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [shop_ordersOrderBy!]
-  ): shop_ordersConnection
 
   """A pagable collection of type `user_wishlist`"""
   user_wishlistCollection(
@@ -789,13 +789,11 @@ type address implements Node {
   city: String!
   country: String!
   line1: String!
-  line2: String!
+  line2: String
   postal_code: String!
   state: String!
-  orderId: String
   userProfileId: UUID
   userProfile: profiles
-  order: shop_orders
 }
 
 type addressConnection {
@@ -824,7 +822,6 @@ input addressFilter {
   line2: StringFilter
   postal_code: StringFilter
   state: StringFilter
-  orderId: StringFilter
   userProfileId: UUIDFilter
   nodeId: IDFilter
 
@@ -850,7 +847,6 @@ input addressInsertInput {
   line2: String
   postal_code: String
   state: String
-  orderId: String
   userProfileId: UUID
 }
 
@@ -870,7 +866,6 @@ input addressOrderBy {
   line2: OrderByDirection
   postal_code: OrderByDirection
   state: OrderByDirection
-  orderId: OrderByDirection
   userProfileId: OrderByDirection
 }
 
@@ -882,7 +877,6 @@ input addressUpdateInput {
   line2: String
   postal_code: String
   state: String
-  orderId: String
   userProfileId: UUID
 }
 
@@ -1190,25 +1184,6 @@ type medias implements Node {
   alt: String!
   created_at: Datetime
   updated_at: Datetime
-  product_mediasCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: product_mediasFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [product_mediasOrderBy!]
-  ): product_mediasConnection
   productsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1247,6 +1222,25 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [collectionsOrderBy!]
   ): collectionsConnection
+  product_mediasCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: product_mediasFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [product_mediasOrderBy!]
+  ): product_mediasConnection
 }
 
 type mediasConnection {
@@ -1338,8 +1332,8 @@ type order_lines implements Node {
   quantity: Int!
   price: BigFloat!
   created_at: Datetime!
-  order: shop_orders!
   products: products!
+  order: orders!
 }
 
 type order_linesConnection {
@@ -1426,6 +1420,151 @@ type order_linesUpdateResponse {
   records: [order_lines!]!
 }
 
+type orders implements Node {
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  id: String!
+  amount: BigFloat!
+  currency: String!
+  email: String
+  name: String
+  user_id: UUID
+  order_status: String
+  addressId: String
+  stripe_payment_intent_id: String
+  payment_status: String!
+  payment_method: String
+  created_at: Datetime!
+  profiles: profiles
+  order_linesCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: order_linesFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [order_linesOrderBy!]
+  ): order_linesConnection
+}
+
+type ordersConnection {
+  edges: [ordersEdge!]!
+  pageInfo: PageInfo!
+}
+
+type ordersDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [orders!]!
+}
+
+type ordersEdge {
+  cursor: String!
+  node: orders!
+}
+
+input ordersFilter {
+  id: StringFilter
+  amount: BigFloatFilter
+  currency: StringFilter
+  email: StringFilter
+  name: StringFilter
+  user_id: UUIDFilter
+  order_status: StringFilter
+  addressId: StringFilter
+  stripe_payment_intent_id: StringFilter
+  payment_status: StringFilter
+  payment_method: StringFilter
+  created_at: DatetimeFilter
+  nodeId: IDFilter
+
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [ordersFilter!]
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [ordersFilter!]
+
+  """Negates a filter"""
+  not: ordersFilter
+}
+
+input ordersInsertInput {
+  id: String
+  amount: BigFloat
+  currency: String
+  email: String
+  name: String
+  user_id: UUID
+  order_status: String
+  addressId: String
+  stripe_payment_intent_id: String
+  payment_status: String
+  payment_method: String
+  created_at: Datetime
+}
+
+type ordersInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [orders!]!
+}
+
+input ordersOrderBy {
+  id: OrderByDirection
+  amount: OrderByDirection
+  currency: OrderByDirection
+  email: OrderByDirection
+  name: OrderByDirection
+  user_id: OrderByDirection
+  order_status: OrderByDirection
+  addressId: OrderByDirection
+  stripe_payment_intent_id: OrderByDirection
+  payment_status: OrderByDirection
+  payment_method: OrderByDirection
+  created_at: OrderByDirection
+}
+
+input ordersUpdateInput {
+  id: String
+  amount: BigFloat
+  currency: String
+  email: String
+  name: String
+  user_id: UUID
+  order_status: String
+  addressId: String
+  stripe_payment_intent_id: String
+  payment_status: String
+  payment_method: String
+  created_at: Datetime
+}
+
+type ordersUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [orders!]!
+}
+
 type product_medias implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
@@ -1433,8 +1572,8 @@ type product_medias implements Node {
   productId: String!
   mediaId: String!
   priority: Int
-  media: medias!
   product: products!
+  media: medias!
 }
 
 type product_mediasConnection {
@@ -1532,44 +1671,6 @@ type products implements Node {
   featured_image_id: String!
   medias: medias!
   collections: collections
-  order_linesCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: order_linesFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [order_linesOrderBy!]
-  ): order_linesConnection
-  commentsCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: commentsFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [commentsOrderBy!]
-  ): commentsConnection
   user_wishlistCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1608,6 +1709,25 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [cartsOrderBy!]
   ): cartsConnection
+  order_linesCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: order_linesFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [order_linesOrderBy!]
+  ): order_linesConnection
   product_mediasCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1627,6 +1747,25 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [product_mediasOrderBy!]
   ): product_mediasConnection
+  commentsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: commentsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [commentsOrderBy!]
+  ): commentsConnection
 }
 
 type productsConnection {
@@ -1769,6 +1908,25 @@ type profiles implements Node {
     """Sort order to apply to the collection"""
     orderBy: [addressOrderBy!]
   ): addressConnection
+  ordersCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: ordersFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [ordersOrderBy!]
+  ): ordersConnection
   commentsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1864,159 +2022,6 @@ type profilesUpdateResponse {
 
   """Array of records impacted by the mutation"""
   records: [profiles!]!
-}
-
-type shop_orders implements Node {
-  """Globally Unique Record Identifier"""
-  nodeId: ID!
-  id: String!
-  amount_total: BigFloat!
-  amount_subtotal: BigFloat!
-  payment_status: String!
-  email: String
-  name: String!
-  payment_method_types: String!
-  userId: UUID
-  created_at: Datetime!
-  addressId: String!
-  order_linesCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: order_linesFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [order_linesOrderBy!]
-  ): order_linesConnection
-  addressCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: addressFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [addressOrderBy!]
-  ): addressConnection
-}
-
-type shop_ordersConnection {
-  edges: [shop_ordersEdge!]!
-  pageInfo: PageInfo!
-}
-
-type shop_ordersDeleteResponse {
-  """Count of the records impacted by the mutation"""
-  affectedCount: Int!
-
-  """Array of records impacted by the mutation"""
-  records: [shop_orders!]!
-}
-
-type shop_ordersEdge {
-  cursor: String!
-  node: shop_orders!
-}
-
-input shop_ordersFilter {
-  id: StringFilter
-  amount_total: BigFloatFilter
-  amount_subtotal: BigFloatFilter
-  payment_status: StringFilter
-  email: StringFilter
-  name: StringFilter
-  payment_method_types: StringFilter
-  userId: UUIDFilter
-  created_at: DatetimeFilter
-  addressId: StringFilter
-  nodeId: IDFilter
-
-  """
-  Returns true only if all its inner filters are true, otherwise returns false
-  """
-  and: [shop_ordersFilter!]
-
-  """
-  Returns true if at least one of its inner filters is true, otherwise returns false
-  """
-  or: [shop_ordersFilter!]
-
-  """Negates a filter"""
-  not: shop_ordersFilter
-}
-
-input shop_ordersInsertInput {
-  id: String
-  amount_total: BigFloat
-  amount_subtotal: BigFloat
-  payment_status: String
-  email: String
-  name: String
-  payment_method_types: String
-  userId: UUID
-  created_at: Datetime
-  addressId: String
-}
-
-type shop_ordersInsertResponse {
-  """Count of the records impacted by the mutation"""
-  affectedCount: Int!
-
-  """Array of records impacted by the mutation"""
-  records: [shop_orders!]!
-}
-
-input shop_ordersOrderBy {
-  id: OrderByDirection
-  amount_total: OrderByDirection
-  amount_subtotal: OrderByDirection
-  payment_status: OrderByDirection
-  email: OrderByDirection
-  name: OrderByDirection
-  payment_method_types: OrderByDirection
-  userId: OrderByDirection
-  created_at: OrderByDirection
-  addressId: OrderByDirection
-}
-
-input shop_ordersUpdateInput {
-  id: String
-  amount_total: BigFloat
-  amount_subtotal: BigFloat
-  payment_status: String
-  email: String
-  name: String
-  payment_method_types: String
-  userId: UUID
-  created_at: Datetime
-  addressId: String
-}
-
-type shop_ordersUpdateResponse {
-  """Count of the records impacted by the mutation"""
-  affectedCount: Int!
-
-  """Array of records impacted by the mutation"""
-  records: [shop_orders!]!
 }
 
 type user_wishlist implements Node {

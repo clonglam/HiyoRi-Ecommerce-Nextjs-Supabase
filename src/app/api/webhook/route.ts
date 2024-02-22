@@ -1,12 +1,12 @@
-import { shopOrders, InsertShopOrders } from "./../../../lib/supabase/schema"
 import { env } from "@/env.mjs"
 import { stripe } from "@/lib/stripe"
 import db from "@/lib/supabase/db"
-import { PaymentStatus } from "@/lib/supabase/schema"
+import { InsertOrders, PaymentStatus, orders } from "@/lib/supabase/schema"
 import { headers } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
 import { address } from "@/lib/supabase/schema"
+import { eq } from "drizzle-orm"
 
 const relevantEvents = new Set([
   "product.created",
@@ -15,9 +15,6 @@ const relevantEvents = new Set([
   "price.updated",
   "payment_intent.succeeded",
   "checkout.session.completed",
-  "customer.subscription.created",
-  "customer.subscription.updated",
-  "customer.subscription.deleted",
 ])
 
 export async function POST(request: NextRequest) {
@@ -40,12 +37,11 @@ export async function POST(request: NextRequest) {
         case "product.created":
           break
         case "payment_intent.succeeded":
-          console.log("payment_intent.succeeded")
-          // console.log("event.data.object", event.data.object)
+          // TODO:Update the Order payment Status
+
           break
         case "checkout.session.completed":
           const checkoutSession = event.data.object as Stripe.Checkout.Session
-          console.log("checkoutSession", checkoutSession)
 
           if (checkoutSession.status === "complete") {
             const customer_details = checkoutSession.customer_details
@@ -53,37 +49,44 @@ export async function POST(request: NextRequest) {
             const insertedAddress = await db
               .insert(address)
               .values({
-                city: customer_details.address.city || "",
-                country: customer_details.address.country || "",
-                line1: customer_details.address.line1 || "",
-                line2: customer_details.address.line2 || "",
-                postal_code: customer_details.address.postal_code || "",
-                state: customer_details.address.state || "",
+                city: customer_details.address.city,
+                country: customer_details.address.country,
+                line1: customer_details.address.line1,
+                line2: customer_details.address.line2,
+                postal_code: customer_details.address.postal_code,
+                state: customer_details.address.state,
               })
-              .returning()[0]
+              .returning({ id: address.id })
 
-            const data: InsertShopOrders = {
-              id: checkoutSession.id,
-              userId: checkoutSession.client_reference_id!,
-              amountTotal: `${checkoutSession.amount_total}` || "0",
-              amountSubtotal: `${checkoutSession.amount_subtotal}` || "0",
-              paymentStatus: checkoutSession.payment_status as PaymentStatus,
-              email: customer_details!.email,
-              name: customer_details!.name!,
-              paymentMethodTypes: checkoutSession.payment_method_types[0],
-              addressId: insertedAddress.id,
-            }
-
-            const insertedOrder = await db
-              .insert(shopOrders)
-              .values(data)
+            const updatedOrder = await db
+              .update(orders)
+              .set({
+                amount: `${checkoutSession.amount_total / 100}`,
+                email: customer_details!.email,
+                name: customer_details!.name,
+                order_status: "PREPARING",
+                stripe_payment_intent_id:
+                  checkoutSession.payment_intent.toString(),
+                payment_status: checkoutSession.payment_status as PaymentStatus,
+                payment_method: checkoutSession.payment_method_types[0],
+              })
+              .where(eq(orders.id, checkoutSession.client_reference_id))
               .returning()
 
-            if (!customer_details || !customer_details.address)
-              return new NextResponse(
-                'Webhook error: "Webhook handler failed. View logs."',
-                { status: 400 }
-              )
+            console.log("insertedOrder", updatedOrder)
+          } else {
+            const insertedOrder = await db
+              .update(orders)
+              .set({
+                order_status: "canceled",
+                stripe_payment_intent_id:
+                  checkoutSession.payment_intent.toString(),
+                payment_status: checkoutSession.payment_status as PaymentStatus,
+              })
+              .where(eq(orders.id, checkoutSession.client_reference_id))
+              .returning()
+
+            console.log("insertedOrder", insertedOrder)
           }
           break
         default:

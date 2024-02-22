@@ -21,8 +21,8 @@ const seeddata = async () => {
   // await seed.medias()
   // await seed.collections()
   // await seed.products()
-  await seed.shopOrders()
-  await seed.orderLines()
+  // await seed.shopOrders()
+  await seed.address()
 
   exit()
 }

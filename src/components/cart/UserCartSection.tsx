@@ -1,5 +1,5 @@
 "use client"
-import { gql } from "@/gql"
+import { DocumentType, gql } from "@/gql"
 import { FetchCartQueryQuery } from "@/gql/graphql"
 import { expectedErrorsHandler } from "@/lib/urql/urql"
 import { User } from "@supabase/supabase-js"
@@ -20,6 +20,7 @@ import CartItemCard from "./CartItemCard"
 import CheckoutButton from "./CheckoutButton"
 import EmptyCart from "./EmptyCart"
 import { RemoveCartsMutation, UpdateCartsProduct } from "./query"
+import { CartItems } from "./useCartStore"
 
 export const FetchCartQuery = gql(/* GraphQL */ `
   query FetchCartQuery($userId: UUID, $first: Int, $after: Cursor) {
@@ -133,6 +134,18 @@ function UserCartSection({ user }: UserCartSectionProps) {
     setIsLoading(false)
   }
 
+  const createCartObject = (
+    data: DocumentType<typeof FetchCartQuery>
+  ): CartItems => {
+    const cart: CartItems = {}
+    data.cartsCollection.edges.forEach((item) => {
+      cart[item.node.product.id] = {
+        quantity: item.node.quantity,
+      }
+    })
+    return cart
+  }
+
   return (
     <>
       {data.cartsCollection && data.cartsCollection.edges.length > 0 ? (
@@ -170,11 +183,9 @@ function UserCartSection({ user }: UserCartSectionProps) {
 
             <CardFooter className="gap-x-2 md:gap-x-5 px-3">
               <CheckoutButton
+                guest={false}
                 disabled={isLoading}
-                order={data.cartsCollection.edges.map((item) => ({
-                  id: item.node.product.id,
-                  quantity: item.node.quantity,
-                }))}
+                order={createCartObject(data)}
               />
             </CardFooter>
           </Card>

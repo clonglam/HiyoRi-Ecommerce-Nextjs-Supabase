@@ -13,13 +13,11 @@ type OrdersListProps = {
 }
 
 export const OrdersListFragment = gql(/* GraphQL */ `
-  fragment OrdersListFragment on shop_ordersEdge {
+  fragment OrdersListFragment on ordersEdge {
     node {
       id
-      amount_subtotal
-      amount_total
-      payment_status
-      payment_method_types
+      amount
+      order_status
       created_at
       item: order_linesCollection {
         edges {
@@ -63,7 +61,7 @@ function OrdersList({ orders }: OrdersListProps) {
 
                 <div>
                   <p className="font-medium text-xs">Total</p>
-                  <p className="text-sm">{formatPrice(order.amount_total)}</p>
+                  <p className="text-sm">{formatPrice(order.amount)}</p>
                 </div>
 
                 <div>

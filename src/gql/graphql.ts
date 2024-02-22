@@ -141,14 +141,14 @@ export type Mutation = {
   deleteFrommediasCollection: MediasDeleteResponse;
   /** Deletes zero or more records from the `order_lines` collection */
   deleteFromorder_linesCollection: Order_LinesDeleteResponse;
+  /** Deletes zero or more records from the `orders` collection */
+  deleteFromordersCollection: OrdersDeleteResponse;
   /** Deletes zero or more records from the `product_medias` collection */
   deleteFromproduct_mediasCollection: Product_MediasDeleteResponse;
   /** Deletes zero or more records from the `products` collection */
   deleteFromproductsCollection: ProductsDeleteResponse;
   /** Deletes zero or more records from the `profiles` collection */
   deleteFromprofilesCollection: ProfilesDeleteResponse;
-  /** Deletes zero or more records from the `shop_orders` collection */
-  deleteFromshop_ordersCollection: Shop_OrdersDeleteResponse;
   /** Deletes zero or more records from the `user_wishlist` collection */
   deleteFromuser_wishlistCollection: User_WishlistDeleteResponse;
   /** Adds one or more `address` records to the collection */
@@ -163,14 +163,14 @@ export type Mutation = {
   insertIntomediasCollection?: Maybe<MediasInsertResponse>;
   /** Adds one or more `order_lines` records to the collection */
   insertIntoorder_linesCollection?: Maybe<Order_LinesInsertResponse>;
+  /** Adds one or more `orders` records to the collection */
+  insertIntoordersCollection?: Maybe<OrdersInsertResponse>;
   /** Adds one or more `product_medias` records to the collection */
   insertIntoproduct_mediasCollection?: Maybe<Product_MediasInsertResponse>;
   /** Adds one or more `products` records to the collection */
   insertIntoproductsCollection?: Maybe<ProductsInsertResponse>;
   /** Adds one or more `profiles` records to the collection */
   insertIntoprofilesCollection?: Maybe<ProfilesInsertResponse>;
-  /** Adds one or more `shop_orders` records to the collection */
-  insertIntoshop_ordersCollection?: Maybe<Shop_OrdersInsertResponse>;
   /** Adds one or more `user_wishlist` records to the collection */
   insertIntouser_wishlistCollection?: Maybe<User_WishlistInsertResponse>;
   /** Updates zero or more records in the `address` collection */
@@ -185,14 +185,14 @@ export type Mutation = {
   updatemediasCollection: MediasUpdateResponse;
   /** Updates zero or more records in the `order_lines` collection */
   updateorder_linesCollection: Order_LinesUpdateResponse;
+  /** Updates zero or more records in the `orders` collection */
+  updateordersCollection: OrdersUpdateResponse;
   /** Updates zero or more records in the `product_medias` collection */
   updateproduct_mediasCollection: Product_MediasUpdateResponse;
   /** Updates zero or more records in the `products` collection */
   updateproductsCollection: ProductsUpdateResponse;
   /** Updates zero or more records in the `profiles` collection */
   updateprofilesCollection: ProfilesUpdateResponse;
-  /** Updates zero or more records in the `shop_orders` collection */
-  updateshop_ordersCollection: Shop_OrdersUpdateResponse;
   /** Updates zero or more records in the `user_wishlist` collection */
   updateuser_wishlistCollection: User_WishlistUpdateResponse;
 };
@@ -234,6 +234,12 @@ export type MutationDeleteFromorder_LinesCollectionArgs = {
 };
 
 /** The root type for creating and mutating data */
+export type MutationDeleteFromordersCollectionArgs = {
+  atMost?: Scalars["Int"];
+  filter?: InputMaybe<OrdersFilter>;
+};
+
+/** The root type for creating and mutating data */
 export type MutationDeleteFromproduct_MediasCollectionArgs = {
   atMost?: Scalars["Int"];
   filter?: InputMaybe<Product_MediasFilter>;
@@ -249,12 +255,6 @@ export type MutationDeleteFromproductsCollectionArgs = {
 export type MutationDeleteFromprofilesCollectionArgs = {
   atMost?: Scalars["Int"];
   filter?: InputMaybe<ProfilesFilter>;
-};
-
-/** The root type for creating and mutating data */
-export type MutationDeleteFromshop_OrdersCollectionArgs = {
-  atMost?: Scalars["Int"];
-  filter?: InputMaybe<Shop_OrdersFilter>;
 };
 
 /** The root type for creating and mutating data */
@@ -294,6 +294,11 @@ export type MutationInsertIntoorder_LinesCollectionArgs = {
 };
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntoordersCollectionArgs = {
+  objects: Array<OrdersInsertInput>;
+};
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntoproduct_MediasCollectionArgs = {
   objects: Array<Product_MediasInsertInput>;
 };
@@ -306,11 +311,6 @@ export type MutationInsertIntoproductsCollectionArgs = {
 /** The root type for creating and mutating data */
 export type MutationInsertIntoprofilesCollectionArgs = {
   objects: Array<ProfilesInsertInput>;
-};
-
-/** The root type for creating and mutating data */
-export type MutationInsertIntoshop_OrdersCollectionArgs = {
-  objects: Array<Shop_OrdersInsertInput>;
 };
 
 /** The root type for creating and mutating data */
@@ -361,6 +361,13 @@ export type MutationUpdateorder_LinesCollectionArgs = {
 };
 
 /** The root type for creating and mutating data */
+export type MutationUpdateordersCollectionArgs = {
+  atMost?: Scalars["Int"];
+  filter?: InputMaybe<OrdersFilter>;
+  set: OrdersUpdateInput;
+};
+
+/** The root type for creating and mutating data */
 export type MutationUpdateproduct_MediasCollectionArgs = {
   atMost?: Scalars["Int"];
   filter?: InputMaybe<Product_MediasFilter>;
@@ -379,13 +386,6 @@ export type MutationUpdateprofilesCollectionArgs = {
   atMost?: Scalars["Int"];
   filter?: InputMaybe<ProfilesFilter>;
   set: ProfilesUpdateInput;
-};
-
-/** The root type for creating and mutating data */
-export type MutationUpdateshop_OrdersCollectionArgs = {
-  atMost?: Scalars["Int"];
-  filter?: InputMaybe<Shop_OrdersFilter>;
-  set: Shop_OrdersUpdateInput;
 };
 
 /** The root type for creating and mutating data */
@@ -443,14 +443,14 @@ export type Query = {
   node?: Maybe<Node>;
   /** A pagable collection of type `order_lines` */
   order_linesCollection?: Maybe<Order_LinesConnection>;
+  /** A pagable collection of type `orders` */
+  ordersCollection?: Maybe<OrdersConnection>;
   /** A pagable collection of type `product_medias` */
   product_mediasCollection?: Maybe<Product_MediasConnection>;
   /** A pagable collection of type `products` */
   productsCollection?: Maybe<ProductsConnection>;
   /** A pagable collection of type `profiles` */
   profilesCollection?: Maybe<ProfilesConnection>;
-  /** A pagable collection of type `shop_orders` */
-  shop_ordersCollection?: Maybe<Shop_OrdersConnection>;
   /** A pagable collection of type `user_wishlist` */
   user_wishlistCollection?: Maybe<User_WishlistConnection>;
 };
@@ -521,6 +521,16 @@ export type QueryOrder_LinesCollectionArgs = {
 };
 
 /** The root type for querying data */
+export type QueryOrdersCollectionArgs = {
+  after?: InputMaybe<Scalars["Cursor"]>;
+  before?: InputMaybe<Scalars["Cursor"]>;
+  filter?: InputMaybe<OrdersFilter>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  orderBy?: InputMaybe<Array<OrdersOrderBy>>;
+};
+
+/** The root type for querying data */
 export type QueryProduct_MediasCollectionArgs = {
   after?: InputMaybe<Scalars["Cursor"]>;
   before?: InputMaybe<Scalars["Cursor"]>;
@@ -548,16 +558,6 @@ export type QueryProfilesCollectionArgs = {
   first?: InputMaybe<Scalars["Int"]>;
   last?: InputMaybe<Scalars["Int"]>;
   orderBy?: InputMaybe<Array<ProfilesOrderBy>>;
-};
-
-/** The root type for querying data */
-export type QueryShop_OrdersCollectionArgs = {
-  after?: InputMaybe<Scalars["Cursor"]>;
-  before?: InputMaybe<Scalars["Cursor"]>;
-  filter?: InputMaybe<Shop_OrdersFilter>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<Array<Shop_OrdersOrderBy>>;
 };
 
 /** The root type for querying data */
@@ -613,11 +613,9 @@ export type Address = Node & {
   country: Scalars["String"];
   id: Scalars["String"];
   line1: Scalars["String"];
-  line2: Scalars["String"];
+  line2?: Maybe<Scalars["String"]>;
   /** Globally Unique Record Identifier */
   nodeId: Scalars["ID"];
-  order?: Maybe<Shop_Orders>;
-  orderId?: Maybe<Scalars["String"]>;
   postal_code: Scalars["String"];
   state: Scalars["String"];
   userProfile?: Maybe<Profiles>;
@@ -657,7 +655,6 @@ export type AddressFilter = {
   not?: InputMaybe<AddressFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<AddressFilter>>;
-  orderId?: InputMaybe<StringFilter>;
   postal_code?: InputMaybe<StringFilter>;
   state?: InputMaybe<StringFilter>;
   userProfileId?: InputMaybe<UuidFilter>;
@@ -669,7 +666,6 @@ export type AddressInsertInput = {
   id?: InputMaybe<Scalars["String"]>;
   line1?: InputMaybe<Scalars["String"]>;
   line2?: InputMaybe<Scalars["String"]>;
-  orderId?: InputMaybe<Scalars["String"]>;
   postal_code?: InputMaybe<Scalars["String"]>;
   state?: InputMaybe<Scalars["String"]>;
   userProfileId?: InputMaybe<Scalars["UUID"]>;
@@ -689,7 +685,6 @@ export type AddressOrderBy = {
   id?: InputMaybe<OrderByDirection>;
   line1?: InputMaybe<OrderByDirection>;
   line2?: InputMaybe<OrderByDirection>;
-  orderId?: InputMaybe<OrderByDirection>;
   postal_code?: InputMaybe<OrderByDirection>;
   state?: InputMaybe<OrderByDirection>;
   userProfileId?: InputMaybe<OrderByDirection>;
@@ -701,7 +696,6 @@ export type AddressUpdateInput = {
   id?: InputMaybe<Scalars["String"]>;
   line1?: InputMaybe<Scalars["String"]>;
   line2?: InputMaybe<Scalars["String"]>;
-  orderId?: InputMaybe<Scalars["String"]>;
   postal_code?: InputMaybe<Scalars["String"]>;
   state?: InputMaybe<Scalars["String"]>;
   userProfileId?: InputMaybe<Scalars["UUID"]>;
@@ -1104,7 +1098,7 @@ export type Order_Lines = Node & {
   id: Scalars["String"];
   /** Globally Unique Record Identifier */
   nodeId: Scalars["ID"];
-  order: Shop_Orders;
+  order: Orders;
   orderId: Scalars["String"];
   price: Scalars["BigFloat"];
   product_id: Scalars["String"];
@@ -1189,6 +1183,138 @@ export type Order_LinesUpdateResponse = {
   affectedCount: Scalars["Int"];
   /** Array of records impacted by the mutation */
   records: Array<Order_Lines>;
+};
+
+export type Orders = Node & {
+  __typename?: "orders";
+  addressId?: Maybe<Scalars["String"]>;
+  amount: Scalars["BigFloat"];
+  created_at: Scalars["Datetime"];
+  currency: Scalars["String"];
+  email?: Maybe<Scalars["String"]>;
+  id: Scalars["String"];
+  name?: Maybe<Scalars["String"]>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars["ID"];
+  order_linesCollection?: Maybe<Order_LinesConnection>;
+  order_status?: Maybe<Scalars["String"]>;
+  payment_method?: Maybe<Scalars["String"]>;
+  payment_status: Scalars["String"];
+  profiles?: Maybe<Profiles>;
+  stripe_payment_intent_id?: Maybe<Scalars["String"]>;
+  user_id?: Maybe<Scalars["UUID"]>;
+};
+
+export type OrdersOrder_LinesCollectionArgs = {
+  after?: InputMaybe<Scalars["Cursor"]>;
+  before?: InputMaybe<Scalars["Cursor"]>;
+  filter?: InputMaybe<Order_LinesFilter>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  orderBy?: InputMaybe<Array<Order_LinesOrderBy>>;
+};
+
+export type OrdersConnection = {
+  __typename?: "ordersConnection";
+  edges: Array<OrdersEdge>;
+  pageInfo: PageInfo;
+};
+
+export type OrdersDeleteResponse = {
+  __typename?: "ordersDeleteResponse";
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars["Int"];
+  /** Array of records impacted by the mutation */
+  records: Array<Orders>;
+};
+
+export type OrdersEdge = {
+  __typename?: "ordersEdge";
+  cursor: Scalars["String"];
+  node: Orders;
+};
+
+export type OrdersFilter = {
+  addressId?: InputMaybe<StringFilter>;
+  amount?: InputMaybe<BigFloatFilter>;
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<OrdersFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  currency?: InputMaybe<StringFilter>;
+  email?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<OrdersFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<OrdersFilter>>;
+  order_status?: InputMaybe<StringFilter>;
+  payment_method?: InputMaybe<StringFilter>;
+  payment_status?: InputMaybe<StringFilter>;
+  stripe_payment_intent_id?: InputMaybe<StringFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type OrdersInsertInput = {
+  addressId?: InputMaybe<Scalars["String"]>;
+  amount?: InputMaybe<Scalars["BigFloat"]>;
+  created_at?: InputMaybe<Scalars["Datetime"]>;
+  currency?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  order_status?: InputMaybe<Scalars["String"]>;
+  payment_method?: InputMaybe<Scalars["String"]>;
+  payment_status?: InputMaybe<Scalars["String"]>;
+  stripe_payment_intent_id?: InputMaybe<Scalars["String"]>;
+  user_id?: InputMaybe<Scalars["UUID"]>;
+};
+
+export type OrdersInsertResponse = {
+  __typename?: "ordersInsertResponse";
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars["Int"];
+  /** Array of records impacted by the mutation */
+  records: Array<Orders>;
+};
+
+export type OrdersOrderBy = {
+  addressId?: InputMaybe<OrderByDirection>;
+  amount?: InputMaybe<OrderByDirection>;
+  created_at?: InputMaybe<OrderByDirection>;
+  currency?: InputMaybe<OrderByDirection>;
+  email?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  name?: InputMaybe<OrderByDirection>;
+  order_status?: InputMaybe<OrderByDirection>;
+  payment_method?: InputMaybe<OrderByDirection>;
+  payment_status?: InputMaybe<OrderByDirection>;
+  stripe_payment_intent_id?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type OrdersUpdateInput = {
+  addressId?: InputMaybe<Scalars["String"]>;
+  amount?: InputMaybe<Scalars["BigFloat"]>;
+  created_at?: InputMaybe<Scalars["Datetime"]>;
+  currency?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  order_status?: InputMaybe<Scalars["String"]>;
+  payment_method?: InputMaybe<Scalars["String"]>;
+  payment_status?: InputMaybe<Scalars["String"]>;
+  stripe_payment_intent_id?: InputMaybe<Scalars["String"]>;
+  user_id?: InputMaybe<Scalars["UUID"]>;
+};
+
+export type OrdersUpdateResponse = {
+  __typename?: "ordersUpdateResponse";
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars["Int"];
+  /** Array of records impacted by the mutation */
+  records: Array<Orders>;
 };
 
 export type Product_Medias = Node & {
@@ -1465,6 +1591,7 @@ export type Profiles = Node & {
   name?: Maybe<Scalars["String"]>;
   /** Globally Unique Record Identifier */
   nodeId: Scalars["ID"];
+  ordersCollection?: Maybe<OrdersConnection>;
 };
 
 export type ProfilesAddressCollectionArgs = {
@@ -1483,6 +1610,15 @@ export type ProfilesCommentsCollectionArgs = {
   first?: InputMaybe<Scalars["Int"]>;
   last?: InputMaybe<Scalars["Int"]>;
   orderBy?: InputMaybe<Array<CommentsOrderBy>>;
+};
+
+export type ProfilesOrdersCollectionArgs = {
+  after?: InputMaybe<Scalars["Cursor"]>;
+  before?: InputMaybe<Scalars["Cursor"]>;
+  filter?: InputMaybe<OrdersFilter>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  orderBy?: InputMaybe<Array<OrdersOrderBy>>;
 };
 
 export type ProfilesConnection = {
@@ -1554,137 +1690,6 @@ export type ProfilesUpdateResponse = {
   affectedCount: Scalars["Int"];
   /** Array of records impacted by the mutation */
   records: Array<Profiles>;
-};
-
-export type Shop_Orders = Node & {
-  __typename?: "shop_orders";
-  addressCollection?: Maybe<AddressConnection>;
-  addressId: Scalars["String"];
-  amount_subtotal: Scalars["BigFloat"];
-  amount_total: Scalars["BigFloat"];
-  created_at: Scalars["Datetime"];
-  email?: Maybe<Scalars["String"]>;
-  id: Scalars["String"];
-  name: Scalars["String"];
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars["ID"];
-  order_linesCollection?: Maybe<Order_LinesConnection>;
-  payment_method_types: Scalars["String"];
-  payment_status: Scalars["String"];
-  userId?: Maybe<Scalars["UUID"]>;
-};
-
-export type Shop_OrdersAddressCollectionArgs = {
-  after?: InputMaybe<Scalars["Cursor"]>;
-  before?: InputMaybe<Scalars["Cursor"]>;
-  filter?: InputMaybe<AddressFilter>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<Array<AddressOrderBy>>;
-};
-
-export type Shop_OrdersOrder_LinesCollectionArgs = {
-  after?: InputMaybe<Scalars["Cursor"]>;
-  before?: InputMaybe<Scalars["Cursor"]>;
-  filter?: InputMaybe<Order_LinesFilter>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<Array<Order_LinesOrderBy>>;
-};
-
-export type Shop_OrdersConnection = {
-  __typename?: "shop_ordersConnection";
-  edges: Array<Shop_OrdersEdge>;
-  pageInfo: PageInfo;
-};
-
-export type Shop_OrdersDeleteResponse = {
-  __typename?: "shop_ordersDeleteResponse";
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars["Int"];
-  /** Array of records impacted by the mutation */
-  records: Array<Shop_Orders>;
-};
-
-export type Shop_OrdersEdge = {
-  __typename?: "shop_ordersEdge";
-  cursor: Scalars["String"];
-  node: Shop_Orders;
-};
-
-export type Shop_OrdersFilter = {
-  addressId?: InputMaybe<StringFilter>;
-  amount_subtotal?: InputMaybe<BigFloatFilter>;
-  amount_total?: InputMaybe<BigFloatFilter>;
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<Shop_OrdersFilter>>;
-  created_at?: InputMaybe<DatetimeFilter>;
-  email?: InputMaybe<StringFilter>;
-  id?: InputMaybe<StringFilter>;
-  name?: InputMaybe<StringFilter>;
-  nodeId?: InputMaybe<IdFilter>;
-  /** Negates a filter */
-  not?: InputMaybe<Shop_OrdersFilter>;
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<Shop_OrdersFilter>>;
-  payment_method_types?: InputMaybe<StringFilter>;
-  payment_status?: InputMaybe<StringFilter>;
-  userId?: InputMaybe<UuidFilter>;
-};
-
-export type Shop_OrdersInsertInput = {
-  addressId?: InputMaybe<Scalars["String"]>;
-  amount_subtotal?: InputMaybe<Scalars["BigFloat"]>;
-  amount_total?: InputMaybe<Scalars["BigFloat"]>;
-  created_at?: InputMaybe<Scalars["Datetime"]>;
-  email?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["String"]>;
-  name?: InputMaybe<Scalars["String"]>;
-  payment_method_types?: InputMaybe<Scalars["String"]>;
-  payment_status?: InputMaybe<Scalars["String"]>;
-  userId?: InputMaybe<Scalars["UUID"]>;
-};
-
-export type Shop_OrdersInsertResponse = {
-  __typename?: "shop_ordersInsertResponse";
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars["Int"];
-  /** Array of records impacted by the mutation */
-  records: Array<Shop_Orders>;
-};
-
-export type Shop_OrdersOrderBy = {
-  addressId?: InputMaybe<OrderByDirection>;
-  amount_subtotal?: InputMaybe<OrderByDirection>;
-  amount_total?: InputMaybe<OrderByDirection>;
-  created_at?: InputMaybe<OrderByDirection>;
-  email?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
-  name?: InputMaybe<OrderByDirection>;
-  payment_method_types?: InputMaybe<OrderByDirection>;
-  payment_status?: InputMaybe<OrderByDirection>;
-  userId?: InputMaybe<OrderByDirection>;
-};
-
-export type Shop_OrdersUpdateInput = {
-  addressId?: InputMaybe<Scalars["String"]>;
-  amount_subtotal?: InputMaybe<Scalars["BigFloat"]>;
-  amount_total?: InputMaybe<Scalars["BigFloat"]>;
-  created_at?: InputMaybe<Scalars["Datetime"]>;
-  email?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["String"]>;
-  name?: InputMaybe<Scalars["String"]>;
-  payment_method_types?: InputMaybe<Scalars["String"]>;
-  payment_status?: InputMaybe<Scalars["String"]>;
-  userId?: InputMaybe<Scalars["UUID"]>;
-};
-
-export type Shop_OrdersUpdateResponse = {
-  __typename?: "shop_ordersUpdateResponse";
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars["Int"];
-  /** Array of records impacted by the mutation */
-  records: Array<Shop_Orders>;
 };
 
 export type User_Wishlist = Node & {
@@ -1882,17 +1887,15 @@ export type OrderPageQueryQueryVariables = Exact<{
 
 export type OrderPageQueryQuery = {
   __typename?: "Query";
-  shop_ordersCollection?: {
-    __typename: "shop_ordersConnection";
+  ordersCollection?: {
+    __typename: "ordersConnection";
     edges: Array<{
-      __typename?: "shop_ordersEdge";
+      __typename?: "ordersEdge";
       node: {
-        __typename?: "shop_orders";
+        __typename?: "orders";
         id: string;
-        amount_subtotal: any;
-        amount_total: any;
-        payment_status: string;
-        payment_method_types: string;
+        amount: any;
+        order_status?: string | null;
         created_at: any;
         item?: {
           __typename?: "order_linesConnection";
@@ -2354,14 +2357,12 @@ export type CollectionCardFragmentFragment = {
 };
 
 export type OrdersListFragmentFragment = {
-  __typename?: "shop_ordersEdge";
+  __typename?: "ordersEdge";
   node: {
-    __typename?: "shop_orders";
+    __typename?: "orders";
     id: string;
-    amount_subtotal: any;
-    amount_total: any;
-    payment_status: string;
-    payment_method_types: string;
+    amount: any;
+    order_status?: string | null;
     created_at: any;
     item?: {
       __typename?: "order_linesConnection";
@@ -2868,7 +2869,7 @@ export const OrdersListFragmentFragmentDoc = {
       name: { kind: "Name", value: "OrdersListFragment" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "shop_ordersEdge" },
+        name: { kind: "Name", value: "ordersEdge" },
       },
       selectionSet: {
         kind: "SelectionSet",
@@ -2880,21 +2881,10 @@ export const OrdersListFragmentFragmentDoc = {
               kind: "SelectionSet",
               selections: [
                 { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "amount" } },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "amount_subtotal" },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "amount_total" },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "payment_status" },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "payment_method_types" },
+                  name: { kind: "Name", value: "order_status" },
                 },
                 { kind: "Field", name: { kind: "Name", value: "created_at" } },
                 {
@@ -3804,7 +3794,7 @@ export const OrderPageQueryDocument = {
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "shop_ordersCollection" },
+            name: { kind: "Name", value: "ordersCollection" },
             arguments: [
               {
                 kind: "Argument",
@@ -3841,7 +3831,7 @@ export const OrderPageQueryDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "userId" },
+                      name: { kind: "Name", value: "user_id" },
                       value: {
                         kind: "ObjectValue",
                         fields: [
@@ -3888,7 +3878,7 @@ export const OrderPageQueryDocument = {
       name: { kind: "Name", value: "OrdersListFragment" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "shop_ordersEdge" },
+        name: { kind: "Name", value: "ordersEdge" },
       },
       selectionSet: {
         kind: "SelectionSet",
@@ -3900,21 +3890,10 @@ export const OrderPageQueryDocument = {
               kind: "SelectionSet",
               selections: [
                 { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "amount" } },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "amount_subtotal" },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "amount_total" },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "payment_status" },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "payment_method_types" },
+                  name: { kind: "Name", value: "order_status" },
                 },
                 { kind: "Field", name: { kind: "Name", value: "created_at" } },
                 {

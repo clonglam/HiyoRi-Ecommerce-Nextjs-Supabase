@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Metadata } from "next"
-import Image from "next/image"
 
 export const metadata: Metadata = {
   title: "Dashboard",

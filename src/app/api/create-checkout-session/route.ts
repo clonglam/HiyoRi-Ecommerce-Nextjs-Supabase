@@ -1,61 +1,117 @@
-import { carts, products } from "./../../../lib/supabase/schema"
+import { InsertOrderLines, orderLines } from "./../../../lib/supabase/schema"
+import { getProductsByIds } from "@/_actions/products"
+import { CartItems } from "@/components/cart/useCartStore"
 import { stripe } from "@/lib/stripe"
 import db from "@/lib/supabase/db"
+import { InsertOrders, SelectProducts, orders } from "@/lib/supabase/schema"
+import { getURL, keytoUrl } from "@/lib/utils"
 
-import { getURL } from "@/lib/utils"
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
-import { eq, inArray } from "drizzle-orm"
+import { User, createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
+import { z } from "zod"
+
+const orderProductsSchema = z.object({
+  orderProducts: z.record(
+    z.object({
+      quantity: z.number().min(1), // Assuming quantity should be at least 1
+    })
+  ),
+  guest: z.boolean(),
+})
+
+type OrderProducts = CartItems
 
 export async function POST(request: Request) {
-  const { quantity = 1, metadata = {}, order = [] } = await request.json()
-  const price = { currency: "usd", unit_amount: 1000 }
+  const data = (await request.json()) as {
+    orderProducts: OrderProducts
+    guest: boolean
+  }
+  let user: User | undefined
+  const validation = orderProductsSchema.safeParse(data)
 
-  // const productsData = await db
-  //   .select()
-  //   .from(products)
-  //   .where(inArray(products.id, oreder))
-  console.log("order", order)
+  if (!validation)
+    return new NextResponse("Invalid order Porducts.", { status: 400 })
 
   try {
-    const supabase = createRouteHandlerClient({ cookies })
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    const productsQuantity = await mergeProductDetailsWithQuantities(
+      data.orderProducts
+    )
 
-    // if (!user) return new NextResponse("User not found.", { status: 402 })
+    if (!data.guest) {
+      const supabase = createRouteHandlerClient({ cookies })
+      const user = (await supabase.auth.getUser()).data.user
+      if (!user) return new NextResponse("No User.", { status: 400 })
+    }
 
-    const cartItems = await db.query.carts.findMany({
-      with: { product: true },
-    })
+    const amount = calcSubtotal(productsQuantity)
+
+    const insertedOrder = await db
+      .insert(orders)
+      .values({
+        user_id: !data.guest ? user.id : null,
+        currency: "cad",
+        amount: `${amount}`,
+        order_status: "pending",
+        payment_status: "unpaid",
+        payment_method: "card",
+      })
+      .returning()
+
+    await db.insert(orderLines).values(
+      productsQuantity.map(({ id, quantity, price }) => ({
+        productId: id,
+        quantity,
+        price: `${price}`,
+        orderId: insertedOrder[0].id,
+      }))
+    )
 
     const session = await stripe.checkout.sessions.create({
-      //@ts-ignore
       payment_method_types: ["card"],
       billing_address_collection: "required",
-      client_reference_id: user ? user.id : "N/A",
-      line_items: cartItems.map((item) => ({
+      client_reference_id: insertedOrder[0].id,
+      line_items: productsQuantity.map(({ name, price, quantity }) => ({
         price_data: {
-          currency: "usd",
+          currency: "cad",
           product_data: {
-            name: item.product.name,
+            name: name,
           },
-
-          unit_amount: parseFloat(item.product.price) * 100, // Make sure this is in cents
+          unit_amount: parseFloat(price) * 100,
         },
-        quantity: item.quantity,
+        quantity: quantity,
       })),
       mode: "payment",
       allow_promotion_codes: true,
-      success_url: `${getURL()}/dashboard`,
-      cancel_url: `${getURL()}/dashboard`,
+      success_url: `${getURL()}/orders`,
+      cancel_url: `${getURL()}/cart`,
     })
 
     return NextResponse.json({ sessionId: session.id })
-  } catch (error: any) {
-    console.log(error)
+  } catch (err) {
+    console.log("err", err)
     return new NextResponse("Internal Error", { status: 500 })
   }
+}
+
+const calcSubtotal = (
+  productsQuantity: (SelectProducts & { quantity: number })[]
+) =>
+  productsQuantity.reduce((acc, cur) => {
+    return acc + cur.quantity * parseFloat(cur.price)
+  }, 0)
+
+const mergeProductDetailsWithQuantities = async (
+  orderProducts: OrderProducts
+): Promise<(SelectProducts & { quantity: number })[]> => {
+  const productIds = Object.keys(orderProducts)
+  const products = await getProductsByIds(productIds)
+
+  const orderDetails = products.map((product) => {
+    const quantity = orderProducts[product.id].quantity
+    return { ...product, quantity }
+  })
+
+  return orderDetails
 }
