@@ -1,27 +1,84 @@
-import React from "react"
-import { Button } from "../ui/button"
-import { Icons } from "../icons"
+"use client"
 import { gql } from "@/gql"
+import { useAuth } from "@/lib/providers/AuthProvider"
+import { cn } from "@/lib/utils"
+import { useMutation } from "@urql/next"
+import { useRouter } from "next/navigation"
+import { Icons } from "../icons"
+import { Button } from "../ui/button"
+import { useToast } from "../ui/use-toast"
+import useWishlistStore from "./useWishlistStore"
 
-type Props = {}
+type Props = {
+  productId: string
+}
 
-function AddToWishListButton({}: Props) {
-  const AddProductToWishList = gql(/* GraphQL */ `
-    mutation AddProductToWishList($productId: String, $userId: UUID) {
-      insertIntouser_wishlistCollection(
-        objects: { user_id: $userId, product_id: $productId }
-      ) {
-        affectedCount
-        records {
-          user_id
-          product_id
-        }
+const AddProductToWishList = gql(/* GraphQL */ `
+  mutation AddProductToWishList($productId: String, $userId: UUID) {
+    insertIntowishlistCollection(
+      objects: { user_id: $userId, product_id: $productId }
+    ) {
+      affectedCount
+      records {
+        __typename
+        user_id
+        product_id
       }
     }
-  `)
+  }
+`)
+const RemoveWishlistItemMutation = gql(/* GraphQL */ `
+  mutation RemoveWishlistItemMutation($productId: String, $userId: UUID) {
+    deleteFromwishlistCollection(
+      filter: {
+        and: [{ user_id: { eq: $userId } }, { product_id: { eq: $productId } }]
+      }
+      atMost: 1
+    ) {
+      records {
+        __typename
+      }
+    }
+  }
+`)
+
+function AddToWishListButton({ productId }: Props) {
+  const router = useRouter()
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const wishlist = useWishlistStore((s) => s.wishlist)
+  const toggleWishlist = useWishlistStore((s) => s.toggleWishItem)
+
+  const [, addToWishlist] = useMutation(AddProductToWishList)
+  const [, removeWishlistItem] = useMutation(RemoveWishlistItemMutation)
+  const isButtonDisabled = !user
+
+  const onClickHandler = async () => {
+    if (!user) router.push("/sign-in")
+
+    if (wishlist[productId]) {
+      const res = await removeWishlistItem({ productId, userId: user.id })
+      if (res.data) toast({ title: "Removed from wishlist." })
+    } else {
+      const res = await addToWishlist({ productId, userId: user.id })
+      if (res.data) toast({ title: "Products is added to the list" })
+    }
+
+    toggleWishlist(productId)
+  }
   return (
-    <Button className="rounded-full p-3" variant="ghost">
-      <Icons.heart className="w-4 h-4" />
+    <Button
+      className="rounded-full p-3"
+      variant="ghost"
+      disabled={isButtonDisabled}
+      onClick={onClickHandler}
+    >
+      <Icons.heart
+        className={cn(
+          "w-4 h-4",
+          wishlist[productId] ? "fill-red-600 " : "fill-none"
+        )}
+      />
     </Button>
   )
 }

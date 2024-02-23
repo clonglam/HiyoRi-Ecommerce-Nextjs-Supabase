@@ -1,4 +1,5 @@
 import { Shell } from "@/components/layouts/Shell"
+import BuyAgainCard from "@/components/orders/BuyAgainCard"
 import OrdersList from "@/components/orders/OrdersList"
 import { gql } from "@/gql"
 import { createClient } from "@/lib/supabase/server"
@@ -17,6 +18,12 @@ const OrderPageQuery = gql(/* GraphQL */ `
       __typename
       edges {
         ...OrdersListFragment
+      }
+    }
+
+    productsCollection(first: 8) {
+      edges {
+        ...BuyAgainCardFragment
       }
     }
   }
@@ -41,12 +48,20 @@ async function OrderPage() {
 
   console.log("error", error)
   if (!data) return notFound()
-  console.log("data", data)
 
   return (
     <Shell className="container ">
       <h1 className="pb-8 text-3xl font-semibold border-b">Orders</h1>
-      <OrdersList orders={data.ordersCollection.edges} />
+
+      <div className="grid grid-cols-12 gap-x-5">
+        <section className="col-span-9">
+          <OrdersList orders={data.ordersCollection.edges} />
+        </section>
+
+        <section className="col-span-3">
+          <BuyAgainCard products={data.productsCollection.edges} />
+        </section>
+      </div>
     </Shell>
   )
 }

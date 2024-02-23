@@ -1,8 +1,6 @@
-import React from "react"
 import Image from "next/image"
+import React, { Suspense } from "react"
 
-import { cn, keytoUrl } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -11,17 +9,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { cn, keytoUrl } from "@/lib/utils"
 
-import { Icons } from "../icons"
-import { Rating } from "../ui/rating"
+import { DocumentType, gql } from "@/gql"
 import Link from "next/link"
-import { gql, DocumentType } from "@/gql"
+import { Rating } from "../ui/rating"
 
-import { Badge } from "../ui/badge"
 import { BadgeType } from "@/lib/supabase/schema"
+import { Badge } from "../ui/badge"
 
-import { Skeleton } from "../ui/skeleton"
 import AddToCartButton from "../cart/AddToCartButton"
+import AddToWishListButton from "../wishList/AddToWishListButton"
 
 type CardProps = React.ComponentProps<typeof Card>
 
@@ -48,22 +46,6 @@ export const ProductCardFragment = gql(/* GraphQL */ `
       label
       slug
     }
-    cartsCollection {
-      edges {
-        node {
-          product_id
-          quantity
-          user_id
-        }
-      }
-    }
-    user_wishlistCollection {
-      edges {
-        node {
-          product_id
-        }
-      }
-    }
   }
 `)
 
@@ -72,10 +54,7 @@ export function ProductCard({
   product,
   ...props
 }: ProductCardProps) {
-  const { id, name, slug, featuredImage, badge, price, cartsCollection } =
-    product
-
-  const cartProduct = cartsCollection?.edges
+  const { id, name, slug, featuredImage, badge, price } = product
 
   return (
     <Card
@@ -120,21 +99,10 @@ export function ProductCard({
       </CardHeader>
 
       <CardFooter className="gap-x-2 md:gap-x-5 p-0 ">
-        <AddToCartButton
-          productId={id}
-          cartId={
-            cartProduct.length > 0 ? cartProduct[0].node.product_id : undefined
-          }
-          quantity={
-            cartProduct && cartProduct.length > 0
-              ? cartProduct[0].node.quantity + 1
-              : undefined
-          }
-        />
-
-        <Button variant="ghost" className="rounded-full p-0 h-8 w-8">
-          <Icons.heart className="h-5 w- md:h-4 md:w-4" />
-        </Button>
+        <Suspense fallback={<></>}>
+          <AddToCartButton productId={id} />
+          <AddToWishListButton productId={product.id} />
+        </Suspense>
       </CardFooter>
     </Card>
   )

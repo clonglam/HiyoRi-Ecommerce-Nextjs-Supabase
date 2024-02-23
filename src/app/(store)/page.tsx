@@ -1,3 +1,4 @@
+import { getCurrentUser } from "@/_actions/users"
 import CollectionsCard, {
   CollectionsCardSkeleton,
 } from "@/components/landing/CollectionsCard"
@@ -14,8 +15,10 @@ import { notFound } from "next/navigation"
 import { Suspense } from "react"
 
 export default async function Home() {
+  const currentUser = await getCurrentUser()
+
   const LandingRouteQuery = gql(/* GraphQL */ `
-    query LandingRouteQuery {
+    query LandingRouteQuery($user_id: UUID) {
       products: productsCollection(
         filter: { featured: { eq: true } }
         first: 4
@@ -28,6 +31,24 @@ export default async function Home() {
           }
         }
       }
+
+      wishlistCollection(filter: { user_id: { eq: $user_id } }) {
+        edges {
+          node {
+            product_id
+          }
+        }
+      }
+
+      cartsCollection(filter: { user_id: { eq: $user_id } }) {
+        edges {
+          node {
+            product_id
+            quantity
+          }
+        }
+      }
+
       collectionScrollCards: collectionsCollection(
         first: 4
         orderBy: [{ order: DescNullsLast }]
@@ -42,7 +63,9 @@ export default async function Home() {
     }
   `)
 
-  const { data } = await getClient().query(LandingRouteQuery, {})
+  const { data } = await getClient().query(LandingRouteQuery, {
+    user_id: currentUser?.id,
+  })
 
   if (data === null) return notFound()
 

@@ -234,16 +234,16 @@ type Mutation {
     atMost: Int! = 1
   ): profilesDeleteResponse!
 
-  """Deletes zero or more records from the `user_wishlist` collection"""
-  deleteFromuser_wishlistCollection(
+  """Deletes zero or more records from the `wishlist` collection"""
+  deleteFromwishlistCollection(
     """Restricts the mutation's impact to records matching the criteria"""
-    filter: user_wishlistFilter
+    filter: wishlistFilter
 
     """
     The maximum number of records in the collection permitted to be affected
     """
     atMost: Int! = 1
-  ): user_wishlistDeleteResponse!
+  ): wishlistDeleteResponse!
 
   """Adds one or more `address` records to the collection"""
   insertIntoaddressCollection(objects: [addressInsertInput!]!): addressInsertResponse
@@ -275,8 +275,8 @@ type Mutation {
   """Adds one or more `profiles` records to the collection"""
   insertIntoprofilesCollection(objects: [profilesInsertInput!]!): profilesInsertResponse
 
-  """Adds one or more `user_wishlist` records to the collection"""
-  insertIntouser_wishlistCollection(objects: [user_wishlistInsertInput!]!): user_wishlistInsertResponse
+  """Adds one or more `wishlist` records to the collection"""
+  insertIntowishlistCollection(objects: [wishlistInsertInput!]!): wishlistInsertResponse
 
   """Updates zero or more records in the `address` collection"""
   updateaddressCollection(
@@ -438,21 +438,21 @@ type Mutation {
     atMost: Int! = 1
   ): profilesUpdateResponse!
 
-  """Updates zero or more records in the `user_wishlist` collection"""
-  updateuser_wishlistCollection(
+  """Updates zero or more records in the `wishlist` collection"""
+  updatewishlistCollection(
     """
     Fields that are set will be updated for all records matching the `filter`
     """
-    set: user_wishlistUpdateInput!
+    set: wishlistUpdateInput!
 
     """Restricts the mutation's impact to records matching the criteria"""
-    filter: user_wishlistFilter
+    filter: wishlistFilter
 
     """
     The maximum number of records in the collection permitted to be affected
     """
     atMost: Int! = 1
-  ): user_wishlistUpdateResponse!
+  ): wishlistUpdateResponse!
 }
 
 interface Node {
@@ -711,8 +711,8 @@ type Query {
     orderBy: [profilesOrderBy!]
   ): profilesConnection
 
-  """A pagable collection of type `user_wishlist`"""
-  user_wishlistCollection(
+  """A pagable collection of type `wishlist`"""
+  wishlistCollection(
     """Query the first `n` records in the collection"""
     first: Int
 
@@ -726,11 +726,11 @@ type Query {
     after: Cursor
 
     """Filters to apply to the results set when querying from the collection"""
-    filter: user_wishlistFilter
+    filter: wishlistFilter
 
     """Sort order to apply to the collection"""
-    orderBy: [user_wishlistOrderBy!]
-  ): user_wishlistConnection
+    orderBy: [wishlistOrderBy!]
+  ): wishlistConnection
 }
 
 """
@@ -786,12 +786,12 @@ type address implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
   id: String!
-  city: String!
-  country: String!
-  line1: String!
+  city: String
+  country: String
+  line1: String
   line2: String
-  postal_code: String!
-  state: String!
+  postal_code: String
+  state: String
   userProfileId: UUID
   userProfile: profiles
 }
@@ -1671,25 +1671,6 @@ type products implements Node {
   featured_image_id: String!
   medias: medias!
   collections: collections
-  user_wishlistCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: user_wishlistFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [user_wishlistOrderBy!]
-  ): user_wishlistConnection
   cartsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1766,6 +1747,25 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [commentsOrderBy!]
   ): commentsConnection
+  wishlistCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: wishlistFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [wishlistOrderBy!]
+  ): wishlistConnection
 }
 
 type productsConnection {
@@ -1889,25 +1889,6 @@ type profiles implements Node {
   name: String
   email: String
   created_at: Datetime!
-  addressCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: addressFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [addressOrderBy!]
-  ): addressConnection
   ordersCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1927,6 +1908,25 @@ type profiles implements Node {
     """Sort order to apply to the collection"""
     orderBy: [ordersOrderBy!]
   ): ordersConnection
+  addressCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: addressFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [addressOrderBy!]
+  ): addressConnection
   commentsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -2024,7 +2024,7 @@ type profilesUpdateResponse {
   records: [profiles!]!
 }
 
-type user_wishlist implements Node {
+type wishlist implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
   product_id: String!
@@ -2033,25 +2033,25 @@ type user_wishlist implements Node {
   products: products!
 }
 
-type user_wishlistConnection {
-  edges: [user_wishlistEdge!]!
+type wishlistConnection {
+  edges: [wishlistEdge!]!
   pageInfo: PageInfo!
 }
 
-type user_wishlistDeleteResponse {
+type wishlistDeleteResponse {
   """Count of the records impacted by the mutation"""
   affectedCount: Int!
 
   """Array of records impacted by the mutation"""
-  records: [user_wishlist!]!
+  records: [wishlist!]!
 }
 
-type user_wishlistEdge {
+type wishlistEdge {
   cursor: String!
-  node: user_wishlist!
+  node: wishlist!
 }
 
-input user_wishlistFilter {
+input wishlistFilter {
   product_id: StringFilter
   user_id: UUIDFilter
   created_at: DatetimeFilter
@@ -2060,47 +2060,47 @@ input user_wishlistFilter {
   """
   Returns true only if all its inner filters are true, otherwise returns false
   """
-  and: [user_wishlistFilter!]
+  and: [wishlistFilter!]
 
   """
   Returns true if at least one of its inner filters is true, otherwise returns false
   """
-  or: [user_wishlistFilter!]
+  or: [wishlistFilter!]
 
   """Negates a filter"""
-  not: user_wishlistFilter
+  not: wishlistFilter
 }
 
-input user_wishlistInsertInput {
+input wishlistInsertInput {
   product_id: String
   user_id: UUID
   created_at: Datetime
 }
 
-type user_wishlistInsertResponse {
+type wishlistInsertResponse {
   """Count of the records impacted by the mutation"""
   affectedCount: Int!
 
   """Array of records impacted by the mutation"""
-  records: [user_wishlist!]!
+  records: [wishlist!]!
 }
 
-input user_wishlistOrderBy {
+input wishlistOrderBy {
   product_id: OrderByDirection
   user_id: OrderByDirection
   created_at: OrderByDirection
 }
 
-input user_wishlistUpdateInput {
+input wishlistUpdateInput {
   product_id: String
   user_id: UUID
   created_at: Datetime
 }
 
-type user_wishlistUpdateResponse {
+type wishlistUpdateResponse {
   """Count of the records impacted by the mutation"""
   affectedCount: Int!
 
   """Array of records impacted by the mutation"""
-  records: [user_wishlist!]!
+  records: [wishlist!]!
 }

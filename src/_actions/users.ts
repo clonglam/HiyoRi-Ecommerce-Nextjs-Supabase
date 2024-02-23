@@ -14,6 +14,14 @@ export const getCurrentUser = async () => {
   const userResponse = await supabase.auth.getUser()
   return userResponse.data.user
 }
+export const getCurrentUserSession = async () => {
+  const cookieStore = cookies()
+  const supabase = createServerClient({ cookieStore })
+
+  const userResponse = await supabase.auth.getSession()
+
+  return userResponse.data.session
+}
 
 export const getUser = async ({ id }: { id: string }) => {
   return await db.query.profiles.findFirst({ where: eq(profiles.id, id) })

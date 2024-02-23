@@ -81,7 +81,6 @@ export const createProductAction = async (product: InsertProducts) => {
   console.log("product", product)
   createInsertSchema(products).parse(product)
   const data = await db.insert(products).values(product).returning()
-  console.log("data", data)
   return data
 }
 

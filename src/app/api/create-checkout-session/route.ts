@@ -28,29 +28,30 @@ export async function POST(request: Request) {
     orderProducts: OrderProducts
     guest: boolean
   }
+
   let user: User | undefined
+
   const validation = orderProductsSchema.safeParse(data)
+  const supabase = createRouteHandlerClient({ cookies })
 
   if (!validation)
-    return new NextResponse("Invalid order Porducts.", { status: 400 })
+    return new NextResponse(JSON.stringify("Invalid data format."), {
+      status: 400,
+    })
 
   try {
     const productsQuantity = await mergeProductDetailsWithQuantities(
       data.orderProducts
     )
 
-    if (!data.guest) {
-      const supabase = createRouteHandlerClient({ cookies })
-      const user = (await supabase.auth.getUser()).data.user
-      if (!user) return new NextResponse("No User.", { status: 400 })
-    }
-
     const amount = calcSubtotal(productsQuantity)
 
     const insertedOrder = await db
       .insert(orders)
       .values({
-        user_id: !data.guest ? user.id : null,
+        user_id: !data.guest
+          ? (await supabase.auth.getUser()).data.user.id
+          : null,
         currency: "cad",
         amount: `${amount}`,
         order_status: "pending",

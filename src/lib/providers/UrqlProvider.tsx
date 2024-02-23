@@ -7,6 +7,8 @@ import {
   fetchExchange,
   ssrExchange,
 } from "@urql/next"
+import { retryExchange } from "@urql/exchange-retry"
+
 import { useMemo } from "react"
 import { env } from "../../env.mjs"
 import { useAuth } from "./AuthProvider"

@@ -1,13 +1,14 @@
 import dynamic from "next/dynamic"
 import UserNav from "../auth/UserNav"
-import { Icons } from "../icons"
-import Branding from "./Branding"
 import MobileNavbar from "./MobileNavbar"
 import { SideMenu } from "./SideMenu"
-
+import { Icons } from "../icons"
+import Branding from "./Branding"
 import { cn } from "@/lib/utils"
 import CartNav from "../cart/CartNav"
 import NavLinkButton from "./NavLinkButton"
+import { Suspense } from "react"
+import CartLink from "../cart/CartLink"
 const SearchInput = dynamic(() => import("./SearchInput"), { ssr: false })
 
 interface MainNavbarProps {
@@ -32,13 +33,17 @@ async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
 
         {/* Nav Action */}
         <div className="flex gap-x-5 relative items-center">
-          <UserNav />
+          <Suspense>
+            <UserNav />
+          </Suspense>
 
           <NavLinkButton href={"/wish-list"}>
             <Icons.heart className="w-4 h-4" aria-label="wishlist" />
           </NavLinkButton>
 
-          <CartNav />
+          <Suspense fallback={<CartLink productCount={0} />}>
+            <CartNav />
+          </Suspense>
         </div>
       </div>
       <MobileNavbar />

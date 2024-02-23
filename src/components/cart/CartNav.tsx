@@ -1,66 +1,64 @@
 "use client"
-import { useAuth } from "@/lib/providers/AuthProvider"
-import { useQuery } from "@urql/next"
-import { useMemo } from "react"
-import { Icons } from "../icons"
-import NavLinkButton from "../layouts/NavLinkButton"
-import { Badge } from "../ui/badge"
 import { gql } from "@/gql"
-import { calcProductCount } from "./UserCartSection"
+import { useMemo } from "react"
+import { useAuth } from "@/lib/providers/AuthProvider"
+import { User } from "@supabase/auth-helpers-nextjs"
+import { useQuery } from "@urql/next"
+import CartLink from "./CartLink"
 import useCartStore, { calcProductCountStorage } from "./useCartStore"
 
-export const GetCartCountQuery = gql(/* GraphQL */ `
-  query GetCartCountQuery {
-    cartsCollection {
+export const CartCountQuery = gql(/* GraphQL */ `
+  query CartCountQuery($user_id: UUID) {
+    cartsCollection(filter: { user_id: { eq: $user_id } }, first: 100) {
       edges {
+        __typename
         node {
           product_id
-          user_id
           quantity
         }
       }
     }
   }
 `)
+
 function CartNav() {
   const { user } = useAuth()
+  console.log("user", user)
+  if (!user) {
+    return <GuestCart />
+  } else {
+    return <UserCartNav currentUser={user} />
+  }
+}
+
+const GuestCart = () => {
   const cart = useCartStore((s) => s.cart)
 
   const productCountStorage = useMemo(
     () => calcProductCountStorage(cart),
     [cart]
   )
-
-  // Logined User Cart
-  const shouldPause = user === undefined || user === null
-
-  const [{ data, fetching, error }] = useQuery({
-    query: GetCartCountQuery,
-    pause: shouldPause,
-  })
-
-  if (fetching || error)
-    return (
-      <NavLinkButton href={"/cart"}>
-        <div className="relative w-4 h-4">
-          <Icons.cart className="w-4 h-4" aria-label="cart" />
-        </div>
-      </NavLinkButton>
-    )
-  // const cartEdges =
-  //   data && data.cartsCollection ? data.cartsCollection.edges : []
-
-  // const productCount = useMemo(() => calcProductCount(cartEdges), [cartEdges])
-  return (
-    <NavLinkButton href={"/cart"}>
-      <div className="relative w-4 h-4">
-        <Icons.cart className="w-4 h-4" aria-label="cart" />
-        <Badge className="absolute block rounded-full w-4 h-4 p-0 -top-2 -right-2 text-[10px] text-center align-middle">
-          {user ? productCountStorage : productCountStorage}
-        </Badge>
-      </div>
-    </NavLinkButton>
-  )
+  return <CartLink productCount={productCountStorage} />
 }
 
+const UserCartNav = ({ currentUser }: { currentUser: User }) => {
+  const [{ data, fetching, error }, _] = useQuery({
+    query: CartCountQuery,
+    variables: {
+      user_id: currentUser.id,
+    },
+  })
+  console.log("fetching", fetching)
+  console.log("error", error)
+  console.log("data", data)
+
+  if (!data || !data.cartsCollection) return <CartLink productCount={0} />
+
+  const productCount = data.cartsCollection.edges.reduce(
+    (acc, cur) => acc + cur.node.quantity,
+    0
+  )
+
+  return <CartLink productCount={productCount} />
+}
 export default CartNav

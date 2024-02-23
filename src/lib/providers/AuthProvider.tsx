@@ -6,6 +6,8 @@ import { AuthUser, Session } from "@supabase/supabase-js"
 import { nanoid } from "nanoid"
 import { createContext, useContext, useEffect, useState } from "react"
 import supabase from "../supabase/client"
+import useWishlistStore from "@/components/wishList/useWishlistStore"
+import { SelectWishlist } from "../supabase/schema"
 
 type SupabaseAuthContextType = {
   user: AuthUser | null
@@ -32,6 +34,7 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
   const [user, setUser] = useState<AuthUser | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const removeAllCartStorage = useCartStore((s) => s.removeAllProducts)
+  const setWishlist = useWishlistStore((s) => s.setWishlist)
   const { toast } = useToast()
 
   useEffect(() => {
@@ -78,6 +81,25 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
                 console.log("sync Cart Data Res", data)
               })
           })
+
+          // Sync the wishlist with local storage
+          supabase
+            .from("wishlist")
+            .select()
+            .eq("user_id", session.user.id)
+            .then((data) => {
+              console.log("wishlist!!!", data)
+              const wishlistItems = {}
+
+              data?.data.forEach((item) => {
+                wishlistItems[item.product_id] = {
+                  createdAt: item.created_at,
+                  updatedAt: item.create_at,
+                }
+              })
+
+              setWishlist(wishlistItems)
+            })
 
           toast({
             title: "Welcome Back.",

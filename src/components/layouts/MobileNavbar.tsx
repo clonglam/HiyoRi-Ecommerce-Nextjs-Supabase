@@ -1,7 +1,9 @@
+import { Suspense } from "react"
 import CartNav from "../cart/CartNav"
 import Branding from "./Branding"
 import MobileSearchInput from "./MobileSearchInput"
 import { SideMenu } from "./SideMenu"
+import CartLink from "../cart/CartLink"
 
 type Props = {}
 
@@ -15,7 +17,9 @@ function MobileNavbar({}: Props) {
 
       <Branding />
 
-      <CartNav />
+      <Suspense fallback={<CartLink productCount={0} />}>
+        <CartNav />
+      </Suspense>
     </div>
   )
 }

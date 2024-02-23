@@ -7,14 +7,20 @@ import {
 import { env } from "../../env.mjs"
 import { registerUrql } from "@urql/next/rsc"
 
-export const makeClient = () => {
+export const makeClient = (access_token?: string) => {
   return createClient({
     url: `https://${env.NEXT_PUBLIC_SUPABASE_PROJECT_REF}.supabase.co/graphql/v1`,
     exchanges: [cacheExchange, fetchExchange],
-    fetchOptions: {
-      headers: {
+    fetchOptions: () => {
+      const headers = {
         apiKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      },
+      }
+
+      if (access_token) {
+        headers["Authorization"] = `Bearer ${access_token}`
+      }
+
+      return { headers }
     },
   })
 }
@@ -51,5 +57,8 @@ export function expectedErrorsHandler({
 
   return foundExpectedError ? unexpectedErrorMessage : null
 }
+
+export const createUrqlClient = (access_token?: string) =>
+  registerUrql(() => makeClient(access_token)).getClient()
 
 export const { getClient } = registerUrql(makeClient)

@@ -1,12 +1,14 @@
 "use client"
 
 import { useAuth } from "@/lib/providers/AuthProvider"
-import { useMutation } from "@urql/next"
+import { useMutation, useQuery } from "@urql/next"
 import { Icons } from "../icons"
 import { AddProductToCart } from "../products/AddProductForm"
 import { Button, ButtonProps } from "../ui/button"
 
+import { User } from "@supabase/auth-helpers-nextjs"
 import { useToast } from "../ui/use-toast"
+import { CartCountQuery } from "./CartNav"
 import { UpdateCartsProduct } from "./query"
 import useCartStore from "./useCartStore"
 
@@ -16,39 +18,65 @@ interface AddToCartButtonProps extends ButtonProps {
   cartId?: string
 }
 
-function AddToCartButton({
-  productId,
-  quantity = 1,
-  cartId,
-}: AddToCartButtonProps) {
+function AddToCartButton({ productId }: AddToCartButtonProps) {
   const { user } = useAuth()
+  const { toast } = useToast()
+
+  const addProductToCart = useCartStore((s) => s.addProductToCart)
+  const guestAddProduct = () => {
+    addProductToCart(productId, 1)
+    toast({ title: "Sucess, Added a Product to the Cart." })
+  }
+  if (!user) {
+    return (
+      <Button className="rounded-full p-0 h-8 w-8" onClick={guestAddProduct}>
+        <Icons.basket className="h-5 w-5 md:h-4 md:w-4" />
+      </Button>
+    )
+  } else {
+    return <UserCartButton user={user} productId={productId} />
+  }
+}
+
+export default AddToCartButton
+
+const UserCartButton = ({
+  user,
+  productId,
+}: {
+  user: User
+  productId: string
+}) => {
   const { toast } = useToast()
 
   const [, addToCart] = useMutation(AddProductToCart)
   const [, updateCart] = useMutation(UpdateCartsProduct)
 
-  const addProductToCart = useCartStore((s) => s.addProductToCart)
+  const [{ data, fetching, error }, _] = useQuery({
+    query: CartCountQuery,
+    variables: {
+      user_id: user.id,
+    },
+  })
 
-  const userAddProduct = async () => {
-    console.log("User is Logined so we add Product with mutation")
-    console.log("cartId", cartId)
+  const onClickHandler = async () => {
+    const existedProduct = data.cartsCollection.edges.find(
+      ({ node }) => node.product_id === productId
+    )
     try {
-      if (!cartId) {
-        const newCartItem = {
+      if (!existedProduct) {
+        const res = await addToCart({
           productId: productId,
           userId: user.id,
-          quantity: quantity,
-        }
-        console.log("newCartItem", newCartItem)
-        const res = await addToCart(newCartItem)
-        console.log("res Add New CArt", res)
+          quantity: 1,
+        })
 
         if (res) toast({ title: "Sucess, Added a Product to the Cart." })
       } else {
         const res = await updateCart({
           productId: productId,
           userId: user.id,
-          newQuantity: quantity,
+          newQuantity: existedProduct.node.quantity + 1,
         })
         console.log("updated cart", res)
         if (res) toast({ title: "Sucess, Added a Product to the Cart." })
@@ -58,19 +86,13 @@ function AddToCartButton({
     }
   }
 
-  const guestAddProduct = () => {
-    addProductToCart(productId, 1)
-    toast({ title: "Sucess, Added a Product to the Cart." })
-  }
-
   return (
     <Button
       className="rounded-full p-0 h-8 w-8"
-      onClick={user ? userAddProduct : guestAddProduct}
+      disabled={fetching || error ? true : false}
+      onClick={onClickHandler}
     >
       <Icons.basket className="h-5 w-5 md:h-4 md:w-4" />
     </Button>
   )
 }
-
-export default AddToCartButton

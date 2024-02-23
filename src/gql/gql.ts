@@ -17,9 +17,9 @@ const documents = {
     types.AdminProductsPageQueryDocument,
   "\n    query CollectionRouteQuery($collectionSlug: String) {\n      collectionsCollection(\n        filter: { slug: { eq: $collectionSlug } }\n        orderBy: [{ order: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            ...CollectionBannerFragment\n            productsCollection(orderBy: [{ created_at: DescNullsLast }]) {\n              pageInfo {\n                hasNextPage\n              }\n              edges {\n                node {\n                  id\n                  ...ProductCardFragment\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  ":
     types.CollectionRouteQueryDocument,
-  "\n  query OrderPageQuery($first: Int!, $userId: UUID) {\n    ordersCollection(\n      first: $first\n      orderBy: [{ created_at: DescNullsLast }]\n      filter: { user_id: { eq: $userId } }\n    ) {\n      __typename\n      edges {\n        ...OrdersListFragment\n      }\n    }\n  }\n":
+  "\n  query OrderPageQuery($first: Int!, $userId: UUID) {\n    ordersCollection(\n      first: $first\n      orderBy: [{ created_at: DescNullsLast }]\n      filter: { user_id: { eq: $userId } }\n    ) {\n      __typename\n      edges {\n        ...OrdersListFragment\n      }\n    }\n\n    productsCollection(first: 8) {\n      edges {\n        ...BuyAgainCardFragment\n      }\n    }\n  }\n":
     types.OrderPageQueryDocument,
-  "\n    query LandingRouteQuery {\n      products: productsCollection(\n        filter: { featured: { eq: true } }\n        first: 4\n        orderBy: [{ created_at: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...ProductCardFragment\n          }\n        }\n      }\n      collectionScrollCards: collectionsCollection(\n        first: 4\n        orderBy: [{ order: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...CollectionCardFragment\n          }\n        }\n      }\n    }\n  ":
+  "\n    query LandingRouteQuery($user_id: UUID) {\n      products: productsCollection(\n        filter: { featured: { eq: true } }\n        first: 4\n        orderBy: [{ created_at: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...ProductCardFragment\n          }\n        }\n      }\n\n      wishlistCollection(filter: { user_id: { eq: $user_id } }) {\n        edges {\n          node {\n            product_id\n          }\n        }\n      }\n\n      cartsCollection(filter: { user_id: { eq: $user_id } }) {\n        edges {\n          node {\n            product_id\n            quantity\n          }\n        }\n      }\n\n      collectionScrollCards: collectionsCollection(\n        first: 4\n        orderBy: [{ order: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...CollectionCardFragment\n          }\n        }\n      }\n    }\n  ":
     types.LandingRouteQueryDocument,
   "\n    query ProductDetailPageQuery($productSlug: String) {\n      productsCollection(filter: { slug: { eq: $productSlug } }) {\n        edges {\n          node {\n            id\n            name\n            description\n            rating\n            price\n            totalComments\n            ...ProductImageShowcaseFragment\n            commentsCollection(first: 5) {\n              edges {\n                node {\n                  ...ProductCommentsFragment\n                }\n              }\n            }\n            collections {\n              id\n              label\n              slug\n            }\n          }\n        }\n      }\n      recommendations: productsCollection(\n        filter: { slug: { neq: $productSlug } }\n        first: 5\n      ) {\n        edges {\n          node {\n            id\n            ...ProductCardFragment\n          }\n        }\n      }\n    }\n  ":
     types.ProductDetailPageQueryDocument,
@@ -33,8 +33,8 @@ const documents = {
     types.ProductColumnFragmentFragmentDoc,
   "\n  fragment CartItemCardFragment on products {\n    id\n    slug\n    name\n    price\n    description\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n  }\n":
     types.CartItemCardFragmentFragmentDoc,
-  "\n  query GetCartCountQuery {\n    cartsCollection {\n      edges {\n        node {\n          product_id\n          user_id\n          quantity\n        }\n      }\n    }\n  }\n":
-    types.GetCartCountQueryDocument,
+  "\n  query CartCountQuery($user_id: UUID) {\n    cartsCollection(filter: { user_id: { eq: $user_id } }, first: 100) {\n      edges {\n        __typename\n        node {\n          product_id\n          quantity\n        }\n      }\n    }\n  }\n":
+    types.CartCountQueryDocument,
   "\n  query FetchGuestCartQuery(\n    $cartItems: [String!]\n    $first: Int\n    $after: Cursor\n  ) {\n    productsCollection(\n      first: $first\n      after: $after\n      filter: { id: { in: $cartItems } }\n    ) {\n      edges {\n        node {\n          id\n          ...CartItemCardFragment\n        }\n      }\n    }\n  }\n":
     types.FetchGuestCartQueryDocument,
   "\n  query FetchCartQuery($userId: UUID, $first: Int, $after: Cursor) {\n    cartsCollection(\n      first: $first\n      filter: { user_id: { eq: $userId } }\n      after: $after\n    ) {\n      edges {\n        node {\n          product_id\n          user_id\n          quantity\n          product: products {\n            ...CartItemCardFragment\n          }\n        }\n      }\n    }\n  }\n":
@@ -51,11 +51,13 @@ const documents = {
     types.CollectionBannerFragmentFragmentDoc,
   "\n  fragment CollectionCardFragment on collections {\n    label\n    slug\n    featuredImage: medias {\n      key\n      alt\n    }\n  }\n":
     types.CollectionCardFragmentFragmentDoc,
+  "\n  fragment BuyAgainCardFragment on productsEdge {\n    node {\n      id\n      featured\n      price\n      name\n      slug\n      description\n      featuredImage: medias {\n        id\n        key\n        alt\n      }\n    }\n  }\n":
+    types.BuyAgainCardFragmentFragmentDoc,
   "\n  fragment OrdersListFragment on ordersEdge {\n    node {\n      id\n      amount\n      order_status\n      created_at\n      item: order_linesCollection {\n        edges {\n          node {\n            id\n            products {\n              id\n              featured\n              price\n              name\n              slug\n              description\n              featuredImage: medias {\n                id\n                key\n                alt\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n":
     types.OrdersListFragmentFragmentDoc,
   "\n  mutation AddProductToCart(\n    $productId: String\n    $userId: UUID!\n    $quantity: Int\n  ) {\n    insertIntocartsCollection(\n      objects: { product_id: $productId, user_id: $userId, quantity: $quantity }\n    ) {\n      affectedCount\n      records {\n        product_id\n        user_id\n        quantity\n      }\n    }\n  }\n":
     types.AddProductToCartDocument,
-  "\n  fragment ProductCardFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n    cartsCollection {\n      edges {\n        node {\n          product_id\n          quantity\n          user_id\n        }\n      }\n    }\n    user_wishlistCollection {\n      edges {\n        node {\n          product_id\n        }\n      }\n    }\n  }\n":
+  "\n  fragment ProductCardFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n  }\n":
     types.ProductCardFragmentFragmentDoc,
   "\n  fragment ProductCommentsFragment on comments {\n    id\n    comment\n    profile {\n      name\n    }\n  }\n":
     types.ProductCommentsFragmentFragmentDoc,
@@ -69,8 +71,10 @@ const documents = {
     types.FetchSearchProductsQueryDocument,
   "\n  query ListProductsByFeaturedQuery($first: Int, $after: Cursor) {\n    productsCollection(first: $first, after: $after) {\n      edges {\n        node {\n          id\n          ...ProductCardFragment\n        }\n      }\n    }\n  }\n":
     types.ListProductsByFeaturedQueryDocument,
-  "\n    mutation AddProductToWishList($productId: String, $userId: UUID) {\n      insertIntouser_wishlistCollection(\n        objects: { user_id: $userId, product_id: $productId }\n      ) {\n        affectedCount\n        records {\n          user_id\n          product_id\n        }\n      }\n    }\n  ":
+  "\n  mutation AddProductToWishList($productId: String, $userId: UUID) {\n    insertIntowishlistCollection(\n      objects: { user_id: $userId, product_id: $productId }\n    ) {\n      affectedCount\n      records {\n        __typename\n        user_id\n        product_id\n      }\n    }\n  }\n":
     types.AddProductToWishListDocument,
+  "\n  mutation RemoveWishlistItemMutation($productId: String, $userId: UUID) {\n    deleteFromwishlistCollection(\n      filter: {\n        and: [{ user_id: { eq: $userId } }, { product_id: { eq: $productId } }]\n      }\n      atMost: 1\n    ) {\n      records {\n        __typename\n      }\n    }\n  }\n":
+    types.RemoveWishlistItemMutationDocument,
 };
 
 /**
@@ -103,14 +107,14 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n  query OrderPageQuery($first: Int!, $userId: UUID) {\n    ordersCollection(\n      first: $first\n      orderBy: [{ created_at: DescNullsLast }]\n      filter: { user_id: { eq: $userId } }\n    ) {\n      __typename\n      edges {\n        ...OrdersListFragment\n      }\n    }\n  }\n",
-): (typeof documents)["\n  query OrderPageQuery($first: Int!, $userId: UUID) {\n    ordersCollection(\n      first: $first\n      orderBy: [{ created_at: DescNullsLast }]\n      filter: { user_id: { eq: $userId } }\n    ) {\n      __typename\n      edges {\n        ...OrdersListFragment\n      }\n    }\n  }\n"];
+  source: "\n  query OrderPageQuery($first: Int!, $userId: UUID) {\n    ordersCollection(\n      first: $first\n      orderBy: [{ created_at: DescNullsLast }]\n      filter: { user_id: { eq: $userId } }\n    ) {\n      __typename\n      edges {\n        ...OrdersListFragment\n      }\n    }\n\n    productsCollection(first: 8) {\n      edges {\n        ...BuyAgainCardFragment\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query OrderPageQuery($first: Int!, $userId: UUID) {\n    ordersCollection(\n      first: $first\n      orderBy: [{ created_at: DescNullsLast }]\n      filter: { user_id: { eq: $userId } }\n    ) {\n      __typename\n      edges {\n        ...OrdersListFragment\n      }\n    }\n\n    productsCollection(first: 8) {\n      edges {\n        ...BuyAgainCardFragment\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n    query LandingRouteQuery {\n      products: productsCollection(\n        filter: { featured: { eq: true } }\n        first: 4\n        orderBy: [{ created_at: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...ProductCardFragment\n          }\n        }\n      }\n      collectionScrollCards: collectionsCollection(\n        first: 4\n        orderBy: [{ order: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...CollectionCardFragment\n          }\n        }\n      }\n    }\n  ",
-): (typeof documents)["\n    query LandingRouteQuery {\n      products: productsCollection(\n        filter: { featured: { eq: true } }\n        first: 4\n        orderBy: [{ created_at: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...ProductCardFragment\n          }\n        }\n      }\n      collectionScrollCards: collectionsCollection(\n        first: 4\n        orderBy: [{ order: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...CollectionCardFragment\n          }\n        }\n      }\n    }\n  "];
+  source: "\n    query LandingRouteQuery($user_id: UUID) {\n      products: productsCollection(\n        filter: { featured: { eq: true } }\n        first: 4\n        orderBy: [{ created_at: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...ProductCardFragment\n          }\n        }\n      }\n\n      wishlistCollection(filter: { user_id: { eq: $user_id } }) {\n        edges {\n          node {\n            product_id\n          }\n        }\n      }\n\n      cartsCollection(filter: { user_id: { eq: $user_id } }) {\n        edges {\n          node {\n            product_id\n            quantity\n          }\n        }\n      }\n\n      collectionScrollCards: collectionsCollection(\n        first: 4\n        orderBy: [{ order: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...CollectionCardFragment\n          }\n        }\n      }\n    }\n  ",
+): (typeof documents)["\n    query LandingRouteQuery($user_id: UUID) {\n      products: productsCollection(\n        filter: { featured: { eq: true } }\n        first: 4\n        orderBy: [{ created_at: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...ProductCardFragment\n          }\n        }\n      }\n\n      wishlistCollection(filter: { user_id: { eq: $user_id } }) {\n        edges {\n          node {\n            product_id\n          }\n        }\n      }\n\n      cartsCollection(filter: { user_id: { eq: $user_id } }) {\n        edges {\n          node {\n            product_id\n            quantity\n          }\n        }\n      }\n\n      collectionScrollCards: collectionsCollection(\n        first: 4\n        orderBy: [{ order: DescNullsLast }]\n      ) {\n        edges {\n          node {\n            id\n            ...CollectionCardFragment\n          }\n        }\n      }\n    }\n  "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -151,8 +155,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n  query GetCartCountQuery {\n    cartsCollection {\n      edges {\n        node {\n          product_id\n          user_id\n          quantity\n        }\n      }\n    }\n  }\n",
-): (typeof documents)["\n  query GetCartCountQuery {\n    cartsCollection {\n      edges {\n        node {\n          product_id\n          user_id\n          quantity\n        }\n      }\n    }\n  }\n"];
+  source: "\n  query CartCountQuery($user_id: UUID) {\n    cartsCollection(filter: { user_id: { eq: $user_id } }, first: 100) {\n      edges {\n        __typename\n        node {\n          product_id\n          quantity\n        }\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query CartCountQuery($user_id: UUID) {\n    cartsCollection(filter: { user_id: { eq: $user_id } }, first: 100) {\n      edges {\n        __typename\n        node {\n          product_id\n          quantity\n        }\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -205,6 +209,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+  source: "\n  fragment BuyAgainCardFragment on productsEdge {\n    node {\n      id\n      featured\n      price\n      name\n      slug\n      description\n      featuredImage: medias {\n        id\n        key\n        alt\n      }\n    }\n  }\n",
+): (typeof documents)["\n  fragment BuyAgainCardFragment on productsEdge {\n    node {\n      id\n      featured\n      price\n      name\n      slug\n      description\n      featuredImage: medias {\n        id\n        key\n        alt\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
   source: "\n  fragment OrdersListFragment on ordersEdge {\n    node {\n      id\n      amount\n      order_status\n      created_at\n      item: order_linesCollection {\n        edges {\n          node {\n            id\n            products {\n              id\n              featured\n              price\n              name\n              slug\n              description\n              featuredImage: medias {\n                id\n                key\n                alt\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n",
 ): (typeof documents)["\n  fragment OrdersListFragment on ordersEdge {\n    node {\n      id\n      amount\n      order_status\n      created_at\n      item: order_linesCollection {\n        edges {\n          node {\n            id\n            products {\n              id\n              featured\n              price\n              name\n              slug\n              description\n              featuredImage: medias {\n                id\n                key\n                alt\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n"];
 /**
@@ -217,8 +227,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n  fragment ProductCardFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n    cartsCollection {\n      edges {\n        node {\n          product_id\n          quantity\n          user_id\n        }\n      }\n    }\n    user_wishlistCollection {\n      edges {\n        node {\n          product_id\n        }\n      }\n    }\n  }\n",
-): (typeof documents)["\n  fragment ProductCardFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n    cartsCollection {\n      edges {\n        node {\n          product_id\n          quantity\n          user_id\n        }\n      }\n    }\n    user_wishlistCollection {\n      edges {\n        node {\n          product_id\n        }\n      }\n    }\n  }\n"];
+  source: "\n  fragment ProductCardFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n  }\n",
+): (typeof documents)["\n  fragment ProductCardFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -259,8 +269,14 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n    mutation AddProductToWishList($productId: String, $userId: UUID) {\n      insertIntouser_wishlistCollection(\n        objects: { user_id: $userId, product_id: $productId }\n      ) {\n        affectedCount\n        records {\n          user_id\n          product_id\n        }\n      }\n    }\n  ",
-): (typeof documents)["\n    mutation AddProductToWishList($productId: String, $userId: UUID) {\n      insertIntouser_wishlistCollection(\n        objects: { user_id: $userId, product_id: $productId }\n      ) {\n        affectedCount\n        records {\n          user_id\n          product_id\n        }\n      }\n    }\n  "];
+  source: "\n  mutation AddProductToWishList($productId: String, $userId: UUID) {\n    insertIntowishlistCollection(\n      objects: { user_id: $userId, product_id: $productId }\n    ) {\n      affectedCount\n      records {\n        __typename\n        user_id\n        product_id\n      }\n    }\n  }\n",
+): (typeof documents)["\n  mutation AddProductToWishList($productId: String, $userId: UUID) {\n    insertIntowishlistCollection(\n      objects: { user_id: $userId, product_id: $productId }\n    ) {\n      affectedCount\n      records {\n        __typename\n        user_id\n        product_id\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  mutation RemoveWishlistItemMutation($productId: String, $userId: UUID) {\n    deleteFromwishlistCollection(\n      filter: {\n        and: [{ user_id: { eq: $userId } }, { product_id: { eq: $productId } }]\n      }\n      atMost: 1\n    ) {\n      records {\n        __typename\n      }\n    }\n  }\n",
+): (typeof documents)["\n  mutation RemoveWishlistItemMutation($productId: String, $userId: UUID) {\n    deleteFromwishlistCollection(\n      filter: {\n        and: [{ user_id: { eq: $userId } }, { product_id: { eq: $productId } }]\n      }\n      atMost: 1\n    ) {\n      records {\n        __typename\n      }\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

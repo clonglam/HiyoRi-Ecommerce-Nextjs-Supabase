@@ -49,6 +49,7 @@
     "@t3-oss/env-nextjs": "^0.8.0",
     "@tanstack/react-table": "^8.11.8",
     "@urql/exchange-graphcache": "^6.4.1",
+    "@urql/exchange-retry": "^1.2.1",
     "@urql/next": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

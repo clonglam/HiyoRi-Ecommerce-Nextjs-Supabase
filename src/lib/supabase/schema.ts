@@ -72,8 +72,8 @@ export const cartsRelations = relations(carts, ({ one }) => ({
   }),
 }))
 
-export const userWishlist = pgTable(
-  "user_wishlist",
+export const wishlist = pgTable(
+  "wishlist",
   {
     productId: text("product_id")
       .notNull()
@@ -95,13 +95,16 @@ export const userWishlist = pgTable(
       product: foreignKey({
         columns: [table.productId],
         foreignColumns: [products.id],
-        name: "user_wishlist_to_product",
+        name: "wishlist_product_fk",
       })
         .onDelete("cascade")
         .onUpdate("cascade"),
     }
   }
 )
+
+export type SelectWishlist = InferSelectModel<typeof wishlist>
+export type InsertWishlist = InferInsertModel<typeof wishlist>
 
 export const comments = pgTable(
   "comments",
