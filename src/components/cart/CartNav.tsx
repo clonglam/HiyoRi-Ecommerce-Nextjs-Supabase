@@ -6,6 +6,7 @@ import { User } from "@supabase/auth-helpers-nextjs"
 import { useQuery } from "@urql/next"
 import CartLink from "./CartLink"
 import useCartStore, { calcProductCountStorage } from "./useCartStore"
+import SearchProductsGridSkeleton from "../products/SearchProductsGridSkeleton"
 
 export const CartCountQuery = gql(/* GraphQL */ `
   query CartCountQuery($user_id: UUID) {
@@ -23,7 +24,6 @@ export const CartCountQuery = gql(/* GraphQL */ `
 
 function CartNav() {
   const { user } = useAuth()
-  console.log("user", user)
   if (!user) {
     return <GuestCart />
   } else {
@@ -42,23 +42,28 @@ const GuestCart = () => {
 }
 
 const UserCartNav = ({ currentUser }: { currentUser: User }) => {
-  const [{ data, fetching, error }, _] = useQuery({
+  const [{ data, fetching, error }] = useQuery({
     query: CartCountQuery,
     variables: {
       user_id: currentUser.id,
     },
   })
-  console.log("fetching", fetching)
-  console.log("error", error)
-  console.log("data", data)
 
-  if (!data || !data.cartsCollection) return <CartLink productCount={0} />
+  const carts = data?.cartsCollection
 
-  const productCount = data.cartsCollection.edges.reduce(
+  const productCount = (carts?.edges || []).reduce(
     (acc, cur) => acc + cur.node.quantity,
     0
   )
 
-  return <CartLink productCount={productCount} />
+  return (
+    <div>
+      {error && <CartLink productCount={0} />}
+
+      {fetching && <CartLink productCount={0} />}
+
+      {carts && <CartLink productCount={productCount} />}
+    </div>
+  )
 }
 export default CartNav

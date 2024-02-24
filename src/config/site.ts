@@ -21,7 +21,7 @@ export const siteConfig = {
     },
     {
       title: "Our Story",
-      href: "/our-story",
+      href: "https://github.com/clonglam/HIYORI-master",
       description: "Our Story.",
       items: [],
     },

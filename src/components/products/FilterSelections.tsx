@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import FilterSelection from "./FilterSelection"
+import { Range } from "react-range"
 
 import {
   Form,
@@ -22,39 +23,49 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 import FilterBadges from "./FilterBadges"
 import { SortEnum } from "@/validations/products"
+import { Icons } from "../icons"
 
 type Props = {
-  collections: SelectCollection[]
+  collectionsSection: SelectCollection[]
 }
 
 export type FilterFormData = z.infer<typeof filterSelectionSchema>
 
-// export enum PriceRangeEnum {
-//   "0-5" = "$0.00 - $4.99",
-//   "5-10" = "$5.00 - $9.99",
-//   "10-15" = "$10.00 - $15.99",
-//   "0-5" = "$.00 - $19.99",
-// }
-
 const filterSelectionSchema = z.object({
   sort: z.nativeEnum(SortEnum).nullable().optional(),
-  collection: z.string().nullable().optional(),
+  collections: z.array(z.string()).nullable().optional(),
+  pricerange: z.array(z.string()),
 })
 
-function FilterSelections({ collections }: Props) {
+function FilterSelections({ collectionsSection }: Props) {
   const router = useRouter()
   const pathname = usePathname()
+
   const searchParams = useSearchParams()
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const collections = searchParams.get("collections")
+  const pricerange = searchParams.get("pricerange")
 
   const form = useForm<FilterFormData>({
     resolver: zodResolver(filterSelectionSchema),
     mode: "onChange",
     defaultValues: {
       sort: SortEnum[""],
-      collection: searchParams.get("collection"),
+      collections: collections ? collections.split(",") : [],
+      pricerange: pricerange ? pricerange.split(",") : ["0", "5000"],
     },
   })
   // Deboundce Submit
@@ -67,13 +78,13 @@ function FilterSelections({ collections }: Props) {
       timer = setTimeout(() => {
         form.handleSubmit(onSubmit)()
         setIsLoading(false)
-      }, 1000)
+      }, 300)
     })
     return () => subscription.unsubscribe()
   }, [form.handleSubmit, form.watch])
 
   const createQueryString = React.useCallback(
-    (params: Record<string, string | number | null>) => {
+    (params: Record<string, string | number | string[] | null>) => {
       const newSearchParams = new URLSearchParams(searchParams?.toString())
 
       for (const [key, value] of Object.entries(params)) {
@@ -88,6 +99,7 @@ function FilterSelections({ collections }: Props) {
     },
     [searchParams]
   )
+
   const onRemoveHandller = (key: keyof FilterFormData) => {
     const newSearchParams = new URLSearchParams(searchParams?.toString())
     newSearchParams.delete(key)
@@ -100,9 +112,162 @@ function FilterSelections({ collections }: Props) {
   }
   return (
     <section className="mb-5">
-      <div className="flex space-x-3 mb-3">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-x-8">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex justify-between items-center"
+        >
+          <div className="flex gap-x-5 items-center">
+            <span>Filter:</span>
+
+            <FormField
+              control={form.control}
+              name="collections"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="flex items-center">
+                        Collections
+                        <Icons.chevronDown
+                          width={25}
+                          height={25}
+                          strokeWidth={2}
+                        />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuLabel>Collections</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        {collectionsSection.map((collection) => (
+                          <DropdownMenuCheckboxItem
+                            key={collection.id}
+                            checked={(field.value || []).includes(
+                              collection.id
+                            )}
+                            onCheckedChange={() => {
+                              const oldValue = field.value || []
+
+                              const newdata = oldValue.includes(collection.id)
+                                ? oldValue.filter(
+                                    (item) => item !== collection.id
+                                  )
+                                : [...oldValue, collection.id]
+
+                              return field.onChange(newdata)
+                            }}
+                          >
+                            {collection.label}
+                          </DropdownMenuCheckboxItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="pricerange"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="flex items-center">
+                        Price Range
+                        <Icons.chevronDown
+                          width={25}
+                          height={25}
+                          strokeWidth={2}
+                        />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="p-5">
+                        <DropdownMenuLabel>Price Range</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <Range
+                          step={1}
+                          min={0}
+                          max={5000}
+                          values={
+                            field.value?.length > 0
+                              ? [
+                                  parseInt(field.value[0]),
+                                  parseInt(field.value[1]),
+                                ]
+                              : [0, 5000]
+                          }
+                          onChange={(data) =>
+                            field.onChange([
+                              data[0].toString(),
+                              data[1].toString(),
+                            ])
+                          }
+                          renderTrack={({ props, children }) => (
+                            <div
+                              {...props}
+                              style={{
+                                ...props.style,
+                                height: "3px",
+                                width: "100%",
+                                backgroundColor: "#ccc",
+                              }}
+                            >
+                              {children}
+                            </div>
+                          )}
+                          renderThumb={({ props }) => (
+                            <div
+                              {...props}
+                              style={{
+                                ...props.style,
+                                height: "20px",
+                                width: "20px",
+                                backgroundColor: "#232323",
+                                borderRadius: "9999px",
+                              }}
+                            />
+                          )}
+                        />
+
+                        <div className="mt-5">
+                          Selected range: ${field.value ? field.value[0] : "0"}{" "}
+                          -{" $"}
+                          {field.value ? field.value[1] : "5000"}
+                        </div>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* <FormField
+              control={form.control}
+              name="collections"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <FilterSelection
+                      disabled={isLoading}
+                      placeholder="Collections"
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      items={collections.map(({ id, label }) => ({
+                        value: id,
+                        label: label,
+                      }))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+          </div>
+
+          <div className="flex gap-x-5 items-center">
+            <span>Sort by:</span>
             <FormField
               control={form.control}
               name="sort"
@@ -124,29 +289,9 @@ function FilterSelections({ collections }: Props) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="collection"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <FilterSelection
-                      disabled={isLoading}
-                      placeholder="Collection"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      items={collections.map(({ id, label }) => ({
-                        value: id,
-                        label: label,
-                      }))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          </div>
 
-            {/* <FormField
+          {/* <FormField
               control={form.control}
               name="collection"
               render={({ field }) => (
@@ -167,22 +312,22 @@ function FilterSelections({ collections }: Props) {
                 </FormItem>
               )}
             /> */}
-          </form>
-        </Form>
+        </form>
+      </Form>
 
-        <Sheet>
-          <SheetTrigger>All filters</SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Are you absolutely sure?</SheetTitle>
-              <SheetDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </SheetDescription>
-            </SheetHeader>
-          </SheetContent>
-        </Sheet>
-      </div>
+      <Sheet>
+        <SheetTrigger>All filters</SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Are you absolutely sure?</SheetTitle>
+            <SheetDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
+
       <FilterBadges
         currentFilter={form.getValues()}
         onClickHandler={onRemoveHandller}

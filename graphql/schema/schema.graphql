@@ -982,6 +982,8 @@ type collections implements Node {
   slug: String!
   order: Int
   featured_image_id: String!
+  description: String!
+  title: String!
   medias: medias!
   productsCollection(
     """Query the first `n` records in the collection"""
@@ -1028,6 +1030,8 @@ input collectionsFilter {
   slug: StringFilter
   order: IntFilter
   featured_image_id: StringFilter
+  description: StringFilter
+  title: StringFilter
   nodeId: IDFilter
 
   """
@@ -1050,6 +1054,8 @@ input collectionsInsertInput {
   slug: String
   order: Int
   featured_image_id: String
+  description: String
+  title: String
 }
 
 type collectionsInsertResponse {
@@ -1066,6 +1072,8 @@ input collectionsOrderBy {
   slug: OrderByDirection
   order: OrderByDirection
   featured_image_id: OrderByDirection
+  description: OrderByDirection
+  title: OrderByDirection
 }
 
 input collectionsUpdateInput {
@@ -1074,6 +1082,8 @@ input collectionsUpdateInput {
   slug: String
   order: Int
   featured_image_id: String
+  description: String
+  title: String
 }
 
 type collectionsUpdateResponse {
@@ -1203,25 +1213,6 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [productsOrderBy!]
   ): productsConnection
-  collectionsCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: collectionsFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [collectionsOrderBy!]
-  ): collectionsConnection
   product_mediasCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1241,6 +1232,25 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [product_mediasOrderBy!]
   ): product_mediasConnection
+  collectionsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: collectionsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [collectionsOrderBy!]
+  ): collectionsConnection
 }
 
 type mediasConnection {
@@ -1332,8 +1342,8 @@ type order_lines implements Node {
   quantity: Int!
   price: BigFloat!
   created_at: Datetime!
-  products: products!
   order: orders!
+  products: products!
 }
 
 type order_linesConnection {
@@ -1572,8 +1582,8 @@ type product_medias implements Node {
   productId: String!
   mediaId: String!
   priority: Int
-  product: products!
   media: medias!
+  product: products!
 }
 
 type product_mediasConnection {
@@ -1690,44 +1700,6 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [cartsOrderBy!]
   ): cartsConnection
-  order_linesCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: order_linesFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [order_linesOrderBy!]
-  ): order_linesConnection
-  product_mediasCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: product_mediasFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [product_mediasOrderBy!]
-  ): product_mediasConnection
   commentsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1766,6 +1738,44 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [wishlistOrderBy!]
   ): wishlistConnection
+  order_linesCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: order_linesFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [order_linesOrderBy!]
+  ): order_linesConnection
+  product_mediasCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: product_mediasFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [product_mediasOrderBy!]
+  ): product_mediasConnection
 }
 
 type productsConnection {

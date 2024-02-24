@@ -1,7 +1,7 @@
 "use server"
 
 import db from "@/lib/supabase/db"
-import { InsertProducts, products, collections } from "@/lib/supabase/schema"
+import { InsertProducts, products } from "@/lib/supabase/schema"
 import { SearchProductActionSchema, SortEnum } from "@/validations/products"
 import {
   Column,
@@ -15,7 +15,6 @@ import {
   sql,
 } from "drizzle-orm"
 import { createInsertSchema } from "drizzle-zod"
-import { z } from "zod"
 
 const productOrder = (data: SortEnum) => {
   switch (data) {

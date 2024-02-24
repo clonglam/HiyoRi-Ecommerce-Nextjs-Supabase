@@ -69,7 +69,7 @@ function MainFooter({}: Props) {
       items: [
         {
           title: "Our Story",
-          href: "/our-story",
+          href: "https://github.com/clonglam/HIYORI-master",
           items: [],
         },
         {

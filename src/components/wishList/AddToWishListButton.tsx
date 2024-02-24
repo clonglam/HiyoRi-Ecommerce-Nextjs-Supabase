@@ -51,26 +51,26 @@ function AddToWishListButton({ productId }: Props) {
 
   const [, addToWishlist] = useMutation(AddProductToWishList)
   const [, removeWishlistItem] = useMutation(RemoveWishlistItemMutation)
-  const isButtonDisabled = !user
 
   const onClickHandler = async () => {
-    if (!user) router.push("/sign-in")
-
-    if (wishlist[productId]) {
-      const res = await removeWishlistItem({ productId, userId: user.id })
-      if (res.data) toast({ title: "Removed from wishlist." })
+    if (!user) {
+      router.push("/sign-in")
     } else {
-      const res = await addToWishlist({ productId, userId: user.id })
-      if (res.data) toast({ title: "Products is added to the list" })
-    }
+      if (wishlist[productId]) {
+        const res = await removeWishlistItem({ productId, userId: user.id })
+        if (res.data) toast({ title: "Removed from wishlist." })
+      } else {
+        const res = await addToWishlist({ productId, userId: user.id })
+        if (res.data) toast({ title: "Products is added to the list" })
+      }
 
-    toggleWishlist(productId)
+      toggleWishlist(productId)
+    }
   }
   return (
     <Button
       className="rounded-full p-3"
       variant="ghost"
-      disabled={isButtonDisabled}
       onClick={onClickHandler}
     >
       <Icons.heart

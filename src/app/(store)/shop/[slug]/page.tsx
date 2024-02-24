@@ -93,7 +93,7 @@ async function ProductDetailPage({ params }: Props) {
               </h1>
               <p className="text-2xl font-semibold mb-3">{`$${price}`}</p>
             </div>
-            {/* <AddToWishListButton productId={id}/> */}
+            <AddToWishListButton productId={id} />
           </section>
 
           <section className="flex mb-8 items-end space-x-5">

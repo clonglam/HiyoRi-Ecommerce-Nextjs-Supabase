@@ -17,7 +17,7 @@ function FilterBadges({ currentFilter, onClickHandler }: FilterBadgesProps) {
     <section className="flex gap-x-10">
       {Object.entries(currentFilter).map(([key, value]) => {
         console.log("key", key)
-        if (value)
+        if (typeof value === "string") {
           return (
             <Badge key={key} className="px-3 py-2 gap-x-3">
               {value}
@@ -29,6 +29,20 @@ function FilterBadges({ currentFilter, onClickHandler }: FilterBadgesProps) {
               </button>
             </Badge>
           )
+        }
+        if (typeof value == "object") {
+          value.map((v) => (
+            <Badge key={key + v} className="px-3 py-2 gap-x-3">
+              {value}
+              <button
+                onClick={() => onClickHandler(key)}
+                className={cn("rounded-full")}
+              >
+                <Icons.close width={15} height={15} />
+              </button>
+            </Badge>
+          ))
+        }
       })}
     </section>
   )

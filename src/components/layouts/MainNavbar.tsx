@@ -1,15 +1,16 @@
-import dynamic from "next/dynamic"
+import { cn } from "@/lib/utils"
+import { Suspense } from "react"
 import UserNav from "../auth/UserNav"
-import MobileNavbar from "./MobileNavbar"
-import { SideMenu } from "./SideMenu"
+import CartLink from "../cart/CartLink"
+import CartNav from "../cart/CartNav"
 import { Icons } from "../icons"
 import Branding from "./Branding"
-import { cn } from "@/lib/utils"
-import CartNav from "../cart/CartNav"
+import MobileNavbar from "./MobileNavbar"
 import NavLinkButton from "./NavLinkButton"
-import { Suspense } from "react"
-import CartLink from "../cart/CartLink"
-const SearchInput = dynamic(() => import("./SearchInput"), { ssr: false })
+import SearchInput from "./SearchInput"
+import { SideMenu } from "./SideMenu"
+
+// const SearchInput = dynamic(() => import("./SearchInput"), { ssr: false })
 
 interface MainNavbarProps {
   adminLayout?: boolean
@@ -29,7 +30,13 @@ async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
           <Branding />
         </div>
 
-        {adminLayout ? <></> : <SearchInput />}
+        {adminLayout ? (
+          <></>
+        ) : (
+          <Suspense>
+            <SearchInput />
+          </Suspense>
+        )}
 
         {/* Nav Action */}
         <div className="flex gap-x-5 relative items-center">

@@ -382,6 +382,8 @@ export const collections = pgTable(
       .$defaultFn(() => createId()),
     label: varchar("label", { length: 255 }).notNull(),
     slug: varchar("slug", { length: 255 }).notNull(),
+    title: varchar("title", { length: 255 }).notNull(),
+    description: varchar("description").notNull(),
     order: integer("order"),
     featuredImageId: text("featured_image_id")
       .notNull()

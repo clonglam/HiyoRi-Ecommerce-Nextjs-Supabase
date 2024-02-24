@@ -1,9 +1,11 @@
 import { listCollectionsAction } from "@/_actions/collections"
-import { searchProductsAction } from "@/_actions/products"
 import Header from "@/components/layouts/Header"
 import FilterSelections from "@/components/products/FilterSelections"
-import SearchProductsGrid from "@/components/products/SearchProductsGrid"
+import SearchProductsGridSkeleton from "@/components/products/SearchProductsGridSkeleton"
+import SearchProductsInifiteScroll from "@/components/products/SearchProductsInifiteScroll"
+
 import { Skeleton } from "@/components/ui/skeleton"
+import { gql } from "@/gql"
 import { Suspense } from "react"
 
 interface ProductsPageProps {
@@ -12,44 +14,40 @@ interface ProductsPageProps {
   }
 }
 
-async function ProductsPage({ searchParams }: ProductsPageProps) {
-  const {
-    page,
-    per_page,
-    sort,
-    collections,
-    search = "",
-    price_range,
-    store_ids,
-    store_page,
-  } = searchParams
+const FetchSearchProductsQuery = gql(/* GraphQL */ `
+  query FetchSearchProductsQuery {
+    collectionsCollection {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`)
 
-  // Products transaction
-  const limit = typeof per_page === "string" ? parseInt(per_page) : 8
-
-  const query = typeof search === "string" ? search : search.join(".")
-
-  const data = await searchProductsAction({
-    query,
-    sort: typeof sort === "string" ? sort : null,
-    collections: typeof collections === "string" ? collections : null,
-  })
-
+async function ProductsPage({}: ProductsPageProps) {
   const collectionsData = await listCollectionsAction()
 
   return (
     <div className="container min-h-screen">
       <Header heading="Shop Now" />
 
-      <Suspense fallback={<Skeleton></Skeleton>}>
-        <FilterSelections collections={collectionsData} />
+      <Suspense
+        fallback={
+          <div>
+            <Skeleton className="max-w-xl h-8 mb-3" />
+            <Skeleton className="max-w-2xl h-8" />
+          </div>
+        }
+      >
+        <FilterSelections collectionsSection={collectionsData} />
       </Suspense>
 
-      <SearchProductsGrid
-        searchResults={data?.productdIds || null}
-        hasNext={data?.hasNext}
-        searchWord={query}
-      />
+      <Suspense fallback={<SearchProductsGridSkeleton />}>
+        <SearchProductsInifiteScroll />
+      </Suspense>
     </div>
   )
 }

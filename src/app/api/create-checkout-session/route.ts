@@ -85,7 +85,7 @@ export async function POST(request: Request) {
       })),
       mode: "payment",
       allow_promotion_codes: true,
-      success_url: `${getURL()}/orders`,
+      success_url: `${getURL()}/orders/${insertedOrder[0].id}`,
       cancel_url: `${getURL()}/cart`,
     })
 

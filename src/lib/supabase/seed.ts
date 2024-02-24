@@ -19,10 +19,10 @@ export const db = drizzle(queryClient, { schema })
 
 const seeddata = async () => {
   // await seed.medias()
-  // await seed.collections()
-  // await seed.products()
+  await seed.collections()
+  await seed.products()
   // await seed.shopOrders()
-  await seed.address()
+  // await seed.address()
 
   exit()
 }

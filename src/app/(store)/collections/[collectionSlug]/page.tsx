@@ -1,5 +1,7 @@
 import CollectionBanner from "@/components/collections/CollectionBanner"
 import Header from "@/components/layouts/Header"
+import SectionHeading from "@/components/layouts/SectionHeading"
+import { Shell } from "@/components/layouts/Shell"
 import ProductCard from "@/components/products/ProductCard"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql/urql"
@@ -40,9 +42,13 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
       collectionsCollection(
         filter: { slug: { eq: $collectionSlug } }
         orderBy: [{ order: DescNullsLast }]
+        first: 1
       ) {
         edges {
           node {
+            title
+            label
+            description
             ...CollectionBannerFragment
             productsCollection(orderBy: [{ created_at: DescNullsLast }]) {
               pageInfo {
@@ -78,25 +84,31 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
 
   if (!productsList) return notFound()
 
+  const collection = data.collectionsCollection.edges[0].node
   return (
-    <div className="min-h-screen">
-      {/* <Header heading={unslugify(params.collectionSlug)} /> */}
-      <CollectionBanner
-        collectionBannerData={data.collectionsCollection.edges[0].node}
+    <Shell>
+      <SectionHeading
+        heading={collection.title}
+        description={collection.description}
       />
-
+      <div>
+        <p>Filter:</p>
+        <p>Availablilty</p>
+        <p>Price</p>
+        <p>Product type</p>
+      </div>
       {productsList.edges.length == 0 ? (
         <section>
           {`There is no Products in ${unslugify(params.collectionSlug)}.`}
         </section>
       ) : (
-        <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10 container">
+        <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
           {productsList.edges.map(({ node }) => (
             <ProductCard key={node.id} product={node} />
           ))}
         </section>
       )}
-    </div>
+    </Shell>
   )
 }
 
