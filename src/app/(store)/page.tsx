@@ -74,22 +74,29 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <HeroSection />
-      <Shell>
-        <ScrollArea className="whitespace-nowrap relative container">
-          <div className="flex w-max space-x-10 py-5 overflow-auto">
-            <Suspense
-              fallback={[...Array(6)].map((_, index) => (
-                <CollectionsCardSkeleton key={index} />
-              ))}
-            >
-              {data?.collectionScrollCards?.edges.map(({ node }) => (
-                <CollectionsCard collection={node} key={node.id} />
-              ))}
-            </Suspense>
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
 
+      <Shell>
+        {/* Type Circle Scroll */}
+        <section className="flex justify-start items-center gap-x-10 overflow-auto py-12">
+          {[...Array(6)].map((collection, index) => (
+            <div key={`collection_circle_${index}`}>
+              <div className="relative bg-secondary w-[340px] h-[340px] md:w-[420px] md:h-[420px] rounded-full flex justify-center items-center">
+                <Image
+                  src="https://hiyori-backpack.s3.us-west-2.amazonaws.com/public/Sofa.H03.2k.png"
+                  alt="collection name"
+                  width={320}
+                  height={320}
+                  className="object-center object-cover w-[240px] h-[240px] md:w-[320px] md:h-[320px] hover:scale-105 transition-all duration-500"
+                />
+              </div>
+              <p className="text-black text-center mt-3 font-semibold">
+                Collection
+              </p>
+            </div>
+          ))}
+        </section>
+
+        {/* Featured Product */}
         <section className="container mt-12">
           <div className="">
             <h2 className="font-semibold text-2xl md:text-3xl mb-1 md:mb-3">
@@ -104,16 +111,17 @@ export default async function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12 py-5 overflow-auto">
             <Suspense
               fallback={[...Array(4)].map((_, index) => (
-                <ProductCardSkeleton key={index} />
+                <ProductCardSkeleton key={`Product-Skeleton-${index}`} />
               ))}
             >
               {data?.products?.edges.map(({ node }) => (
-                <ProductCard key={node.id} product={node} />
+                <ProductCard key={`product-card-${node.id}`} product={node} />
               ))}
             </Suspense>
           </div>
         </section>
 
+        {/* Collection Cards */}
         <section className="relative gap-5 h-[800px] grid grid-cols-1 md:grid-cols-3 overflow-hidden">
           <div className="relative col-span-2 h-full w-full">
             <Image
@@ -137,6 +145,7 @@ export default async function Home() {
               </Link>
             </div>
           </div>
+
           <div className="flex flex-col gap-5">
             <div className="relative-span-1 w-full overflow-hidden">
               <Image
@@ -159,6 +168,27 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        {/* 3 Rows */}
+        <section></section>
+
+        {/* Collections Cards */}
+        <ScrollArea className="whitespace-nowrap relative container">
+          <div className="flex w-max space-x-10 py-5 overflow-auto">
+            <Suspense
+              fallback={[...Array(6)].map((_, index) => (
+                <CollectionsCardSkeleton
+                  key={`Collections-sekelton-${index}`}
+                />
+              ))}
+            >
+              {data?.collectionScrollCards?.edges.map(({ node }) => (
+                <CollectionsCard collection={node} key={node.id} />
+              ))}
+            </Suspense>
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
 
         <section className="max-w-[1920px] mx-auto h-[620px] md:h-[580px] bg-[#FFF8EE] grid grid-cols-12 my-16">
           <div className="relative w-full h-[340px] md:h-[580px] col-span-12 md:col-span-8 overflow-hidden">

@@ -17,43 +17,44 @@ interface MainNavbarProps {
 }
 async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
   return (
-    <nav
-      className={cn(
-        "bg-background/95",
-        adminLayout ? "mx-auto px-[3rem] max-w-[2500px] py-3" : "container"
-      )}
-    >
-      <div className="hidden md:flex gap-x-8 justify-between items-center">
-        {/* Menu & branding */}
-        <div className="flex gap-x-3 items-center">
-          <SideMenu />
-          <Branding />
-        </div>
-
-        {adminLayout ? (
-          <></>
-        ) : (
-          <Suspense>
-            <SearchInput />
-          </Suspense>
+    <nav className={cn("bg-background/95 fixed z-50 w-full")}>
+      <div
+        className={cn(
+          adminLayout ? "mx-auto px-[3rem] max-w-[2500px] py-3" : "container"
         )}
+      >
+        <div className="hidden md:flex gap-x-8 justify-between items-center">
+          {/* Menu & branding */}
+          <div className="flex gap-x-3 items-center">
+            <SideMenu />
+            <Branding />
+          </div>
 
-        {/* Nav Action */}
-        <div className="flex gap-x-5 relative items-center">
-          <Suspense>
-            <UserNav />
-          </Suspense>
+          {adminLayout ? (
+            <></>
+          ) : (
+            <Suspense>
+              <SearchInput />
+            </Suspense>
+          )}
 
-          <NavLinkButton href={"/wish-list"}>
-            <Icons.heart className="w-4 h-4" aria-label="wishlist" />
-          </NavLinkButton>
+          {/* Nav Action */}
+          <div className="flex gap-x-5 relative items-center">
+            <Suspense>
+              <UserNav />
+            </Suspense>
 
-          <Suspense fallback={<CartLink productCount={0} />}>
-            <CartNav />
-          </Suspense>
+            <NavLinkButton href={"/wish-list"}>
+              <Icons.heart className="w-4 h-4" aria-label="wishlist" />
+            </NavLinkButton>
+
+            <Suspense fallback={<CartLink productCount={0} />}>
+              <CartNav />
+            </Suspense>
+          </div>
         </div>
+        <MobileNavbar />
       </div>
-      <MobileNavbar />
     </nav>
   )
 }

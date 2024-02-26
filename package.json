@@ -59,6 +59,7 @@
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
     "embla-carousel-react": "^8.0.0-rc21",
+    "framer-motion": "^11.0.6",
     "graphql-codegen": "^0.4.0",
     "i": "^0.3.7",
     "js-cookie": "^3.0.5",

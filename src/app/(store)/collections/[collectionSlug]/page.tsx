@@ -112,5 +112,4 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   )
 }
 
-// const productList = (product: DocumentType<typeof ProductCardFragment>) => {}
 export default CategoryPage
