@@ -1,25 +1,22 @@
 "use client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { useMutation } from "urql"
 import { Button } from "../ui/button"
 import { QuantityInput } from "./QuantityInput"
-import { useMutation } from "urql"
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 
-import * as z from "zod"
-import { SupabaseClient } from "@supabase/supabase-js"
-import createClient from "@/lib/supabase/client"
-import { useAuth } from "@/lib/providers/AuthProvider"
 import { gql } from "@/gql"
+import { useAuth } from "@/lib/providers/AuthProvider"
+import * as z from "zod"
 
 const formSchema = z.object({
   quantity: z.number().min(0).max(8),

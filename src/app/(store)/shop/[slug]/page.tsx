@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/accordion"
 import AddToWishListButton from "@/components/wishList/AddToWishListButton"
 import { gql } from "@/gql"
-import { getClient } from "@/lib/urql/urql"
+import { getClient } from "@/lib/urql"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 

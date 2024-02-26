@@ -1,62 +1,32 @@
 import {
-  AlarmClock,
-  AlertTriangle,
-  BarChart3,
   CalendarDays,
-  Check,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   ChevronsLeft,
   ChevronsRight,
   ChevronsUpDown,
-  ChevronUp,
-  Circle,
   CreditCard,
-  Crop,
   DollarSign,
-  Download,
   Edit,
   Eye,
   EyeOff,
-  FileTerminal,
-  Filter,
-  Footprints,
-  HardHat,
   Heart,
-  Image,
   Loader2,
-  LogOut,
   Menu,
-  MessageSquare,
-  Moon,
-  MoreHorizontal,
-  MoreVertical,
-  ShoppingCart,
-  Package,
+  Minus,
   Plus,
-  PlusCircle,
-  RefreshCw,
   Search,
-  Settings,
-  Shirt,
   ShoppingBag,
-  User,
+  ShoppingBasket,
+  ShoppingCart,
   Star,
-  Sliders,
-  SlidersHorizontal,
-  SunMedium,
-  Trash,
   Twitter,
-  UploadCloud,
-  Volume2,
-  VolumeX,
-  Wallet,
+  User,
   X,
   type LucideIcon,
   type LucideProps,
-  ShoppingBasket,
-  Minus,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -89,62 +59,6 @@ export const Icons = {
   edit: Edit,
   dollarSign: DollarSign,
 
-  // verticalThreeDots: MoreVertical,
-  // horizontalThreeDots: MoreHorizontal,
-  // verticalSliders: Sliders,
-  // horizontalSliders: SlidersHorizontal,
-  // circle: Circle,
-  // check: Check,
-  // addCircle: PlusCircle,
-
-  // trash: Trash,
-  // crop: Crop,
-  // reset: RefreshCw,
-  // downlaod: Download,
-  // warning: AlertTriangle,
-  // filter: Filter,
-  // alarm: AlarmClock,
-  // dashboard: FileTerminal,
-  // settings: Settings,
-  // logout: LogOut,
-  // volumne: Volume2,
-  // volumneMute: VolumeX,
-  // message: MessageSquare,
-  // wallet: Wallet,
-
-  // cart: ShoppingCart,
-  // product: Package,
-  // chart: BarChart3,
-  // upload: UploadCloud,
-  // placeholder: Image,
-  // clothing: Shirt,
-  // shoes: Footprints,
-  // accessories: HardHat,
-  // logo: (props: LucideProps) => (
-  //   <svg
-  //     xmlns="http://www.w3.org/2000/svg"
-  //     viewBox="0 0 24 24"
-  //     strokeWidth="1.5"
-  //     stroke="currentColor"
-  //     fill="none"
-  //     strokeLinecap="round"
-  //     strokeLinejoin="round"
-  //     {...props}
-  //   >
-  //     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-  //     <circle cx="7" cy="15" r="2" />
-  //     <circle cx="17" cy="15" r="2" />
-  //     <path d="M3 9a2 1 0 0 0 2 1h14a2 1 0 0 0 2 -1" />
-  //   </svg>
-  // ),
-  // nextjs: (props: LucideProps) => (
-  //   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
-  //     <path
-  //       fill="currentColor"
-  //       d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.573 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 0 1 .237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 0 1 .233-.296c.096-.05.13-.054.5-.054z"
-  //     />
-  //   </svg>
-  // ),
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>
       <path
@@ -178,12 +92,4 @@ export const Icons = {
       />
     </svg>
   ),
-  // apple: ({ ...props }: LucideProps) => (
-  //   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" {...props}>
-  //     <path
-  //       fill="currentColor"
-  //       d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
-  //     />
-  //   </svg>
-  // ),
 }

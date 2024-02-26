@@ -1,14 +1,12 @@
 import AdminShell from "@/components/admin/AdminShell"
-import { PaginationTable } from "@/components/admin/PaginationTable"
 import { DataTable } from "@/components/admin/products/DataTable"
 import { ProductsColumns } from "@/components/admin/products/ProductsColumns"
 import { buttonVariants } from "@/components/ui/button"
 import { gql } from "@/gql"
-import { getClient } from "@/lib/urql/urql"
+import { getClient } from "@/lib/urql"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import React from "react"
 
 type AdminProjectsPageProps = {
   searchParams: {

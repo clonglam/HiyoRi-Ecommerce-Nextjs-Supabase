@@ -5,6 +5,7 @@ import { Icons } from "../icons"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/providers/AuthProvider"
+import { getURL } from "@/lib/utils"
 
 function OAuthLoginButtons() {
   const [isLoading, setIsLoading] = useState(false)
@@ -17,12 +18,14 @@ function OAuthLoginButtons() {
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
+      options: {
+        redirectTo: getURL(),
+      },
     })
 
     if (error) {
       router.push("/sign-in")
     }
-    console.log("data", data)
 
     setIsLoading(false)
   }
@@ -32,10 +35,10 @@ function OAuthLoginButtons() {
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "github",
+      options: {
+        redirectTo: getURL(),
+      },
     })
-
-    console.log("data", data)
-    console.log("error", error)
 
     setIsLoading(false)
   }

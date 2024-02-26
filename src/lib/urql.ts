@@ -4,7 +4,7 @@ import {
   createClient,
   fetchExchange,
 } from "@urql/core"
-import { env } from "../../env.mjs"
+import { env } from "../env.mjs"
 import { registerUrql } from "@urql/next/rsc"
 
 export const makeClient = (access_token?: string) => {

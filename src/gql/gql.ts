@@ -67,8 +67,6 @@ const documents = {
     types.CarouselImagesFragmentFragmentDoc,
   "\n  query RecomendationProductsQuery($first: Int!) {\n    recommendations: productsCollection(first: $first) {\n      edges {\n        node {\n          id\n          ...ProductCardFragment\n        }\n      }\n    }\n  }\n":
     types.RecomendationProductsQueryDocument,
-  "\n  query SearchProductsPaginateQuery($after: Cursor, $first: Int) {\n    productsCollection(after: $after, first: $first) {\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      edges {\n        __typename\n\n        node {\n          nodeId\n          id\n          slug\n          price\n          name\n          ...ProductCardFragment\n        }\n      }\n    }\n  }\n":
-    types.SearchProductsPaginateQueryDocument,
   "\n  query Search(\n    $search: String\n    $lower: BigFloat\n    $upper: BigFloat\n    $collections: [String!]\n    $first: Int!\n    $after: Cursor\n    $orderBy: [productsOrderBy!]\n  ) {\n    productsCollection(\n      filter: {\n        and: [\n          { name: { like: $search } }\n          { price: { gt: $lower, lt: $upper } }\n          { collection_id: { in: $collections } }\n        ]\n      }\n      first: $first\n      after: $after\n      orderBy: $orderBy\n    ) {\n      edges {\n        node {\n          id\n\n          ...ProductCardFragment\n        }\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n    }\n  }\n":
     types.SearchDocument,
   "\n  mutation AddProductToWishList($productId: String, $userId: UUID) {\n    insertIntowishlistCollection(\n      objects: { user_id: $userId, product_id: $productId }\n    ) {\n      affectedCount\n      records {\n        __typename\n        user_id\n        product_id\n      }\n    }\n  }\n":
@@ -253,12 +251,6 @@ export function gql(
 export function gql(
   source: "\n  query RecomendationProductsQuery($first: Int!) {\n    recommendations: productsCollection(first: $first) {\n      edges {\n        node {\n          id\n          ...ProductCardFragment\n        }\n      }\n    }\n  }\n",
 ): (typeof documents)["\n  query RecomendationProductsQuery($first: Int!) {\n    recommendations: productsCollection(first: $first) {\n      edges {\n        node {\n          id\n          ...ProductCardFragment\n        }\n      }\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(
-  source: "\n  query SearchProductsPaginateQuery($after: Cursor, $first: Int) {\n    productsCollection(after: $after, first: $first) {\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      edges {\n        __typename\n\n        node {\n          nodeId\n          id\n          slug\n          price\n          name\n          ...ProductCardFragment\n        }\n      }\n    }\n  }\n",
-): (typeof documents)["\n  query SearchProductsPaginateQuery($after: Cursor, $first: Int) {\n    productsCollection(after: $after, first: $first) {\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      edges {\n        __typename\n\n        node {\n          nodeId\n          id\n          slug\n          price\n          name\n          ...ProductCardFragment\n        }\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -1,7 +1,6 @@
 "use client"
 import { DocumentType, gql } from "@/gql"
-import { FetchCartQueryQuery } from "@/gql/graphql"
-import { expectedErrorsHandler } from "@/lib/urql/urql"
+import { expectedErrorsHandler } from "@/lib/urql"
 import { User } from "@supabase/supabase-js"
 import { useMutation, useQuery } from "@urql/next"
 import { notFound } from "next/navigation"

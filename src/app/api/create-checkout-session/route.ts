@@ -1,10 +1,10 @@
-import { InsertOrderLines, orderLines } from "./../../../lib/supabase/schema"
 import { getProductsByIds } from "@/_actions/products"
 import { CartItems } from "@/components/cart/useCartStore"
 import { stripe } from "@/lib/stripe"
 import db from "@/lib/supabase/db"
-import { InsertOrders, SelectProducts, orders } from "@/lib/supabase/schema"
-import { getURL, keytoUrl } from "@/lib/utils"
+import { SelectProducts, orders } from "@/lib/supabase/schema"
+import { getURL } from "@/lib/utils"
+import { orderLines } from "./../../../lib/supabase/schema"
 
 import { User, createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 
