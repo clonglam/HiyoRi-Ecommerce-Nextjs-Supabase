@@ -91,7 +91,7 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
               console.log("wishlist!!!", data)
               const wishlistItems = {}
 
-              data?.data.forEach((item) => {
+              data?.data?.forEach((item) => {
                 wishlistItems[item.product_id] = {
                   createdAt: item.created_at,
                   updatedAt: item.create_at,

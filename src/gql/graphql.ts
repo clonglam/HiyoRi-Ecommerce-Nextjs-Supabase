@@ -2340,6 +2340,7 @@ export type CollectionBannerFragmentFragment = {
 
 export type CollectionCardFragmentFragment = {
   __typename?: "collections";
+  id: string;
   label: string;
   slug: string;
   featuredImage: { __typename?: "medias"; key: string; alt: string };
@@ -2760,6 +2761,7 @@ export const CollectionCardFragmentFragmentDoc = {
       selectionSet: {
         kind: "SelectionSet",
         selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
           { kind: "Field", name: { kind: "Name", value: "label" } },
           { kind: "Field", name: { kind: "Name", value: "slug" } },
           {
@@ -4279,6 +4281,7 @@ export const LandingRouteQueryDocument = {
       selectionSet: {
         kind: "SelectionSet",
         selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
           { kind: "Field", name: { kind: "Name", value: "label" } },
           { kind: "Field", name: { kind: "Name", value: "slug" } },
           {

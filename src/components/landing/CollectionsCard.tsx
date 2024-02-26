@@ -6,8 +6,9 @@ import { gql, DocumentType } from "@/gql"
 import { Skeleton } from "../ui/skeleton"
 import { keytoUrl } from "@/lib/utils"
 
-const CollectionCardFragment = gql(/* GraphQL */ `
+export const CollectionCardFragment = gql(/* GraphQL */ `
   fragment CollectionCardFragment on collections {
+    id
     label
     slug
     featuredImage: medias {

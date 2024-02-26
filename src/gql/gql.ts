@@ -49,7 +49,7 @@ const documents = {
     types.ListCartQueryDocument,
   "\n  fragment CollectionBannerFragment on collections {\n    id\n    label\n    slug\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n  }\n":
     types.CollectionBannerFragmentFragmentDoc,
-  "\n  fragment CollectionCardFragment on collections {\n    label\n    slug\n    featuredImage: medias {\n      key\n      alt\n    }\n  }\n":
+  "\n  fragment CollectionCardFragment on collections {\n    id\n    label\n    slug\n    featuredImage: medias {\n      key\n      alt\n    }\n  }\n":
     types.CollectionCardFragmentFragmentDoc,
   "\n  fragment BuyAgainCardFragment on productsEdge {\n    node {\n      id\n      featured\n      price\n      name\n      slug\n      description\n      featuredImage: medias {\n        id\n        key\n        alt\n      }\n    }\n  }\n":
     types.BuyAgainCardFragmentFragmentDoc,
@@ -201,8 +201,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n  fragment CollectionCardFragment on collections {\n    label\n    slug\n    featuredImage: medias {\n      key\n      alt\n    }\n  }\n",
-): (typeof documents)["\n  fragment CollectionCardFragment on collections {\n    label\n    slug\n    featuredImage: medias {\n      key\n      alt\n    }\n  }\n"];
+  source: "\n  fragment CollectionCardFragment on collections {\n    id\n    label\n    slug\n    featuredImage: medias {\n      key\n      alt\n    }\n  }\n",
+): (typeof documents)["\n  fragment CollectionCardFragment on collections {\n    id\n    label\n    slug\n    featuredImage: medias {\n      key\n      alt\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

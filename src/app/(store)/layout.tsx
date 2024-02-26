@@ -7,12 +7,12 @@ type Props = { children: ReactNode }
 
 async function StoreLayout({ children }: Props) {
   return (
-    <main>
+    <>
       <Navbar />
-      {children}
+      <main className="pt-[50px]">{children}</main>
       <CartSheet />
       <MainFooter />
-    </main>
+    </>
   )
 }
 

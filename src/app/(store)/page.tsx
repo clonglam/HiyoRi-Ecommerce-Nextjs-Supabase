@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/_actions/users"
 import CollectionsCard, {
+  CollectionCardFragment,
   CollectionsCardSkeleton,
 } from "@/components/landing/CollectionsCard"
 import { Shell } from "@/components/layouts/Shell"
@@ -11,7 +12,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { DocumentType, gql } from "@/gql"
 import { getClient } from "@/lib/urql"
-import { cn } from "@/lib/utils"
+import { cn, keytoUrl } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -77,7 +78,12 @@ export default async function Home() {
       <HeroSection />
 
       <Shell>
-        <ProductSubCollectionsCircles />
+        {data.products && data.products.edges ? (
+          <ProductSubCollectionsCircles
+            collections={data.collectionScrollCards.edges}
+          />
+        ) : null}
+
         {data.products && data.products.edges ? (
           <FeaturedProductsCards products={data.products.edges} />
         ) : null}
@@ -86,24 +92,6 @@ export default async function Home() {
 
         {/* 3 Rows */}
         <section></section>
-
-        {/* Collections Cards */}
-        <ScrollArea className="whitespace-nowrap relative container">
-          <div className="flex w-max space-x-10 py-5 overflow-auto">
-            <Suspense
-              fallback={[...Array(6)].map((_, index) => (
-                <CollectionsCardSkeleton
-                  key={`Collections-sekelton-${index}`}
-                />
-              ))}
-            >
-              {data?.collectionScrollCards?.edges.map(({ node }) => (
-                <CollectionsCard collection={node} key={node.id} />
-              ))}
-            </Suspense>
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
 
         <section className="max-w-[1920px] mx-auto h-[620px] md:h-[580px] bg-[#FFF8EE] grid grid-cols-12 my-16">
           <div className="relative w-full h-[340px] md:h-[580px] col-span-12 md:col-span-8 overflow-hidden">
@@ -198,11 +186,19 @@ function HeroSection() {
   )
 }
 
-function ProductSubCollectionsCircles() {
+interface FeaturedProductsCards {
+  products: { node: DocumentType<typeof ProductCardFragment> }[]
+}
+
+interface CollectionsCardsProps {
+  collections: { node: DocumentType<typeof CollectionCardFragment> }[]
+}
+
+function ProductSubCollectionsCircles({ collections }: CollectionsCardsProps) {
   return (
     <section className="flex justify-start items-center gap-x-10 overflow-auto py-12">
-      {[...Array(6)].map((collection, index) => (
-        <div key={`collection_circle_${index}`}>
+      {collections.map(({ node }) => (
+        <div key={`collection_circle_${node.id}`}>
           <div
             className={cn(
               "relative bg-secondary rounded-full flex justify-center items-center",
@@ -212,8 +208,8 @@ function ProductSubCollectionsCircles() {
             )}
           >
             <Image
-              src="https://hiyori-backpack.s3.us-west-2.amazonaws.com/public/Sofa.H03.2k.png"
-              alt="collection name"
+              src={keytoUrl(node.featuredImage.key)}
+              alt={node.featuredImage.alt}
               width={320}
               height={320}
               className={cn(
@@ -225,7 +221,7 @@ function ProductSubCollectionsCircles() {
             />
           </div>
           <p className="text-black text-center mt-3 font-semibold">
-            Collection
+            {node.label}
           </p>
         </div>
       ))}
@@ -233,11 +229,11 @@ function ProductSubCollectionsCircles() {
   )
 }
 
-interface FeaturedProductsCards {
+interface FeaturedProductsCardsProps {
   products: { node: DocumentType<typeof ProductCardFragment> }[]
 }
 
-function FeaturedProductsCards({ products }: FeaturedProductsCards) {
+function FeaturedProductsCards({ products }: FeaturedProductsCardsProps) {
   return (
     <section className="container mt-12">
       <div className="">
@@ -310,5 +306,24 @@ function CollectionGrid() {
         </div>
       </div>
     </section>
+  )
+}
+
+function CollectionRectCard({ collections }: CollectionsCardsProps) {
+  return (
+    <ScrollArea className="whitespace-nowrap relative container">
+      <div className="flex w-max space-x-10 py-5 overflow-auto">
+        <Suspense
+          fallback={[...Array(6)].map((_, index) => (
+            <CollectionsCardSkeleton key={`Collections-sekelton-${index}`} />
+          ))}
+        >
+          {collections.map(({ node }) => (
+            <CollectionsCard collection={node} key={node.id} />
+          ))}
+        </Suspense>
+      </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   )
 }
