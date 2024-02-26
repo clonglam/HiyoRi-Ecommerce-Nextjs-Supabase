@@ -27,6 +27,7 @@ import {
   X,
   type LucideIcon,
   type LucideProps,
+  Globe,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -58,6 +59,7 @@ export const Icons = {
   store: ShoppingBag,
   edit: Edit,
   dollarSign: DollarSign,
+  globe: Globe,
 
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>

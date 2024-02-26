@@ -122,7 +122,13 @@ function MainFooter({}: Props) {
             <div className="text-[10px] font-light">
               <p>{siteConfig.address}</p>
               <p>
-                {siteConfig.phone} / {siteConfig.email}
+                {siteConfig.phone} /{" "}
+                <Link
+                  className="hover:underline hover:text-primary"
+                  href={`mailto:${siteConfig.email}`}
+                >
+                  {siteConfig.email}
+                </Link>
               </p>
             </div>
           </div>

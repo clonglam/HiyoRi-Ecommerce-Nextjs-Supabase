@@ -11,7 +11,7 @@ export const siteConfig = {
   ogImage: "https://skateshop13.vercel.app/opengraph-image.png",
   address: "1600 Amphitheatre Parkway in Mountain View, California",
   phone: "+1(234)-567-8901",
-  email: "info@my-domain.com",
+  email: "hello@hugo-coding.com",
   mainNav: [
     {
       title: "Shop",

@@ -150,7 +150,7 @@ function HeroSection() {
             hugolam
           </p>
           <h1 className="text-5xl md:text-9xl font-bold text-white my-4 shadow-md">
-            Designed for
+            Utilized with
             <br />
             GraphQL:
           </h1>

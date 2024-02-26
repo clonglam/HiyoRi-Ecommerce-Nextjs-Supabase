@@ -42,9 +42,12 @@ export function SideMenu() {
             <p className="text-xs md:text-sm ml-0">{siteConfig.address}</p>
             <p className="text-xs md:text-sm ml-0">
               <span>{siteConfig.phone}</span> {` / `}
-              <span>
-                <a>{siteConfig.email}</a>
-              </span>
+              <Link
+                className="hover:underline hover:text-primary"
+                href={`mailto:${siteConfig.email}`}
+              >
+                {siteConfig.email}
+              </Link>
             </p>
           </div>
 
