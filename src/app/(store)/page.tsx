@@ -82,7 +82,6 @@ export default async function Home() {
           <FeaturedProductsCards products={data.products.edges} />
         ) : null}
 
-        {/* Collection Cards */}
         <CollectionGrid />
 
         {/* 3 Rows */}
@@ -204,13 +203,25 @@ function ProductSubCollectionsCircles() {
     <section className="flex justify-start items-center gap-x-10 overflow-auto py-12">
       {[...Array(6)].map((collection, index) => (
         <div key={`collection_circle_${index}`}>
-          <div className="relative bg-secondary w-[340px] h-[340px] md:w-[420px] md:h-[420px] rounded-full flex justify-center items-center">
+          <div
+            className={cn(
+              "relative bg-secondary rounded-full flex justify-center items-center",
+              "w-[280px] h-[280px]",
+              "md:w-[320px] md:h-[320px]",
+              "lg:w-[360px] lg:h-[360px]"
+            )}
+          >
             <Image
               src="https://hiyori-backpack.s3.us-west-2.amazonaws.com/public/Sofa.H03.2k.png"
               alt="collection name"
               width={320}
               height={320}
-              className="object-center object-cover w-[240px] h-[240px] md:w-[320px] md:h-[320px] hover:scale-105 transition-all duration-500"
+              className={cn(
+                "object-center object-cover hover:scale-105 transition-all duration-500",
+                "w-[240px] h-[240px]",
+                "md:w-[280px] md:h-[280px]",
+                "lg:w-[320px] lg:h-[320px]"
+              )}
             />
           </div>
           <p className="text-black text-center mt-3 font-semibold">
