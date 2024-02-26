@@ -22,7 +22,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_APP_URL: z.string(),
+    NEXT_PUBLIC_SITE_URL: z.string(),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
     NEXT_PUBLIC_SUPABASE_PROJECT_REF: z.string(),
     NEXT_PUBLIC_S3_BUCKET: z.string(),
@@ -37,7 +37,7 @@ export const env = createEnv({
    */
 
   runtimeEnv: {
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
     DATABASE_SERVICE_ROLE: process.env.DATABASE_SERVICE_ROLE,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     DATABASE_URL: process.env.DATABASE_URL,
