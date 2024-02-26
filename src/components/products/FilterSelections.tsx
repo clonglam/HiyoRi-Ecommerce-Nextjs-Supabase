@@ -46,8 +46,16 @@ type Props = {
 
 export type FilterFormData = z.infer<typeof filterSelectionSchema>
 
+const SortEnumSchema = z.enum([
+  "BEST_MATCH",
+  "PRICE_LOW_TO_HIGH",
+  "PRICE_HIGH_TO_LOW",
+  "NEWEST",
+  "NAME_ASCE",
+])
+
 const filterSelectionSchema = z.object({
-  sort: z.nativeEnum(SortEnum).nullable().optional(),
+  sort: SortEnumSchema.nullable().optional(),
   collections: z.array(z.string()).nullable().optional(),
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),
@@ -255,32 +263,10 @@ function FilterSelections({ collectionsSection }: Props) {
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
-
-            {/* <FormField
-              control={form.control}
-              name="collections"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <FilterSelection
-                      disabled={isLoading}
-                      placeholder="Collections"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      items={collections.map(({ id, label }) => ({
-                        value: id,
-                        label: label,
-                      }))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
           </div>
 
           <div className="flex gap-x-5 items-center">
-            <span>Sort by:</span>
+            <FormLabel htmlFor="sort">Sort by:</FormLabel>
             <FormField
               control={form.control}
               name="sort"
@@ -288,8 +274,9 @@ function FilterSelections({ collectionsSection }: Props) {
                 <FormItem>
                   <FormControl>
                     <FilterSelection
+                      id="sort"
                       disabled={isLoading}
-                      onValueChange={(value) => field.onChange(SortEnum[value])}
+                      onValueChange={(value) => field.onChange(value)}
                       defaultValue={field.value}
                       items={Object.entries(SortEnum).map(([key, value]) => ({
                         value: key,
@@ -303,28 +290,6 @@ function FilterSelections({ collectionsSection }: Props) {
               )}
             />
           </div>
-
-          {/* <FormField
-              control={form.control}
-              name="collection"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <FilterSelection
-                      disabled={isLoading}
-                      onValueChange={(value) => field.onChange(SortEnum[value])}
-                      defaultValue={field.value}
-                      items={Object.entries(SortEnum).map(([key, value]) => ({
-                        value: key,
-                        label: value,
-                      }))}
-                      placeholder="Price Range"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
         </form>
       </Form>
 

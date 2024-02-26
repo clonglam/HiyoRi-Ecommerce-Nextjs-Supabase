@@ -2094,21 +2094,6 @@ export type ProductDetailPageQueryQuery = {
   } | null;
 };
 
-export type FetchSearchProductsQueryQueryVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type FetchSearchProductsQueryQuery = {
-  __typename?: "Query";
-  collectionsCollection?: {
-    __typename?: "collectionsConnection";
-    edges: Array<{
-      __typename?: "collectionsEdge";
-      node: { __typename?: "collections"; id: string; title: string };
-    }>;
-  } | null;
-};
-
 export type FetchMediaGridQueryQueryVariables = Exact<{
   first?: InputMaybe<Scalars["Int"]>;
   after?: InputMaybe<Scalars["Cursor"]>;
@@ -4777,59 +4762,6 @@ export const ProductDetailPageQueryDocument = {
 } as unknown as DocumentNode<
   ProductDetailPageQueryQuery,
   ProductDetailPageQueryQueryVariables
->;
-export const FetchSearchProductsQueryDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "FetchSearchProductsQuery" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "collectionsCollection" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "edges" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "node" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "title" },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  FetchSearchProductsQueryQuery,
-  FetchSearchProductsQueryQueryVariables
 >;
 export const FetchMediaGridQueryDocument = {
   kind: "Document",

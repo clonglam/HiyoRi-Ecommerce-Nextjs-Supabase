@@ -32,6 +32,7 @@ const ProductSearch = gql(/* GraphQL */ `
       edges {
         node {
           id
+
           ...ProductCardFragment
         }
       }

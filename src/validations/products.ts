@@ -11,6 +11,4 @@ export enum SortEnum {
 export const SearchProductActionSchema = z.object({
   query: z.string(),
   sort: z.nativeEnum(SortEnum).nullable().optional(),
-  //   collections: z.string().optional(),
-  //   limit: z.string().optional(),
 })

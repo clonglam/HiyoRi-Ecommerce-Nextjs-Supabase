@@ -12,6 +12,7 @@ import {
 type Selection = { value: string; label: string }
 
 type SelectionFilterProps = React.ComponentProps<typeof Select> & {
+  id: string
   selectionLabel?: string
   items: Selection[]
   placeholder?: string

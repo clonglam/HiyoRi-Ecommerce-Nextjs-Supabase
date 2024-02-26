@@ -14,19 +14,6 @@ interface ProductsPageProps {
   }
 }
 
-const FetchSearchProductsQuery = gql(/* GraphQL */ `
-  query FetchSearchProductsQuery {
-    collectionsCollection {
-      edges {
-        node {
-          id
-          title
-        }
-      }
-    }
-  }
-`)
-
 async function ProductsPage({}: ProductsPageProps) {
   const collectionsData = await listCollectionsAction()
 

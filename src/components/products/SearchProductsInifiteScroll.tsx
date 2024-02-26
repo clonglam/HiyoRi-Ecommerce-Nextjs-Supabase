@@ -1,44 +1,18 @@
 "use client"
 import { useEffect, useState } from "react"
 import SearchResultPage from "./SearchResultPage"
-import { useSearchParams } from "next/navigation"
-import { SearchQueryVariables } from "@/gql/graphql"
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation"
+import { OrderByDirection, SearchQueryVariables } from "@/gql/graphql"
 
 function SearchProductsInifiteScroll() {
   const searchParmas = useSearchParams()
 
-  const collections = searchParmas.get("collections")
-  const minPrice = searchParmas.get("minPrice")
-  const maxPrice = searchParmas.get("maxPrice")
-  const query = searchParmas.get("search")
-
-  const varaibles: SearchQueryVariables = {
-    search: query != null ? `%${query.trim()}%` : undefined,
-    lower: minPrice ? minPrice : undefined,
-    upper: maxPrice ? maxPrice : undefined,
-    collections: collections ? collections.split(",") : undefined,
-    first: 4,
-    after: undefined,
-  }
-  console.log("varaibles", varaibles)
+  const varaibles = searchParamsVariablesFactory(searchParmas)
 
   const [pageVariables, setPageVariables] = useState([varaibles])
 
   useEffect(() => {
-    const collections = searchParmas.get("collections")
-    const minPrice = searchParmas.get("minPrice")
-    const maxPrice = searchParmas.get("maxPrice")
-    const query = searchParmas.get("search")
-
-    const varaibles: SearchQueryVariables = {
-      search: query != null ? `%${query.trim()}%` : undefined,
-      lower: minPrice ? minPrice : undefined,
-      upper: maxPrice ? maxPrice : undefined,
-      collections: collections ? collections.split(",") : undefined,
-      first: 4,
-      after: undefined,
-    }
-    setPageVariables([varaibles])
+    setPageVariables([searchParamsVariablesFactory(searchParmas)])
   }, [searchParmas])
 
   const loadMoreHandler = (after: string) => {
@@ -60,3 +34,50 @@ function SearchProductsInifiteScroll() {
 }
 
 export default SearchProductsInifiteScroll
+
+const searchParamsVariablesFactory = (params: ReadonlyURLSearchParams) => {
+  const collections = params.get("collections")
+  const minPrice = params.get("minPrice")
+  const maxPrice = params.get("maxPrice")
+  const query = params.get("search")
+  const sort = params.get("sort")
+
+  console.log("sort")
+  let orderBy = undefined
+
+  switch (sort) {
+    case "BEST_MATCH":
+      orderBy = [
+        { featured: OrderByDirection["DescNullsFirst"] },
+        { created_at: OrderByDirection["DescNullsLast"] },
+      ]
+      break
+    case "PRICE_LOW_TO_HIGH":
+      orderBy = [{ price: OrderByDirection["AscNullsLast"] }]
+      break
+    case "PRICE_HIGH_TO_LOW":
+      orderBy = [{ price: OrderByDirection["DescNullsLast"] }]
+      break
+    case "NEWEST":
+      orderBy = [{ created_at: OrderByDirection["DescNullsLast"] }]
+      break
+    case "NAME_ASCE":
+      orderBy = [{ name: OrderByDirection["AscNullsLast"] }]
+
+      break
+    default:
+      orderBy = undefined
+  }
+
+  console.log("orderBy", orderBy)
+  const varaibles: SearchQueryVariables = {
+    search: query != null ? `%${query.trim()}%` : undefined,
+    lower: minPrice ? minPrice : undefined,
+    upper: maxPrice ? maxPrice : undefined,
+    collections: collections ? collections.split(",") : undefined,
+    orderBy,
+    first: 4,
+    after: undefined,
+  }
+  return varaibles
+}
