@@ -8,12 +8,14 @@ function SearchProductsInifiteScroll() {
   const searchParmas = useSearchParams()
 
   const collections = searchParmas.get("collections")
-  const pricerange = searchParmas.get("pricerange")
+  const minPrice = searchParmas.get("minPrice")
+  const maxPrice = searchParmas.get("maxPrice")
+  const query = searchParmas.get("search")
 
   const varaibles: SearchQueryVariables = {
-    search: `%${searchParmas.get("search").trim()}%`,
-    lower: pricerange ? pricerange.split(",")[0] : undefined,
-    upper: pricerange ? pricerange.split(",")[1] : undefined,
+    search: query != null ? `%${query.trim()}%` : undefined,
+    lower: minPrice ? minPrice : undefined,
+    upper: maxPrice ? maxPrice : undefined,
     collections: collections ? collections.split(",") : undefined,
     first: 4,
     after: undefined,
@@ -24,12 +26,14 @@ function SearchProductsInifiteScroll() {
 
   useEffect(() => {
     const collections = searchParmas.get("collections")
-    const priceRange = searchParmas.get("price_range")
+    const minPrice = searchParmas.get("minPrice")
+    const maxPrice = searchParmas.get("maxPrice")
+    const query = searchParmas.get("search")
 
     const varaibles: SearchQueryVariables = {
-      search: `%${searchParmas.get("search").trim()}%`,
-      lower: priceRange ? priceRange.split(",")[0] : undefined,
-      upper: priceRange ? priceRange.split(",")[1] : undefined,
+      search: query != null ? `%${query.trim()}%` : undefined,
+      lower: minPrice ? minPrice : undefined,
+      upper: maxPrice ? maxPrice : undefined,
       collections: collections ? collections.split(",") : undefined,
       first: 4,
       after: undefined,

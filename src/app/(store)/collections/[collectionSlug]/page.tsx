@@ -2,6 +2,7 @@ import CollectionBanner from "@/components/collections/CollectionBanner"
 import Header from "@/components/layouts/Header"
 import SectionHeading from "@/components/layouts/SectionHeading"
 import { Shell } from "@/components/layouts/Shell"
+import FilterSelections from "@/components/products/FilterSelections"
 import ProductCard from "@/components/products/ProductCard"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql/urql"
@@ -91,12 +92,8 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
         heading={collection.title}
         description={collection.description}
       />
-      <div>
-        <p>Filter:</p>
-        <p>Availablilty</p>
-        <p>Price</p>
-        <p>Product type</p>
-      </div>
+      <FilterSelections collectionsSection={[]} />
+
       {productsList.edges.length == 0 ? (
         <section>
           {`There is no Products in ${unslugify(params.collectionSlug)}.`}
@@ -108,6 +105,9 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
           ))}
         </section>
       )}
+      <CollectionBanner
+        collectionBannerData={data.collectionsCollection.edges[0].node}
+      />
     </Shell>
   )
 }

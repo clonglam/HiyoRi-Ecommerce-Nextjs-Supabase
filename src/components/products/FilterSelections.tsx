@@ -11,6 +11,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { SelectCollection } from "@/lib/supabase/schema"
@@ -36,6 +37,8 @@ import {
 import FilterBadges from "./FilterBadges"
 import { SortEnum } from "@/validations/products"
 import { Icons } from "../icons"
+import { Input } from "../ui/input"
+import { Button } from "../ui/button"
 
 type Props = {
   collectionsSection: SelectCollection[]
@@ -46,7 +49,8 @@ export type FilterFormData = z.infer<typeof filterSelectionSchema>
 const filterSelectionSchema = z.object({
   sort: z.nativeEnum(SortEnum).nullable().optional(),
   collections: z.array(z.string()).nullable().optional(),
-  pricerange: z.array(z.string()),
+  minPrice: z.number().optional(),
+  maxPrice: z.number().optional(),
 })
 
 function FilterSelections({ collectionsSection }: Props) {
@@ -57,7 +61,8 @@ function FilterSelections({ collectionsSection }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const collections = searchParams.get("collections")
-  const pricerange = searchParams.get("pricerange")
+  const minPrice = searchParams.get("minPrice")
+  const maxPrice = searchParams.get("maxPrice")
 
   const form = useForm<FilterFormData>({
     resolver: zodResolver(filterSelectionSchema),
@@ -65,9 +70,11 @@ function FilterSelections({ collectionsSection }: Props) {
     defaultValues: {
       sort: SortEnum[""],
       collections: collections ? collections.split(",") : [],
-      pricerange: pricerange ? pricerange.split(",") : ["0", "5000"],
+      minPrice: minPrice ? parseFloat(minPrice) : undefined,
+      maxPrice: maxPrice ? parseFloat(maxPrice) : undefined,
     },
   })
+
   // Deboundce Submit
   useEffect(() => {
     let timer
@@ -111,7 +118,7 @@ function FilterSelections({ collectionsSection }: Props) {
     router.push(pathname + "?" + createQueryString(values))
   }
   return (
-    <section className="mb-5">
+    <section className="mb-3">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -167,81 +174,87 @@ function FilterSelections({ collectionsSection }: Props) {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="pricerange"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger className="flex items-center">
-                        Price Range
-                        <Icons.chevronDown
-                          width={25}
-                          height={25}
-                          strokeWidth={2}
-                        />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="p-5">
-                        <DropdownMenuLabel>Price Range</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <Range
-                          step={1}
-                          min={0}
-                          max={5000}
-                          values={
-                            field.value?.length > 0
-                              ? [
-                                  parseInt(field.value[0]),
-                                  parseInt(field.value[1]),
-                                ]
-                              : [0, 5000]
-                          }
-                          onChange={(data) =>
-                            field.onChange([
-                              data[0].toString(),
-                              data[1].toString(),
-                            ])
-                          }
-                          renderTrack={({ props, children }) => (
-                            <div
-                              {...props}
-                              style={{
-                                ...props.style,
-                                height: "3px",
-                                width: "100%",
-                                backgroundColor: "#ccc",
-                              }}
-                            >
-                              {children}
-                            </div>
-                          )}
-                          renderThumb={({ props }) => (
-                            <div
-                              {...props}
-                              style={{
-                                ...props.style,
-                                height: "20px",
-                                width: "20px",
-                                backgroundColor: "#232323",
-                                borderRadius: "9999px",
-                              }}
-                            />
-                          )}
-                        />
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center">
+                Price Range
+                <Icons.chevronDown width={25} height={25} strokeWidth={2} />
+              </DropdownMenuTrigger>
 
-                        <div className="mt-5">
-                          Selected range: ${field.value ? field.value[0] : "0"}{" "}
-                          -{" $"}
-                          {field.value ? field.value[1] : "5000"}
+              <DropdownMenuContent className="p-5 max-w-xl">
+                <DropdownMenuLabel>Price Range</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+
+                <div className="mt-5 flex px-5 items-end gap-x-5 place-items-center">
+                  <div>
+                    <FormLabel aria-label="minPrice" htmlFor="minPrice">
+                      Min Price
+                    </FormLabel>
+                    <FormField
+                      control={form.control}
+                      name="minPrice"
+                      render={({ field }) => (
+                        <div className="relative">
+                          <Input
+                            {...field}
+                            id="minPrice"
+                            className="h-9 pl-5"
+                            value={field.value}
+                            type="number"
+                            onChange={(e) => {
+                              e.target.value === ""
+                                ? field.onChange(undefined)
+                                : field.onChange(e.target.valueAsNumber)
+                            }}
+                            placeholder="0.00"
+                          />
+
+                          <Icons.dollarSign className="w-4 h-4 absolute top-2 left-1" />
                         </div>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                      )}
+                    />
+                  </div>
+
+                  <Icons.minus className="flex items-center justify-center h-9" />
+
+                  <div className="">
+                    <FormLabel aria-label="maxPrice" htmlFor="maxPrice">
+                      Max Price
+                    </FormLabel>
+                    <FormField
+                      control={form.control}
+                      name="maxPrice"
+                      render={({ field }) => (
+                        <div className="relative">
+                          <Input
+                            {...field}
+                            id="maxPrice"
+                            className="h-9 pl-5"
+                            type="number"
+                            onChange={(e) => {
+                              e.target.value === ""
+                                ? field.onChange(undefined)
+                                : field.onChange(e.target.valueAsNumber)
+                            }}
+                            placeholder="99999.99"
+                          />
+                          <Icons.dollarSign className="w-4 h-4 absolute top-2 left-1" />
+                        </div>
+                      )}
+                    />
+                  </div>
+
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      form.setValue("minPrice", undefined)
+                      form.setValue("maxPrice", undefined)
+                    }}
+                  >
+                    Reset
+                  </Button>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* <FormField
               control={form.control}
@@ -316,7 +329,7 @@ function FilterSelections({ collectionsSection }: Props) {
       </Form>
 
       <Sheet>
-        <SheetTrigger>All filters</SheetTrigger>
+        <SheetTrigger className="block md:hidden">All filters</SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Are you absolutely sure?</SheetTitle>

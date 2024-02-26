@@ -87,6 +87,8 @@ export const Icons = {
   billing: CreditCard,
   store: ShoppingBag,
   edit: Edit,
+  dollarSign: DollarSign,
+
   // verticalThreeDots: MoreVertical,
   // horizontalThreeDots: MoreHorizontal,
   // verticalSliders: Sliders,
@@ -109,7 +111,7 @@ export const Icons = {
   // volumneMute: VolumeX,
   // message: MessageSquare,
   // wallet: Wallet,
-  // dollarSign: DollarSign,
+
   // cart: ShoppingCart,
   // product: Package,
   // chart: BarChart3,

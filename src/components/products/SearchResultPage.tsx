@@ -72,7 +72,9 @@ const SearchResultPage = ({
           {products.edges.length === 0 && (
             <p>
               {`There is no Products with name `}
-              <span className="font-bold">{variables.search.slice(1, -2)}</span>
+              <span className="font-bold">
+                {(variables.search || []).slice(1, -2)}
+              </span>
               {"."}
             </p>
           )}
