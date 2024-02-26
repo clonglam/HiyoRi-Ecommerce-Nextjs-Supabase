@@ -13,7 +13,6 @@ type AdminUsersPageProps = {
 
 async function UsersPage({ searchParams }: AdminUsersPageProps) {
   const currentUser = await getCurrentUser()
-  if (currentUser.role !== "ADMIN") console.log("you are not admin.")
 
   const users = await listUsers({})
 

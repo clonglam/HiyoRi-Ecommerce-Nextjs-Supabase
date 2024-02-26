@@ -17,7 +17,6 @@ export const getUser = async ({ userId }: { userId: string }) => {
     const { data, error } = await adminAuthClient.getUserById(userId)
     return data
   } catch (err) {
-    console.log(err)
     throw new Error("There is an error")
   }
 }

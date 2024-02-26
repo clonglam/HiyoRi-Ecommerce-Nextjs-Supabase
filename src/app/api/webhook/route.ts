@@ -1,12 +1,11 @@
 import { env } from "@/env.mjs"
 import { stripe } from "@/lib/stripe"
 import db from "@/lib/supabase/db"
-import { InsertOrders, PaymentStatus, orders } from "@/lib/supabase/schema"
+import { PaymentStatus, address, orders } from "@/lib/supabase/schema"
+import { eq } from "drizzle-orm"
 import { headers } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
-import { address } from "@/lib/supabase/schema"
-import { eq } from "drizzle-orm"
 
 const relevantEvents = new Set([
   "product.created",
@@ -72,8 +71,6 @@ export async function POST(request: NextRequest) {
               })
               .where(eq(orders.id, checkoutSession.client_reference_id))
               .returning()
-
-            console.log("insertedOrder", updatedOrder)
           } else {
             const insertedOrder = await db
               .update(orders)
@@ -85,12 +82,9 @@ export async function POST(request: NextRequest) {
               })
               .where(eq(orders.id, checkoutSession.client_reference_id))
               .returning()
-
-            console.log("insertedOrder", insertedOrder)
           }
           break
         default:
-          console.log("")
           throw new Error("Unhandled relevant event!")
       }
     } catch (error) {

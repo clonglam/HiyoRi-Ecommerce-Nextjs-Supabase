@@ -46,7 +46,6 @@ async function OrderPage() {
     userId: user.id,
   })
 
-  console.log("error", error)
   if (!data) return notFound()
 
   return (

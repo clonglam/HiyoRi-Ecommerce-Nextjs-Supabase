@@ -78,7 +78,6 @@ const UserCartButton = ({
           userId: user.id,
           newQuantity: existedProduct.node.quantity + 1,
         })
-        console.log("updated cart", res)
         if (res) toast({ title: "Sucess, Added a Product to the Cart." })
       }
     } catch (err) {

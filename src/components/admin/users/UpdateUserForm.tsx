@@ -20,7 +20,7 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 import { PasswordInput } from "@/components/auth/PasswordInput"
-import { Icons } from "@/components/icons"
+import Spinner from "@/components/ui/spinner"
 import { useToast } from "@/components/ui/use-toast"
 import { User } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
@@ -132,7 +132,7 @@ function UpdateUserForm({ user }: AdminUserFormProps) {
           <Button disabled={isPending} variant={"outline"} form="project-form">
             {user ? "Update" : "Create"}
             {isPending && (
-              <Icons.spinner
+              <Spinner
                 className="mr-2 h-4 w-4 animate-spin"
                 aria-hidden="true"
               />

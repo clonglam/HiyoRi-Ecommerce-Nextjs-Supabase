@@ -18,7 +18,6 @@ export const FeaturedImageField: FC<{
       fetch(`/medias/${defaultValue}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log("PreviewfileUrl", data)
           setPreviewUrl(data.preview)
         })
         .catch((err) => {
@@ -29,8 +28,6 @@ export const FeaturedImageField: FC<{
 
   const onDrop = useCallback(
     async (acceptedFiles: FileWithPath[]) => {
-      console.log("acceptedFiles", acceptedFiles)
-
       if (acceptedFiles.length > 0) {
         const id = nanoid()
         const formData = new FormData()
@@ -46,8 +43,6 @@ export const FeaturedImageField: FC<{
           data: { imageUrl: string; featuredId: string }
           preview: string
         }
-
-        console.log("json", json)
         setValue(name, json.data.featuredId)
         setPreviewUrl(json.preview)
       }

@@ -33,7 +33,6 @@ export async function POST(request: NextRequest) {
         Body: Buffer.from(await file.arrayBuffer()),
         ContentType: file.type,
       }
-      console.log("params.Key", params.Key)
       try {
         const s3Response = await uploadImage(params)
         if (s3Response) {
@@ -41,18 +40,14 @@ export async function POST(request: NextRequest) {
             .insert(medias)
             .values({ alt: file.name, key: params.Key })
             .returning()
-          console.log("insertedMedia", insertedMedia)
           return { index, medias: insertedMedia }
         }
         return null
       } catch (err) {
-        console.log("error", err)
         return null
       }
     })
   )
-
-  console.log("uploadResponse", uploadResponse)
 
   return NextResponse.json(uploadResponse, { status: 201 })
 }

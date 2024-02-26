@@ -21,6 +21,7 @@ import { createClient } from "@/lib/supabase/client"
 import { PasswordInput } from "./PasswordInput"
 import { authSchema } from "./schema"
 import { useToast } from "../ui/use-toast"
+import Spinner from "../ui/spinner"
 
 type Inputs = z.infer<typeof authSchema>
 
@@ -89,10 +90,7 @@ export function SignInForm() {
         />
         <Button disabled={isPending}>
           {isPending && (
-            <Icons.spinner
-              className="mr-2 h-4 w-4 animate-spin"
-              aria-hidden="true"
-            />
+            <Spinner className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
           )}
           Sign in
           <span className="sr-only">Sign in</span>

@@ -21,9 +21,8 @@ import { Input } from "@/components/ui/input"
 
 import { createUser } from "@/_actions/authAdmin"
 import { PasswordInput } from "@/components/auth/PasswordInput"
-import { Icons } from "@/components/icons"
+import Spinner from "@/components/ui/spinner"
 import { useToast } from "@/components/ui/use-toast"
-import { createClient } from "@/lib/supabase/client"
 import { SelectUserProfiles } from "@/lib/supabase/schema"
 import { useRouter } from "next/navigation"
 import { AdminUserFormData, adminUserShcema } from "./adminUserShema"
@@ -135,7 +134,7 @@ function AdminUserForm({ user }: AdminUserFormProps) {
           <Button disabled={isPending} variant={"outline"} form="project-form">
             {user ? "Update" : "Create"}
             {isPending && (
-              <Icons.spinner
+              <Spinner
                 className="mr-2 h-4 w-4 animate-spin"
                 aria-hidden="true"
               />

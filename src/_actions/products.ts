@@ -42,7 +42,6 @@ type SearchProductsActionProps = {
 
 export async function searchProductsAction(data: SearchProductsActionProps) {
   const validate = SearchProductActionSchema.safeParse(data)
-  console.log("valu", validate)
   if (!validate.success) throw new Error("Invalid input.")
 
   const { query, sort, limit = 15 } = data
@@ -77,7 +76,6 @@ export async function searchProductsAction(data: SearchProductsActionProps) {
   }
 }
 export const createProductAction = async (product: InsertProducts) => {
-  console.log("product", product)
   createInsertSchema(products).parse(product)
   const data = await db.insert(products).values(product).returning()
   return data
@@ -94,7 +92,6 @@ export const updateProductAction = async (
     .where(eq(products.id, productId))
     .returning()
 
-  console.log("insertedProduct", insertedProduct)
   return insertedProduct
 }
 

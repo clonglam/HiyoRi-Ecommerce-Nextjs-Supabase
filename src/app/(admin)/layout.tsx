@@ -9,8 +9,9 @@ type Props = { children: ReactNode }
 async function AdminLayout({ children }: Props) {
   const currentUser = await getCurrentUser()
 
-  if (!currentUser || currentUser.role !== "ADMIN") redirect(`/sign-in`)
-  // TODO: Attach the error at the end of the url
+  if (!currentUser || currentUser.role !== "ADMIN")
+    redirect(`/sign-in?error=Only authenticated users can access`)
+  // TODO: confirm can This error message displaty
   return (
     <main>
       <Navbar adminLayout={true} />

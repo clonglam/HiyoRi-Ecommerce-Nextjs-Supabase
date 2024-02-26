@@ -55,7 +55,7 @@ function ImageDialog({
   }
 
   const onDrop = async (acceptedFiles: FileWithPath[]) => {
-    console.log("Recieved data", acceptedFiles)
+    // console.log("Recieved data", acceptedFiles)
 
     const uploadFiles = acceptedFiles.map((file) =>
       Object.assign(file, {
@@ -79,7 +79,7 @@ function ImageDialog({
         media: SelectMedia
       }[]
 
-      console.log("CLient Recieved Data", data)
+      // console.log("CLient Recieved Data", data)
       if (data) {
         // setUploadedFilesUrls(data.uploadedFilesUrls)
       }
@@ -109,9 +109,7 @@ function ImageDialog({
             {value ? (
               <ImagePreviewCard
                 key={value}
-                onClick={() => {
-                  console.log("")
-                }}
+                onClick={() => {}}
                 mediaId={value}
               />
             ) : (

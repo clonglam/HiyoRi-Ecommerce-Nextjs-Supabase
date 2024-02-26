@@ -40,6 +40,7 @@ import ImageDialog from "@/components/admin/media/ImageDialog"
 import { createProductAction, updateProductAction } from "@/_actions/products"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
+import Spinner from "@/components/ui/spinner"
 
 type ProductsFormProps = {
   product?: SelectProducts
@@ -79,7 +80,6 @@ function ProductFrom({ product }: ProductsFormProps) {
       } catch (err) {
         console.log("err", err)
         console.log("unexpected Error Occured")
-        toast
       }
     })
   })
@@ -242,7 +242,7 @@ function ProductFrom({ product }: ProductsFormProps) {
           <Button disabled={isPending} variant={"outline"} form="project-form">
             {product ? "Update" : "Create"}
             {isPending && (
-              <Icons.spinner
+              <Spinner
                 className="mr-2 h-4 w-4 animate-spin"
                 aria-hidden="true"
               />

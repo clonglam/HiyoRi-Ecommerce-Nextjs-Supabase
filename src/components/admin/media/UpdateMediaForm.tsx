@@ -55,6 +55,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import Spinner from "@/components/ui/spinner"
 
 type UpdateMediaFormProps = {
   media?: SelectMedia
@@ -161,7 +162,7 @@ function UpdateMediaForm({ media }: UpdateMediaFormProps) {
           <Button disabled={isPending} variant={"outline"} form="project-form">
             {media ? "Update" : "Create"}
             {isPending && (
-              <Icons.spinner
+              <Spinner
                 className="mr-2 h-4 w-4 animate-spin"
                 aria-hidden="true"
               />
