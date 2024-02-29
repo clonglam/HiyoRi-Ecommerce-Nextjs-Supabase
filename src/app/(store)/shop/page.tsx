@@ -5,7 +5,6 @@ import SearchProductsGridSkeleton from "@/components/products/SearchProductsGrid
 import SearchProductsInifiteScroll from "@/components/products/SearchProductsInifiteScroll"
 
 import { Skeleton } from "@/components/ui/skeleton"
-import { gql } from "@/gql"
 import { Suspense } from "react"
 
 interface ProductsPageProps {

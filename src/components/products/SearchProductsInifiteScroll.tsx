@@ -67,9 +67,8 @@ const searchParamsVariablesFactory = (params: ReadonlyURLSearchParams) => {
       orderBy = undefined
   }
 
-  console.log("orderBy", orderBy)
   const varaibles: SearchQueryVariables = {
-    search: query != null ? `%${query.trim()}%` : undefined,
+    search: query ? `%${query.trim()}%` : "%%",
     lower: minPrice ? minPrice : undefined,
     upper: maxPrice ? maxPrice : undefined,
     collections: collections ? collections.split(",") : undefined,

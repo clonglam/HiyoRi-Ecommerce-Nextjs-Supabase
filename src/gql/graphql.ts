@@ -7004,7 +7004,7 @@ export const SearchDocument = {
                                   fields: [
                                     {
                                       kind: "ObjectField",
-                                      name: { kind: "Name", value: "like" },
+                                      name: { kind: "Name", value: "ilike" },
                                       value: {
                                         kind: "Variable",
                                         name: { kind: "Name", value: "search" },

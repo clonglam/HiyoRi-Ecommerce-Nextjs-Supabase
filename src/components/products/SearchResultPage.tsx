@@ -20,7 +20,7 @@ const ProductSearch = gql(/* GraphQL */ `
     productsCollection(
       filter: {
         and: [
-          { name: { like: $search } }
+          { name: { ilike: $search } }
           { price: { gt: $lower, lt: $upper } }
           { collection_id: { in: $collections } }
         ]
