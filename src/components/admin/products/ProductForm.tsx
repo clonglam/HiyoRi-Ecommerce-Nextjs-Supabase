@@ -1,7 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useTransition } from "react"
+import { Suspense, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { createInsertSchema, createSelectSchema } from "drizzle-zod"
 
@@ -36,11 +36,14 @@ import {
 import { Icons } from "@/components/icons"
 import TagsField from "@/components/ui/tagsField"
 import FeaturedImageField from "@/components/admin/media/FeaturedImageField"
-import ImageDialog from "@/components/admin/media/ImageDialog"
+
 import { createProductAction, updateProductAction } from "@/_actions/products"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import Spinner from "@/components/ui/spinner"
+import ImageDialog from "@/app/(admin)/admin/medias/_components/ImageDialog"
+import { gql } from "urql"
+import { useQuery } from "@urql/next"
 
 type ProductsFormProps = {
   product?: SelectProducts
@@ -50,6 +53,11 @@ function ProductFrom({ product }: ProductsFormProps) {
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
   const { toast } = useToast()
+
+  const [{ data, fetching, error }, refetch] = useQuery({
+    query: ProductFormQuery,
+    variables: {},
+  })
 
   const form = useForm<InsertProducts>({
     resolver: zodResolver(createInsertSchema(products)),
@@ -154,6 +162,39 @@ function ProductFrom({ product }: ProductsFormProps) {
 
           <FormField
             control={form.control}
+            name="collectionId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Collection Id</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value || undefined}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a collection" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value={undefined}>-</SelectItem>
+                    {data.collectionsCollection.edges.map(
+                      ({ node: collection }, index) => (
+                        <SelectItem value={collection.id} key={collection.id}>
+                          {collection.label}
+                        </SelectItem>
+                      )
+                    )}
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  Select a Badge if you want the Product card attached a badge.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="badge"
             render={({ field }) => (
               <FormItem>
@@ -168,7 +209,7 @@ function ProductFrom({ product }: ProductsFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value={null}>-</SelectItem>
+                    <SelectItem value={undefined}>-</SelectItem>
                     <SelectItem value="new_product">New Product</SelectItem>
                     <SelectItem value="best_sale">Best Sale</SelectItem>
                     <SelectItem value="featured">featured</SelectItem>
@@ -222,11 +263,13 @@ function ProductFrom({ product }: ProductsFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Featured Image*</FormLabel>
-                <ImageDialog
-                  defaultValue={product?.featuredImageId}
-                  onChange={field.onChange}
-                  value={field.value}
-                />
+                <Suspense>
+                  <ImageDialog
+                    defaultValue={product?.featuredImageId}
+                    onChange={field.onChange}
+                    value={field.value}
+                  />
+                </Suspense>
 
                 <FormDescription>
                   Drag n Drop the image to above section or click the button to
@@ -258,3 +301,25 @@ function ProductFrom({ product }: ProductsFormProps) {
 }
 
 export default ProductFrom
+
+export const ProductFormQuery = gql(/* GraphQL */ `
+  query ProductFormQuery {
+    collectionsCollection(orderBy: [{ label: AscNullsLast }]) {
+      __typename
+      edges {
+        node {
+          id
+          label
+        }
+      }
+    }
+    # productsCollection(first: 1, filter: { id: { eq: $productId } }) {
+    #   __typename
+    #   edges {
+    #     node {
+    #       id
+    #     }
+    #   }
+    # }
+  }
+`)

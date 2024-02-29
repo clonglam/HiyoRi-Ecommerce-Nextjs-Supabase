@@ -2,9 +2,9 @@
 import { DocumentType, gql } from "@/gql"
 import { expectedErrorsHandler } from "@/lib/urql"
 import { User } from "@supabase/supabase-js"
-import { useMutation, useQuery } from "@urql/next"
+import { useClient, useMutation, useQuery } from "@urql/next"
 import { notFound } from "next/navigation"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import {
   Card,
   CardContent,
@@ -18,7 +18,7 @@ import { useToast } from "../ui/use-toast"
 import CartItemCard from "./CartItemCard"
 import CheckoutButton from "./CheckoutButton"
 import EmptyCart from "./EmptyCart"
-import { RemoveCartsMutation, UpdateCartsProduct } from "./query"
+import { RemoveCartsMutation, updateCartsMutation } from "./query"
 import { CartItems } from "./useCartStore"
 
 export const FetchCartQuery = gql(/* GraphQL */ `
@@ -28,8 +28,11 @@ export const FetchCartQuery = gql(/* GraphQL */ `
       filter: { user_id: { eq: $userId } }
       after: $after
     ) {
+      __typename
       edges {
+        __typename
         node {
+          __typename
           product_id
           user_id
           quantity
@@ -50,10 +53,13 @@ function UserCartSection({ user }: UserCartSectionProps) {
     variables: {
       userId: user.id,
     },
+    // requestPolicy: "cache-and-network",
   })
+
+  console.log("data carts,", data)
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
-  const [, updateCartProduct] = useMutation(UpdateCartsProduct)
+  const [, updateCartProduct] = useMutation(updateCartsMutation)
   const [, removeCart] = useMutation(RemoveCartsMutation)
 
   const cart = data && data.cartsCollection ? data.cartsCollection.edges : []

@@ -5,7 +5,11 @@ import { uploadImage } from "@/lib/s3/s3"
 import db from "@/lib/supabase/db"
 import { medias, productMedias } from "@/lib/supabase/schema"
 import { mediaSchema } from "@/validations/medias"
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3"
+import {
+  PutObjectCommand,
+  PutObjectCommandInput,
+  S3Client,
+} from "@aws-sdk/client-s3"
 import { nanoid } from "nanoid"
 import { NextRequest, NextResponse } from "next/server"
 import sharp from "sharp"
@@ -22,6 +26,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(validation.error.format(), { status: 400 })
   }
 
+  console.log("Uploaded formData", formData)
+
+  let statusCode = 201
+  let errorMessage = "Unexpected Error"
+
   const uploadResponse = await Promise.all(
     Object.entries(data).map(async ([index, file]) => {
       const fileExtension = file.type.split("/")[1]
@@ -33,23 +42,29 @@ export async function POST(request: NextRequest) {
         Body: Buffer.from(await file.arrayBuffer()),
         ContentType: file.type,
       }
+
       try {
         const s3Response = await uploadImage(params)
+
         if (s3Response) {
           const insertedMedia = await db
             .insert(medias)
             .values({ alt: file.name, key: params.Key })
             .returning()
-          return { index, medias: insertedMedia }
+
+          return file.path
         }
-        return null
       } catch (err) {
-        return null
+        statusCode = 400
+        errorMessage = err.message
+        return { message: err.message }
       }
     })
   )
 
-  return NextResponse.json(uploadResponse, { status: 201 })
+  return statusCode >= 300
+    ? NextResponse.json({ message: errorMessage }, { status: statusCode })
+    : NextResponse.json(uploadResponse, { status: statusCode })
 }
 
 const fileToStream = async (file: File) => {

@@ -4,6 +4,7 @@ import db from "@/lib/supabase/db"
 import { products } from "@/lib/supabase/schema"
 import { eq } from "drizzle-orm"
 import { notFound } from "next/navigation"
+import { Suspense } from "react"
 
 type EditProjectPageProps = {
   params: {
@@ -24,9 +25,9 @@ async function EditProjectPage({
       heading="Add Project"
       description="Input the field below, after that press Add Project button to save the project."
     >
-      <div className="">
+      <Suspense>
         <ProductForm product={product} />
-      </div>
+      </Suspense>
     </AdminShell>
   )
 }

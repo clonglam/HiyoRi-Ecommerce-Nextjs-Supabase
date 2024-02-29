@@ -21,6 +21,7 @@ import {
 export const profiles = pgTable("profiles", {
   id: uuid("id").notNull().primaryKey(),
   name: text("name"),
+  is_admin: boolean("is_admin"),
   email: text("email").unique(),
   createdAt: timestamp("created_at", {
     withTimezone: true,

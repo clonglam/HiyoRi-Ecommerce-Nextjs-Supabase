@@ -21,7 +21,9 @@ type Props = {
   defaultValue?: string
   multiple?: boolean
   value: string
+  modalOpen?: boolean
 }
+
 export const FetchMediaGridQuery = gql(/* GraphQL */ `
   query FetchMediaGridQuery($first: Int, $after: Cursor) {
     mediasCollection(first: $first, after: $after) {
@@ -34,13 +36,14 @@ export const FetchMediaGridQuery = gql(/* GraphQL */ `
 `)
 
 function ImageDialog({
+  modalOpen = false,
   multiple = false,
   defaultValue,
   onChange,
   value,
 }: Props) {
   const [files, setFiles] = useState<FileWithPreview[]>([])
-  const [dialogOpen, setDialogOpen] = React.useState(false)
+  const [dialogOpen, setDialogOpen] = React.useState(modalOpen)
 
   const [{ data, fetching, error }, refetch] = useQuery({
     query: FetchMediaGridQuery,
@@ -136,7 +139,7 @@ function ImageDialog({
                     showAddMediaButton={false}
                     containerClassName={"gap-x-8"}
                     onClickHandler={onClickHandler}
-                    medias={data.mediasCollection.edges}
+                    medias={data?.mediasCollection.edges}
                     AddMediaButtonComponent={
                       <button
                         type="button"

@@ -7,8 +7,7 @@ export type SiteConfig = typeof siteConfig
 export const siteConfig = {
   name: "HIYORI",
   description: "Ecommerce Application built with NextJS 14",
-  url: "https://hiyori/",
-  ogImage: "https://skateshop13.vercel.app/opengraph-image.png",
+  url: "https://hiyori.hugo-coding.com",
   address: "1600 Amphitheatre Parkway in Mountain View, California",
   phone: "+1(234)-567-8901",
   email: "hello@hugo-coding.com",
@@ -27,25 +26,21 @@ export const siteConfig = {
     },
     {
       title: "Brands & Designers",
-      href: "/",
+      href: "https://github.com/clonglam/HIYORI-master",
       description: "Read our latest blog posts.",
       items: [],
     },
     {
       title: "Blog",
-      href: "/blog",
+      href: "https://blog.hugo-coding.com",
       description: "Read our latest blog posts.",
       items: [],
     },
     {
       title: "Contact",
-      href: "/contact",
+      href: "https://hugo-coding.com/#contact",
       description: "Read our latest blog posts.",
       items: [],
     },
   ] satisfies NavItemWithOptionalChildren[],
-  links: {
-    twitter: "https://twitter.com/sadmann17",
-    github: "https://github.com/sadmann7/skateshop",
-  },
 }

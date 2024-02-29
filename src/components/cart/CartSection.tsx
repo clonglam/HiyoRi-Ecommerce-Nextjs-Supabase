@@ -9,11 +9,7 @@ import CartSectionSkeleton from "./CartSectionSkeleton"
 function CartSection() {
   const { user } = useAuth()
 
-  return (
-    <Suspense fallback={<CartSectionSkeleton />}>
-      {user ? <UserCartSection user={user} /> : <GuestCartSection />}
-    </Suspense>
-  )
+  return <>{user ? <UserCartSection user={user} /> : <GuestCartSection />}</>
 }
 
 export default CartSection

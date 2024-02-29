@@ -51,7 +51,7 @@ const LandingRouteQuery = gql(/* GraphQL */ `
     }
 
     collectionScrollCards: collectionsCollection(
-      first: 4
+      first: 6
       orderBy: [{ order: DescNullsLast }]
     ) {
       edges {
@@ -132,8 +132,8 @@ export default async function Home() {
 
 function HeroSection() {
   return (
-    <section className="w-full h-screen md:h-[1080px] mx-auto flex justify-center">
-      <div className="relative w-full h-full md:h-[1080px]">
+    <section className="w-full h-screen md:h-[800px] mx-auto flex justify-center">
+      <div className="relative w-full h-full md:h-[800px]">
         <Image
           alt="Furniture"
           src="https://hiyori-backpack.s3.us-west-2.amazonaws.com/public/hero-image.jpg"
@@ -198,7 +198,10 @@ function ProductSubCollectionsCircles({ collections }: CollectionsCardsProps) {
   return (
     <section className="flex justify-start items-center gap-x-10 overflow-auto py-12">
       {collections.map(({ node }) => (
-        <div key={`collection_circle_${node.id}`}>
+        <Link
+          href={`/collections/${node.slug}`}
+          key={`collection_circle_${node.id}`}
+        >
           <div
             className={cn(
               "relative bg-secondary rounded-full flex justify-center items-center",
@@ -223,7 +226,7 @@ function ProductSubCollectionsCircles({ collections }: CollectionsCardsProps) {
           <p className="text-black text-center mt-3 font-semibold">
             {node.label}
           </p>
-        </div>
+        </Link>
       ))}
     </section>
   )

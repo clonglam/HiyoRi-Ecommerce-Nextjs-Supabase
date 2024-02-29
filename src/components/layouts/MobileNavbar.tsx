@@ -5,9 +5,9 @@ import MobileSearchInput from "./MobileSearchInput"
 import { SideMenu } from "./SideMenu"
 import CartLink from "../cart/CartLink"
 
-type Props = {}
+type Props = { adminLayout: boolean }
 
-function MobileNavbar({}: Props) {
+function MobileNavbar({ adminLayout }: Props) {
   return (
     <div className="md:hidden flex gap-x-8 justify-between items-center h-[64px]">
       <div className="flex gap-x-3 items-center">
@@ -16,9 +16,8 @@ function MobileNavbar({}: Props) {
       </div>
 
       <Branding />
-
       <Suspense fallback={<CartLink productCount={0} />}>
-        <CartNav />
+        {!adminLayout && <CartNav />}
       </Suspense>
     </div>
   )

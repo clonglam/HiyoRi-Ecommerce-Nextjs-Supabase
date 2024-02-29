@@ -1,34 +1,16 @@
 "use client"
-import { gql } from "@/gql"
-import { useMemo } from "react"
 import { useAuth } from "@/lib/providers/AuthProvider"
 import { User } from "@supabase/auth-helpers-nextjs"
 import { useQuery } from "@urql/next"
+import { useMemo } from "react"
 import CartLink from "./CartLink"
+import { FetchCartQuery } from "./UserCartSection"
 import useCartStore, { calcProductCountStorage } from "./useCartStore"
-import SearchProductsGridSkeleton from "../products/SearchProductsGridSkeleton"
-
-export const CartCountQuery = gql(/* GraphQL */ `
-  query CartCountQuery($user_id: UUID) {
-    cartsCollection(filter: { user_id: { eq: $user_id } }, first: 100) {
-      edges {
-        __typename
-        node {
-          product_id
-          quantity
-        }
-      }
-    }
-  }
-`)
 
 function CartNav() {
   const { user } = useAuth()
-  if (!user) {
-    return <GuestCart />
-  } else {
-    return <UserCartNav currentUser={user} />
-  }
+  console.log("CartNav rendered")
+  return <>{!user ? <GuestCart /> : <UserCartNav currentUser={user} />}</>
 }
 
 const GuestCart = () => {
@@ -42,12 +24,19 @@ const GuestCart = () => {
 }
 
 const UserCartNav = ({ currentUser }: { currentUser: User }) => {
-  const [{ data, fetching, error }] = useQuery({
-    query: CartCountQuery,
+  const [{ data, fetching, error }, refetch] = useQuery({
+    query: FetchCartQuery,
     variables: {
-      user_id: currentUser.id,
+      userId: currentUser.id,
     },
   })
+
+  // const [{ data, fetching, error }] = useQuery({
+  //   query: CartCountQuery,
+  //   variables: {
+  //     user_id: currentUser.id,
+  //   },
+  // })
 
   const carts = data?.cartsCollection
 

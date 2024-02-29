@@ -7,10 +7,11 @@ import { ReactNode } from "react"
 type Props = { children: ReactNode }
 
 async function AdminLayout({ children }: Props) {
-  const currentUser = await getCurrentUser()
+  // const currentUser = await getCurrentUser()
 
-  if (!currentUser || currentUser.role !== "ADMIN")
-    redirect(`/sign-in?error=Only authenticated users can access`)
+  // console.log("currentUser", currentUser)
+  // if (!currentUser || currentUser.role !== "ADMIN")
+  //   redirect(`/sign-in?error=Only authenticated users can access`)
   // TODO: confirm can This error message displaty
   return (
     <main>

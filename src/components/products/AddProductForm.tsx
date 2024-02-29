@@ -14,35 +14,17 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-import { gql } from "@/gql"
 import { useAuth } from "@/lib/providers/AuthProvider"
 import * as z from "zod"
+
+import { createCartMutation } from "../cart/query"
 
 const formSchema = z.object({
   quantity: z.number().min(0).max(8),
 })
 
-export const AddProductToCart = gql(/* GraphQL */ `
-  mutation AddProductToCart(
-    $productId: String
-    $userId: UUID!
-    $quantity: Int
-  ) {
-    insertIntocartsCollection(
-      objects: { product_id: $productId, user_id: $userId, quantity: $quantity }
-    ) {
-      affectedCount
-      records {
-        product_id
-        user_id
-        quantity
-      }
-    }
-  }
-`)
-
 function AddProductForm({ productId }: { productId: string }) {
-  const [, addToCart] = useMutation(AddProductToCart)
+  const [, addToCart] = useMutation(createCartMutation)
   const { user } = useAuth()
   const maxQuantity = 8
 

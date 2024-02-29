@@ -6,7 +6,6 @@ import { OrderByDirection, SearchQueryVariables } from "@/gql/graphql"
 
 function SearchProductsInifiteScroll() {
   const searchParmas = useSearchParams()
-
   const varaibles = searchParamsVariablesFactory(searchParmas)
 
   const [pageVariables, setPageVariables] = useState([varaibles])
@@ -42,7 +41,6 @@ const searchParamsVariablesFactory = (params: ReadonlyURLSearchParams) => {
   const query = params.get("search")
   const sort = params.get("sort")
 
-  console.log("sort")
   let orderBy = undefined
 
   switch (sort) {

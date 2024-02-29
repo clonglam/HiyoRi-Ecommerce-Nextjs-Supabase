@@ -1,15 +1,23 @@
 import { gql } from "@/gql"
 
-export const AddCartProduct = gql(/* GraphQL */ `
-  mutation AddCartsProduct($productId: String, $userId: UUID, $quantity: Int) {
+export const createCartMutation = gql(/* GraphQL */ `
+  mutation createCartMutation(
+    $productId: String
+    $userId: UUID
+    $quantity: Int
+  ) {
     insertIntocartsCollection(
       objects: { user_id: $userId, product_id: $productId, quantity: $quantity }
     ) {
       affectedCount
       records {
-        quantity
-        user_id
+        __typename
         product_id
+        user_id
+        quantity
+        product: products {
+          ...CartItemCardFragment
+        }
       }
     }
   }
@@ -25,8 +33,8 @@ export const RemoveCartsMutation = gql(/* GraphQL */ `
   }
 `)
 
-export const UpdateCartsProduct = gql(/* GraphQL */ `
-  mutation updateCartsCollection(
+export const updateCartsMutation = gql(/* GraphQL */ `
+  mutation UpdateCartsMutation(
     $userId: UUID
     $productId: String
     $newQuantity: Int
@@ -37,9 +45,14 @@ export const UpdateCartsProduct = gql(/* GraphQL */ `
     ) {
       affectedCount
       records {
-        user_id
+        __typename
+        nodeId
         product_id
+        user_id
         quantity
+        product: products {
+          ...CartItemCardFragment
+        }
       }
     }
   }
@@ -50,6 +63,7 @@ export const ListCartQuery = gql(/* GraphQL */ `
     cartsCollection(filter: { user_id: { eq: $userId } }) {
       edges {
         node {
+          __typename
           quantity
           user_id
           product_id

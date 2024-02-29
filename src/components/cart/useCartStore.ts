@@ -43,7 +43,7 @@ const useCartStore = create<CartStore>(
         }),
       removeAllProducts: () => set(() => ({ cart: {} })),
     }),
-    { name: "cart" }
+    { name: "cart", storage: "cookies" }
   )
 )
 

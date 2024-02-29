@@ -15,6 +15,7 @@ import { SideMenu } from "./SideMenu"
 interface MainNavbarProps {
   adminLayout?: boolean
 }
+
 async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
   return (
     <nav className="bg-background/95 fixed z-50 w-full">
@@ -49,11 +50,12 @@ async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
             </NavLinkButton>
 
             <Suspense fallback={<CartLink productCount={0} />}>
-              <CartNav />
+              {!adminLayout && <CartNav />}
             </Suspense>
           </div>
         </div>
-        <MobileNavbar />
+
+        <MobileNavbar adminLayout={adminLayout} />
       </div>
     </nav>
   )

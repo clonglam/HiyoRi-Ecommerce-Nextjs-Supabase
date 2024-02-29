@@ -1,6 +1,5 @@
 "use client"
 
-import { FileWithPreview } from "@/types"
 import Image from "next/image"
 import { FC } from "react"
 import { DropzoneOptions, useDropzone } from "react-dropzone"

@@ -1,3 +1,4 @@
+import { FileWithPath } from "react-dropzone"
 import { z } from "zod"
 
 // Constants for validation
@@ -23,7 +24,7 @@ const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/gif"]
 export const mediaSchema = z.record(
   z.string(),
   z
-    .custom<File>()
+    .custom<FileWithPath>()
     //   .transform((file) => file.length > 0 && file.item(0)),
     .refine((file) => !file || (!!file && file.size <= 500 * 1024 * 1024), {
       message: "The profile picture must be a maximum of 30MB.",

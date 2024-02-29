@@ -3,13 +3,14 @@
 import { useAuth } from "@/lib/providers/AuthProvider"
 import { useMutation, useQuery } from "@urql/next"
 import { Icons } from "../icons"
-import { AddProductToCart } from "../products/AddProductForm"
+
 import { Button, ButtonProps } from "../ui/button"
 
 import { User } from "@supabase/auth-helpers-nextjs"
+import { Suspense } from "react"
 import { useToast } from "../ui/use-toast"
-import { CartCountQuery } from "./CartNav"
-import { UpdateCartsProduct } from "./query"
+import { FetchCartQuery } from "./UserCartSection"
+import { createCartMutation, updateCartsMutation } from "./query"
 import useCartStore from "./useCartStore"
 
 interface AddToCartButtonProps extends ButtonProps {
@@ -34,7 +35,11 @@ function AddToCartButton({ productId }: AddToCartButtonProps) {
       </Button>
     )
   } else {
-    return <UserCartButton user={user} productId={productId} />
+    return (
+      <Suspense>
+        <UserCartButton user={user} productId={productId} />
+      </Suspense>
+    )
   }
 }
 
@@ -49,13 +54,13 @@ const UserCartButton = ({
 }) => {
   const { toast } = useToast()
 
-  const [, addToCart] = useMutation(AddProductToCart)
-  const [, updateCart] = useMutation(UpdateCartsProduct)
+  const [res, addToCart] = useMutation(createCartMutation)
+  const [, updateCart] = useMutation(updateCartsMutation)
 
-  const [{ data, fetching, error }, _] = useQuery({
-    query: CartCountQuery,
+  const [{ data, fetching, error }, refetch] = useQuery({
+    query: FetchCartQuery,
     variables: {
-      user_id: user.id,
+      userId: user.id,
     },
   })
 
@@ -70,6 +75,9 @@ const UserCartButton = ({
           userId: user.id,
           quantity: 1,
         })
+        refetch({ requestPolicy: "network-only" })
+
+        console.log("resss!!!!", res)
 
         if (res) toast({ title: "Sucess, Added a Product to the Cart." })
       } else {
@@ -88,7 +96,7 @@ const UserCartButton = ({
   return (
     <Button
       className="rounded-full p-0 h-8 w-8"
-      disabled={fetching || error ? true : false}
+      // disabled={fetching || error ? true : false}
       onClick={onClickHandler}
     >
       <Icons.basket className="h-5 w-5 md:h-4 md:w-4" />

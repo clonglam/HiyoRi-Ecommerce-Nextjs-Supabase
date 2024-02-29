@@ -3,9 +3,8 @@ import React from "react"
 
 type Props = {}
 
-function MediaPage({}: Props) {
-  redirect("/admin/medias")
-  return <div>MediaPage</div>
+function AddMediaPage({}: Props) {
+  return <div>AddMediaPage</div>
 }
 
-export default MediaPage
+export default AddMediaPage

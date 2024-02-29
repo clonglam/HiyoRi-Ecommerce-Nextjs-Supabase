@@ -1779,6 +1779,135 @@ export type WishlistUpdateResponse = {
   records: Array<Wishlist>;
 };
 
+export type Update_Collection_Page_QueryQueryVariables = Exact<{
+  collectionId?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type Update_Collection_Page_QueryQuery = {
+  __typename?: "Query";
+  collectionsCollection?: {
+    __typename?: "collectionsConnection";
+    edges: Array<{
+      __typename?: "collectionsEdge";
+      node: {
+        __typename: "collections";
+        id: string;
+        slug: string;
+        label: string;
+        description: string;
+        title: string;
+        featured_image_id: string;
+      };
+    }>;
+  } | null;
+};
+
+export type CollectionFromFragmentFragment = {
+  __typename?: "collections";
+  id: string;
+  slug: string;
+  label: string;
+  description: string;
+  title: string;
+  featured_image_id: string;
+};
+
+export type CollectionColumnsFragmentFragment = {
+  __typename?: "collections";
+  id: string;
+  title: string;
+  label: string;
+  description: string;
+  slug: string;
+};
+
+export type UpdateCollectionMutationMutationVariables = Exact<{
+  id?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars["String"]>;
+  label?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars["String"]>;
+  title?: InputMaybe<Scalars["String"]>;
+  featuredImageId?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type UpdateCollectionMutationMutation = {
+  __typename?: "Mutation";
+  updatecollectionsCollection: {
+    __typename?: "collectionsUpdateResponse";
+    affectedCount: number;
+    records: Array<{ __typename: "collections"; nodeId: string }>;
+  };
+};
+
+export type CreateCollectionMutationMutationVariables = Exact<{
+  id?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars["String"]>;
+  label?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars["String"]>;
+  title?: InputMaybe<Scalars["String"]>;
+  featuredImageId?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type CreateCollectionMutationMutation = {
+  __typename?: "Mutation";
+  insertIntocollectionsCollection?: {
+    __typename?: "collectionsInsertResponse";
+    affectedCount: number;
+    records: Array<{ __typename: "collections" }>;
+  } | null;
+};
+
+export type AdminCollectionsPageQueryQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminCollectionsPageQueryQuery = {
+  __typename?: "Query";
+  collectionsCollection?: {
+    __typename?: "collectionsConnection";
+    edges: Array<{
+      __typename?: "collectionsEdge";
+      node: {
+        __typename: "collections";
+        id: string;
+        title: string;
+        label: string;
+        description: string;
+        slug: string;
+      };
+    }>;
+  } | null;
+};
+
+export type ImageGridFragmentFragment = {
+  __typename?: "medias";
+  id: string;
+  key: string;
+  alt: string;
+};
+
+export type MediasPageContentQueryQueryVariables = Exact<{
+  first?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["Cursor"]>;
+}>;
+
+export type MediasPageContentQueryQuery = {
+  __typename?: "Query";
+  mediasCollection?: {
+    __typename: "mediasConnection";
+    edges: Array<{
+      __typename?: "mediasEdge";
+      node: { __typename?: "medias"; id: string; key: string; alt: string };
+    }>;
+    pageInfo: {
+      __typename?: "PageInfo";
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      endCursor?: string | null;
+    };
+  } | null;
+};
+
 export type AdminProductsPageQueryQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -2021,6 +2150,7 @@ export type ProductDetailPageQueryQuery = {
         description?: string | null;
         rating: any;
         price: any;
+        tags: any;
         totalComments: number;
         commentsCollection?: {
           __typename?: "commentsConnection";
@@ -2132,6 +2262,19 @@ export type FetchMediaQueryQuery = {
   } | null;
 };
 
+export type ProductFormQueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ProductFormQueryQuery = {
+  __typename?: "Query";
+  collectionsCollection?: {
+    __typename: "collectionsConnection";
+    edges: Array<{
+      __typename?: "collectionsEdge";
+      node: { __typename?: "collections"; id: string; label: string };
+    }>;
+  } | null;
+};
+
 export type ProductColumnFragmentFragment = {
   __typename?: "products";
   id: string;
@@ -2169,21 +2312,6 @@ export type CartItemCardFragmentFragment = {
     key: string;
     alt: string;
   };
-};
-
-export type CartCountQueryQueryVariables = Exact<{
-  user_id?: InputMaybe<Scalars["UUID"]>;
-}>;
-
-export type CartCountQueryQuery = {
-  __typename?: "Query";
-  cartsCollection?: {
-    __typename?: "cartsConnection";
-    edges: Array<{
-      __typename: "cartsEdge";
-      node: { __typename?: "carts"; product_id: string; quantity: number };
-    }>;
-  } | null;
 };
 
 export type FetchGuestCartQueryQueryVariables = Exact<{
@@ -2225,11 +2353,11 @@ export type FetchCartQueryQueryVariables = Exact<{
 export type FetchCartQueryQuery = {
   __typename?: "Query";
   cartsCollection?: {
-    __typename?: "cartsConnection";
+    __typename: "cartsConnection";
     edges: Array<{
-      __typename?: "cartsEdge";
+      __typename: "cartsEdge";
       node: {
-        __typename?: "carts";
+        __typename: "carts";
         product_id: string;
         user_id: any;
         quantity: number;
@@ -2252,22 +2380,36 @@ export type FetchCartQueryQuery = {
   } | null;
 };
 
-export type AddCartsProductMutationVariables = Exact<{
+export type CreateCartMutationMutationVariables = Exact<{
   productId?: InputMaybe<Scalars["String"]>;
   userId?: InputMaybe<Scalars["UUID"]>;
   quantity?: InputMaybe<Scalars["Int"]>;
 }>;
 
-export type AddCartsProductMutation = {
+export type CreateCartMutationMutation = {
   __typename?: "Mutation";
   insertIntocartsCollection?: {
     __typename?: "cartsInsertResponse";
     affectedCount: number;
     records: Array<{
-      __typename?: "carts";
-      quantity: number;
-      user_id: any;
+      __typename: "carts";
       product_id: string;
+      user_id: any;
+      quantity: number;
+      product: {
+        __typename?: "products";
+        id: string;
+        slug: string;
+        name: string;
+        price: any;
+        description?: string | null;
+        featuredImage: {
+          __typename?: "medias";
+          id: string;
+          key: string;
+          alt: string;
+        };
+      };
     }>;
   } | null;
 };
@@ -2285,22 +2427,37 @@ export type RemoveCartsMutationMutation = {
   };
 };
 
-export type UpdateCartsCollectionMutationVariables = Exact<{
+export type UpdateCartsMutationMutationVariables = Exact<{
   userId?: InputMaybe<Scalars["UUID"]>;
   productId?: InputMaybe<Scalars["String"]>;
   newQuantity?: InputMaybe<Scalars["Int"]>;
 }>;
 
-export type UpdateCartsCollectionMutation = {
+export type UpdateCartsMutationMutation = {
   __typename?: "Mutation";
   updatecartsCollection: {
     __typename?: "cartsUpdateResponse";
     affectedCount: number;
     records: Array<{
-      __typename?: "carts";
-      user_id: any;
+      __typename: "carts";
+      nodeId: string;
       product_id: string;
+      user_id: any;
       quantity: number;
+      product: {
+        __typename?: "products";
+        id: string;
+        slug: string;
+        name: string;
+        price: any;
+        description?: string | null;
+        featuredImage: {
+          __typename?: "medias";
+          id: string;
+          key: string;
+          alt: string;
+        };
+      };
     }>;
   };
 };
@@ -2316,7 +2473,7 @@ export type ListCartQueryQuery = {
     edges: Array<{
       __typename?: "cartsEdge";
       node: {
-        __typename?: "carts";
+        __typename: "carts";
         quantity: number;
         user_id: any;
         product_id: string;
@@ -2399,26 +2556,6 @@ export type OrdersListFragmentFragment = {
       }>;
     } | null;
   };
-};
-
-export type AddProductToCartMutationVariables = Exact<{
-  productId?: InputMaybe<Scalars["String"]>;
-  userId: Scalars["UUID"];
-  quantity?: InputMaybe<Scalars["Int"]>;
-}>;
-
-export type AddProductToCartMutation = {
-  __typename?: "Mutation";
-  insertIntocartsCollection?: {
-    __typename?: "cartsInsertResponse";
-    affectedCount: number;
-    records: Array<{
-      __typename?: "carts";
-      product_id: string;
-      user_id: any;
-      quantity: number;
-    }>;
-  } | null;
 };
 
 export type ProductCardFragmentFragment = {
@@ -2595,6 +2732,74 @@ export type RemoveWishlistItemMutationMutation = {
   };
 };
 
+export const CollectionFromFragmentFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CollectionFromFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "collections" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "featured_image_id" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CollectionFromFragmentFragment, unknown>;
+export const CollectionColumnsFragmentFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CollectionColumnsFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "collections" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CollectionColumnsFragmentFragment, unknown>;
+export const ImageGridFragmentFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageGridFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "medias" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "key" } },
+          { kind: "Field", name: { kind: "Name", value: "alt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ImageGridFragmentFragment, unknown>;
 export const MediaGridFragmentFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -3193,6 +3398,677 @@ export const CarouselImagesFragmentFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<CarouselImagesFragmentFragment, unknown>;
+export const Update_Collection_Page_QueryDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "UPDATE_COLLECTION_PAGE_QUERY" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "collectionId" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "collectionsCollection" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "filter" },
+                value: {
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "id" },
+                      value: {
+                        kind: "ObjectValue",
+                        fields: [
+                          {
+                            kind: "ObjectField",
+                            name: { kind: "Name", value: "eq" },
+                            value: {
+                              kind: "Variable",
+                              name: { kind: "Name", value: "collectionId" },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "first" },
+                value: { kind: "IntValue", value: "1" },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "__typename" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "CollectionFromFragment",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CollectionFromFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "collections" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "featured_image_id" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  Update_Collection_Page_QueryQuery,
+  Update_Collection_Page_QueryQueryVariables
+>;
+export const UpdateCollectionMutationDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "UpdateCollectionMutation" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "slug" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "label" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "description" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "title" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "featuredImageId" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "updatecollectionsCollection" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "filter" },
+                value: {
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "id" },
+                      value: {
+                        kind: "ObjectValue",
+                        fields: [
+                          {
+                            kind: "ObjectField",
+                            name: { kind: "Name", value: "eq" },
+                            value: {
+                              kind: "Variable",
+                              name: { kind: "Name", value: "id" },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "set" },
+                value: {
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "slug" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "slug" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "featured_image_id" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "featuredImageId" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "label" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "label" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "description" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "description" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "title" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "title" },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "affectedCount" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "records" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "__typename" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodeId" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateCollectionMutationMutation,
+  UpdateCollectionMutationMutationVariables
+>;
+export const CreateCollectionMutationDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "CreateCollectionMutation" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "slug" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "label" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "description" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "title" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "featuredImageId" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "insertIntocollectionsCollection" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "objects" },
+                value: {
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "id" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "id" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "slug" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "slug" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "featured_image_id" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "featuredImageId" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "label" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "label" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "description" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "description" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "title" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "title" },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "affectedCount" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "records" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "__typename" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateCollectionMutationMutation,
+  CreateCollectionMutationMutationVariables
+>;
+export const AdminCollectionsPageQueryDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "AdminCollectionsPageQuery" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "collectionsCollection" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "orderBy" },
+                value: {
+                  kind: "ListValue",
+                  values: [
+                    {
+                      kind: "ObjectValue",
+                      fields: [
+                        {
+                          kind: "ObjectField",
+                          name: { kind: "Name", value: "title" },
+                          value: { kind: "EnumValue", value: "AscNullsLast" },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "__typename" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "CollectionColumnsFragment",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CollectionColumnsFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "collections" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminCollectionsPageQueryQuery,
+  AdminCollectionsPageQueryQueryVariables
+>;
+export const MediasPageContentQueryDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "MediasPageContentQuery" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "first" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "after" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Cursor" } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediasCollection" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "first" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "first" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "after" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "after" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "orderBy" },
+                value: {
+                  kind: "ListValue",
+                  values: [
+                    {
+                      kind: "ObjectValue",
+                      fields: [
+                        {
+                          kind: "ObjectField",
+                          name: { kind: "Name", value: "created_at" },
+                          value: { kind: "EnumValue", value: "DescNullsLast" },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "key" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "alt" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "pageInfo" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "hasNextPage" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "hasPreviousPage" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endCursor" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  MediasPageContentQueryQuery,
+  MediasPageContentQueryQueryVariables
+>;
 export const AdminProductsPageQueryDocument = {
   kind: "Document",
   definitions: [
@@ -4166,7 +5042,7 @@ export const LandingRouteQueryDocument = {
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "first" },
-                value: { kind: "IntValue", value: "4" },
+                value: { kind: "IntValue", value: "6" },
               },
               {
                 kind: "Argument",
@@ -4392,6 +5268,10 @@ export const ProductDetailPageQueryDocument = {
                             },
                             {
                               kind: "Field",
+                              name: { kind: "Name", value: "tags" },
+                            },
+                            {
+                              kind: "Field",
                               name: { kind: "Name", value: "totalComments" },
                             },
                             {
@@ -4481,32 +5361,6 @@ export const ProductDetailPageQueryDocument = {
             alias: { kind: "Name", value: "recommendations" },
             name: { kind: "Name", value: "productsCollection" },
             arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "filter" },
-                value: {
-                  kind: "ObjectValue",
-                  fields: [
-                    {
-                      kind: "ObjectField",
-                      name: { kind: "Name", value: "slug" },
-                      value: {
-                        kind: "ObjectValue",
-                        fields: [
-                          {
-                            kind: "ObjectField",
-                            name: { kind: "Name", value: "neq" },
-                            value: {
-                              kind: "Variable",
-                              name: { kind: "Name", value: "productSlug" },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "first" },
@@ -4921,65 +5775,44 @@ export const FetchMediaQueryDocument = {
   FetchMediaQueryQuery,
   FetchMediaQueryQueryVariables
 >;
-export const CartCountQueryDocument = {
+export const ProductFormQueryDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: { kind: "Name", value: "CartCountQuery" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "user_id" },
-          },
-          type: { kind: "NamedType", name: { kind: "Name", value: "UUID" } },
-        },
-      ],
+      name: { kind: "Name", value: "ProductFormQuery" },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "cartsCollection" },
+            name: { kind: "Name", value: "collectionsCollection" },
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "filter" },
+                name: { kind: "Name", value: "orderBy" },
                 value: {
-                  kind: "ObjectValue",
-                  fields: [
+                  kind: "ListValue",
+                  values: [
                     {
-                      kind: "ObjectField",
-                      name: { kind: "Name", value: "user_id" },
-                      value: {
-                        kind: "ObjectValue",
-                        fields: [
-                          {
-                            kind: "ObjectField",
-                            name: { kind: "Name", value: "eq" },
-                            value: {
-                              kind: "Variable",
-                              name: { kind: "Name", value: "user_id" },
-                            },
-                          },
-                        ],
-                      },
+                      kind: "ObjectValue",
+                      fields: [
+                        {
+                          kind: "ObjectField",
+                          name: { kind: "Name", value: "label" },
+                          value: { kind: "EnumValue", value: "AscNullsLast" },
+                        },
+                      ],
                     },
                   ],
                 },
-              },
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "first" },
-                value: { kind: "IntValue", value: "100" },
               },
             ],
             selectionSet: {
               kind: "SelectionSet",
               selections: [
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "edges" },
@@ -4988,21 +5821,17 @@ export const CartCountQueryDocument = {
                     selections: [
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      {
-                        kind: "Field",
                         name: { kind: "Name", value: "node" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "product_id" },
+                              name: { kind: "Name", value: "id" },
                             },
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "quantity" },
+                              name: { kind: "Name", value: "label" },
                             },
                           ],
                         },
@@ -5017,7 +5846,10 @@ export const CartCountQueryDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<CartCountQueryQuery, CartCountQueryQueryVariables>;
+} as unknown as DocumentNode<
+  ProductFormQueryQuery,
+  ProductFormQueryQueryVariables
+>;
 export const FetchGuestCartQueryDocument = {
   kind: "Document",
   definitions: [
@@ -5270,6 +6102,7 @@ export const FetchCartQueryDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "edges" },
@@ -5278,10 +6111,18 @@ export const FetchCartQueryDocument = {
                     selections: [
                       {
                         kind: "Field",
+                        name: { kind: "Name", value: "__typename" },
+                      },
+                      {
+                        kind: "Field",
                         name: { kind: "Name", value: "node" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "__typename" },
+                            },
                             {
                               kind: "Field",
                               name: { kind: "Name", value: "product_id" },
@@ -5356,13 +6197,13 @@ export const FetchCartQueryDocument = {
     },
   ],
 } as unknown as DocumentNode<FetchCartQueryQuery, FetchCartQueryQueryVariables>;
-export const AddCartsProductDocument = {
+export const CreateCartMutationDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "mutation",
-      name: { kind: "Name", value: "AddCartsProduct" },
+      name: { kind: "Name", value: "createCartMutation" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
@@ -5445,7 +6286,11 @@ export const AddCartsProductDocument = {
                     selections: [
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "quantity" },
+                        name: { kind: "Name", value: "__typename" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "product_id" },
                       },
                       {
                         kind: "Field",
@@ -5453,7 +6298,24 @@ export const AddCartsProductDocument = {
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "product_id" },
+                        name: { kind: "Name", value: "quantity" },
+                      },
+                      {
+                        kind: "Field",
+                        alias: { kind: "Name", value: "product" },
+                        name: { kind: "Name", value: "products" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "CartItemCardFragment",
+                              },
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
@@ -5464,10 +6326,41 @@ export const AddCartsProductDocument = {
         ],
       },
     },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartItemCardFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "products" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "price" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          {
+            kind: "Field",
+            alias: { kind: "Name", value: "featuredImage" },
+            name: { kind: "Name", value: "medias" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "key" } },
+                { kind: "Field", name: { kind: "Name", value: "alt" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
-  AddCartsProductMutation,
-  AddCartsProductMutationVariables
+  CreateCartMutationMutation,
+  CreateCartMutationMutationVariables
 >;
 export const RemoveCartsMutationDocument = {
   kind: "Document",
@@ -5572,13 +6465,13 @@ export const RemoveCartsMutationDocument = {
   RemoveCartsMutationMutation,
   RemoveCartsMutationMutationVariables
 >;
-export const UpdateCartsCollectionDocument = {
+export const UpdateCartsMutationDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "mutation",
-      name: { kind: "Name", value: "updateCartsCollection" },
+      name: { kind: "Name", value: "UpdateCartsMutation" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
@@ -5688,7 +6581,11 @@ export const UpdateCartsCollectionDocument = {
                     selections: [
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "user_id" },
+                        name: { kind: "Name", value: "__typename" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodeId" },
                       },
                       {
                         kind: "Field",
@@ -5696,7 +6593,28 @@ export const UpdateCartsCollectionDocument = {
                       },
                       {
                         kind: "Field",
+                        name: { kind: "Name", value: "user_id" },
+                      },
+                      {
+                        kind: "Field",
                         name: { kind: "Name", value: "quantity" },
+                      },
+                      {
+                        kind: "Field",
+                        alias: { kind: "Name", value: "product" },
+                        name: { kind: "Name", value: "products" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "CartItemCardFragment",
+                              },
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
@@ -5707,10 +6625,41 @@ export const UpdateCartsCollectionDocument = {
         ],
       },
     },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartItemCardFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "products" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "price" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          {
+            kind: "Field",
+            alias: { kind: "Name", value: "featuredImage" },
+            name: { kind: "Name", value: "medias" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "key" } },
+                { kind: "Field", name: { kind: "Name", value: "alt" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
-  UpdateCartsCollectionMutation,
-  UpdateCartsCollectionMutationVariables
+  UpdateCartsMutationMutation,
+  UpdateCartsMutationMutationVariables
 >;
 export const ListCartQueryDocument = {
   kind: "Document",
@@ -5780,6 +6729,10 @@ export const ListCartQueryDocument = {
                           selections: [
                             {
                               kind: "Field",
+                              name: { kind: "Name", value: "__typename" },
+                            },
+                            {
+                              kind: "Field",
                               name: { kind: "Name", value: "quantity" },
                             },
                             {
@@ -5804,122 +6757,6 @@ export const ListCartQueryDocument = {
     },
   ],
 } as unknown as DocumentNode<ListCartQueryQuery, ListCartQueryQueryVariables>;
-export const AddProductToCartDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "mutation",
-      name: { kind: "Name", value: "AddProductToCart" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "productId" },
-          },
-          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
-        },
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "userId" },
-          },
-          type: {
-            kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "UUID" } },
-          },
-        },
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "quantity" },
-          },
-          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
-        },
-      ],
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "insertIntocartsCollection" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "objects" },
-                value: {
-                  kind: "ObjectValue",
-                  fields: [
-                    {
-                      kind: "ObjectField",
-                      name: { kind: "Name", value: "product_id" },
-                      value: {
-                        kind: "Variable",
-                        name: { kind: "Name", value: "productId" },
-                      },
-                    },
-                    {
-                      kind: "ObjectField",
-                      name: { kind: "Name", value: "user_id" },
-                      value: {
-                        kind: "Variable",
-                        name: { kind: "Name", value: "userId" },
-                      },
-                    },
-                    {
-                      kind: "ObjectField",
-                      name: { kind: "Name", value: "quantity" },
-                      value: {
-                        kind: "Variable",
-                        name: { kind: "Name", value: "quantity" },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "affectedCount" },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "records" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "product_id" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "user_id" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "quantity" },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AddProductToCartMutation,
-  AddProductToCartMutationVariables
->;
 export const RecomendationProductsQueryDocument = {
   kind: "Document",
   definitions: [
