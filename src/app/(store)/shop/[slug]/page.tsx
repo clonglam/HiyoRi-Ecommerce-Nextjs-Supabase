@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import { Shell } from "@/components/layouts/Shell"
 import ProductCard from "@/features/products/components/ProductCard"
 import { ProductCommentsSection } from "@/features/comments/"
-import { AddProductToCartForm, BuyNowButton } from "@/features/products"
+import { BuyNowButton } from "@/features/products"
 import ProductImageShowcase from "@/components/products/ProductImageShowcase"
 import {
   Accordion,
@@ -15,6 +15,7 @@ import { gql } from "@/gql"
 import { getClient } from "@/lib/urql"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
+import { AddProductToCartForm } from "@/features/carts"
 
 type Props = {
   params: {

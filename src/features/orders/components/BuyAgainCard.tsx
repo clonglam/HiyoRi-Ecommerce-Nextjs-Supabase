@@ -1,12 +1,9 @@
 "use client"
 import { DocumentType, gql } from "@/gql"
-import React from "react"
-import { Card, CardContent, CardHeader } from "../ui/card"
+import { keytoUrl } from "@/lib/utils"
 import Image from "next/image"
-import { cn, formatPrice, keytoUrl } from "@/lib/utils"
-import dayjs from "dayjs"
 import Link from "next/link"
-import { Button, buttonVariants } from "../ui/button"
+import { Card, CardContent, CardHeader } from "../../../components/ui/card"
 
 type BuyAgainCardProps = {
   products: DocumentType<typeof BuyAgainCardFragment>[]

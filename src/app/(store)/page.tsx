@@ -3,12 +3,12 @@ import { Icons } from "@/components/icons"
 import CollectionsCard, {
   CollectionCardFragment,
   CollectionsCardSkeleton,
-} from "@/components/landing/CollectionsCard"
+} from "@/features/collections/components/CollectionsCard"
 import { Shell } from "@/components/layouts/Shell"
 import ProductCard, {
   ProductCardFragment,
 } from "@/features/products/components/ProductCard"
-import { ProductCardSkeleton } from "@/components/products/ProductCardSkeleton"
+import { ProductCardSkeleton } from "@/features/products/components/ProductCardSkeleton"
 import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { DocumentType, gql } from "@/gql"

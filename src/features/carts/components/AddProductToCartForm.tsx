@@ -1,7 +1,7 @@
 "use client"
+import { useMutation } from "urql"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { useMutation } from "urql"
 import { QuantityInput } from "@/components/QuantityInput"
 import { Button } from "@/components/ui/button"
 
@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-import { useAuth } from "@/_actions/providers/AuthProvider"
+import { useAuth } from "@/providers/AuthProvider"
 import { createCartMutation } from "@/features/carts"
 import { AddProductCartData, AddProductToCartSchema } from "../validations"
 

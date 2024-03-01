@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from "@/components/ui/use-toast"
-import CartItemCard from "@/components/cart/CartItemCard"
+import CartItemCard from "@/features/carts/components/CartItemCard"
 import CheckoutButton from "./CheckoutButton"
 import EmptyCart from "@/features/carts/components/EmptyCart"
 import { RemoveCartsMutation, updateCartsMutation } from "../query"

@@ -1,6 +1,8 @@
 import { Shell } from "@/components/layouts/Shell"
-import RecommendationProducts from "@/components/products/RecommendationProducts"
-import RecommendationProductsSkeleton from "@/components/products/RecommendationProductsSkeleton"
+import {
+  RecommendationProducts,
+  RecommendationProductsSkeleton,
+} from "@/features/products"
 import Link from "next/link"
 import React, { Suspense } from "react"
 

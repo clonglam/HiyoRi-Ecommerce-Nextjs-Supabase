@@ -9,16 +9,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card"
-import { Skeleton } from "../ui/skeleton"
-import EmptyCart from "../../features/carts/components/EmptyCart"
+} from "../../../components/ui/card"
+import { Skeleton } from "../../../components/ui/skeleton"
+import EmptyCart from "./EmptyCart"
 import CartItemCard from "./CartItemCard"
-import CheckoutButton from "../../features/carts/components/CheckoutButton"
+import CheckoutButton from "./CheckoutButton"
 import useCartStore, {
   CartItems,
   calcProductCountStorage,
-} from "../../features/carts/useCartStore"
-import { useToast } from "../ui/use-toast"
+} from "../useCartStore"
+import { useToast } from "../../../components/ui/use-toast"
 
 const FetchGuestCartQuery = gql(/* GraphQL */ `
   query FetchGuestCartQuery(

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import React from "react"
 import { Icons } from "@/components/icons"
-import { useAuth } from "@/_actions/providers/AuthProvider"
+import { useAuth } from "@/providers/AuthProvider"
 
 import {
   DropdownMenu,

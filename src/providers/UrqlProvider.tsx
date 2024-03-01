@@ -10,7 +10,7 @@ import {
 
 import { cacheExchange } from "@urql/exchange-graphcache"
 import { useMemo } from "react"
-import { env } from "../../env.mjs"
+import { env } from "../env.mjs"
 import { useAuth } from "./AuthProvider"
 
 export default function Provider({ children }: React.PropsWithChildren) {

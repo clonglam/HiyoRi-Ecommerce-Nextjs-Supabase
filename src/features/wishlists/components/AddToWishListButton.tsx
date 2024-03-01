@@ -1,6 +1,6 @@
 "use client"
 import { gql } from "@/gql"
-import { useAuth } from "@/_actions/providers/AuthProvider"
+import { useAuth } from "@/providers/AuthProvider"
 import { cn } from "@/lib/utils"
 import { useMutation } from "@urql/next"
 import { useRouter } from "next/navigation"

@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { gql, DocumentType } from "@/gql"
 
-import { Skeleton } from "../ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton"
 import { keytoUrl } from "@/lib/utils"
 
 export const CollectionCardFragment = gql(/* GraphQL */ `

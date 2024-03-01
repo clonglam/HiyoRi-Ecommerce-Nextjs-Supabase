@@ -1,6 +1,6 @@
 import { Shell } from "@/components/layouts/Shell"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import OrderProgress from "../_components/OrderProgress"
+import { OrderProgress } from "@/features/orders"
 import Link from "next/link"
 
 type TrackOrderProps = {

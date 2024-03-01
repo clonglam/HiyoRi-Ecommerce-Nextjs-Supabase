@@ -2,9 +2,9 @@
 import { gql } from "@/gql"
 import { useQuery } from "@urql/next"
 import React from "react"
-import Header from "../Header"
+import Header from "@/components/Header"
 import { ProductCard } from "@/features/products"
-import { ProductCardSkeleton } from "./ProductCardSkeleton"
+import ProductCardSkeleton from "./RecommendationProductsSkeleton"
 
 export type RecommendationProductsProps =
   React.HTMLAttributes<HTMLDivElement> & {}

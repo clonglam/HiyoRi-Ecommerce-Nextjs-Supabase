@@ -4,7 +4,7 @@ import { DocumentType, gql } from "@/gql"
 import Image from "next/image"
 import React from "react"
 
-import QuantityInput from "../QuantityInput"
+import QuantityInput from "../../../components/QuantityInput"
 
 import {
   Card,
@@ -18,8 +18,8 @@ import {
 import { keytoUrl } from "@/lib/utils"
 import { UseQueryExecute } from "@urql/next"
 import Link from "next/link"
-import { Icons } from "../icons"
-import { Button } from "../ui/button"
+import { Icons } from "../../../components/icons"
+import { Button } from "../../../components/ui/button"
 
 export const CartItemCardFragment = gql(/* GraphQL */ `
   fragment CartItemCardFragment on products {

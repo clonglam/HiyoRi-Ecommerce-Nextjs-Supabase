@@ -1,6 +1,6 @@
 "use client"
 import { useMemo } from "react"
-import { useAuth } from "@/_actions/providers/AuthProvider"
+import { useAuth } from "@/providers/AuthProvider"
 import { User } from "@supabase/auth-helpers-nextjs"
 import { useQuery } from "@urql/next"
 import CartLink from "./CartLink"

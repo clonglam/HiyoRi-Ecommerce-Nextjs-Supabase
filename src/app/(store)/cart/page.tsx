@@ -1,8 +1,11 @@
-import CartSection from "@/components/cart/CartSection"
-import CartSectionSkeleton from "@/components/cart/CartSectionSkeleton"
+import CartSection from "@/features/carts/components/CartSection"
+import CartSectionSkeleton from "@/features/carts/components/CartSectionSkeleton"
 import { Shell } from "@/components/layouts/Shell"
-import RecommendationProducts from "@/components/products/RecommendationProducts"
-import RecommendationProductsSkeleton from "@/components/products/RecommendationProductsSkeleton"
+import {
+  RecommendationProducts,
+  RecommendationProductsSkeleton,
+} from "@/features/products"
+
 import Link from "next/link"
 import { Suspense } from "react"
 

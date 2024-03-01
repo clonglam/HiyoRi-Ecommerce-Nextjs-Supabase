@@ -1,15 +1,10 @@
 "use server"
 
 import { env } from "@/env.mjs"
-import { uploadImage } from "@/lib/s3/s3"
+import { uploadImage } from "@/lib/s3"
 import db from "@/lib/supabase/db"
-import { medias, productMedias } from "@/lib/supabase/schema"
+import { medias } from "@/lib/supabase/schema"
 import { mediaSchema } from "@/validations/medias"
-import {
-  PutObjectCommand,
-  PutObjectCommandInput,
-  S3Client,
-} from "@aws-sdk/client-s3"
 import { nanoid } from "nanoid"
 import { NextRequest, NextResponse } from "next/server"
 import sharp from "sharp"

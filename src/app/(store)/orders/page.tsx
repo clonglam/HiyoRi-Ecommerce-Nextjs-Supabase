@@ -1,6 +1,5 @@
 import { Shell } from "@/components/layouts/Shell"
-import BuyAgainCard from "@/components/orders/BuyAgainCard"
-import OrdersList from "@/components/orders/OrdersList"
+import { BuyAgainCard, OrdersList } from "@/features/orders/components"
 import { gql } from "@/gql"
 import { createClient } from "@/lib/supabase/server"
 import { getClient } from "@/lib/urql"

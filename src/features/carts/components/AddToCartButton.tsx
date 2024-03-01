@@ -2,7 +2,7 @@
 
 import { Suspense } from "react"
 import { useMutation, useQuery } from "@urql/next"
-import { useAuth } from "@/_actions/providers/AuthProvider"
+import { useAuth } from "@/providers/AuthProvider"
 import { User } from "@supabase/auth-helpers-nextjs"
 
 import { Icons } from "@/components/icons"

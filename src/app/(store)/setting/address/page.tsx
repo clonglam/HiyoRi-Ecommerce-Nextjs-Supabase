@@ -1,5 +1,5 @@
-import CartSection from "@/components/cart/CartSection"
-import CartSectionSkeleton from "@/components/cart/CartSectionSkeleton"
+import CartSection from "@/features/carts/components/CartSection"
+import CartSectionSkeleton from "@/features/carts/components/CartSectionSkeleton"
 import { createClient } from "@/lib/supabase/server"
 import { cookies } from "next/headers"
 import Link from "next/link"

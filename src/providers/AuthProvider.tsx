@@ -5,9 +5,9 @@ import { useToast } from "@/components/ui/use-toast"
 import { AuthUser, Session } from "@supabase/supabase-js"
 import { nanoid } from "nanoid"
 import { createContext, useContext, useEffect, useState } from "react"
-import supabase from "../../lib/supabase/client"
+import supabase from "../lib/supabase/client"
 import useWishlistStore from "@/features/wishlists/useWishlistStore"
-import { SelectWishlist } from "../../lib/supabase/schema"
+import { SelectWishlist } from "../lib/supabase/schema"
 
 type SupabaseAuthContextType = {
   user: AuthUser | null

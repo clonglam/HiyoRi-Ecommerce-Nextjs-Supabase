@@ -1,4 +1,4 @@
-import CartSheet from "@/components/cart/CartSheet"
+import { CartSheet } from "@/features/carts"
 import MainFooter from "@/components/layouts/MainFooter"
 import Navbar from "@/components/layouts/MainNavbar"
 import { ReactNode } from "react"

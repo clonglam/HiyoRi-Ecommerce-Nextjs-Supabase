@@ -1,14 +1,12 @@
-import CollectionBanner from "@/components/collections/CollectionBanner"
-import Header from "@/components/Header"
 import SectionHeading from "@/components/layouts/SectionHeading"
 import { Shell } from "@/components/layouts/Shell"
 import FilterSelections from "@/components/products/FilterSelections"
+import { CollectionBanner } from "@/features/collections"
 import ProductCard from "@/features/products/components/ProductCard"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql"
 import { toTitleCase, unslugify } from "@/lib/utils"
 import { notFound } from "next/navigation"
-import React from "react"
 
 interface CategoryPageProps {
   params: {
