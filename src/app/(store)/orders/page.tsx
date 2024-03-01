@@ -49,7 +49,7 @@ async function OrderPage() {
   if (!data) return notFound()
 
   return (
-    <Shell>
+    <Shell layout="narrow">
       <h1 className="pb-8 text-3xl font-semibold border-b">Orders</h1>
 
       <div className="grid grid-cols-12 gap-x-5">

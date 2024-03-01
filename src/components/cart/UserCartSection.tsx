@@ -2,9 +2,9 @@
 import { DocumentType, gql } from "@/gql"
 import { expectedErrorsHandler } from "@/lib/urql"
 import { User } from "@supabase/supabase-js"
-import { useClient, useMutation, useQuery } from "@urql/next"
+import { useMutation, useQuery } from "@urql/next"
 import { notFound } from "next/navigation"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import {
   Card,
   CardContent,
@@ -53,7 +53,6 @@ function UserCartSection({ user }: UserCartSectionProps) {
     variables: {
       userId: user.id,
     },
-    // requestPolicy: "cache-and-network",
   })
 
   console.log("data carts,", data)

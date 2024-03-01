@@ -1,4 +1,5 @@
 import { getCurrentUser } from "@/_actions/users"
+import { Icons } from "@/components/icons"
 import CollectionsCard, {
   CollectionCardFragment,
   CollectionsCardSkeleton,
@@ -90,41 +91,9 @@ export default async function Home() {
 
         <CollectionGrid />
 
-        {/* 3 Rows */}
-        <section></section>
+        <DifferentFeatureCards />
 
-        <section className="max-w-[1920px] mx-auto h-[620px] md:h-[580px] bg-[#FFF8EE] grid grid-cols-12 my-16">
-          <div className="relative w-full h-[340px] md:h-[580px] col-span-12 md:col-span-8 overflow-hidden">
-            <Image
-              src={"/assets/cutingcardImage.jpg"}
-              alt=""
-              fill
-              className="object-cover object-center"
-            />
-          </div>
-
-          <div className="col-span-12 md:col-span-4 pb-6 md:py-20 px-6 md:px-16">
-            <h2 className="text-xl md:text-3xl font-semibold mb-3">
-              Less is More. Minimal.
-            </h2>
-            <p className="text-xs leading-[1.5] md:text-lg tracking-tight mb-5 md:mb-12 text-left max-w-md">
-              We believe no one should have to choose between the quality they
-              want, and the price they can afford. That’s why we make sure our
-              products stand up to only the highest quality and sustainability
-              standards - and produce them in a way that keeps great design
-              affordable for everyone.
-            </p>
-            <Link
-              href="/shop"
-              className={cn(
-                buttonVariants(),
-                "rounded-full text-xs md:text-md"
-              )}
-            >
-              Shop now
-            </Link>
-          </div>
-        </section>
+        <LessIsMoreCard />
       </Shell>
     </main>
   )
@@ -144,7 +113,7 @@ function HeroSection() {
         />
       </div>
 
-      <div className="container absolute py-8 h-screen md:h-[1080px] w-full">
+      <div className="container absolute py-8 h-screen md:h-[800px] w-full">
         <div className="flex flex-col justify-center z-30 h-full">
           <p className="text-sm md:text-md uppercase tracking-widest text-white ">
             hugolam
@@ -205,9 +174,9 @@ function ProductSubCollectionsCircles({ collections }: CollectionsCardsProps) {
           <div
             className={cn(
               "relative bg-secondary rounded-full flex justify-center items-center",
-              "w-[280px] h-[280px]",
-              "md:w-[320px] md:h-[320px]",
-              "lg:w-[360px] lg:h-[360px]"
+              "w-[280px] h-[280px]"
+              // "md:w-[320px] md:h-[320px]"
+              // "lg:w-[360px] lg:h-[360px]"
             )}
           >
             <Image
@@ -217,9 +186,9 @@ function ProductSubCollectionsCircles({ collections }: CollectionsCardsProps) {
               height={320}
               className={cn(
                 "object-center object-cover hover:scale-105 transition-all duration-500",
-                "w-[240px] h-[240px]",
-                "md:w-[280px] md:h-[280px]",
-                "lg:w-[320px] lg:h-[320px]"
+                "w-[240px] h-[240px]"
+                // "md:w-[280px] md:h-[280px]",
+                // "lg:w-[320px] lg:h-[320px]"
               )}
             />
           </div>
@@ -266,7 +235,7 @@ function FeaturedProductsCards({ products }: FeaturedProductsCardsProps) {
 
 function CollectionGrid() {
   return (
-    <section className="relative gap-5 h-[800px] grid grid-cols-1 md:grid-cols-3 overflow-hidden">
+    <section className="relative lg:space-x-5 space-y-5 lg:space-y-0 grid grid-cols-1 lg:grid-cols-3 overflow-hidden">
       <div className="relative col-span-2 h-full w-full">
         <Image
           src={"/assets/bathroom-planning.jpg"}
@@ -287,13 +256,13 @@ function CollectionGrid() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-5">
-        <div className="relative-span-1 w-full overflow-hidden">
+      <div className="flex flex-col w-full space-y-5">
+        <div className="relative w-full">
           <Image
             src={"/assets/bathroom-planning.jpg"}
             width={800}
             height={900}
-            className="object-cover"
+            className="object-contain w-full h-full"
             alt="1"
           />
         </div>
@@ -303,7 +272,7 @@ function CollectionGrid() {
             src={"/assets/bathroom-planning.jpg"}
             width={800}
             height={900}
-            className="object-cover"
+            className="object-contain w-full h-full"
             alt="1"
           />
         </div>
@@ -328,5 +297,89 @@ function CollectionRectCard({ collections }: CollectionsCardsProps) {
       </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
+  )
+}
+
+function DifferentFeatureCards() {
+  const features = [
+    {
+      Icon: Icons.cart,
+      title: "Responsible Design",
+      description:
+        "Designed with integrity and durably crafted for everyday use.",
+    },
+    {
+      Icon: Icons.tag,
+      title: "Transparent Pricing",
+      description:
+        "We believe in accessible pricing and full transparency. Our pricing model is an open book.",
+    },
+    {
+      Icon: Icons.package,
+      title: "Sustainable Sourcing",
+      description:
+        "We only partner with people who put the earth, and its people, first.",
+    },
+    {
+      Icon: Icons.award,
+      title: "Giving Back",
+      description:
+        "Thanks to Mealshare, every purchase directly donates a meal to a youth in need.",
+    },
+  ]
+  return (
+    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-5 gap-y-8 gap-x-5 md:gap-x-12 mx-auto">
+      {features.map(({ Icon, title, description }, index) => (
+        <div
+          className="text-center  max-w-[18rem]"
+          key={`FeatureCards_${index}`}
+        >
+          <div className="flex justify-center items-center p-5">
+            <Icon
+              width={45}
+              height={45}
+              className="mb-5 text-zinc-400 font-light"
+            />
+          </div>
+
+          <h4 className="text-xl font-serif font-extralight mb-3">{title}</h4>
+          <p className="text-lg text-muted-foreground">{description}</p>
+        </div>
+      ))}
+    </section>
+  )
+}
+
+function LessIsMoreCard() {
+  return (
+    <section className="max-w-[1920px] mx-auto h-[620px] md:h-[580px] bg-[#FFF8EE] grid grid-cols-12 my-16">
+      <div className="relative w-full h-[340px] md:h-[580px] col-span-12 md:col-span-8 overflow-hidden">
+        <Image
+          src={"/assets/cutingcardImage.jpg"}
+          alt=""
+          fill
+          className="object-cover object-center"
+        />
+      </div>
+
+      <div className="col-span-12 md:col-span-4 pb-6 md:py-20 px-6 md:px-16">
+        <h2 className="text-xl md:text-3xl font-semibold mb-3">
+          Less is More. Minimal.
+        </h2>
+        <p className="text-xs leading-[1.5] md:text-lg tracking-tight mb-5 md:mb-12 text-left max-w-md">
+          We believe no one should have to choose between the quality they want,
+          and the price they can afford. That’s why we make sure our products
+          stand up to only the highest quality and sustainability standards -
+          and produce them in a way that keeps great design affordable for
+          everyone.
+        </p>
+        <Link
+          href="/shop"
+          className={cn(buttonVariants(), "rounded-full text-xs md:text-md")}
+        >
+          Shop now
+        </Link>
+      </div>
+    </section>
   )
 }

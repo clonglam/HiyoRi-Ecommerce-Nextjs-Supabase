@@ -88,6 +88,9 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const collection = data.collectionsCollection.edges[0].node
   return (
     <Shell>
+      <CollectionBanner
+        collectionBannerData={data.collectionsCollection.edges[0].node}
+      />
       <SectionHeading
         heading={collection.title}
         description={collection.description}
@@ -105,9 +108,6 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
           ))}
         </section>
       )}
-      <CollectionBanner
-        collectionBannerData={data.collectionsCollection.edges[0].node}
-      />
     </Shell>
   )
 }

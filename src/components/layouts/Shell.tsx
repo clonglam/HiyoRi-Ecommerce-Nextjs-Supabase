@@ -8,7 +8,7 @@ interface ShellProps
     HTMLDivElement
   > {
   children: React.ReactNode
-  layout?: "default" | "dashboard" | "auth"
+  layout?: "default" | "dashboard" | "narrow"
 }
 
 export function Shell({
@@ -22,7 +22,8 @@ export function Shell({
       className={cn(
         "grid items-center gap-8 pb-8 pt-6 md:py-8",
         layout === "default" && "container",
-        layout === "auth" && "container max-w-lg",
+        layout === "narrow" && "container max-w-5xl",
+
         className
       )}
       {...props}

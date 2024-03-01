@@ -31,19 +31,15 @@ const UserCartNav = ({ currentUser }: { currentUser: User }) => {
     },
   })
 
-  // const [{ data, fetching, error }] = useQuery({
-  //   query: CartCountQuery,
-  //   variables: {
-  //     user_id: currentUser.id,
-  //   },
-  // })
-
   const carts = data?.cartsCollection
-
-  const productCount = (carts?.edges || []).reduce(
-    (acc, cur) => acc + cur.node.quantity,
-    0
+  const productCount = useMemo(
+    () => (carts?.edges || []).reduce((acc, cur) => acc + cur.node.quantity, 0),
+    [carts.edges]
   )
+  // const productCount = (carts?.edges || []).reduce(
+  //   (acc, cur) => acc + cur.node.quantity,
+  //   0
+  // )
 
   return (
     <div>

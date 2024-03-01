@@ -67,52 +67,58 @@ function OrdersList({ orders }: OrdersListProps) {
             </div>
           </CardHeader>
 
-          <CardContent className="py-3 grid grid-cols-12 gap-8">
-            <div className="flex flex-col gap-5 col-span-12 md:col-span-9">
-              {order.item.edges.map(({ node }) => {
-                const product = node.products
-                return (
-                  <div className="flex gap-5" key={node.id}>
-                    <div className="relative w-[80px] h-[80px] min-w-[80px] grow ">
-                      <Image
-                        width={80}
-                        height={80}
-                        src={keytoUrl(product.featuredImage.key)}
-                        alt={product.featuredImage.alt}
-                        className="object-cover w-[80px] h-[80px]"
-                      />
+          <CardContent className="py-3 ">
+            <h2 className="text-xl font-semibold col-span-12">
+              Arrive at Tomorrow 22:00{" "}
+            </h2>
+            <div className="py-3 grid grid-cols-12 gap-8">
+              <div className="flex flex-col gap-5 col-span-12 md:col-span-8">
+                {order.item.edges.map(({ node }) => {
+                  const product = node.products
+                  return (
+                    <div className="flex items-center gap-5" key={node.id}>
+                      <div className="relative w-[120px] h-[120px] min-w-[80px] grow ">
+                        <Image
+                          width={120}
+                          height={120}
+                          src={keytoUrl(product.featuredImage.key)}
+                          alt={product.featuredImage.alt}
+                          className="object-cover w-[120px] h-[120px]"
+                        />
+                      </div>
+
+                      <div className="flex flex-col gap-2">
+                        <Link
+                          href={`/shop/${product.slug}`}
+                          className="text-blue-600"
+                        >
+                          {product.name}
+                        </Link>
+                        <p className="line-clamp-2 tracking-tighter leading-tight">
+                          {product.description}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <Link
-                        href={`/shop/${product.slug}`}
-                        className="text-blue-600"
-                      >
-                        {product.name}
-                      </Link>
-                      <p className="line-clamp-2 tracking-tighter leading-tight">
-                        {product.description}
-                      </p>
-                    </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
+
+              <section className="md:col-span-4 w-full col-span-12 flex flex-col gap-3">
+                <Link
+                  href={`/orders/${order.id}`}
+                  className={cn(buttonVariants(), "mb-3")}
+                >
+                  Track package
+                </Link>
+                <Button variant="outline" disabled>
+                  Leave seller feedback
+                </Button>
+
+                <Button variant="outline" disabled>
+                  write a product review
+                </Button>
+              </section>
             </div>
-
-            <section className="md:col-span-3 w-full col-span-12 flex flex-col gap-3">
-              <Link
-                href={`/orders/${order.id}`}
-                className={cn(buttonVariants(), "mb-3")}
-              >
-                Track package
-              </Link>
-              <Button variant="outline" disabled>
-                Leave seller feedback
-              </Button>
-
-              <Button variant="outline" disabled>
-                write a product review
-              </Button>
-            </section>
           </CardContent>
         </Card>
       ))}
