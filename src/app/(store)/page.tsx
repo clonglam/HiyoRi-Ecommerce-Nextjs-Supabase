@@ -1,16 +1,18 @@
 import { getCurrentUser } from "@/_actions/users"
 import { Icons } from "@/components/icons"
-import CollectionsCard, {
-  CollectionCardFragment,
-  CollectionsCardSkeleton,
-} from "@/features/collections/components/CollectionsCard"
 import { Shell } from "@/components/layouts/Shell"
-import ProductCard, {
-  ProductCardFragment,
-} from "@/features/products/components/ProductCard"
-import { ProductCardSkeleton } from "@/features/products/components/ProductCardSkeleton"
 import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import {
+  CollectionCardFragment,
+  CollectionsCard,
+  CollectionsCardSkeleton,
+} from "@/features/collections"
+import {
+  ProductCard,
+  ProductCardFragment,
+  ProductCardSkeleton,
+} from "@/features/products"
 import { DocumentType, gql } from "@/gql"
 import { getClient } from "@/lib/urql"
 import { cn, keytoUrl } from "@/lib/utils"

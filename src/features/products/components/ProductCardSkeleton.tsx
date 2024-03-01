@@ -11,3 +11,5 @@ export const ProductCardSkeleton = () => (
     </div>
   </div>
 )
+
+export default ProductCardSkeleton

@@ -1,6 +1,6 @@
 import SectionHeading from "@/components/layouts/SectionHeading"
 import { Shell } from "@/components/layouts/Shell"
-import FilterSelections from "@/components/products/FilterSelections"
+import FilterSelections from "@/features/products/components/FilterSelections"
 import { CollectionBanner } from "@/features/collections"
 import ProductCard from "@/features/products/components/ProductCard"
 import { gql } from "@/gql"

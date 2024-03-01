@@ -1,11 +1,12 @@
 import { listCollectionsAction } from "@/_actions/collections"
 import Header from "@/components/Header"
 import { Shell } from "@/components/layouts/Shell"
-import FilterSelections from "@/components/products/FilterSelections"
-import SearchProductsGridSkeleton from "@/components/products/SearchProductsGridSkeleton"
-import SearchProductsInifiteScroll from "@/components/products/SearchProductsInifiteScroll"
-
 import { Skeleton } from "@/components/ui/skeleton"
+import {
+  FilterSelections,
+  SearchProductsGridSkeleton,
+  SearchProductsInifiteScroll,
+} from "@/features/products"
 import { Suspense } from "react"
 
 interface ProductsPageProps {

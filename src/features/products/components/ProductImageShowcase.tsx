@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { gql, DocumentType } from "@/gql"
 
 import Image from "next/image"
-import { Icons } from "../icons"
+import { Icons } from "../../../components/icons"
 import { keytoUrl } from "@/lib/utils"
 
 type ProductImageShowcaseProps = React.HTMLAttributes<HTMLDivElement> & {

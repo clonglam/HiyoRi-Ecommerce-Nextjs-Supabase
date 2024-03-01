@@ -1,21 +1,23 @@
 import Header from "@/components/Header"
 import { Shell } from "@/components/layouts/Shell"
-import ProductCard from "@/features/products/components/ProductCard"
-import { ProductCommentsSection } from "@/features/comments/"
-import { BuyNowButton } from "@/features/products"
-import ProductImageShowcase from "@/components/products/ProductImageShowcase"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import AddToWishListButton from "@/features/wishlists/components/AddToWishListButton"
+import { AddProductToCartForm } from "@/features/carts"
+import { ProductCommentsSection } from "@/features/comments"
+import {
+  BuyNowButton,
+  ProductCard,
+  ProductImageShowcase,
+} from "@/features/products"
+import { AddToWishListButton } from "@/features/wishlists"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { AddProductToCartForm } from "@/features/carts"
 
 type Props = {
   params: {

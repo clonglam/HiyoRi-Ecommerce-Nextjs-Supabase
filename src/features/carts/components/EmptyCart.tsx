@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 
 function EmptyCart() {
   return (
-    <section className="w-full border border-foreground min-h-[450px] flex flex-col gap-5 justify-center items-center col-span-12">
+    <section className="w-full border border-foreground min-h-[450px] flex flex-col gap-5 justify-center items-center">
       <p className="text-muted-foreground text-sm">Your Cart is empty.</p>
       <Link
         href="/shop"

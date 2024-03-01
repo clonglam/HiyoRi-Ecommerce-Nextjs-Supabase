@@ -1,5 +1,9 @@
 "use client"
+import { SelectCollection } from "@/lib/supabase/schema"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import React from "react"
+import { Button } from "../../../components/ui/button"
+import { Separator } from "../../../components/ui/separator"
 import {
   Sheet,
   SheetContent,
@@ -7,16 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../ui/sheet"
-import { Button } from "../ui/button"
-import { Separator } from "../ui/separator"
-import { Slider } from "../ui/slider"
-import { Input } from "../ui/input"
-import { Icons } from "../icons"
-import { ScrollArea } from "../ui/scrollArea"
-import { Checkbox } from "../ui/checkbox"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { SelectCollection } from "@/lib/supabase/schema"
+} from "../../../components/ui/sheet"
 
 type Props = { collections: SelectCollection[] }
 

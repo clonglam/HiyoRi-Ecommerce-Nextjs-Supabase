@@ -23,7 +23,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../ui/sheet"
+} from "../../../components/ui/sheet"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -36,9 +36,9 @@ import {
 
 import FilterBadges from "./FilterBadges"
 import { SortEnum } from "@/validations/products"
-import { Icons } from "../icons"
-import { Input } from "../ui/input"
-import { Button } from "../ui/button"
+import { Icons } from "../../../components/icons"
+import { Input } from "../../../components/ui/input"
+import { Button } from "../../../components/ui/button"
 
 type Props = {
   collectionsSection: SelectCollection[]

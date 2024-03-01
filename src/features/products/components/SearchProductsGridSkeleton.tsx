@@ -1,6 +1,6 @@
 import React from "react"
-import { Skeleton } from "../ui/skeleton"
-import { ProductCardSkeleton } from "../../features/products/components/ProductCardSkeleton"
+import { Skeleton } from "../../../components/ui/skeleton"
+import { ProductCardSkeleton } from "./ProductCardSkeleton"
 
 function SearchProductsGridSkeleton() {
   return (

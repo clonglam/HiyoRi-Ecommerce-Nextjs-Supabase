@@ -9,8 +9,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card"
-import { Skeleton } from "../../../components/ui/skeleton"
+} from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import EmptyCart from "./EmptyCart"
 import CartItemCard from "./CartItemCard"
 import CheckoutButton from "./CheckoutButton"
@@ -18,7 +18,7 @@ import useCartStore, {
   CartItems,
   calcProductCountStorage,
 } from "../useCartStore"
-import { useToast } from "../../../components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast"
 
 const FetchGuestCartQuery = gql(/* GraphQL */ `
   query FetchGuestCartQuery(
@@ -121,14 +121,7 @@ function GuestCartSection() {
             </CardContent>
 
             <CardFooter className="gap-x-2 md:gap-x-5 px-3">
-              <CheckoutButton
-                guest={true}
-                order={cartItems}
-                // order={data.productsCollection.edges.map(({ node }) => ({
-                //   id: node.id,
-                //   quantity: cartItems[node.id].quantity,
-                // }))}
-              />
+              <CheckoutButton guest={true} order={cartItems} />
             </CardFooter>
           </Card>
         </section>

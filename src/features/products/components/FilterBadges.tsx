@@ -1,9 +1,9 @@
 "use client"
 import React from "react"
 import { FilterFormData } from "./FilterSelections"
-import { Button } from "../ui/button"
-import { Icons } from "../icons"
-import { Badge } from "../ui/badge"
+import { Button } from "../../../components/ui/button"
+import { Icons } from "../../../components/icons"
+import { Badge } from "../../../components/ui/badge"
 import { cn } from "@/lib/utils"
 
 type FilterBadgesProps = {

@@ -3,8 +3,8 @@
 import { gql } from "@/gql"
 import { SearchQuery, SearchQueryVariables } from "@/gql/graphql"
 import { useQuery } from "@urql/next"
-import { Button } from "../ui/button"
-import ProductCard from "../../features/products/components/ProductCard"
+import { Button } from "@/components/ui/button"
+import ProductCard from "./ProductCard"
 import SearchProductsGridSkeleton from "./SearchProductsGridSkeleton"
 
 const ProductSearch = gql(/* GraphQL */ `
