@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { createInsertSchema } from "drizzle-zod"
-import { Suspense, useState, useTransition } from "react"
+import { Suspense, useState } from "react"
 import { useForm } from "react-hook-form"
 
 import {
@@ -17,24 +17,19 @@ import {
 
 import { Input } from "@/components/ui/input"
 
-import {
-  InsertCollection,
-  InsertProducts,
-  collections,
-  products,
-} from "@/lib/supabase/schema"
+import { InsertCollection, collections } from "@/lib/supabase/schema"
 
+import { Button, buttonVariants } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
+import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import { DocumentType, gql } from "@/gql"
-import { useRouter } from "next/navigation"
-import { Textarea } from "@/components/ui/textarea"
-import ImageDialog from "../../medias/_components/ImageDialog"
-import { Button, buttonVariants } from "@/components/ui/button"
-import Spinner from "@/components/ui/spinner"
-import Link from "next/link"
 import { useMutation } from "@urql/next"
-import { CreateCollectionMutation, UpdateCollectionMutation } from "./query"
 import { nanoid } from "nanoid"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import ImageDialog from "../../medias/_components/ImageDialog"
+import { CreateCollectionMutation, UpdateCollectionMutation } from "./query"
 
 const CollectionFromFragment = gql(/* GraphQL */ `
   fragment CollectionFromFragment on collections {

@@ -1,9 +1,9 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
+import { createInsertSchema } from "drizzle-zod"
 import { Suspense, useTransition } from "react"
 import { useForm } from "react-hook-form"
-import { createInsertSchema, createSelectSchema } from "drizzle-zod"
 
 import {
   Form,
@@ -15,35 +15,30 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-import Link from "next/link"
-import { Input } from "@/components/ui/input"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Button, buttonVariants } from "@/components/ui/button"
+import Link from "next/link"
 
-import {
-  InsertProducts,
-  SelectMedia,
-  SelectProducts,
-  products,
-} from "@/lib/supabase/schema"
-import { Icons } from "@/components/icons"
 import TagsField from "@/components/ui/tagsField"
-import FeaturedImageField from "@/components/admin/media/FeaturedImageField"
+import { InsertProducts, SelectProducts, products } from "@/lib/supabase/schema"
 
 import { createProductAction, updateProductAction } from "@/_actions/products"
-import { useToast } from "@/components/ui/use-toast"
-import { useRouter } from "next/navigation"
-import Spinner from "@/components/ui/spinner"
 import ImageDialog from "@/app/(admin)/admin/medias/_components/ImageDialog"
-import { gql } from "urql"
+import { Spinner } from "@/components/ui/spinner"
+import { useToast } from "@/components/ui/use-toast"
 import { useQuery } from "@urql/next"
+import { useRouter } from "next/navigation"
+import { gql } from "urql"
 
 type ProductsFormProps = {
   product?: SelectProducts
@@ -59,6 +54,7 @@ function ProductFrom({ product }: ProductsFormProps) {
     variables: {},
   })
 
+  console.log("data", data)
   const form = useForm<InsertProducts>({
     resolver: zodResolver(createInsertSchema(products)),
     defaultValues: { ...product },
@@ -176,9 +172,8 @@ function ProductFrom({ product }: ProductsFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value={undefined}>-</SelectItem>
                     {data.collectionsCollection.edges.map(
-                      ({ node: collection }, index) => (
+                      ({ node: collection }) => (
                         <SelectItem value={collection.id} key={collection.id}>
                           {collection.label}
                         </SelectItem>
@@ -193,6 +188,7 @@ function ProductFrom({ product }: ProductsFormProps) {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="badge"
@@ -208,13 +204,17 @@ function ProductFrom({ product }: ProductsFormProps) {
                       <SelectValue placeholder="Add a badge for the Product" />
                     </SelectTrigger>
                   </FormControl>
+
                   <SelectContent>
-                    <SelectItem value={undefined}>-</SelectItem>
-                    <SelectItem value="new_product">New Product</SelectItem>
-                    <SelectItem value="best_sale">Best Sale</SelectItem>
-                    <SelectItem value="featured">featured</SelectItem>
+                    <SelectGroup>
+                      <SelectLabel>Badge</SelectLabel>
+                      <SelectItem value="new_product">New Product</SelectItem>
+                      <SelectItem value="best_sale">Best Sale</SelectItem>
+                      <SelectItem value="featured">featured</SelectItem>
+                    </SelectGroup>
                   </SelectContent>
                 </Select>
+
                 <FormDescription>
                   Select a Badge if you want the Product card attached a badge.
                 </FormDescription>
@@ -279,6 +279,29 @@ function ProductFrom({ product }: ProductsFormProps) {
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="featuredImageId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Featured Image*</FormLabel>
+                <Suspense>
+                  <ImageDialog
+                    defaultValue={product?.featuredImageId}
+                    onChange={field.onChange}
+                    value={field.value}
+                  />
+                </Suspense>
+
+                <FormDescription>
+                  Drag n Drop the image to above section or click the button to
+                  select from Image gallery.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         <div className="py-8 flex gap-x-5 items-center">
@@ -291,7 +314,7 @@ function ProductFrom({ product }: ProductsFormProps) {
               />
             )}
           </Button>
-          <Link href="/admin/categories" className={buttonVariants()}>
+          <Link href="/admin/products" className={buttonVariants()}>
             Cancel
           </Link>
         </div>

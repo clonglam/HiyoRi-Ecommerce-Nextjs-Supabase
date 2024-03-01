@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Suspense } from "react"
 
 import { notFound } from "next/navigation"
 
@@ -17,9 +17,9 @@ async function NewProjectPage({}: Props) {
       heading="Add Project"
       description="Input the field below, after that press Add Project button to save the project."
     >
-      <div className="">
+      <Suspense>
         <ProductForm />
-      </div>
+      </Suspense>
     </AdminShell>
   )
 }

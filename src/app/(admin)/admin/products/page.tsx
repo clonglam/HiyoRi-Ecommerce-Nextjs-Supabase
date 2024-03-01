@@ -7,6 +7,7 @@ import { getClient } from "@/lib/urql"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { Suspense } from "react"
 
 type AdminProjectsPageProps = {
   searchParams: {
@@ -43,10 +44,12 @@ async function ProductsPage({ searchParams }: AdminProjectsPageProps) {
         </Link>
       </section>
 
-      <DataTable
-        columns={ProductsColumns}
-        data={data.productsCollection?.edges || []}
-      />
+      <Suspense>
+        <DataTable
+          columns={ProductsColumns}
+          data={data.productsCollection?.edges || []}
+        />
+      </Suspense>
     </AdminShell>
   )
 }

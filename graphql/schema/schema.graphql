@@ -124,6 +124,8 @@ scalar JSON
 
 """The root type for creating and mutating data"""
 type Mutation {
+  custom_access_token_hook(event: JSON): JSON
+
   """Deletes zero or more records from the `address` collection"""
   deleteFromaddressCollection(
     """Restricts the mutation's impact to records matching the criteria"""
@@ -1700,44 +1702,6 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [cartsOrderBy!]
   ): cartsConnection
-  commentsCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: commentsFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [commentsOrderBy!]
-  ): commentsConnection
-  wishlistCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: wishlistFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [wishlistOrderBy!]
-  ): wishlistConnection
   order_linesCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1776,6 +1740,44 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [product_mediasOrderBy!]
   ): product_mediasConnection
+  commentsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: commentsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [commentsOrderBy!]
+  ): commentsConnection
+  wishlistCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: wishlistFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [wishlistOrderBy!]
+  ): wishlistConnection
 }
 
 type productsConnection {
@@ -1841,6 +1843,7 @@ input productsInsertInput {
   stock: Int
   collection_id: String
   featured_image_id: String
+  medias: JSON
 }
 
 type productsInsertResponse {
@@ -1882,6 +1885,7 @@ input productsUpdateInput {
   stock: Int
   collection_id: String
   featured_image_id: String
+  medias: JSON
 }
 
 type productsUpdateResponse {
@@ -1899,6 +1903,7 @@ type profiles implements Node {
   name: String
   email: String
   created_at: Datetime!
+  is_admin: Boolean
   ordersCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1981,6 +1986,7 @@ input profilesFilter {
   name: StringFilter
   email: StringFilter
   created_at: DatetimeFilter
+  is_admin: BooleanFilter
   nodeId: IDFilter
 
   """
@@ -2002,6 +2008,7 @@ input profilesInsertInput {
   name: String
   email: String
   created_at: Datetime
+  is_admin: Boolean
 }
 
 type profilesInsertResponse {
@@ -2017,6 +2024,7 @@ input profilesOrderBy {
   name: OrderByDirection
   email: OrderByDirection
   created_at: OrderByDirection
+  is_admin: OrderByDirection
 }
 
 input profilesUpdateInput {
@@ -2024,6 +2032,7 @@ input profilesUpdateInput {
   name: String
   email: String
   created_at: Datetime
+  is_admin: Boolean
 }
 
 type profilesUpdateResponse {

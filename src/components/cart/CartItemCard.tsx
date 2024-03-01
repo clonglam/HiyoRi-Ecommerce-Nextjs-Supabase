@@ -4,7 +4,7 @@ import { DocumentType, gql } from "@/gql"
 import Image from "next/image"
 import React from "react"
 
-import QuantityInput from "../products/QuantityInput"
+import QuantityInput from "../QuantityInput"
 
 import {
   Card,

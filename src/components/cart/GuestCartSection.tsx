@@ -11,13 +11,13 @@ import {
   CardTitle,
 } from "../ui/card"
 import { Skeleton } from "../ui/skeleton"
-import EmptyCart from "./EmptyCart"
+import EmptyCart from "../../features/carts/components/EmptyCart"
 import CartItemCard from "./CartItemCard"
-import CheckoutButton from "./CheckoutButton"
+import CheckoutButton from "../../features/carts/components/CheckoutButton"
 import useCartStore, {
   CartItems,
   calcProductCountStorage,
-} from "./useCartStore"
+} from "../../features/carts/useCartStore"
 import { useToast } from "../ui/use-toast"
 
 const FetchGuestCartQuery = gql(/* GraphQL */ `

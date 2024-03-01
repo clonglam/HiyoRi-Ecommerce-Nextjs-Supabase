@@ -34,4 +34,6 @@ function Spinner({ className, ...props }: SpinnerProps) {
   )
 }
 
-export default Spinner
+Spinner.displayName = "Spinner"
+
+export { Spinner }

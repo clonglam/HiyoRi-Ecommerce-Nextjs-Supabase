@@ -1,16 +1,13 @@
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 import { Suspense } from "react"
-import UserNav from "../auth/UserNav"
-import CartLink from "../cart/CartLink"
-import CartNav from "../cart/CartNav"
+import { CartLink, CartNav } from "../../features/carts"
+import { UserNav } from "@/features/auth"
 import { Icons } from "../icons"
 import Branding from "./Branding"
 import MobileNavbar from "./MobileNavbar"
-import NavLinkButton from "./NavLinkButton"
 import SearchInput from "./SearchInput"
 import { SideMenu } from "./SideMenu"
-
-// const SearchInput = dynamic(() => import("./SearchInput"), { ssr: false })
 
 interface MainNavbarProps {
   adminLayout?: boolean
@@ -45,9 +42,9 @@ async function MainNavbar({ adminLayout = false }: MainNavbarProps) {
               <UserNav />
             </Suspense>
 
-            <NavLinkButton href={"/wish-list"}>
+            <Link href={"/wish-list"}>
               <Icons.heart className="w-4 h-4" aria-label="wishlist" />
-            </NavLinkButton>
+            </Link>
 
             <Suspense fallback={<CartLink productCount={0} />}>
               {!adminLayout && <CartNav />}

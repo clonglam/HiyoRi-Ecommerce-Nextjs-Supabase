@@ -1,5 +1,5 @@
 "use client"
-import Spinner from "@/components/ui/spinner"
+import { Spinner } from "@/components/ui/spinner"
 import { DocumentType, gql } from "@/gql"
 
 import { cn, keytoUrl } from "@/lib/utils"

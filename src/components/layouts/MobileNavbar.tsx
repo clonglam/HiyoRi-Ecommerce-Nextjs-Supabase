@@ -1,9 +1,9 @@
 import { Suspense } from "react"
-import CartNav from "../cart/CartNav"
+import CartNav from "../../features/carts/components/CartNav"
 import Branding from "./Branding"
 import MobileSearchInput from "./MobileSearchInput"
 import { SideMenu } from "./SideMenu"
-import CartLink from "../cart/CartLink"
+import CartLink from "../../features/carts/components/CartLink"
 
 type Props = { adminLayout: boolean }
 

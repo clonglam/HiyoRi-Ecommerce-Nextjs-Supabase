@@ -10,8 +10,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import OAuthLoginButtons from "@/components/auth/OAuthLoginButtons"
-import { SignInForm } from "@/components/auth/SigninForm"
+import OAuthLoginButtons from "@/features/auth/components/OAuthLoginButtons"
+import { SigninForm } from "@/features/auth"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function SignInPage() {
               <div className="bg-zinc-400 animate-pulse max-w-xl w-full h-[360px]" />
             }
           >
-            <SignInForm />
+            <SigninForm />
           </Suspense>
 
           <div className="relative mb-10">

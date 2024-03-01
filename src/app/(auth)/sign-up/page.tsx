@@ -2,8 +2,8 @@ import { type Metadata } from "next"
 import { Suspense } from "react"
 import Link from "next/link"
 
-import OAuthLoginButtons from "@/components/auth/OAuthLoginButtons"
-import { SignUpForm } from "@/components/auth/SignupForm"
+import OAuthLoginButtons from "@/features/auth/components/OAuthLoginButtons"
+import { SignupForm } from "@/features/auth"
 import {
   Card,
   CardContent,
@@ -34,7 +34,7 @@ export default function SignUpPage() {
               <div className="bg-zinc-400 animate-pulse max-w-xl w-full h-[360px]" />
             }
           >
-            <SignUpForm />
+            <SignupForm />
           </Suspense>
 
           <div className="relative mb-10">

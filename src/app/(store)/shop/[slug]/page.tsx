@@ -1,8 +1,8 @@
-import Header from "@/components/layouts/Header"
-import AddProductForm from "@/components/products/AddProductForm"
-import BuyNowButton from "@/components/products/BuyNowButton"
-import ProductCard from "@/components/products/ProductCard"
-import ProductComments from "@/components/products/ProductComments"
+import Header from "@/components/Header"
+import { Shell } from "@/components/layouts/Shell"
+import ProductCard from "@/features/products/components/ProductCard"
+import { ProductCommentsSection } from "@/features/comments/"
+import { AddProductToCartForm, BuyNowButton } from "@/features/products"
 import ProductImageShowcase from "@/components/products/ProductImageShowcase"
 import {
   Accordion,
@@ -10,7 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import AddToWishListButton from "@/components/wishList/AddToWishListButton"
+import AddToWishListButton from "@/features/wishlists/components/AddToWishListButton"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql"
 import { Metadata } from "next"
@@ -42,7 +42,7 @@ const ProductDetailPageQuery = gql(/* GraphQL */ `
           commentsCollection(first: 5) {
             edges {
               node {
-                ...ProductCommentsFragment
+                ...ProductCommentsSectionFragment
               }
             }
           }
@@ -77,7 +77,7 @@ async function ProductDetailPage({ params }: Props) {
     data.productsCollection.edges[0].node
 
   return (
-    <div className="container min-h-screen ">
+    <Shell>
       <div className="grid grid-cols-12 gap-x-8">
         <div className="space-y-8 relative col-span-12 md:col-span-7">
           <ProductImageShowcase data={data.productsCollection.edges[0].node} />
@@ -95,8 +95,8 @@ async function ProductDetailPage({ params }: Props) {
           </section>
 
           <section className="flex mb-8 items-end space-x-5">
-            <AddProductForm productId={id} />
-            <BuyNowButton />
+            <AddProductToCartForm productId={id} />
+            <BuyNowButton productId={id} />
           </section>
 
           <section>
@@ -139,7 +139,7 @@ async function ProductDetailPage({ params }: Props) {
           ))}
       </div>
 
-      <ProductComments
+      <ProductCommentsSection
         comments={
           commentsCollection
             ? commentsCollection.edges.map(({ node }) => node)
@@ -147,7 +147,7 @@ async function ProductDetailPage({ params }: Props) {
         }
         totalComments={totalComments}
       />
-    </div>
+    </Shell>
   )
 }
 

@@ -1,5 +1,5 @@
 import React from "react"
-import Header from "../layouts/Header"
+import Header from "../Header"
 import { ProductCardSkeleton } from "./ProductCardSkeleton"
 
 function RecommendationProductsSkeleton() {

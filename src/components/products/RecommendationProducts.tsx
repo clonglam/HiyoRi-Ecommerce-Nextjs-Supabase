@@ -2,8 +2,8 @@
 import { gql } from "@/gql"
 import { useQuery } from "@urql/next"
 import React from "react"
-import Header from "../layouts/Header"
-import ProductCard from "./ProductCard"
+import Header from "../Header"
+import { ProductCard } from "@/features/products"
 import { ProductCardSkeleton } from "./ProductCardSkeleton"
 
 export type RecommendationProductsProps =

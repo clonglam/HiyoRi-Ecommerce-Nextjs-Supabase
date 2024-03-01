@@ -55,7 +55,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import Spinner from "@/components/ui/spinner"
+import { Spinner } from "@/components/ui/spinner"
 
 type UpdateMediaFormProps = {
   media?: SelectMedia

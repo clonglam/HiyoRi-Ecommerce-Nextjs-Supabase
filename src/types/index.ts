@@ -2,6 +2,10 @@ import { Icons } from "@/components/icons"
 // import { type Product } from "@/supabase/schema"
 import type { FileWithPath } from "react-dropzone"
 
+export type BaseEntity = {
+  id: string
+  createdAt: number
+}
 export interface NavItem {
   title: string
   href?: string

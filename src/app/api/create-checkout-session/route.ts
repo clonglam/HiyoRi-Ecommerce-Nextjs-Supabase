@@ -1,5 +1,5 @@
 import { getProductsByIds } from "@/_actions/products"
-import { CartItems } from "@/components/cart/useCartStore"
+import type { CartItems } from "@/features/carts"
 import { stripe } from "@/lib/stripe"
 import db from "@/lib/supabase/db"
 import { SelectProducts, orders } from "@/lib/supabase/schema"

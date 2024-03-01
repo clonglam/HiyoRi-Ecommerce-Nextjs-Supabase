@@ -165,6 +165,7 @@ export const products = pgTable(
       .notNull()
       .default("4"),
     tags: json("tags").$type<string[]>().default([]).notNull(),
+    // medias: json("medias").$type<string[]>().default([]).notNull(),
     price: decimal("price", { precision: 8, scale: 2 })
       .notNull()
       .default("0.00"),

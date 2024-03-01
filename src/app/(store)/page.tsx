@@ -7,7 +7,7 @@ import CollectionsCard, {
 import { Shell } from "@/components/layouts/Shell"
 import ProductCard, {
   ProductCardFragment,
-} from "@/components/products/ProductCard"
+} from "@/features/products/components/ProductCard"
 import { ProductCardSkeleton } from "@/components/products/ProductCardSkeleton"
 import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"

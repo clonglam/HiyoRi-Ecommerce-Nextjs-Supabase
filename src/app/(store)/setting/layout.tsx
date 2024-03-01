@@ -1,4 +1,4 @@
-import { SettingSidebarNav } from "@/components/setting/SettingSidebar"
+import { SettingSidebarNav } from "@/components/SettingSidebar"
 import { Separator } from "@/components/ui/separator"
 import { Metadata } from "next"
 import Image from "next/image"

@@ -3,8 +3,6 @@ import React, { useState } from "react"
 import { gql, DocumentType } from "@/gql"
 
 import Image from "next/image"
-import { Medias } from "@/gql/graphql"
-import medias from "@/lib/supabase/seedData/medias"
 import { Icons } from "../icons"
 import { keytoUrl } from "@/lib/utils"
 
@@ -20,6 +18,7 @@ const ProductImageShowcaseFragment = gql(/* GraphQL */ `
       key
       alt
     }
+
     images: product_mediasCollection(orderBy: [{ priority: DescNullsLast }]) {
       edges {
         node {

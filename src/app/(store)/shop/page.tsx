@@ -1,5 +1,6 @@
 import { listCollectionsAction } from "@/_actions/collections"
-import Header from "@/components/layouts/Header"
+import Header from "@/components/Header"
+import { Shell } from "@/components/layouts/Shell"
 import FilterSelections from "@/components/products/FilterSelections"
 import SearchProductsGridSkeleton from "@/components/products/SearchProductsGridSkeleton"
 import SearchProductsInifiteScroll from "@/components/products/SearchProductsInifiteScroll"
@@ -17,7 +18,7 @@ async function ProductsPage({}: ProductsPageProps) {
   const collectionsData = await listCollectionsAction()
 
   return (
-    <div className="container min-h-screen">
+    <Shell>
       <Header heading="Shop Now" />
 
       <Suspense
@@ -34,7 +35,7 @@ async function ProductsPage({}: ProductsPageProps) {
       <Suspense fallback={<SearchProductsGridSkeleton />}>
         <SearchProductsInifiteScroll />
       </Suspense>
-    </div>
+    </Shell>
   )
 }
 
