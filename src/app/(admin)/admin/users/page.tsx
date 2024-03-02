@@ -1,7 +1,7 @@
 import { listUsers } from "@/_actions/authAdmin"
 import { getCurrentUser } from "@/_actions/users"
 import AdminShell from "@/components/admin/AdminShell"
-import { DataTable } from "@/components/admin/products/DataTable"
+import { ProductsDataTable } from "@/features/cms"
 import AdminUserNav from "@/components/admin/users/AdminUserNav"
 import { UsersColumns } from "@/components/admin/users/UsersColumns"
 
@@ -19,7 +19,7 @@ async function UsersPage({ searchParams }: AdminUsersPageProps) {
   return (
     <AdminShell heading="Users" description="Edit/Create new user by admin.">
       <AdminUserNav />
-      <DataTable columns={UsersColumns} data={users || []} />
+      <ProductsDataTable columns={UsersColumns} data={users || []} />
     </AdminShell>
   )
 }

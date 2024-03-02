@@ -1,14 +1,10 @@
 import React, { Suspense } from "react"
-
 import { notFound } from "next/navigation"
-
 import AdminShell from "@/components/admin/AdminShell"
-import ProductForm from "@/components/admin/products/ProductForm"
+import { ProductForm } from "@/features/cms"
 import db from "@/lib/supabase/db"
 
-type Props = {}
-
-async function NewProjectPage({}: Props) {
+async function NewProjectPage() {
   const products = await db.query.products.findMany()
   if (!products) return notFound()
 

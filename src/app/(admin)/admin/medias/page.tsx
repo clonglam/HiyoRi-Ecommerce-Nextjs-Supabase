@@ -1,7 +1,6 @@
 import AdminShell from "@/components/admin/AdminShell"
 import { Suspense } from "react"
-import ImagesGrid from "./_components/ImageGrid"
-import MediasPageContent from "./_components/MediasPageContent"
+import { MediasPageContent } from "@/features/medias"
 
 type Props = {}
 

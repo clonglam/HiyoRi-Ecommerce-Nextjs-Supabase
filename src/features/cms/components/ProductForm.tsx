@@ -5,6 +5,8 @@ import { createInsertSchema } from "drizzle-zod"
 import { Suspense, useTransition } from "react"
 import { useForm } from "react-hook-form"
 
+import { createProductAction, updateProductAction } from "@/_actions/products"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -14,47 +16,44 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import Link from "next/link"
-
-import TagsField from "@/components/ui/tagsField"
-import { InsertProducts, SelectProducts, products } from "@/lib/supabase/schema"
-
-import { createProductAction, updateProductAction } from "@/_actions/products"
-import ImageDialog from "@/app/(admin)/admin/medias/_components/ImageDialog"
 import { Spinner } from "@/components/ui/spinner"
+import TagsField from "@/components/ui/tagsField"
 import { useToast } from "@/components/ui/use-toast"
+import ImageDialog from "@/features/medias/components/ImageDialog"
+import { InsertProducts, SelectProducts, products } from "@/lib/supabase/schema"
 import { useQuery } from "@urql/next"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { gql } from "urql"
+import BadgeSelectField from "./BadgeSelectField"
+import CollectionSelectField from "./CollectionSelectField"
 
 type ProductsFormProps = {
   product?: SelectProducts
 }
+export const ProductFormQuery = gql(/* GraphQL */ `
+  query ProductFormQuery {
+    collectionsCollection(orderBy: [{ label: AscNullsLast }]) {
+      __typename
+      edges {
+        node {
+          ...CollectionSelectFieldFragment
+        }
+      }
+    }
+  }
+`)
 
 function ProductFrom({ product }: ProductsFormProps) {
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
   const { toast } = useToast()
 
-  const [{ data, fetching, error }, refetch] = useQuery({
+  const [{ data }] = useQuery({
     query: ProductFormQuery,
-    variables: {},
   })
 
-  console.log("data", data)
   const form = useForm<InsertProducts>({
     resolver: zodResolver(createInsertSchema(products)),
     defaultValues: { ...product },
@@ -88,6 +87,7 @@ function ProductFrom({ product }: ProductsFormProps) {
     })
   })
 
+  console.log("data", data)
   return (
     <Form {...form}>
       <form
@@ -134,94 +134,37 @@ function ProductFrom({ product }: ProductsFormProps) {
             <FormMessage />
           </FormItem>
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="featured"
             render={({ field }) => (
               <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
                 <FormControl>
+                  <FormLabel>Featured*</FormLabel>
                   <Checkbox
                     defaultChecked={false}
                     checked={field.value || false}
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel>Featured*</FormLabel>
-                  <FormDescription>
-                    You can manage your mobile notifications in the{" "}
-                  </FormDescription>
-                </div>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="collectionId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Collection Id</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value || undefined}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a collection" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {data.collectionsCollection.edges.map(
-                      ({ node: collection }) => (
-                        <SelectItem value={collection.id} key={collection.id}>
-                          {collection.label}
-                        </SelectItem>
-                      )
-                    )}
-                  </SelectContent>
-                </Select>
-                <FormDescription>
-                  Select a Badge if you want the Product card attached a badge.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="badge"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Badge</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value || undefined}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Add a badge for the Product" />
-                    </SelectTrigger>
-                  </FormControl>
-
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Badge</SelectLabel>
-                      <SelectItem value="new_product">New Product</SelectItem>
-                      <SelectItem value="best_sale">Best Sale</SelectItem>
-                      <SelectItem value="featured">featured</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
 
                 <FormDescription>
-                  Select a Badge if you want the Product card attached a badge.
+                  You can manage your mobile notifications in the{" "}
                 </FormDescription>
-                <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
+
+          {data && data.collectionsCollection && (
+            <CollectionSelectField
+              label="Collections"
+              collections={data.collectionsCollection.edges}
+              name="collectionId"
+              description="Select a Collection for the products."
+            />
+          )}
+
+          <BadgeSelectField name="badge" label={""} />
 
           <FormItem>
             <FormLabel className="text-sm">Rating*</FormLabel>
@@ -279,29 +222,6 @@ function ProductFrom({ product }: ProductsFormProps) {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={form.control}
-            name="featuredImageId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Featured Image*</FormLabel>
-                <Suspense>
-                  <ImageDialog
-                    defaultValue={product?.featuredImageId}
-                    onChange={field.onChange}
-                    value={field.value}
-                  />
-                </Suspense>
-
-                <FormDescription>
-                  Drag n Drop the image to above section or click the button to
-                  select from Image gallery.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
 
         <div className="py-8 flex gap-x-5 items-center">
@@ -324,25 +244,3 @@ function ProductFrom({ product }: ProductsFormProps) {
 }
 
 export default ProductFrom
-
-export const ProductFormQuery = gql(/* GraphQL */ `
-  query ProductFormQuery {
-    collectionsCollection(orderBy: [{ label: AscNullsLast }]) {
-      __typename
-      edges {
-        node {
-          id
-          label
-        }
-      }
-    }
-    # productsCollection(first: 1, filter: { id: { eq: $productId } }) {
-    #   __typename
-    #   edges {
-    #     node {
-    #       id
-    #     }
-    #   }
-    # }
-  }
-`)

@@ -100,18 +100,21 @@ export function ProductCard({
       <CardFooter className="gap-x-2 md:gap-x-5 p-0 ">
         <Suspense
           fallback={
-            <>
-              <Button className="rounded-full p-0 h-8 w-8" disabled>
-                <Icons.basket className="h-5 w-5 md:h-4 md:w-4" />
-              </Button>
-
-              <Button className="rounded-full p-3" variant="ghost" disabled>
-                <Icons.heart className={"w-4 h-4 fill-none"} />
-              </Button>
-            </>
+            <Button className="rounded-full p-0 h-8 w-8" disabled>
+              <Icons.basket className="h-5 w-5 md:h-4 md:w-4" />
+            </Button>
           }
         >
           <AddToCartButton productId={id} />
+        </Suspense>
+
+        <Suspense
+          fallback={
+            <Button className="rounded-full p-3" variant="ghost" disabled>
+              <Icons.heart className={"w-4 h-4 fill-none"} />
+            </Button>
+          }
+        >
           <AddToWishListButton productId={product.id} />
         </Suspense>
       </CardFooter>

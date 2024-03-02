@@ -1,19 +1,10 @@
 "use client"
 import { Spinner } from "@/components/ui/spinner"
 import { DocumentType, gql } from "@/gql"
-
 import { cn, keytoUrl } from "@/lib/utils"
 import { FileWithPreview } from "@/types"
 import Image from "next/image"
 import { ReactNode } from "react"
-
-export const ImageGridFragment = gql(/* GraphQL */ `
-  fragment ImageGridFragment on medias {
-    id
-    key
-    alt
-  }
-`)
 
 type ImagesGridProps = {
   AddMediaButtonComponent?: ReactNode
@@ -43,6 +34,7 @@ function ImagesGrid({
     >
       {AddMediaButtonComponent}
       {UploadingMediaComponent}
+
       {uploadingFiles.map((file, index) => (
         <div
           key={`uploadingImage_${index}`}
@@ -56,10 +48,11 @@ function ImagesGrid({
             className="h-[120px] w-[120px] object-cover"
           />
           <div className="absolute w-full h-full top-0 left-0 flex items-center justify-center">
-            <Spinner className="" />
+            <Spinner />
           </div>
         </div>
       ))}
+
       {medias.map(({ node: media }) => (
         <button
           key={media.id}
@@ -86,3 +79,11 @@ function ImagesGrid({
 }
 
 export default ImagesGrid
+
+export const ImageGridFragment = gql(/* GraphQL */ `
+  fragment ImageGridFragment on medias {
+    id
+    key
+    alt
+  }
+`)

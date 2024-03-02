@@ -20,34 +20,13 @@ import useCartStore, {
 } from "../useCartStore"
 import { useToast } from "@/components/ui/use-toast"
 
-const FetchGuestCartQuery = gql(/* GraphQL */ `
-  query FetchGuestCartQuery(
-    $cartItems: [String!]
-    $first: Int
-    $after: Cursor
-  ) {
-    productsCollection(
-      first: $first
-      after: $after
-      filter: { id: { in: $cartItems } }
-    ) {
-      edges {
-        node {
-          id
-          ...CartItemCardFragment
-        }
-      }
-    }
-  }
-`)
-
 function GuestCartSection() {
   const { toast } = useToast()
   const cartItems = useCartStore((s) => s.cart)
   const addProductToCart = useCartStore((s) => s.addProductToCart)
   const removeProduct = useCartStore((s) => s.removeProduct)
 
-  const [{ data, fetching, error }, refetch] = useQuery({
+  const [{ data, fetching, error }, _] = useQuery({
     query: FetchGuestCartQuery,
     variables: {
       cartItems: Object.keys(cartItems).map((key) => key),
@@ -185,3 +164,24 @@ const calcSubtotal = ({
     0
   )
 }
+
+const FetchGuestCartQuery = gql(/* GraphQL */ `
+  query FetchGuestCartQuery(
+    $cartItems: [String!]
+    $first: Int
+    $after: Cursor
+  ) {
+    productsCollection(
+      first: $first
+      after: $after
+      filter: { id: { in: $cartItems } }
+    ) {
+      edges {
+        node {
+          id
+          ...CartItemCardFragment
+        }
+      }
+    }
+  }
+`)

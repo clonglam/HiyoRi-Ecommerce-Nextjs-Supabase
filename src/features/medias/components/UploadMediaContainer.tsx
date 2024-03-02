@@ -19,11 +19,9 @@ function UploadMediaContainer({
 }: UploadMediaContainerProps) {
   const router = useRouter()
   const [uploadingImages, setUploadingImages] = useState<FileWithPreview[]>([])
-
   const [lastCursor, setLastCursor] = React.useState<string | undefined>(
     undefined
   )
-
   const [{ data, fetching, error }, refetch] = useQuery({
     query: MediasPageContentQuery,
     variables: {

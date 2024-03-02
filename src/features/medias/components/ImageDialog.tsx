@@ -10,6 +10,8 @@ import {
 import ImagePreviewCard from "@/components/admin/media/ImagePreviewCard"
 import React, { Suspense } from "react"
 import UploadMediaContainer from "./UploadMediaContainer"
+import { useFormField } from "@/components/ui/form"
+import { useFieldArray, useFormContext } from "react-hook-form"
 
 type Props = {
   onChange: (data: string) => void
@@ -26,7 +28,11 @@ function ImageDialog({
   defaultValue,
 }: Props) {
   const [dialogOpen, setDialogOpen] = React.useState(modalOpen)
-
+  // const { control, setError, getValues, setValue } = useFormContext()
+  // const { fields, remove, append, update, move, swap } = useFieldArray({
+  //   control,
+  //   name: "",
+  // })
   const onClickHandler = (mediaId: string) => {
     onChange(mediaId)
     console.log("mediaId", mediaId)

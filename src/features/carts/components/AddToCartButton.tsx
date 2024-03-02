@@ -53,7 +53,7 @@ const UserCartButton = ({
 }) => {
   const { toast } = useToast()
 
-  const [res, addToCart] = useMutation(createCartMutation)
+  const [, addToCart] = useMutation(createCartMutation)
   const [, updateCart] = useMutation(updateCartsMutation)
 
   const [{ data, fetching, error }, refetch] = useQuery({
@@ -93,11 +93,7 @@ const UserCartButton = ({
   }
 
   return (
-    <Button
-      className="rounded-full p-0 h-8 w-8"
-      // disabled={fetching || error ? true : false}
-      onClick={onClickHandler}
-    >
+    <Button className="rounded-full p-0 h-8 w-8" onClick={onClickHandler}>
       <Icons.basket className="h-5 w-5 md:h-4 md:w-4" />
     </Button>
   )

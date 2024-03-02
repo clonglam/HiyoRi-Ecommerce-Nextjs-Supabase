@@ -1215,25 +1215,6 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [productsOrderBy!]
   ): productsConnection
-  product_mediasCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: product_mediasFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [product_mediasOrderBy!]
-  ): product_mediasConnection
   collectionsCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1253,6 +1234,25 @@ type medias implements Node {
     """Sort order to apply to the collection"""
     orderBy: [collectionsOrderBy!]
   ): collectionsConnection
+  product_mediasCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: product_mediasFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [product_mediasOrderBy!]
+  ): product_mediasConnection
 }
 
 type mediasConnection {
@@ -1344,8 +1344,8 @@ type order_lines implements Node {
   quantity: Int!
   price: BigFloat!
   created_at: Datetime!
-  order: orders!
   products: products!
+  order: orders!
 }
 
 type order_linesConnection {
@@ -1584,8 +1584,8 @@ type product_medias implements Node {
   productId: String!
   mediaId: String!
   priority: Int
-  media: medias!
   product: products!
+  media: medias!
 }
 
 type product_mediasConnection {
@@ -1681,6 +1681,7 @@ type products implements Node {
   stock: Int
   collection_id: String
   featured_image_id: String!
+  images: JSON!
   medias: medias!
   collections: collections
   cartsCollection(
@@ -1740,25 +1741,6 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [product_mediasOrderBy!]
   ): product_mediasConnection
-  commentsCollection(
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: commentsFilter
-
-    """Sort order to apply to the collection"""
-    orderBy: [commentsOrderBy!]
-  ): commentsConnection
   wishlistCollection(
     """Query the first `n` records in the collection"""
     first: Int
@@ -1778,6 +1760,25 @@ type products implements Node {
     """Sort order to apply to the collection"""
     orderBy: [wishlistOrderBy!]
   ): wishlistConnection
+  commentsCollection(
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: commentsFilter
+
+    """Sort order to apply to the collection"""
+    orderBy: [commentsOrderBy!]
+  ): commentsConnection
 }
 
 type productsConnection {
@@ -1843,7 +1844,7 @@ input productsInsertInput {
   stock: Int
   collection_id: String
   featured_image_id: String
-  medias: JSON
+  images: JSON
 }
 
 type productsInsertResponse {
@@ -1885,7 +1886,7 @@ input productsUpdateInput {
   stock: Int
   collection_id: String
   featured_image_id: String
-  medias: JSON
+  images: JSON
 }
 
 type productsUpdateResponse {

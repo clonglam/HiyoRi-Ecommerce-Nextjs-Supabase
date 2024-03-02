@@ -5,8 +5,7 @@ import { getClient } from "@/lib/urql"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { CollectionsColumns } from "./_components/CollectionsColumns"
-import { DataTable } from "./_components/DataTable"
+import { CollectionsColumns, DataTable } from "@/features/collections"
 
 type AdminCollectionsPageProps = {
   searchParams: {

@@ -28,8 +28,11 @@ import { useMutation } from "@urql/next"
 import { nanoid } from "nanoid"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import ImageDialog from "../../medias/_components/ImageDialog"
-import { CreateCollectionMutation, UpdateCollectionMutation } from "./query"
+import ImageDialog from "../../medias/components/ImageDialog"
+import {
+  CreateCollectionMutation,
+  UpdateCollectionMutation,
+} from "../../collections/query"
 
 const CollectionFromFragment = gql(/* GraphQL */ `
   fragment CollectionFromFragment on collections {

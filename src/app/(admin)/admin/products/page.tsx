@@ -1,7 +1,6 @@
 import AdminShell from "@/components/admin/AdminShell"
-import { DataTable } from "@/components/admin/products/DataTable"
-import { ProductsColumns } from "@/components/admin/products/ProductsColumns"
 import { buttonVariants } from "@/components/ui/button"
+import { ProductsColumns, ProductsDataTable } from "@/features/cms"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql"
 import { cn } from "@/lib/utils"
@@ -45,7 +44,7 @@ async function ProductsPage({ searchParams }: AdminProjectsPageProps) {
       </section>
 
       <Suspense>
-        <DataTable
+        <ProductsDataTable
           columns={ProductsColumns}
           data={data.productsCollection?.edges || []}
         />

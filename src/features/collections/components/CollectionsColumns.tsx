@@ -13,45 +13,31 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { gql, DocumentType } from "@/gql"
 
-export const ProductColumnFragment = gql(/* GraphQL */ `
-  fragment ProductColumnFragment on products {
+export const CollectionColumnsFragment = gql(/* GraphQL */ `
+  fragment CollectionColumnsFragment on collections {
     id
-    name
+    title
+    label
     description
-    rating
     slug
-    badge
-    price
-    badge
-    featured
-    featuredImage: medias {
-      id
-      key
-      alt
-    }
-    collections {
-      id
-      label
-      slug
-    }
   }
 `)
 
-export const ProductsColumns: ColumnDef<{
-  node: DocumentType<typeof ProductColumnFragment>
+const CollectionsColumns: ColumnDef<{
+  node: DocumentType<typeof CollectionColumnsFragment>
 }>[] = [
   {
-    accessorKey: "name",
-    header: () => <div className="text-left capitalize">Product Name</div>,
+    accessorKey: "label",
+    header: () => <div className="text-left capitalize">Label</div>,
     cell: ({ row }) => {
-      const product = row.original.node
+      const collection = row.original.node
 
       return (
         <Link
-          href={`/admin/products/${product.id}`}
+          href={`/admin/collections/${collection.id}`}
           className="text-center font-medium capitalize px-3 hover:underline"
         >
-          {product.name}
+          {collection.label}
         </Link>
       )
     },
@@ -66,41 +52,23 @@ export const ProductsColumns: ColumnDef<{
     },
   },
   {
-    accessorKey: "Collection",
-    header: () => <div className="">Collection</div>,
+    accessorKey: "title",
+    header: () => <div className="text-left capitalize">Title</div>,
     cell: ({ row }) => {
-      const product = row.original.node
+      const collection = row.original.node
 
       return (
-        <div className="font-medium">
-          {product.collections ? product.collections.label : "-"}
-        </div>
+        <p className="font-medium capitalize px-3 hover:underline">
+          {collection.title}
+        </p>
       )
-    },
-  },
-  {
-    accessorKey: "featured",
-    header: () => <div className="">Featured</div>,
-    cell: ({ row }) => {
-      const product = row.original.node
-
-      return <div className="font-medium">{`${product.featured}`}</div>
-    },
-  },
-  {
-    accessorKey: "price",
-    header: () => <div className="">Price</div>,
-    cell: ({ row }) => {
-      const product = row.original.node
-
-      return <div className="font-medium">{`$ ${product.price}`}</div>
     },
   },
   {
     id: "actions",
     header: () => <div className="text-center capitalize">Actions</div>,
     cell: ({ row }) => {
-      const product = row.original.node
+      const collection = row.original.node
 
       return (
         <DropdownMenu>
@@ -117,10 +85,10 @@ export const ProductsColumns: ColumnDef<{
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
             <Link
-              href={`/admin/products/${product.id}`}
+              href={`/admin/collections/${collection.id}`}
               className={buttonVariants({ variant: "ghost" })}
             >
-              Edit Product
+              Edit Collections
             </Link>
             {/* <DeleteCategoryDialog categoryId={category.id} /> */}
           </DropdownMenuContent>
@@ -130,15 +98,17 @@ export const ProductsColumns: ColumnDef<{
   },
 ]
 
-const DeleteCategoryDialog = ({ categoryId }: { categoryId: string }) => {
+const DeleteCollectionDialog = ({ collectionId }: { collectionId: string }) => {
   const onClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // await deleteCategoryAction(categoryId)
   }
   return (
     <DeleteDialog
       onClickHandler={onClickHandler}
-      title="Delete Proejct"
+      title="Delete Collection"
       actionLabel="Delete"
     />
   )
 }
+
+export default CollectionsColumns

@@ -1,1 +1,6 @@
 export { default as PaginationTable } from "./PaginationTable"
+export { default as ProductForm } from "./ProductForm"
+export { default as CollectionForm } from "./CollectionForm"
+export { default as ProductsDataTable } from "./ProductsDataTable"
+export { default as ProductsColumns } from "./ProductsColumns"
+export * from "./ProductForm"
