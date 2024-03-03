@@ -7,7 +7,7 @@
     "build": "graphql-codegen & next build",
     "start": "next start",
     "lint": "next lint --ignore-path .gitignore .",
-    "test": "jest --watch",
+    "test": "jest",
     "format": "prettier --ignore-path .gitignore --write \"**/*.{ts,tsx,css,scss}\"",
     "coverage": "npm test --coverage --watchAll --collectCoverageFrom='src/components'",
     "db:generate": "drizzle-kit generate:pg --config=drizzle.config.ts",
