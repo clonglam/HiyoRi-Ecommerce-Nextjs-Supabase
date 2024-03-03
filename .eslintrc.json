@@ -13,6 +13,7 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "no-empty-pattern": "off",
     "no-case-declarations": "off",
-    "no-constant-condition": "off"
+    "no-constant-condition": "off",
+    "react-hooks/rules-of-hooks": "off"
   }
 }

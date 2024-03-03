@@ -1,5 +1,5 @@
 "use server"
-import { getCurrentUser, isAdmin } from "./users"
+import { getCurrentUser, isAdmin } from "../features/users/actions"
 
 import { env } from "@/env.mjs"
 import { eq } from "drizzle-orm"

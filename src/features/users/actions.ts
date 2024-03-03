@@ -1,12 +1,33 @@
 "use server"
-import { profiles } from "./../lib/supabase/schema"
-import { AdminUserFormData } from "@/components/admin/users/adminUserShema"
-import { env } from "@/env.mjs"
-import db from "@/lib/supabase/db"
-import createClient from "@/lib/supabase/server"
 
+import db from "@/lib/supabase/db"
+import createServerClient from "@/lib/supabase/server"
+import { User } from "@supabase/supabase-js"
 import { eq } from "drizzle-orm"
 import { cookies } from "next/headers"
+import { profiles } from "../../lib/supabase/schema"
+import { AdminUserFormData } from "@/features/users/validations"
+import { env } from "@/env.mjs"
+import createClient from "@/lib/supabase/server"
+
+export const getCurrentUser = async () => {
+  const cookieStore = cookies()
+  const supabase = createServerClient({ cookieStore })
+
+  const userResponse = await supabase.auth.getUser()
+  return userResponse.data.user
+}
+export const getCurrentUserSession = async () => {
+  const cookieStore = cookies()
+  const supabase = createServerClient({ cookieStore })
+
+  const userResponse = await supabase.auth.getSession()
+
+  return userResponse.data.session
+}
+
+export const isAdmin = (currentUser: User | null) =>
+  currentUser?.app_metadata.isAdmin
 
 export const getUser = async ({ userId }: { userId: string }) => {
   const cookieStore = cookies()

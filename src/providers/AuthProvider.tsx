@@ -41,8 +41,6 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log("_event", _event)
-
       setSession(session)
 
       switch (_event) {
@@ -72,13 +70,13 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
                 userId: data.user.id,
               })
             )
-            console.log("!!! storageCart", storageCarts)
+            // console.log("!!! storageCart", storageCarts)
 
             supabase
               .from("carts")
               .insert(storageCarts)
               .then((data) => {
-                console.log("sync Cart Data Res", data)
+                // console.log("sync Cart Data Res", data)
               })
           })
 
@@ -88,7 +86,7 @@ export const SupabaseAuthProvider: React.FC<SupabaseAuthProviderProps> = ({
             .select()
             .eq("user_id", session.user.id)
             .then((data) => {
-              console.log("wishlist!!!", data)
+              // console.log("wishlist!!!", data)
               const wishlistItems = {}
 
               data?.data?.forEach((item) => {

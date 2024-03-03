@@ -12,11 +12,9 @@ type FilterBadgesProps = {
 }
 
 function FilterBadges({ currentFilter, onClickHandler }: FilterBadgesProps) {
-  console.log("current Filter", currentFilter)
   return (
     <section className="flex gap-x-10">
       {Object.entries(currentFilter).map(([key, value]) => {
-        console.log("key", key)
         if (typeof value === "string") {
           return (
             <Badge key={key} className="px-3 py-2 gap-x-3">

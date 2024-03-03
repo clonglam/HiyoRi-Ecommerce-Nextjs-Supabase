@@ -35,7 +35,6 @@ function ImageDialog({
   // })
   const onClickHandler = (mediaId: string) => {
     onChange(mediaId)
-    console.log("mediaId", mediaId)
     setDialogOpen(false)
   }
 

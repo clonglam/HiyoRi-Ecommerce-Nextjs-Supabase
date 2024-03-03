@@ -1,6 +1,8 @@
 // TagsInput.tsx
 import React, { ChangeEvent, KeyboardEvent, useState, FC } from "react"
 import { Input } from "./input"
+import { Badge } from "./badge"
+import { Icons } from "../icons"
 
 interface TagsInputProps {
   tags: string[]
@@ -46,8 +48,23 @@ const TagsInput: FC<TagsInputProps> = ({
   }
 
   return (
-    <div>
+    <div className="relative flex flex-wrap items-center border border-black p-2 gap-x-3 gap-y-4">
+      {tags.map((tag, index) => (
+        <Badge key={index} className="rounded-full">
+          {tag}
+          <button
+            type="button"
+            onClick={() => removeTag(index)}
+            className="text-white ml-2"
+          >
+            <Icons.close height={10} width={10} />
+          </button>
+        </Badge>
+      ))}
+
       <Input
+        variant="ghost"
+        className="h-6 mx-2 w-12 flex-grow"
         type="text"
         value={input}
         onChange={handleInputChange}
@@ -56,18 +73,8 @@ const TagsInput: FC<TagsInputProps> = ({
         onBlur={handleBlur} // Notify React Hook Form on blur
       />
       <button type="button" onClick={addTag}>
-        Add Tag
+        {/* Add Tag */}
       </button>
-      <div>
-        {tags.map((tag, index) => (
-          <div key={index}>
-            {tag}{" "}
-            <button type="button" onClick={() => removeTag(index)}>
-              x
-            </button>
-          </div>
-        ))}
-      </div>
     </div>
   )
 }

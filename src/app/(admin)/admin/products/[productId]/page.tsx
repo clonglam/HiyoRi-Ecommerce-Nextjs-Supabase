@@ -1,5 +1,5 @@
 import AdminShell from "@/components/admin/AdminShell"
-import { ProductForm } from "@/features/cms"
+import { ProductForm } from "@/features/products"
 import db from "@/lib/supabase/db"
 import { products } from "@/lib/supabase/schema"
 import { eq } from "drizzle-orm"

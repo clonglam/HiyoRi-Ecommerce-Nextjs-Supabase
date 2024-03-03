@@ -1,7 +1,7 @@
 "use server"
-import { getUser } from "@/_actions/authAdmin"
+
 import AdminShell from "@/components/admin/AdminShell"
-import UpdateUserForm from "@/components/admin/users/UpdateUserForm"
+import { getUser, UpdateUserForm } from "@/features/users"
 import { notFound } from "next/navigation"
 
 type UpdateUserPageProps = { params: { userId: string } }

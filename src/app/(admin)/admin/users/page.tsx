@@ -1,9 +1,13 @@
-import { listUsers } from "@/_actions/authAdmin"
-import { getCurrentUser } from "@/_actions/users"
+import {
+  getCurrentUser,
+  listUsers,
+  UsersColumns,
+  AdminUserNav,
+} from "@/features/users"
 import AdminShell from "@/components/admin/AdminShell"
-import { ProductsDataTable } from "@/features/cms"
-import AdminUserNav from "@/components/admin/users/AdminUserNav"
-import { UsersColumns } from "@/components/admin/users/UsersColumns"
+import { ProductsDataTable } from "@/features/products"
+import ErrorToaster from "@/components/ErrorToaster"
+// TODO: CREATE New Data Table for golbaluse
 
 type AdminUsersPageProps = {
   searchParams: {
@@ -20,6 +24,7 @@ async function UsersPage({ searchParams }: AdminUsersPageProps) {
     <AdminShell heading="Users" description="Edit/Create new user by admin.">
       <AdminUserNav />
       <ProductsDataTable columns={UsersColumns} data={users || []} />
+      <ErrorToaster />
     </AdminShell>
   )
 }

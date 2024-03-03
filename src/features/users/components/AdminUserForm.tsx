@@ -1,9 +1,6 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useTransition } from "react"
-import { useForm } from "react-hook-form"
-
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -13,24 +10,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-
-import Link from "next/link"
-
-import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-
-import { PasswordInput } from "@/features/auth"
 import { Spinner } from "@/components/ui/spinner"
 import { useToast } from "@/components/ui/use-toast"
-import { User } from "@supabase/supabase-js"
+import { PasswordInput } from "@/features/auth"
+import { SelectUserProfiles } from "@/lib/supabase/schema"
+import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { AdminUserFormData, adminUserShcema } from "./adminUserShema"
+import { useTransition } from "react"
+import { useForm } from "react-hook-form"
+import { createUser } from "../actions"
+import { AdminUserFormData, adminUserShcema } from "../validations"
 
 type AdminUserFormProps = {
-  user?: User
+  user?: SelectUserProfiles
 }
 
-function UpdateUserForm({ user }: AdminUserFormProps) {
+function AdminUserForm({ user }: AdminUserFormProps) {
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
   const { toast } = useToast()
@@ -47,21 +44,22 @@ function UpdateUserForm({ user }: AdminUserFormProps) {
 
   const onSubmit = handleSubmit(
     async ({ name, email, password }: AdminUserFormData) => {
-      //   startTransition(async () => {
-      //     try {
-      //       await createUser({ email, password, name })
-      //       router.push("/admin/users")
-      //       toast({
-      //         title: "Created a new user.",
-      //         description: `${name} is created.`,
-      //       })
-      //     } catch (err) {
-      //       toast({
-      //         title: "Error",
-      //         description: `${err.message}`,
-      //       })
-      //     }
-      //   })
+      startTransition(async () => {
+        try {
+          await createUser({ email, password, name })
+          router.push("/admin/users")
+
+          toast({
+            title: "Created a new user.",
+            description: `${name} is created.`,
+          })
+        } catch (err) {
+          toast({
+            title: "Error",
+            description: `${err.message}`,
+          })
+        }
+      })
     }
   )
 
@@ -73,7 +71,7 @@ function UpdateUserForm({ user }: AdminUserFormProps) {
         onSubmit={onSubmit}
       >
         <div className="flex flex-col gap-y-5 max-w-[480px] px-5">
-          {/* <FormItem>
+          <FormItem>
             <FormLabel className="text-sm">Name*</FormLabel>
             <FormControl>
               <Input
@@ -87,7 +85,7 @@ function UpdateUserForm({ user }: AdminUserFormProps) {
               This will shown when the user is logined.
             </FormDescription>
             <FormMessage />
-          </FormItem> */}
+          </FormItem>
 
           <FormItem>
             <FormLabel className="text-sm">Email*</FormLabel>
@@ -147,4 +145,4 @@ function UpdateUserForm({ user }: AdminUserFormProps) {
   )
 }
 
-export default UpdateUserForm
+export default AdminUserForm

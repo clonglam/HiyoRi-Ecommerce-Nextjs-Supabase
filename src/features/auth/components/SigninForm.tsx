@@ -39,14 +39,17 @@ export function SignInForm() {
     },
   })
 
+  React.useEffect(() => {
+    const error = searchParams.get("error")
+    if (error) toast({ title: "Error", description: error })
+  }, [searchParams])
+
   async function onSubmit({ email, password }: FormData) {
     try {
       const user = await supabase.auth.signInWithPassword({
         email,
         password,
       })
-
-      console.log("user", user)
       toast({ title: "Login Sucess" })
       router.push(searchParams?.get("from") || "/")
     } catch (err) {

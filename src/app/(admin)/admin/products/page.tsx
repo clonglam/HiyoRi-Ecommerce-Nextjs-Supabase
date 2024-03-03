@@ -1,6 +1,6 @@
 import AdminShell from "@/components/admin/AdminShell"
 import { buttonVariants } from "@/components/ui/button"
-import { ProductsColumns, ProductsDataTable } from "@/features/cms"
+import { ProductsColumns, ProductsDataTable } from "@/features/products"
 import { gql } from "@/gql"
 import { getClient } from "@/lib/urql"
 import { cn } from "@/lib/utils"

@@ -59,7 +59,6 @@ function UploadMediaContainer({
 
       const data = (await response.json()) as string[]
 
-      console.log("CLient Recieved Data", data)
       if (data) {
         refetch({ requestPolicy: "network-only" })
 
@@ -68,7 +67,7 @@ function UploadMediaContainer({
         )
       }
     } catch (error) {
-      console.error("Error uploading files:", error)
+      // console.error("Error uploading files:", error)
     }
   }
 

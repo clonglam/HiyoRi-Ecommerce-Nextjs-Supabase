@@ -9,7 +9,6 @@ import useCartStore, { calcProductCountStorage } from "../useCartStore"
 
 function CartNav() {
   const { user } = useAuth()
-  console.log("CartNav rendered")
   return <>{!user ? <GuestCart /> : <UserCartNav currentUser={user} />}</>
 }
 

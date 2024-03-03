@@ -13,8 +13,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { User } from "@supabase/supabase-js"
+import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
-export const UsersColumns: ColumnDef<User>[] = [
+const UsersColumns: ColumnDef<User>[] = [
   {
     accessorKey: "id",
     header: () => <div className="text-left capitalize">UserId</div>,
@@ -60,7 +62,33 @@ export const UsersColumns: ColumnDef<User>[] = [
     id: "actions",
     header: () => <div className="text-center capitalize">Actions</div>,
     cell: ({ row }) => {
-      const product = row.original
+      const user = row.original
+      const { toast } = useToast()
+      const router = useRouter()
+
+      const promoteAdminHandler = async (userId: string) => {
+        try {
+          const res = await fetch("/api/users/promote-user", {
+            method: "POST",
+            body: JSON.stringify({
+              userId,
+            }),
+          })
+
+          const { message } = await res.json()
+          toast({
+            title: !res.ok ? "Error" : "Success",
+            description: message,
+          })
+
+          router.refresh()
+        } catch (err) {
+          toast({
+            title: "Error",
+            description: "Unexpected Error occured.",
+          })
+        }
+      }
 
       return (
         <DropdownMenu>
@@ -77,11 +105,14 @@ export const UsersColumns: ColumnDef<User>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
             <Link
-              href={`/admin/products/${product.id}`}
+              href={`/admin/products/${user.id}`}
               className={buttonVariants({ variant: "ghost" })}
             >
               Edit User
             </Link>
+            <Button onClick={() => promoteAdminHandler(user.id)}>
+              Promote to Admin
+            </Button>
           </DropdownMenuContent>
         </DropdownMenu>
       )
@@ -101,3 +132,5 @@ const DeleteCategoryDialog = ({ categoryId }: { categoryId: string }) => {
     />
   )
 }
+
+export default UsersColumns

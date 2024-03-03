@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/_actions/users"
+import { getCurrentUser } from "@/features/users/actions"
 import { Icons } from "@/components/icons"
 import { Shell } from "@/components/layouts/Shell"
 import { buttonVariants } from "@/components/ui/button"
@@ -237,10 +237,10 @@ function FeaturedProductsCards({ products }: FeaturedProductsCardsProps) {
 
 function CollectionGrid() {
   return (
-    <section className="relative lg:space-x-5 space-y-5 lg:space-y-0 grid grid-cols-1 lg:grid-cols-3 overflow-hidden">
-      <div className="relative col-span-2 h-full w-full">
+    <section className="relative lg:space-x-5 space-y-5 lg:space-y-0 grid grid-cols-1 lg:grid-cols-3 max-h-[840px]">
+      <div className="relative col-span-2 w-full h-[840px]">
         <Image
-          src={"/assets/bathroom-planning.jpg"}
+          src={keytoUrl("public/zPiCx79oGe5X4rVBLg0Ss.jpeg")}
           width={1080}
           height={1080}
           className="object-cover w-full h-full"
@@ -258,23 +258,23 @@ function CollectionGrid() {
         </div>
       </div>
 
-      <div className="flex flex-col w-full space-y-5">
-        <div className="relative w-full">
+      <div className="flex flex-col w-full space-y-5 h-[840px]">
+        <div className="relative w-full h-[340px]">
           <Image
-            src={"/assets/bathroom-planning.jpg"}
+            src={keytoUrl("public/E2MWE99uGyOZLd76UEixy.jpeg")}
             width={800}
             height={900}
-            className="object-contain w-full h-full"
+            className="object-cover w-full h-full"
             alt="1"
           />
         </div>
 
         <div className="relative overflow-hidden">
           <Image
-            src={"/assets/bathroom-planning.jpg"}
+            src={keytoUrl("public/YPO3VwJvjvlkWzNtIv9FS.jpeg")}
             width={800}
             height={900}
-            className="object-contain w-full h-full"
+            className="object-cover w-full h-full"
             alt="1"
           />
         </div>

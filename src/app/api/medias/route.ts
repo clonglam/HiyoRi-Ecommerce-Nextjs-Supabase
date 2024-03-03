@@ -21,8 +21,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(validation.error.format(), { status: 400 })
   }
 
-  console.log("Uploaded formData", formData)
-
   let statusCode = 201
   let errorMessage = "Unexpected Error"
 

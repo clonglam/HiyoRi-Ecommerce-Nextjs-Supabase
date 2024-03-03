@@ -21,7 +21,7 @@ export const FeaturedImageField: FC<{
           setPreviewUrl(data.preview)
         })
         .catch((err) => {
-          console.log(err.message)
+          // console.log(err.message)
         })
     }
   }, [defaultValue])

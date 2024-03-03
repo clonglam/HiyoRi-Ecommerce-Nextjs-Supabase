@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/_actions/users"
+import { getCurrentUser, isAdmin } from "@/features/users/actions"
 import MainFooter from "@/components/layouts/MainFooter"
 import Navbar from "@/components/layouts/MainNavbar"
 import { redirect } from "next/navigation"
@@ -7,12 +7,11 @@ import { ReactNode } from "react"
 type Props = { children: ReactNode }
 
 async function AdminLayout({ children }: Props) {
-  // const currentUser = await getCurrentUser()
+  const currentUser = await getCurrentUser()
 
-  // console.log("currentUser", currentUser)
-  // if (!currentUser || currentUser.role !== "ADMIN")
-  //   redirect(`/sign-in?error=Only authenticated users can access`)
-  // TODO: confirm can This error message displaty
+  if (!isAdmin(currentUser))
+    redirect(`/sign-in?error=Only authenticated users can access`)
+
   return (
     <main>
       <Navbar adminLayout={true} />

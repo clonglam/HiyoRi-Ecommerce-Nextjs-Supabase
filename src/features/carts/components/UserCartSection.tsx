@@ -55,7 +55,6 @@ function UserCartSection({ user }: UserCartSectionProps) {
     },
   })
 
-  console.log("data carts,", data)
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const [, updateCartProduct] = useMutation(updateCartsMutation)
@@ -123,7 +122,6 @@ function UserCartSection({ user }: UserCartSectionProps) {
     setIsLoading(true)
 
     const res = await removeCart({ productId, userId: user.id })
-    console.log("res", res)
     reexecuteQuery({ requestPolicy: "network-only" })
 
     toast({ title: "Removed a Product." })

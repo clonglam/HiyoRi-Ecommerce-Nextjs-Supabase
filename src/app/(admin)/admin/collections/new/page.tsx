@@ -1,5 +1,5 @@
 import AdminShell from "@/components/admin/AdminShell"
-import CollectionForm from "../../../../../features/cms/components/CollectionForm"
+import { CollectionForm } from "@/features/collections"
 
 type Props = {}
 

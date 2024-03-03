@@ -41,7 +41,7 @@ function AddProductToCartForm({ productId }: AddProductToCartFormProps) {
     }
     // Add the product to local storage
 
-    console.log(values)
+    // console.log(values)
   }
 
   const addOne = () => {

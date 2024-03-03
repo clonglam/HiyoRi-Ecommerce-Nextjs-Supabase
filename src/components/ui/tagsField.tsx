@@ -1,11 +1,7 @@
-// TagsField.tsx
+"use client"
 import { FC } from "react"
 import { useFormContext, Controller } from "react-hook-form"
-import dynamic from "next/dynamic"
-
-const TagsInput = dynamic(() => import("./tagsInput"), {
-  ssr: false,
-})
+import TagsInput from "./tagsInput"
 
 interface TagsFieldProps {
   name: string
@@ -13,7 +9,7 @@ interface TagsFieldProps {
 }
 
 export const TagsField: FC<TagsFieldProps> = ({ name, defaultValue }) => {
-  const { control } = useFormContext() // Use the form context
+  const { control, getValues, setValue } = useFormContext() // Use the form context
 
   return (
     <Controller

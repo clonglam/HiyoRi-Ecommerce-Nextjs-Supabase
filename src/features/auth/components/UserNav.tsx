@@ -19,6 +19,7 @@ import supabaseClient from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { isAdmin } from "@/features/users"
 
 function UserNav() {
   const router = useRouter()
@@ -40,9 +41,12 @@ function UserNav() {
             >
               <Avatar className="h-8 w-8 focus:ring-0 border-0">
                 {/* TODO: UPDATE AVATOR IMAGE & NAME */}
-                <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+                <AvatarImage
+                  src="/avatars/01.png"
+                  alt={(user.user_metadata.name ?? "User").slice(1)}
+                />
                 <AvatarFallback>
-                  {user.user_metadata.name || "N"}
+                  {user.user_metadata.name || "U"}
                 </AvatarFallback>
               </Avatar>
             </Button>
@@ -76,26 +80,28 @@ function UserNav() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
 
-            {user.role === "ADMIN" && (
-              <DropdownMenuGroup>
-                <Link href="/admin">
+            {user.app_metadata.isAdmin && (
+              <>
+                <DropdownMenuGroup>
+                  <Link href="/admin">
+                    <DropdownMenuItem>
+                      Admin
+                      <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  </Link>
                   <DropdownMenuItem>
-                    Admin
-                    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                    Billing
+                    <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                </Link>
-                <DropdownMenuItem>
-                  Billing
-                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  Settings
-                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <DropdownMenuItem>New Team</DropdownMenuItem>
-              </DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    Settings
+                    <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>New Team</DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+              </>
             )}
-            <DropdownMenuSeparator />
 
             <DropdownMenuItem onClick={logout}>
               Log out

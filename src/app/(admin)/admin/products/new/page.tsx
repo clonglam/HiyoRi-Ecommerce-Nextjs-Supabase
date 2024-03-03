@@ -1,7 +1,7 @@
 import React, { Suspense } from "react"
 import { notFound } from "next/navigation"
 import AdminShell from "@/components/admin/AdminShell"
-import { ProductForm } from "@/features/cms"
+import { ProductForm } from "@/features/products"
 import db from "@/lib/supabase/db"
 
 async function NewProjectPage() {

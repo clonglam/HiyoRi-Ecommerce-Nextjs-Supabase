@@ -26,8 +26,8 @@ import { useQuery } from "@urql/next"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { gql } from "urql"
-import BadgeSelectField from "./BadgeSelectField"
-import CollectionSelectField from "./CollectionSelectField"
+import BadgeSelectField from "../../../cms/components/BadgeSelectField"
+import CollectionSelectField from "../../../collections/components/admin/CollectionSelectField"
 
 type ProductsFormProps = {
   product?: SelectProducts
@@ -81,8 +81,7 @@ function ProductFrom({ product }: ProductsFormProps) {
           description: `${data.name}`,
         })
       } catch (err) {
-        console.log("err", err)
-        console.log("unexpected Error Occured")
+        // console.log("unexpected Error Occured")
       }
     })
   })

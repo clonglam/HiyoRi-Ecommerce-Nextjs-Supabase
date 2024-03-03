@@ -47,20 +47,16 @@ const documents = {
     types.UpdateCartsMutationDocument,
   "\n  query ListCartQuery($userId: UUID) {\n    cartsCollection(filter: { user_id: { eq: $userId } }) {\n      edges {\n        node {\n          __typename\n          quantity\n          user_id\n          product_id\n        }\n      }\n    }\n  }\n":
     types.ListCartQueryDocument,
-  "\n  fragment CollectionFromFragment on collections {\n    id\n    slug\n    label\n    description\n    title\n    featured_image_id\n  }\n":
-    types.CollectionFromFragmentFragmentDoc,
-  "\n  fragment CollectionSelectFieldFragment on collections {\n    id\n    label\n  }\n":
-    types.CollectionSelectFieldFragmentFragmentDoc,
-  "\n  query ProductFormQuery {\n    collectionsCollection(orderBy: [{ label: AscNullsLast }]) {\n      __typename\n      edges {\n        node {\n          ...CollectionSelectFieldFragment\n        }\n      }\n    }\n  }\n":
-    types.ProductFormQueryDocument,
-  "\n  fragment ProductColumnFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    badge\n    featured\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n  }\n":
-    types.ProductColumnFragmentFragmentDoc,
   "\n  fragment CollectionBannerFragment on collections {\n    id\n    label\n    slug\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n  }\n":
     types.CollectionBannerFragmentFragmentDoc,
   "\n  fragment CollectionCardFragment on collections {\n    id\n    label\n    slug\n    featuredImage: medias {\n      key\n      alt\n    }\n  }\n":
     types.CollectionCardFragmentFragmentDoc,
   "\n  fragment CollectionColumnsFragment on collections {\n    id\n    title\n    label\n    description\n    slug\n  }\n":
     types.CollectionColumnsFragmentFragmentDoc,
+  "\n  fragment CollectionFromFragment on collections {\n    id\n    slug\n    label\n    description\n    title\n    featured_image_id\n  }\n":
+    types.CollectionFromFragmentFragmentDoc,
+  "\n  fragment CollectionSelectFieldFragment on collections {\n    id\n    label\n  }\n":
+    types.CollectionSelectFieldFragmentFragmentDoc,
   "\n  mutation UpdateCollectionMutation(\n    $id: String\n    $slug: String\n    $label: String\n    $description: String\n    $title: String\n    $featuredImageId: String\n  ) {\n    updatecollectionsCollection(\n      filter: { id: { eq: $id } }\n      set: {\n        slug: $slug\n        featured_image_id: $featuredImageId\n        label: $label\n        description: $description\n        title: $title\n      }\n    ) {\n      affectedCount\n      records {\n        __typename\n        nodeId\n      }\n    }\n  }\n":
     types.UpdateCollectionMutationDocument,
   "\n  mutation CreateCollectionMutation(\n    $id: String\n    $slug: String\n    $label: String\n    $description: String\n    $title: String\n    $featuredImageId: String\n  ) {\n    insertIntocollectionsCollection(\n      objects: {\n        id: $id\n        slug: $slug\n        featured_image_id: $featuredImageId\n        label: $label\n        description: $description\n        title: $title\n      }\n    ) {\n      affectedCount\n      records {\n        __typename\n      }\n    }\n  }\n":
@@ -85,6 +81,10 @@ const documents = {
     types.RecomendationProductsQueryDocument,
   "\n  query Search(\n    $search: String\n    $lower: BigFloat\n    $upper: BigFloat\n    $collections: [String!]\n    $first: Int!\n    $after: Cursor\n    $orderBy: [productsOrderBy!]\n  ) {\n    productsCollection(\n      filter: {\n        and: [\n          { name: { ilike: $search } }\n          { price: { gt: $lower, lt: $upper } }\n          { collection_id: { in: $collections } }\n        ]\n      }\n      first: $first\n      after: $after\n      orderBy: $orderBy\n    ) {\n      edges {\n        node {\n          id\n\n          ...ProductCardFragment\n        }\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n    }\n  }\n":
     types.SearchDocument,
+  "\n  query ProductFormQuery {\n    collectionsCollection(orderBy: [{ label: AscNullsLast }]) {\n      __typename\n      edges {\n        node {\n          ...CollectionSelectFieldFragment\n        }\n      }\n    }\n  }\n":
+    types.ProductFormQueryDocument,
+  "\n  fragment ProductColumnFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    badge\n    featured\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n  }\n":
+    types.ProductColumnFragmentFragmentDoc,
   "\n  mutation AddProductToWishList($productId: String, $userId: UUID) {\n    insertIntowishlistCollection(\n      objects: { user_id: $userId, product_id: $productId }\n    ) {\n      affectedCount\n      records {\n        __typename\n        user_id\n        product_id\n      }\n    }\n  }\n":
     types.AddProductToWishListDocument,
   "\n  mutation RemoveWishlistItemMutation($productId: String, $userId: UUID) {\n    deleteFromwishlistCollection(\n      filter: {\n        and: [{ user_id: { eq: $userId } }, { product_id: { eq: $productId } }]\n      }\n      atMost: 1\n    ) {\n      records {\n        __typename\n      }\n    }\n  }\n":
@@ -211,30 +211,6 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n  fragment CollectionFromFragment on collections {\n    id\n    slug\n    label\n    description\n    title\n    featured_image_id\n  }\n",
-): (typeof documents)["\n  fragment CollectionFromFragment on collections {\n    id\n    slug\n    label\n    description\n    title\n    featured_image_id\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(
-  source: "\n  fragment CollectionSelectFieldFragment on collections {\n    id\n    label\n  }\n",
-): (typeof documents)["\n  fragment CollectionSelectFieldFragment on collections {\n    id\n    label\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(
-  source: "\n  query ProductFormQuery {\n    collectionsCollection(orderBy: [{ label: AscNullsLast }]) {\n      __typename\n      edges {\n        node {\n          ...CollectionSelectFieldFragment\n        }\n      }\n    }\n  }\n",
-): (typeof documents)["\n  query ProductFormQuery {\n    collectionsCollection(orderBy: [{ label: AscNullsLast }]) {\n      __typename\n      edges {\n        node {\n          ...CollectionSelectFieldFragment\n        }\n      }\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(
-  source: "\n  fragment ProductColumnFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    badge\n    featured\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n  }\n",
-): (typeof documents)["\n  fragment ProductColumnFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    badge\n    featured\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(
   source: "\n  fragment CollectionBannerFragment on collections {\n    id\n    label\n    slug\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n  }\n",
 ): (typeof documents)["\n  fragment CollectionBannerFragment on collections {\n    id\n    label\n    slug\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n  }\n"];
 /**
@@ -249,6 +225,18 @@ export function gql(
 export function gql(
   source: "\n  fragment CollectionColumnsFragment on collections {\n    id\n    title\n    label\n    description\n    slug\n  }\n",
 ): (typeof documents)["\n  fragment CollectionColumnsFragment on collections {\n    id\n    title\n    label\n    description\n    slug\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  fragment CollectionFromFragment on collections {\n    id\n    slug\n    label\n    description\n    title\n    featured_image_id\n  }\n",
+): (typeof documents)["\n  fragment CollectionFromFragment on collections {\n    id\n    slug\n    label\n    description\n    title\n    featured_image_id\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  fragment CollectionSelectFieldFragment on collections {\n    id\n    label\n  }\n",
+): (typeof documents)["\n  fragment CollectionSelectFieldFragment on collections {\n    id\n    label\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -321,6 +309,18 @@ export function gql(
 export function gql(
   source: "\n  query Search(\n    $search: String\n    $lower: BigFloat\n    $upper: BigFloat\n    $collections: [String!]\n    $first: Int!\n    $after: Cursor\n    $orderBy: [productsOrderBy!]\n  ) {\n    productsCollection(\n      filter: {\n        and: [\n          { name: { ilike: $search } }\n          { price: { gt: $lower, lt: $upper } }\n          { collection_id: { in: $collections } }\n        ]\n      }\n      first: $first\n      after: $after\n      orderBy: $orderBy\n    ) {\n      edges {\n        node {\n          id\n\n          ...ProductCardFragment\n        }\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n    }\n  }\n",
 ): (typeof documents)["\n  query Search(\n    $search: String\n    $lower: BigFloat\n    $upper: BigFloat\n    $collections: [String!]\n    $first: Int!\n    $after: Cursor\n    $orderBy: [productsOrderBy!]\n  ) {\n    productsCollection(\n      filter: {\n        and: [\n          { name: { ilike: $search } }\n          { price: { gt: $lower, lt: $upper } }\n          { collection_id: { in: $collections } }\n        ]\n      }\n      first: $first\n      after: $after\n      orderBy: $orderBy\n    ) {\n      edges {\n        node {\n          id\n\n          ...ProductCardFragment\n        }\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  query ProductFormQuery {\n    collectionsCollection(orderBy: [{ label: AscNullsLast }]) {\n      __typename\n      edges {\n        node {\n          ...CollectionSelectFieldFragment\n        }\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query ProductFormQuery {\n    collectionsCollection(orderBy: [{ label: AscNullsLast }]) {\n      __typename\n      edges {\n        node {\n          ...CollectionSelectFieldFragment\n        }\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  fragment ProductColumnFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    badge\n    featured\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n  }\n",
+): (typeof documents)["\n  fragment ProductColumnFragment on products {\n    id\n    name\n    description\n    rating\n    slug\n    badge\n    price\n    badge\n    featured\n    featuredImage: medias {\n      id\n      key\n      alt\n    }\n    collections {\n      id\n      label\n      slug\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

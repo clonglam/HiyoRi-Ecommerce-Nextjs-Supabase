@@ -28,11 +28,8 @@ import { useMutation } from "@urql/next"
 import { nanoid } from "nanoid"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import ImageDialog from "../../medias/components/ImageDialog"
-import {
-  CreateCollectionMutation,
-  UpdateCollectionMutation,
-} from "../../collections/query"
+import { ImageDialog } from "@/features/medias"
+import { CreateCollectionMutation, UpdateCollectionMutation } from "../../query"
 
 const CollectionFromFragment = gql(/* GraphQL */ `
   fragment CollectionFromFragment on collections {
@@ -84,7 +81,6 @@ function CollectionForm({ collection }: CollectionFormProps) {
         }
       } else {
         const res = await createCollection({ id: nanoid(), ...data })
-        console.log("res", res)
         setIsPending(false)
         if (res.data) {
           router.push("/admin/collections")
@@ -94,7 +90,6 @@ function CollectionForm({ collection }: CollectionFormProps) {
         }
       }
     } catch {
-      console.log("Error")
       setIsPending(false)
     }
   })

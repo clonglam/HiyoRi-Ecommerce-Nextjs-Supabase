@@ -76,8 +76,6 @@ const UserCartButton = ({
         })
         refetch({ requestPolicy: "network-only" })
 
-        console.log("resss!!!!", res)
-
         if (res) toast({ title: "Sucess, Added a Product to the Cart." })
       } else {
         const res = await updateCart({

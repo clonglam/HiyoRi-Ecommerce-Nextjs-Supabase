@@ -40,7 +40,6 @@ function CollectionSelectField({
   label,
   description,
 }: CollectionSelectFieldProps) {
-  console.log("In collections Select", collections)
   const { setValue, control } = useFormContext()
   return (
     <FormField
