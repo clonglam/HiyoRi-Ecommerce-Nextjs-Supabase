@@ -1,26 +1,26 @@
-"use client"
-import React from "react"
-import { Icons } from "./icons"
-import { cn } from "@/lib/utils"
+"use client";
+import React from "react";
+import { Icons } from "./icons";
+import { cn } from "@/lib/utils";
 
 export interface QuantitiyInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  onChange?: (...event: any[]) => void
-  value: number
-  addOneHandler: () => void
-  minusOneHandler: () => void
+  onChange?: (...event: any[]) => void;
+  value: number;
+  addOneHandler: () => void;
+  minusOneHandler: () => void;
 }
 
 const QuantityInput = React.forwardRef<HTMLInputElement, QuantitiyInputProps>(
   (
     { onChange, addOneHandler, minusOneHandler, value, className, ...props },
-    ref
+    ref,
   ) => {
     return (
       <div
         className={cn(
           "max-w-36 h-12 border-2 border-input rounded-full relative flex items-center justify-between py-2 px-4",
-          className
+          className,
         )}
       >
         <input
@@ -47,11 +47,11 @@ const QuantityInput = React.forwardRef<HTMLInputElement, QuantitiyInputProps>(
           <Icons.add aria-label="add" />
         </button>
       </div>
-    )
-  }
-)
+    );
+  },
+);
 
-QuantityInput.displayName = "QuantityInput"
+QuantityInput.displayName = "QuantityInput";
 
-export { QuantityInput }
-export default QuantityInput
+export { QuantityInput };
+export default QuantityInput;

@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils"
-import Link from "next/link"
-import React from "react"
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import React from "react";
 
-type Props = { className?: string }
+type Props = { className?: string };
 
 function Branding({ className }: Props) {
   return (
@@ -12,7 +12,7 @@ function Branding({ className }: Props) {
     >
       HIYORI
     </Link>
-  )
+  );
 }
 
-export default Branding
+export default Branding;

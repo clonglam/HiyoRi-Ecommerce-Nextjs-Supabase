@@ -1,15 +1,15 @@
-"use client"
-import { useRouter } from "next/navigation"
-import UploadMediaContainer from "./UploadMediaContainer"
+"use client";
+import { useRouter } from "next/navigation";
+import UploadMediaContainer from "./UploadMediaContainer";
 
 function MediasPageContent() {
-  const router = useRouter()
+  const router = useRouter();
 
   const openMediaDetails = (mediaId: string) => {
-    router.push(`/admin/medias/${mediaId}`)
-  }
+    router.push(`/admin/medias/${mediaId}`);
+  };
 
-  return <UploadMediaContainer onClickItemsHandler={openMediaDetails} />
+  return <UploadMediaContainer onClickItemsHandler={openMediaDetails} />;
 }
 
-export default MediasPageContent
+export default MediasPageContent;

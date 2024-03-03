@@ -5,6 +5,6 @@ declare global {
   namespace JSX {
     type ElementType =
       | keyof JSX.IntrinsicElements
-      | ((props: any) => Promise<ReactNode> | React.ReactNode)
+      | ((props: any) => Promise<ReactNode> | React.ReactNode);
   }
 }

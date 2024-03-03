@@ -1,22 +1,22 @@
-"use client"
-import { useEffect, useState } from "react"
-import SearchResultPage from "./SearchResultPage"
-import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation"
-import { OrderByDirection, SearchQueryVariables } from "@/gql/graphql"
+"use client";
+import { useEffect, useState } from "react";
+import SearchResultPage from "./SearchResultPage";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import { OrderByDirection, SearchQueryVariables } from "@/gql/graphql";
 
 function SearchProductsInifiteScroll() {
-  const searchParmas = useSearchParams()
-  const varaibles = searchParamsVariablesFactory(searchParmas)
+  const searchParmas = useSearchParams();
+  const varaibles = searchParamsVariablesFactory(searchParmas);
 
-  const [pageVariables, setPageVariables] = useState([varaibles])
+  const [pageVariables, setPageVariables] = useState([varaibles]);
 
   useEffect(() => {
-    setPageVariables([searchParamsVariablesFactory(searchParmas)])
-  }, [searchParmas])
+    setPageVariables([searchParamsVariablesFactory(searchParmas)]);
+  }, [searchParmas]);
 
   const loadMoreHandler = (after: string) => {
-    setPageVariables([...pageVariables, { ...varaibles, after, first: 8 }])
-  }
+    setPageVariables([...pageVariables, { ...varaibles, after, first: 8 }]);
+  };
 
   return (
     <section>
@@ -29,42 +29,42 @@ function SearchProductsInifiteScroll() {
         />
       ))}
     </section>
-  )
+  );
 }
 
-export default SearchProductsInifiteScroll
+export default SearchProductsInifiteScroll;
 
 const searchParamsVariablesFactory = (params: ReadonlyURLSearchParams) => {
-  const collections = params.get("collections")
-  const minPrice = params.get("minPrice")
-  const maxPrice = params.get("maxPrice")
-  const query = params.get("search")
-  const sort = params.get("sort")
+  const collections = params.get("collections");
+  const minPrice = params.get("minPrice");
+  const maxPrice = params.get("maxPrice");
+  const query = params.get("search");
+  const sort = params.get("sort");
 
-  let orderBy = undefined
+  let orderBy = undefined;
 
   switch (sort) {
     case "BEST_MATCH":
       orderBy = [
         { featured: OrderByDirection["DescNullsFirst"] },
         { created_at: OrderByDirection["DescNullsLast"] },
-      ]
-      break
+      ];
+      break;
     case "PRICE_LOW_TO_HIGH":
-      orderBy = [{ price: OrderByDirection["AscNullsLast"] }]
-      break
+      orderBy = [{ price: OrderByDirection["AscNullsLast"] }];
+      break;
     case "PRICE_HIGH_TO_LOW":
-      orderBy = [{ price: OrderByDirection["DescNullsLast"] }]
-      break
+      orderBy = [{ price: OrderByDirection["DescNullsLast"] }];
+      break;
     case "NEWEST":
-      orderBy = [{ created_at: OrderByDirection["DescNullsLast"] }]
-      break
+      orderBy = [{ created_at: OrderByDirection["DescNullsLast"] }];
+      break;
     case "NAME_ASCE":
-      orderBy = [{ name: OrderByDirection["AscNullsLast"] }]
+      orderBy = [{ name: OrderByDirection["AscNullsLast"] }];
 
-      break
+      break;
     default:
-      orderBy = undefined
+      orderBy = undefined;
   }
 
   const varaibles: SearchQueryVariables = {
@@ -75,6 +75,6 @@ const searchParamsVariablesFactory = (params: ReadonlyURLSearchParams) => {
     orderBy,
     first: 4,
     after: undefined,
-  }
-  return varaibles
-}
+  };
+  return varaibles;
+};

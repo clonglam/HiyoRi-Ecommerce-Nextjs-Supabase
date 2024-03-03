@@ -1,8 +1,8 @@
-import type { NavItemWithOptionalChildren } from "@/types"
+import type { NavItemWithOptionalChildren } from "@/types";
 
-import { slugify } from "@/lib/utils"
+import { slugify } from "@/lib/utils";
 
-export type SiteConfig = typeof siteConfig
+export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   name: "HIYORI",
@@ -43,4 +43,4 @@ export const siteConfig = {
       items: [],
     },
   ] satisfies NavItemWithOptionalChildren[],
-}
+};

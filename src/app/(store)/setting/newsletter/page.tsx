@@ -1,9 +1,9 @@
-import React from "react"
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 function NewsletterPage({}: Props) {
-  return <div>News Letter</div>
+  return <div>News Letter</div>;
 }
 
-export default NewsletterPage
+export default NewsletterPage;

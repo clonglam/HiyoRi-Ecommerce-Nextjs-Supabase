@@ -1,9 +1,9 @@
-import React from "react"
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 function OrdersPage({}: Props) {
-  return <div>OrdersPage</div>
+  return <div>OrdersPage</div>;
 }
 
-export default OrdersPage
+export default OrdersPage;

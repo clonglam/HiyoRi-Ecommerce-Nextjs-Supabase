@@ -1,22 +1,22 @@
-import { listCollectionsAction } from "@/_actions/collections"
-import Header from "@/components/Header"
-import { Shell } from "@/components/layouts/Shell"
-import { Skeleton } from "@/components/ui/skeleton"
+import { listCollectionsAction } from "@/_actions/collections";
+import Header from "@/components/Header";
+import { Shell } from "@/components/layouts/Shell";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   FilterSelections,
   SearchProductsGridSkeleton,
   SearchProductsInifiteScroll,
-} from "@/features/products"
-import { Suspense } from "react"
+} from "@/features/products";
+import { Suspense } from "react";
 
 interface ProductsPageProps {
   searchParams: {
-    [key: string]: string | string[] | undefined
-  }
+    [key: string]: string | string[] | undefined;
+  };
 }
 
 async function ProductsPage({}: ProductsPageProps) {
-  const collectionsData = await listCollectionsAction()
+  const collectionsData = await listCollectionsAction();
 
   return (
     <Shell>
@@ -37,7 +37,7 @@ async function ProductsPage({}: ProductsPageProps) {
         <SearchProductsInifiteScroll />
       </Suspense>
     </Shell>
-  )
+  );
 }
 
-export default ProductsPage
+export default ProductsPage;

@@ -1,9 +1,9 @@
-import React from "react"
+import React from "react";
 
 type Props = {
-  children: React.ReactNode
-  mediaModal: React.ReactNode
-}
+  children: React.ReactNode;
+  mediaModal: React.ReactNode;
+};
 
 function layout({ mediaModal, children }: Props) {
   return (
@@ -11,7 +11,7 @@ function layout({ mediaModal, children }: Props) {
       {children}
       {mediaModal}
     </>
-  )
+  );
 }
 
-export default layout
+export default layout;

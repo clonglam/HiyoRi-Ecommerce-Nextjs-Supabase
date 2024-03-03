@@ -1,14 +1,14 @@
 // TagsInput.tsx
-import React, { ChangeEvent, KeyboardEvent, useState, FC } from "react"
-import { Input } from "./input"
-import { Badge } from "./badge"
-import { Icons } from "../icons"
+import React, { ChangeEvent, KeyboardEvent, useState, FC } from "react";
+import { Input } from "./input";
+import { Badge } from "./badge";
+import { Icons } from "../icons";
 
 interface TagsInputProps {
-  tags: string[]
-  setTags: (newTags: string[]) => void
-  onBlur: () => void
-  placeholder?: string
+  tags: string[];
+  setTags: (newTags: string[]) => void;
+  onBlur: () => void;
+  placeholder?: string;
 }
 
 const TagsInput: FC<TagsInputProps> = ({
@@ -17,35 +17,35 @@ const TagsInput: FC<TagsInputProps> = ({
   onBlur,
   placeholder,
 }) => {
-  const [input, setInput] = useState<string>("")
+  const [input, setInput] = useState<string>("");
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value)
-  }
+    setInput(e.target.value);
+  };
 
   const addTag = () => {
     if (input && !tags.includes(input)) {
       // Prevent adding duplicates and empty tags
-      setTags([...tags, input])
-      setInput("") // Clear input field after adding
+      setTags([...tags, input]);
+      setInput(""); // Clear input field after adding
     }
-  }
+  };
 
   const removeTag = (indexToRemove: number) => {
-    setTags(tags.filter((_, index) => index !== indexToRemove))
-  }
+    setTags(tags.filter((_, index) => index !== indexToRemove));
+  };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault() // Prevent form submission
-      addTag()
+      e.preventDefault(); // Prevent form submission
+      addTag();
     }
-  }
+  };
 
   // Call onBlur when the input loses focus
   const handleBlur = () => {
-    onBlur()
-  }
+    onBlur();
+  };
 
   return (
     <div className="relative flex flex-wrap items-center border border-black p-2 gap-x-3 gap-y-4">
@@ -76,7 +76,7 @@ const TagsInput: FC<TagsInputProps> = ({
         {/* Add Tag */}
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default TagsInput
+export default TagsInput;

@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { createInsertSchema } from "drizzle-zod"
-import { Suspense, useState } from "react"
-import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createInsertSchema } from "drizzle-zod";
+import { Suspense, useState } from "react";
+import { useForm } from "react-hook-form";
 
 import {
   Form,
@@ -13,23 +13,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 
-import { InsertCollection, collections } from "@/lib/supabase/schema"
+import { InsertCollection, collections } from "@/lib/supabase/schema";
 
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Spinner } from "@/components/ui/spinner"
-import { Textarea } from "@/components/ui/textarea"
-import { useToast } from "@/components/ui/use-toast"
-import { DocumentType, gql } from "@/gql"
-import { useMutation } from "@urql/next"
-import { nanoid } from "nanoid"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { ImageDialog } from "@/features/medias"
-import { CreateCollectionMutation, UpdateCollectionMutation } from "../../query"
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { DocumentType, gql } from "@/gql";
+import { useMutation } from "@urql/next";
+import { nanoid } from "nanoid";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ImageDialog } from "@/features/medias";
+import {
+  CreateCollectionMutation,
+  UpdateCollectionMutation,
+} from "../../query";
 
 const CollectionFromFragment = gql(/* GraphQL */ `
   fragment CollectionFromFragment on collections {
@@ -40,18 +43,18 @@ const CollectionFromFragment = gql(/* GraphQL */ `
     title
     featured_image_id
   }
-`)
+`);
 type CollectionFormProps = {
-  collection?: DocumentType<typeof CollectionFromFragment>
-}
+  collection?: DocumentType<typeof CollectionFromFragment>;
+};
 
 function CollectionForm({ collection }: CollectionFormProps) {
-  const router = useRouter()
-  const { toast } = useToast()
-  const [isPending, setIsPending] = useState(false)
+  const router = useRouter();
+  const { toast } = useToast();
+  const [isPending, setIsPending] = useState(false);
 
-  const [, updateCollection] = useMutation(UpdateCollectionMutation)
-  const [, createCollection] = useMutation(CreateCollectionMutation)
+  const [, updateCollection] = useMutation(UpdateCollectionMutation);
+  const [, createCollection] = useMutation(CreateCollectionMutation);
 
   const form = useForm<InsertCollection>({
     resolver: zodResolver(createInsertSchema(collections)),
@@ -59,40 +62,40 @@ function CollectionForm({ collection }: CollectionFormProps) {
       ...collection,
       featuredImageId: collection ? collection.featured_image_id : undefined,
     },
-  })
+  });
 
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = form
+  } = form;
 
   const onSubmit = handleSubmit(async (data: InsertCollection) => {
-    setIsPending(true)
+    setIsPending(true);
     try {
       if (collection) {
-        const res = await updateCollection(data)
-        setIsPending(false)
+        const res = await updateCollection(data);
+        setIsPending(false);
         if (res.data) {
-          router.push("/admin/collections")
-          router.refresh()
-          toast({ title: "Success Collection is updated." })
+          router.push("/admin/collections");
+          router.refresh();
+          toast({ title: "Success Collection is updated." });
         }
       } else {
-        const res = await createCollection({ id: nanoid(), ...data })
-        setIsPending(false)
+        const res = await createCollection({ id: nanoid(), ...data });
+        setIsPending(false);
         if (res.data) {
-          router.push("/admin/collections")
-          router.refresh()
+          router.push("/admin/collections");
+          router.refresh();
 
-          toast({ title: "Success Collection is created." })
+          toast({ title: "Success Collection is created." });
         }
       }
     } catch {
-      setIsPending(false)
+      setIsPending(false);
     }
-  })
+  });
 
   return (
     <Form {...form}>
@@ -193,7 +196,7 @@ function CollectionForm({ collection }: CollectionFormProps) {
         </div>
       </form>
     </Form>
-  )
+  );
 }
 
-export default CollectionForm
+export default CollectionForm;

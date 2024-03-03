@@ -1,15 +1,15 @@
-"use client"
-import React from "react"
-import { FilterFormData } from "./FilterSelections"
-import { Button } from "../../../components/ui/button"
-import { Icons } from "../../../components/icons"
-import { Badge } from "../../../components/ui/badge"
-import { cn } from "@/lib/utils"
+"use client";
+import React from "react";
+import { FilterFormData } from "./FilterSelections";
+import { Button } from "../../../components/ui/button";
+import { Icons } from "../../../components/icons";
+import { Badge } from "../../../components/ui/badge";
+import { cn } from "@/lib/utils";
 
 type FilterBadgesProps = {
-  currentFilter: FilterFormData
-  onClickHandler: (key: string) => void
-}
+  currentFilter: FilterFormData;
+  onClickHandler: (key: string) => void;
+};
 
 function FilterBadges({ currentFilter, onClickHandler }: FilterBadgesProps) {
   return (
@@ -26,7 +26,7 @@ function FilterBadges({ currentFilter, onClickHandler }: FilterBadgesProps) {
                 <Icons.close width={15} height={15} />
               </button>
             </Badge>
-          )
+          );
         }
         if (typeof value == "object") {
           value.map((v) => (
@@ -39,11 +39,11 @@ function FilterBadges({ currentFilter, onClickHandler }: FilterBadgesProps) {
                 <Icons.close width={15} height={15} />
               </button>
             </Badge>
-          ))
+          ));
         }
       })}
     </section>
-  )
+  );
 }
 
-export default FilterBadges
+export default FilterBadges;

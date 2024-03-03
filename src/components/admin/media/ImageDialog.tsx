@@ -1,28 +1,28 @@
-"use client"
+"use client";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { gql } from "@/gql"
-import { SelectMedia } from "@/lib/supabase/schema"
-import { FileWithPreview } from "@/types"
-import { useQuery } from "@urql/next"
-import React, { useEffect, useState } from "react"
-import { FileWithPath, useDropzone } from "react-dropzone"
-import { Icons } from "../../icons"
-import ImageGrid from "./ImageGrid"
-import ImagePreviewCard from "./ImagePreviewCard"
+} from "@/components/ui/dialog";
+import { gql } from "@/gql";
+import { SelectMedia } from "@/lib/supabase/schema";
+import { FileWithPreview } from "@/types";
+import { useQuery } from "@urql/next";
+import React, { useEffect, useState } from "react";
+import { FileWithPath, useDropzone } from "react-dropzone";
+import { Icons } from "../../icons";
+import ImageGrid from "./ImageGrid";
+import ImagePreviewCard from "./ImagePreviewCard";
 
 type Props = {
-  onChange: (data: string) => void
-  defaultValue?: string
-  multiple?: boolean
-  value: string
-  modalOpen?: boolean
-}
+  onChange: (data: string) => void;
+  defaultValue?: string;
+  multiple?: boolean;
+  value: string;
+  modalOpen?: boolean;
+};
 
 export const FetchMediaGridQuery = gql(/* GraphQL */ `
   query FetchMediaGridQuery($first: Int, $after: Cursor) {
@@ -33,7 +33,7 @@ export const FetchMediaGridQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 function ImageDialog({
   modalOpen = false,
@@ -42,20 +42,20 @@ function ImageDialog({
   onChange,
   value,
 }: Props) {
-  const [files, setFiles] = useState<FileWithPreview[]>([])
-  const [dialogOpen, setDialogOpen] = React.useState(modalOpen)
+  const [files, setFiles] = useState<FileWithPreview[]>([]);
+  const [dialogOpen, setDialogOpen] = React.useState(modalOpen);
 
   const [{ data, fetching, error }, refetch] = useQuery({
     query: FetchMediaGridQuery,
     variables: {
       first: 15,
     },
-  })
+  });
 
   const onClickHandler = (mediaId: string) => {
-    onChange(mediaId)
-    setDialogOpen(false)
-  }
+    onChange(mediaId);
+    setDialogOpen(false);
+  };
 
   const onDrop = async (acceptedFiles: FileWithPath[]) => {
     // console.log("Recieved data", acceptedFiles)
@@ -63,46 +63,46 @@ function ImageDialog({
     const uploadFiles = acceptedFiles.map((file) =>
       Object.assign(file, {
         preview: URL.createObjectURL(file),
-      })
-    )
-    setFiles(uploadFiles)
+      }),
+    );
+    setFiles(uploadFiles);
 
-    const formData = new FormData()
+    const formData = new FormData();
     for (let i = 0; i < uploadFiles.length; i++) {
-      formData.append(`files[${i}]`, uploadFiles[i])
+      formData.append(`files[${i}]`, uploadFiles[i]);
     }
 
     try {
       const response = await fetch("/api/medias", {
         method: "POST",
         body: formData,
-      })
+      });
       const data = (await response.json()) as {
-        index: string
-        media: SelectMedia
-      }[]
+        index: string;
+        media: SelectMedia;
+      }[];
 
       // console.log("CLient Recieved Data", data)
       if (data) {
         // setUploadedFilesUrls(data.uploadedFilesUrls)
       }
     } catch (error) {
-      console.error("Error uploading files:", error)
+      console.error("Error uploading files:", error);
       // Handle upload error
     }
-  }
+  };
 
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview))
-  }, [])
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
 
   const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
     onDrop,
     multiple: true,
     noClick: true,
     noKeyboard: true,
-  })
+  });
 
   return (
     <div>
@@ -158,7 +158,7 @@ function ImageDialog({
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
 
-export default ImageDialog
+export default ImageDialog;

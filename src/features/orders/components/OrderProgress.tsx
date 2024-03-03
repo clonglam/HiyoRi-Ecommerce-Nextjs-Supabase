@@ -1,16 +1,16 @@
-"use client"
-import { Progress } from "@/components/ui/progress"
-import React from "react"
+"use client";
+import { Progress } from "@/components/ui/progress";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 function OrderProgress({}: Props) {
-  const [progress, setProgress] = React.useState(0)
+  const [progress, setProgress] = React.useState(0);
 
   React.useEffect(() => {
-    const timer = setTimeout(() => setProgress(18), 200)
-    return () => clearTimeout(timer)
-  }, [])
+    const timer = setTimeout(() => setProgress(18), 200);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section className="relative py-8 min-h-[120px] w-[80%] text-center">
@@ -31,7 +31,7 @@ function OrderProgress({}: Props) {
       </div>
       <Progress value={progress} className="my-2" />
     </section>
-  )
+  );
 }
 
-export default OrderProgress
+export default OrderProgress;

@@ -1,13 +1,13 @@
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
-import { cva, type VariantProps } from "class-variance-authority"
-import { Slot } from "@radix-ui/react-slot"
+import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "@radix-ui/react-slot";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof inputVariants> {
-  asChild?: boolean
+  asChild?: boolean;
 }
 
 const inputVariants = cva(
@@ -24,8 +24,8 @@ const inputVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
-)
+  },
+);
 
 // const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 //   ({ className, variant, size, asChild = false, ...props }, ref) => {
@@ -43,7 +43,7 @@ const inputVariants = cva(
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, variant, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "input"
+    const Comp = asChild ? Slot : "input";
     return (
       <Comp
         className={cn(inputVariants({ variant, className }))}
@@ -59,10 +59,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       //   ref={ref}
       //   {...props}
       // />
-    )
-  }
-)
+    );
+  },
+);
 
-Input.displayName = "Input"
+Input.displayName = "Input";
 
-export { Input }
+export { Input };

@@ -1,10 +1,10 @@
-"use client"
-import { zodResolver } from "@hookform/resolvers/zod"
-import React, { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import FilterSelection from "./FilterSelection"
-import { Range } from "react-range"
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import FilterSelection from "./FilterSelection";
+import { Range } from "react-range";
 
 import {
   Form,
@@ -13,9 +13,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { SelectCollection } from "@/lib/supabase/schema"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+} from "@/components/ui/form";
+import { SelectCollection } from "@/lib/supabase/schema";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Sheet,
   SheetContent,
@@ -23,7 +23,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../../../components/ui/sheet"
+} from "../../../components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -32,19 +32,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
-import FilterBadges from "./FilterBadges"
-import { SortEnum } from "@/validations/products"
-import { Icons } from "../../../components/icons"
-import { Input } from "../../../components/ui/input"
-import { Button } from "../../../components/ui/button"
+import FilterBadges from "./FilterBadges";
+import { SortEnum } from "@/validations/products";
+import { Icons } from "../../../components/icons";
+import { Input } from "../../../components/ui/input";
+import { Button } from "../../../components/ui/button";
 
 type Props = {
-  collectionsSection: SelectCollection[]
-}
+  collectionsSection: SelectCollection[];
+};
 
-export type FilterFormData = z.infer<typeof filterSelectionSchema>
+export type FilterFormData = z.infer<typeof filterSelectionSchema>;
 
 const SortEnumSchema = z.enum([
   "BEST_MATCH",
@@ -52,25 +52,25 @@ const SortEnumSchema = z.enum([
   "PRICE_HIGH_TO_LOW",
   "NEWEST",
   "NAME_ASCE",
-])
+]);
 
 const filterSelectionSchema = z.object({
   sort: SortEnumSchema.nullable().optional(),
   collections: z.array(z.string()).nullable().optional(),
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),
-})
+});
 
 function FilterSelections({ collectionsSection }: Props) {
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const searchParams = useSearchParams()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const collections = searchParams.get("collections")
-  const minPrice = searchParams.get("minPrice")
-  const maxPrice = searchParams.get("maxPrice")
+  const collections = searchParams.get("collections");
+  const minPrice = searchParams.get("minPrice");
+  const maxPrice = searchParams.get("maxPrice");
 
   const form = useForm<FilterFormData>({
     resolver: zodResolver(filterSelectionSchema),
@@ -81,49 +81,49 @@ function FilterSelections({ collectionsSection }: Props) {
       minPrice: minPrice ? parseFloat(minPrice) : undefined,
       maxPrice: maxPrice ? parseFloat(maxPrice) : undefined,
     },
-  })
+  });
 
   // Deboundce Submit
   useEffect(() => {
-    let timer
+    let timer;
     const subscription = form.watch(() => {
-      if (timer) clearTimeout(timer)
-      setIsLoading(true)
+      if (timer) clearTimeout(timer);
+      setIsLoading(true);
 
       timer = setTimeout(() => {
-        form.handleSubmit(onSubmit)()
-        setIsLoading(false)
-      }, 300)
-    })
-    return () => subscription.unsubscribe()
-  }, [form.handleSubmit, form.watch])
+        form.handleSubmit(onSubmit)();
+        setIsLoading(false);
+      }, 300);
+    });
+    return () => subscription.unsubscribe();
+  }, [form.handleSubmit, form.watch]);
 
   const createQueryString = React.useCallback(
     (params: Record<string, string | number | string[] | null>) => {
-      const newSearchParams = new URLSearchParams(searchParams?.toString())
+      const newSearchParams = new URLSearchParams(searchParams?.toString());
 
       for (const [key, value] of Object.entries(params)) {
         if (!value || value === "") {
-          newSearchParams.delete(key)
+          newSearchParams.delete(key);
         } else {
-          newSearchParams.set(key, String(value))
+          newSearchParams.set(key, String(value));
         }
       }
 
-      return newSearchParams.toString()
+      return newSearchParams.toString();
     },
-    [searchParams]
-  )
+    [searchParams],
+  );
 
   const onRemoveHandller = (key: keyof FilterFormData) => {
-    const newSearchParams = new URLSearchParams(searchParams?.toString())
-    newSearchParams.delete(key)
-    form.setValue(key, undefined)
-    router.push(pathname + "?" + newSearchParams.toString())
-  }
+    const newSearchParams = new URLSearchParams(searchParams?.toString());
+    newSearchParams.delete(key);
+    form.setValue(key, undefined);
+    router.push(pathname + "?" + newSearchParams.toString());
+  };
 
   function onSubmit(values: FilterFormData) {
-    router.push(pathname + "?" + createQueryString(values))
+    router.push(pathname + "?" + createQueryString(values));
   }
   return (
     <section className="mb-3">
@@ -157,18 +157,18 @@ function FilterSelections({ collectionsSection }: Props) {
                           <DropdownMenuCheckboxItem
                             key={collection.id}
                             checked={(field.value || []).includes(
-                              collection.id
+                              collection.id,
                             )}
                             onCheckedChange={() => {
-                              const oldValue = field.value || []
+                              const oldValue = field.value || [];
 
                               const newdata = oldValue.includes(collection.id)
                                 ? oldValue.filter(
-                                    (item) => item !== collection.id
+                                    (item) => item !== collection.id,
                                   )
-                                : [...oldValue, collection.id]
+                                : [...oldValue, collection.id];
 
-                              return field.onChange(newdata)
+                              return field.onChange(newdata);
                             }}
                           >
                             {collection.label}
@@ -211,7 +211,7 @@ function FilterSelections({ collectionsSection }: Props) {
                             onChange={(e) => {
                               e.target.value === ""
                                 ? field.onChange(undefined)
-                                : field.onChange(e.target.valueAsNumber)
+                                : field.onChange(e.target.valueAsNumber);
                             }}
                             placeholder="0.00"
                           />
@@ -241,7 +241,7 @@ function FilterSelections({ collectionsSection }: Props) {
                             onChange={(e) => {
                               e.target.value === ""
                                 ? field.onChange(undefined)
-                                : field.onChange(e.target.valueAsNumber)
+                                : field.onChange(e.target.valueAsNumber);
                             }}
                             placeholder="99999.99"
                           />
@@ -254,8 +254,8 @@ function FilterSelections({ collectionsSection }: Props) {
                   <Button
                     type="button"
                     onClick={() => {
-                      form.setValue("minPrice", undefined)
-                      form.setValue("maxPrice", undefined)
+                      form.setValue("minPrice", undefined);
+                      form.setValue("maxPrice", undefined);
                     }}
                   >
                     Reset
@@ -311,7 +311,7 @@ function FilterSelections({ collectionsSection }: Props) {
         onClickHandler={onRemoveHandller}
       />
     </section>
-  )
+  );
 }
 
-export default FilterSelections
+export default FilterSelections;

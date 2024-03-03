@@ -1,9 +1,9 @@
-import { CartSheet } from "@/features/carts"
-import MainFooter from "@/components/layouts/MainFooter"
-import Navbar from "@/components/layouts/MainNavbar"
-import { ReactNode } from "react"
+import { CartSheet } from "@/features/carts";
+import MainFooter from "@/components/layouts/MainFooter";
+import Navbar from "@/components/layouts/MainNavbar";
+import { ReactNode } from "react";
 
-type Props = { children: ReactNode }
+type Props = { children: ReactNode };
 
 async function StoreLayout({ children }: Props) {
   return (
@@ -13,7 +13,7 @@ async function StoreLayout({ children }: Props) {
       <CartSheet />
       <MainFooter />
     </>
-  )
+  );
 }
 
-export default StoreLayout
+export default StoreLayout;

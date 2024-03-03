@@ -1,6 +1,6 @@
-import { InsertOrderLines } from "./../schema"
-import db from "../db"
-import * as schema from "../schema"
+import { InsertOrderLines } from "./../schema";
+import db from "../db";
+import * as schema from "../schema";
 
 const orderLines: InsertOrderLines[] = [
   {
@@ -24,21 +24,21 @@ const orderLines: InsertOrderLines[] = [
     quantity: 2,
     price: "612.99",
   },
-]
+];
 
 const seedOrderLines = async () => {
   try {
-    await db.delete(schema.orderLines)
+    await db.delete(schema.orderLines);
 
     const insertedOrders = await db
       .insert(schema.orderLines)
       .values(orderLines)
       .onConflictDoNothing()
-      .returning()
-    if (insertedOrders != null) console.log(`orderlines are added to the DB.`)
+      .returning();
+    if (insertedOrders != null) console.log(`orderlines are added to the DB.`);
   } catch (err) {
-    console.log("Error happen while inserting orderlines", err)
+    console.log("Error happen while inserting orderlines", err);
   }
-}
+};
 
-export default seedOrderLines
+export default seedOrderLines;

@@ -1,4 +1,4 @@
-import { Skeleton } from "../../../components/ui/skeleton"
+import { Skeleton } from "../../../components/ui/skeleton";
 
 const CartSectionSkeleton = () => (
   <section
@@ -30,6 +30,6 @@ const CartSectionSkeleton = () => (
       </div>
     </div>
   </section>
-)
+);
 
-export default CartSectionSkeleton
+export default CartSectionSkeleton;

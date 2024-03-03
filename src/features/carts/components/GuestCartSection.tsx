@@ -1,7 +1,7 @@
-"use client"
-import { DocumentType, gql } from "@/gql"
-import { useQuery } from "@urql/next"
-import { useMemo } from "react"
+"use client";
+import { DocumentType, gql } from "@/gql";
+import { useQuery } from "@urql/next";
+import { useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -9,22 +9,22 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-import EmptyCart from "./EmptyCart"
-import CartItemCard from "./CartItemCard"
-import CheckoutButton from "./CheckoutButton"
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import EmptyCart from "./EmptyCart";
+import CartItemCard from "./CartItemCard";
+import CheckoutButton from "./CheckoutButton";
 import useCartStore, {
   CartItems,
   calcProductCountStorage,
-} from "../useCartStore"
-import { useToast } from "@/components/ui/use-toast"
+} from "../useCartStore";
+import { useToast } from "@/components/ui/use-toast";
 
 function GuestCartSection() {
-  const { toast } = useToast()
-  const cartItems = useCartStore((s) => s.cart)
-  const addProductToCart = useCartStore((s) => s.addProductToCart)
-  const removeProduct = useCartStore((s) => s.removeProduct)
+  const { toast } = useToast();
+  const cartItems = useCartStore((s) => s.cart);
+  const addProductToCart = useCartStore((s) => s.addProductToCart);
+  const removeProduct = useCartStore((s) => s.removeProduct);
 
   const [{ data, fetching, error }, _] = useQuery({
     query: FetchGuestCartQuery,
@@ -32,38 +32,38 @@ function GuestCartSection() {
       cartItems: Object.keys(cartItems).map((key) => key),
       first: 8,
     },
-  })
+  });
 
   const subtotal = useMemo(
     () => calcSubtotal({ prdouctsDetails: data, quantity: cartItems }),
-    [data, cartItems]
-  )
+    [data, cartItems],
+  );
 
   const productCount = useMemo(
     () => calcProductCountStorage(cartItems),
-    [cartItems]
-  )
-  if (fetching) return LoadingCartSection()
-  if (error) return <div>Error</div>
+    [cartItems],
+  );
+  if (fetching) return LoadingCartSection();
+  if (error) return <div>Error</div>;
 
   const addOneHandler = (productId: string, quantity: number) => {
     if (quantity < 8) {
-      addProductToCart(productId, 1)
+      addProductToCart(productId, 1);
     } else {
-      toast({ title: "Proudct Limit is reached." })
+      toast({ title: "Proudct Limit is reached." });
     }
-  }
+  };
   const minusOneHandler = (productId: string, quantity: number) => {
     if (quantity > 1) {
-      addProductToCart(productId, -1)
+      addProductToCart(productId, -1);
     } else {
-      toast({ title: "Minimum is reached." })
+      toast({ title: "Minimum is reached." });
     }
-  }
+  };
   const removeHandler = (productId: string) => {
-    removeProduct(productId)
-    toast({ title: "Product Removed." })
-  }
+    removeProduct(productId);
+    toast({ title: "Product Removed." });
+  };
 
   return (
     <>
@@ -108,10 +108,10 @@ function GuestCartSection() {
         <EmptyCart />
       )}
     </>
-  )
+  );
 }
 
-export default GuestCartSection
+export default GuestCartSection;
 
 export const LoadingCartSection = () => (
   <section
@@ -143,27 +143,27 @@ export const LoadingCartSection = () => (
       </div>
     </div>
   </section>
-)
+);
 
 const calcSubtotal = ({
   prdouctsDetails,
   quantity,
 }: {
-  prdouctsDetails: DocumentType<typeof FetchGuestCartQuery>
-  quantity: CartItems
+  prdouctsDetails: DocumentType<typeof FetchGuestCartQuery>;
+  quantity: CartItems;
 }) => {
   const productPrices =
     prdouctsDetails && prdouctsDetails.productsCollection.edges
       ? prdouctsDetails.productsCollection.edges
-      : []
+      : [];
 
-  if (!productPrices.length) return 0
+  if (!productPrices.length) return 0;
 
   return productPrices.reduce(
     (acc, cur) => acc + quantity[cur.node.id].quantity * cur.node.price,
-    0
-  )
-}
+    0,
+  );
+};
 
 const FetchGuestCartQuery = gql(/* GraphQL */ `
   query FetchGuestCartQuery(
@@ -184,4 +184,4 @@ const FetchGuestCartQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);

@@ -1,5 +1,5 @@
-"use client"
-import React from "react"
+"use client";
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -8,7 +8,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   FormControl,
   FormDescription,
@@ -16,23 +16,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { useFormContext } from "react-hook-form"
-import { DocumentType, gql } from "@/gql"
+} from "@/components/ui/form";
+import { useFormContext } from "react-hook-form";
+import { DocumentType, gql } from "@/gql";
 
 export const CollectionSelectFieldFragment = gql(/* GraphQL */ `
   fragment CollectionSelectFieldFragment on collections {
     id
     label
   }
-`)
+`);
 
 type CollectionSelectFieldProps = {
-  name: string
-  label: string
-  description: string
-  collections: { node: DocumentType<typeof CollectionSelectFieldFragment> }[]
-}
+  name: string;
+  label: string;
+  description: string;
+  collections: { node: DocumentType<typeof CollectionSelectFieldFragment> }[];
+};
 
 function CollectionSelectField({
   collections,
@@ -40,7 +40,7 @@ function CollectionSelectField({
   label,
   description,
 }: CollectionSelectFieldProps) {
-  const { setValue, control } = useFormContext()
+  const { setValue, control } = useFormContext();
   return (
     <FormField
       control={control}
@@ -70,7 +70,7 @@ function CollectionSelectField({
         </FormItem>
       )}
     />
-  )
+  );
 }
 
-export default CollectionSelectField
+export default CollectionSelectField;

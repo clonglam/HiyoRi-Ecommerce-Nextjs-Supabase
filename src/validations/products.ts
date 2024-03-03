@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { z } from "zod";
 
 export enum SortEnum {
   BEST_MATCH = "Best Match",
@@ -11,4 +11,4 @@ export enum SortEnum {
 export const SearchProductActionSchema = z.object({
   query: z.string(),
   sort: z.nativeEnum(SortEnum).nullable().optional(),
-})
+});

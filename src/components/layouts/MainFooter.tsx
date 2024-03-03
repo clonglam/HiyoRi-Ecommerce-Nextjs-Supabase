@@ -1,11 +1,11 @@
-import { NavItemWithOptionalChildren } from "@/types"
-import Link from "next/link"
-import NewsletterForm from "./NewsletterForm"
-import Branding from "./Branding"
-import { siteConfig } from "@/config/site"
-import SocialMedias from "./SocialMedias"
+import { NavItemWithOptionalChildren } from "@/types";
+import Link from "next/link";
+import NewsletterForm from "./NewsletterForm";
+import Branding from "./Branding";
+import { siteConfig } from "@/config/site";
+import SocialMedias from "./SocialMedias";
 
-type Props = {}
+type Props = {};
 
 function MainFooter({}: Props) {
   const footerSiteMap: NavItemWithOptionalChildren[] = [
@@ -89,7 +89,7 @@ function MainFooter({}: Props) {
         },
       ],
     },
-  ]
+  ];
 
   return (
     <footer className="bg-muted-background mt-[80px] md:mt-[180px] border-t border-zinc-600">
@@ -137,7 +137,7 @@ function MainFooter({}: Props) {
         </div>
       </div>
     </footer>
-  )
+  );
 }
 
-export default MainFooter
+export default MainFooter;

@@ -1,4 +1,4 @@
-import { gql } from "@/gql"
+import { gql } from "@/gql";
 
 export const createCartMutation = gql(/* GraphQL */ `
   mutation createCartMutation(
@@ -21,7 +21,7 @@ export const createCartMutation = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 export const RemoveCartsMutation = gql(/* GraphQL */ `
   mutation RemoveCartsMutation($productId: String!, $userId: UUID!) {
@@ -31,7 +31,7 @@ export const RemoveCartsMutation = gql(/* GraphQL */ `
       affectedCount
     }
   }
-`)
+`);
 
 export const updateCartsMutation = gql(/* GraphQL */ `
   mutation UpdateCartsMutation(
@@ -56,7 +56,7 @@ export const updateCartsMutation = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 export const ListCartQuery = gql(/* GraphQL */ `
   query ListCartQuery($userId: UUID) {
@@ -71,4 +71,4 @@ export const ListCartQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);

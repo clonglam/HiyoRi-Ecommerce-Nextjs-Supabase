@@ -1,87 +1,87 @@
-"use client"
-import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
-import { gql } from "@/gql"
-import { FileWithPreview } from "@/types"
-import { useQuery } from "@urql/next"
-import { useRouter } from "next/navigation"
-import React, { useEffect, useState } from "react"
-import { FileWithPath, useDropzone } from "react-dropzone"
-import ImagesGrid from "./ImageGrid"
+"use client";
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { gql } from "@/gql";
+import { FileWithPreview } from "@/types";
+import { useQuery } from "@urql/next";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { FileWithPath, useDropzone } from "react-dropzone";
+import ImagesGrid from "./ImageGrid";
 
 interface UploadMediaContainerProps {
-  onClickItemsHandler: (mediaId: string) => void
-  defaultImageId?: string
+  onClickItemsHandler: (mediaId: string) => void;
+  defaultImageId?: string;
 }
 function UploadMediaContainer({
   onClickItemsHandler,
   defaultImageId,
 }: UploadMediaContainerProps) {
-  const router = useRouter()
-  const [uploadingImages, setUploadingImages] = useState<FileWithPreview[]>([])
+  const router = useRouter();
+  const [uploadingImages, setUploadingImages] = useState<FileWithPreview[]>([]);
   const [lastCursor, setLastCursor] = React.useState<string | undefined>(
-    undefined
-  )
+    undefined,
+  );
   const [{ data, fetching, error }, refetch] = useQuery({
     query: MediasPageContentQuery,
     variables: {
       first: 16,
       after: lastCursor,
     },
-  })
+  });
 
-  const medias = data?.mediasCollection
+  const medias = data?.mediasCollection;
 
   const openMediaDetails = (mediaId: string) => {
-    router.push(`/admin/medias/${mediaId}`)
-  }
+    router.push(`/admin/medias/${mediaId}`);
+  };
 
   const onDrop = async (acceptedFiles: FileWithPath[]) => {
     const uploadFiles = acceptedFiles.map((file) =>
       Object.assign(file, {
         preview: URL.createObjectURL(file),
-      })
-    )
+      }),
+    );
 
-    console.log("uploadFiles", uploadFiles)
-    setUploadingImages([...uploadingImages, ...uploadFiles])
+    console.log("uploadFiles", uploadFiles);
+    setUploadingImages([...uploadingImages, ...uploadFiles]);
 
-    const formData = new FormData()
+    const formData = new FormData();
     for (let i = 0; i < uploadFiles.length; i++) {
-      formData.append(`files[${i}]`, uploadFiles[i])
+      formData.append(`files[${i}]`, uploadFiles[i]);
     }
 
     try {
       const response = await fetch("/api/medias", {
         method: "POST",
         body: formData,
-      })
+      });
 
-      const data = (await response.json()) as string[]
+      const data = (await response.json()) as string[];
 
       if (data) {
-        refetch({ requestPolicy: "network-only" })
+        refetch({ requestPolicy: "network-only" });
 
         setUploadingImages(
-          uploadingImages.filter((item) => data.includes(item.path))
-        )
+          uploadingImages.filter((item) => data.includes(item.path)),
+        );
       }
     } catch (error) {
       // console.error("Error uploading files:", error)
     }
-  }
+  };
 
   useEffect(() => {
     return () =>
-      uploadingImages.forEach((file) => URL.revokeObjectURL(file.preview))
-  }, [])
+      uploadingImages.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
 
   const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
     onDrop,
     multiple: true,
     noClick: true,
     noKeyboard: true,
-  })
+  });
 
   return (
     <div>
@@ -107,7 +107,7 @@ function UploadMediaContainer({
                 <div className="flex justify-center content-center">
                   <Button
                     onClick={() => {
-                      setLastCursor(medias.pageInfo.endCursor ?? undefined)
+                      setLastCursor(medias.pageInfo.endCursor ?? undefined);
                     }}
                   >
                     Load more.
@@ -126,7 +126,7 @@ function UploadMediaContainer({
         </>
       )}
     </div>
-  )
+  );
 }
 
 const AddMediaButtonComponent = ({ open }: { open: () => void }) => {
@@ -137,10 +137,10 @@ const AddMediaButtonComponent = ({ open }: { open: () => void }) => {
     >
       <Icons.add size={32} />
     </button>
-  )
-}
+  );
+};
 
-export default UploadMediaContainer
+export default UploadMediaContainer;
 
 export const MediasPageContentQuery = gql(/* GraphQL */ `
   query MediasPageContentQuery($first: Int, $after: Cursor) {
@@ -164,4 +164,4 @@ export const MediasPageContentQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);

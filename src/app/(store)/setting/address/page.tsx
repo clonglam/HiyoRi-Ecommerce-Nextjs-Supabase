@@ -1,21 +1,21 @@
-import CartSection from "@/features/carts/components/CartSection"
-import CartSectionSkeleton from "@/features/carts/components/CartSectionSkeleton"
-import { createClient } from "@/lib/supabase/server"
-import { cookies } from "next/headers"
-import Link from "next/link"
-import { redirect } from "next/navigation"
-import { Suspense } from "react"
+import CartSection from "@/features/carts/components/CartSection";
+import CartSectionSkeleton from "@/features/carts/components/CartSectionSkeleton";
+import { createClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 async function CartPage() {
-  const cookieStore = cookies()
-  const supabase = createClient({ cookieStore })
+  const cookieStore = cookies();
+  const supabase = createClient({ cookieStore });
 
   const {
     data: { user },
     error: authError,
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
   if (authError || !user) {
-    redirect("/sign-in")
+    redirect("/sign-in");
   }
 
   return (
@@ -29,7 +29,7 @@ async function CartPage() {
         <CartSection />
       </Suspense>
     </div>
-  )
+  );
 }
 
-export default CartPage
+export default CartPage;

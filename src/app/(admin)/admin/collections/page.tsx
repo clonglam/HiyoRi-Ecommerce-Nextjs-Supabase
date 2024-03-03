@@ -1,17 +1,17 @@
-import AdminShell from "@/components/admin/AdminShell"
-import { buttonVariants } from "@/components/ui/button"
-import { gql } from "@/gql"
-import { getClient } from "@/lib/urql"
-import { cn } from "@/lib/utils"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { CollectionsColumns, DataTable } from "@/features/collections"
+import AdminShell from "@/components/admin/AdminShell";
+import { buttonVariants } from "@/components/ui/button";
+import { gql } from "@/gql";
+import { getClient } from "@/lib/urql";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { CollectionsColumns, DataTable } from "@/features/collections";
 
 type AdminCollectionsPageProps = {
   searchParams: {
-    [key: string]: string | string[] | undefined
-  }
-}
+    [key: string]: string | string[] | undefined;
+  };
+};
 
 const AdminCollectionsPageQuery = gql(/* GraphQL */ `
   query AdminCollectionsPageQuery {
@@ -25,12 +25,12 @@ const AdminCollectionsPageQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 async function collectionsPage({ searchParams }: AdminCollectionsPageProps) {
-  const { data } = await getClient().query(AdminCollectionsPageQuery, {})
+  const { data } = await getClient().query(AdminCollectionsPageQuery, {});
 
-  if (!data) return notFound()
+  if (!data) return notFound();
 
   return (
     <AdminShell
@@ -48,7 +48,7 @@ async function collectionsPage({ searchParams }: AdminCollectionsPageProps) {
         data={data.collectionsCollection?.edges || []}
       />
     </AdminShell>
-  )
+  );
 }
 
-export default collectionsPage
+export default collectionsPage;

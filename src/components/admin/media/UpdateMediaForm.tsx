@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useTransition } from "react"
-import { useForm } from "react-hook-form"
-import { createInsertSchema, createSelectSchema } from "drizzle-zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 import {
   Form,
@@ -13,19 +13,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
-import Link from "next/link"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
+import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Button, buttonVariants } from "@/components/ui/button"
+} from "@/components/ui/select";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 import {
   InsertMedia,
@@ -34,16 +34,16 @@ import {
   SelectProducts,
   medias,
   products,
-} from "@/lib/supabase/schema"
-import { Icons } from "@/components/icons"
-import TagsField from "@/components/ui/tagsField"
-import FeaturedImageField from "@/components/admin/media/FeaturedImageField"
-import ImageDialog from "@/components/admin/media/ImageDialog"
-import { createProductAction, updateProductAction } from "@/_actions/products"
-import { useToast } from "@/components/ui/use-toast"
-import { useRouter } from "next/navigation"
-import { Label } from "@/components/ui/label"
-import DisabledFormData from "@/components/ui/DisabledFormData"
+} from "@/lib/supabase/schema";
+import { Icons } from "@/components/icons";
+import TagsField from "@/components/ui/tagsField";
+import FeaturedImageField from "@/components/admin/media/FeaturedImageField";
+import ImageDialog from "@/components/admin/media/ImageDialog";
+import { createProductAction, updateProductAction } from "@/_actions/products";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { Label } from "@/components/ui/label";
+import DisabledFormData from "@/components/ui/DisabledFormData";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -54,36 +54,36 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Spinner } from "@/components/ui/spinner"
+} from "@/components/ui/alert-dialog";
+import { Spinner } from "@/components/ui/spinner";
 
 type UpdateMediaFormProps = {
-  media?: SelectMedia
-}
+  media?: SelectMedia;
+};
 
 function UpdateMediaForm({ media }: UpdateMediaFormProps) {
-  const [isPending, startTransition] = useTransition()
-  const router = useRouter()
-  const { toast } = useToast()
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<InsertMedia>({
     resolver: zodResolver(createInsertSchema(medias)),
     defaultValues: media,
-  })
+  });
 
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = form
+  } = form;
 
   const deleteHandler = () => {
-    console.log("Delete")
-    router.push("/admin/medias")
-    router.refresh()
-    toast({ title: "Image Deleted" })
-  }
+    console.log("Delete");
+    router.push("/admin/medias");
+    router.refresh();
+    toast({ title: "Image Deleted" });
+  };
 
   const onSubmit = handleSubmit(async (data: InsertMedia) => {
     // startTransition(async () => {
@@ -103,7 +103,7 @@ function UpdateMediaForm({ media }: UpdateMediaFormProps) {
     //     toast
     //   }
     // })
-  })
+  });
 
   return (
     <Form {...form}>
@@ -174,7 +174,7 @@ function UpdateMediaForm({ media }: UpdateMediaFormProps) {
         </div>
       </form>
     </Form>
-  )
+  );
 }
 
-export default UpdateMediaForm
+export default UpdateMediaForm;

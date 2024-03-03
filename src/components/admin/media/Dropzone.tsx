@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { FC } from "react"
-import { DropzoneOptions, useDropzone } from "react-dropzone"
+import Image from "next/image";
+import { FC } from "react";
+import { DropzoneOptions, useDropzone } from "react-dropzone";
 
 interface DropzoneProps extends DropzoneOptions {
-  multiple?: boolean
-  name: string
-  previewUrl?: string
+  multiple?: boolean;
+  name: string;
+  previewUrl?: string;
 }
 
 export const Dropzone: FC<DropzoneProps> = ({
@@ -22,7 +22,7 @@ export const Dropzone: FC<DropzoneProps> = ({
     onDrop,
     multiple,
     ...rest,
-  })
+  });
 
   return (
     <div className="dropzone-section">
@@ -37,8 +37,8 @@ export const Dropzone: FC<DropzoneProps> = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 const PreivewsImages = ({ previewUrl }: { previewUrl: string }) => {
   return (
@@ -54,5 +54,5 @@ const PreivewsImages = ({ previewUrl }: { previewUrl: string }) => {
         </button> */}
       </div>
     </div>
-  )
-}
+  );
+};

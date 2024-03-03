@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {
   Sheet,
   SheetContent,
@@ -6,9 +6,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
 
-type Props = {}
+type Props = {};
 
 function CartSheet({}: Props) {
   return (
@@ -24,7 +24,7 @@ function CartSheet({}: Props) {
         </SheetHeader>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
 
-export default CartSheet
+export default CartSheet;

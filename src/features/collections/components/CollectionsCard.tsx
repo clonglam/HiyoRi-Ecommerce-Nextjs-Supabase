@@ -1,10 +1,10 @@
-import React from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { gql, DocumentType } from "@/gql"
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { gql, DocumentType } from "@/gql";
 
-import { Skeleton } from "@/components/ui/skeleton"
-import { keytoUrl } from "@/lib/utils"
+import { Skeleton } from "@/components/ui/skeleton";
+import { keytoUrl } from "@/lib/utils";
 
 export const CollectionCardFragment = gql(/* GraphQL */ `
   fragment CollectionCardFragment on collections {
@@ -16,14 +16,14 @@ export const CollectionCardFragment = gql(/* GraphQL */ `
       alt
     }
   }
-`)
+`);
 
 function CollectionsCard({
   collection,
 }: {
-  collection: DocumentType<typeof CollectionCardFragment>
+  collection: DocumentType<typeof CollectionCardFragment>;
 }) {
-  const { slug, label, featuredImage } = collection
+  const { slug, label, featuredImage } = collection;
 
   return (
     <div className="rounded-xl overflow-hidden relative md:w-[350px] w-[220px]">
@@ -45,11 +45,11 @@ function CollectionsCard({
         </Link>
       </figure>
     </div>
-  )
+  );
 }
 
-export default CollectionsCard
+export default CollectionsCard;
 
 export const CollectionsCardSkeleton = () => (
   <Skeleton className="rounded-xl overflow-hidden relative h-[200px] md:w-[350px] w-[220px]" />
-)
+);

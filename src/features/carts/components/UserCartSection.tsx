@@ -1,10 +1,10 @@
-"use client"
-import { useMemo, useState } from "react"
-import { DocumentType, gql } from "@/gql"
-import { expectedErrorsHandler } from "@/lib/urql"
-import { User } from "@supabase/supabase-js"
-import { useMutation, useQuery } from "@urql/next"
-import { notFound } from "next/navigation"
+"use client";
+import { useMemo, useState } from "react";
+import { DocumentType, gql } from "@/gql";
+import { expectedErrorsHandler } from "@/lib/urql";
+import { User } from "@supabase/supabase-js";
+import { useMutation, useQuery } from "@urql/next";
+import { notFound } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -12,14 +12,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-import { useToast } from "@/components/ui/use-toast"
-import CartItemCard from "@/features/carts/components/CartItemCard"
-import CheckoutButton from "./CheckoutButton"
-import EmptyCart from "@/features/carts/components/EmptyCart"
-import { RemoveCartsMutation, updateCartsMutation } from "../query"
-import { CartItems } from "../useCartStore"
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/components/ui/use-toast";
+import CartItemCard from "@/features/carts/components/CartItemCard";
+import CheckoutButton from "./CheckoutButton";
+import EmptyCart from "@/features/carts/components/EmptyCart";
+import { RemoveCartsMutation, updateCartsMutation } from "../query";
+import { CartItems } from "../useCartStore";
 
 export const FetchCartQuery = gql(/* GraphQL */ `
   query FetchCartQuery($userId: UUID, $first: Int, $after: Cursor) {
@@ -43,9 +43,9 @@ export const FetchCartQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
-type UserCartSectionProps = { user: User }
+type UserCartSectionProps = { user: User };
 
 function UserCartSection({ user }: UserCartSectionProps) {
   const [{ data, fetching, error }, reexecuteQuery] = useQuery({
@@ -53,100 +53,100 @@ function UserCartSection({ user }: UserCartSectionProps) {
     variables: {
       userId: user.id,
     },
-  })
+  });
 
-  const { toast } = useToast()
-  const [isLoading, setIsLoading] = useState(false)
-  const [, updateCartProduct] = useMutation(updateCartsMutation)
-  const [, removeCart] = useMutation(RemoveCartsMutation)
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [, updateCartProduct] = useMutation(updateCartsMutation);
+  const [, removeCart] = useMutation(RemoveCartsMutation);
 
-  const cart = data && data.cartsCollection ? data.cartsCollection.edges : []
-  const subtotal = useMemo(() => calcSubtotal(cart), [cart])
-  const productCount = useMemo(() => calcProductCount(cart), [cart])
+  const cart = data && data.cartsCollection ? data.cartsCollection.edges : [];
+  const subtotal = useMemo(() => calcSubtotal(cart), [cart]);
+  const productCount = useMemo(() => calcProductCount(cart), [cart]);
 
   if (fetching) {
-    return <LoadingCartSection />
+    return <LoadingCartSection />;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>
+    return <div>Error: {error.message}</div>;
   }
 
-  if (!data || !data.cartsCollection) return notFound()
+  if (!data || !data.cartsCollection) return notFound();
 
   const addOneHandler = async (productId: string, quantity: number) => {
     if (quantity < 8) {
-      setIsLoading(true)
+      setIsLoading(true);
 
       const res = await updateCartProduct({
         productId: productId,
         userId: user.id,
         newQuantity: quantity + 1,
-      })
+      });
 
       if (res.error)
         toast({
           title: "Error",
           description: expectedErrorsHandler({ error: res.error }),
-        })
+        });
 
-      setIsLoading(false)
+      setIsLoading(false);
     } else {
-      toast({ title: "Proudct Limit is reached." })
+      toast({ title: "Proudct Limit is reached." });
     }
-  }
+  };
 
   const minusOneHandler = async (productId: string, quantity: number) => {
     if (quantity > 1) {
-      setIsLoading(true)
+      setIsLoading(true);
 
       const res = await updateCartProduct({
         productId: productId,
         userId: user.id,
         newQuantity: quantity - 1,
-      })
+      });
 
       if (res.error)
         toast({
           title: "Error",
           description: expectedErrorsHandler({ error: res.error }),
-        })
+        });
 
-      setIsLoading(false)
+      setIsLoading(false);
     } else {
-      toast({ title: "Minimum is reached." })
+      toast({ title: "Minimum is reached." });
     }
-  }
+  };
 
   const removeHandler = async (productId: string) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
-    const res = await removeCart({ productId, userId: user.id })
-    reexecuteQuery({ requestPolicy: "network-only" })
+    const res = await removeCart({ productId, userId: user.id });
+    reexecuteQuery({ requestPolicy: "network-only" });
 
-    toast({ title: "Removed a Product." })
+    toast({ title: "Removed a Product." });
 
     if (res.error) {
       toast({
         title: "Error",
         description: expectedErrorsHandler({ error: res.error }),
-      })
+      });
     }
 
-    setIsLoading(false)
-  }
+    setIsLoading(false);
+  };
 
   const createCartObject = (
-    data: DocumentType<typeof FetchCartQuery>
+    data: DocumentType<typeof FetchCartQuery>,
   ): CartItems => {
-    const cart: CartItems = {}
+    const cart: CartItems = {};
     data.cartsCollection.edges.forEach((item) => {
       cart[item.node.product.id] = {
         quantity: item.node.quantity,
-      }
-    })
-    return cart
-  }
+      };
+    });
+    return cart;
+  };
 
   return (
     <>
@@ -196,10 +196,10 @@ function UserCartSection({ user }: UserCartSectionProps) {
         <EmptyCart />
       )}
     </>
-  )
+  );
 }
 
-export default UserCartSection
+export default UserCartSection;
 
 const LoadingCartSection = () => (
   <section
@@ -231,17 +231,17 @@ const LoadingCartSection = () => (
       </div>
     </div>
   </section>
-)
+);
 
 export const calcProductCount = (data: { node: { quantity: number } }[]) => {
-  return data.reduce((acc, cur) => acc + cur.node.quantity, 0)
-}
+  return data.reduce((acc, cur) => acc + cur.node.quantity, 0);
+};
 
 const calcSubtotal = (
-  data: { node: { quantity: number; product: { price: number } } }[]
+  data: { node: { quantity: number; product: { price: number } } }[],
 ) => {
   return data.reduce(
     (acc, cur) => acc + cur.node.quantity * cur.node.product.price,
-    0
-  )
-}
+    0,
+  );
+};

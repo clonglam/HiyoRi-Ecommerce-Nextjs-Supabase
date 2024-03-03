@@ -1,11 +1,11 @@
-import { Shell } from "@/components/layouts/Shell"
-import { BuyAgainCard, OrdersList } from "@/features/orders/components"
-import { gql } from "@/gql"
-import { createClient } from "@/lib/supabase/server"
-import { getClient } from "@/lib/urql"
-import { cookies } from "next/headers"
-import { notFound, redirect } from "next/navigation"
-import React from "react"
+import { Shell } from "@/components/layouts/Shell";
+import { BuyAgainCard, OrdersList } from "@/features/orders/components";
+import { gql } from "@/gql";
+import { createClient } from "@/lib/supabase/server";
+import { getClient } from "@/lib/urql";
+import { cookies } from "next/headers";
+import { notFound, redirect } from "next/navigation";
+import React from "react";
 
 const OrderPageQuery = gql(/* GraphQL */ `
   query OrderPageQuery($first: Int!, $userId: UUID) {
@@ -26,26 +26,26 @@ const OrderPageQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 async function OrderPage() {
-  const cookieStore = cookies()
-  const supabase = createClient({ cookieStore })
+  const cookieStore = cookies();
+  const supabase = createClient({ cookieStore });
 
   const {
     data: { user },
     error: authError,
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
   if (authError || !user) {
-    redirect("/sign-in")
+    redirect("/sign-in");
   }
 
   const { data, error } = await getClient().query(OrderPageQuery, {
     first: 4,
     userId: user.id,
-  })
+  });
 
-  if (!data) return notFound()
+  if (!data) return notFound();
 
   return (
     <Shell layout="narrow">
@@ -61,7 +61,7 @@ async function OrderPage() {
         </section>
       </div>
     </Shell>
-  )
+  );
 }
 
-export default OrderPage
+export default OrderPage;

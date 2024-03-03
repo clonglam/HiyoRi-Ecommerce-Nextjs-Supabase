@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,59 +9,59 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Spinner } from "@/components/ui/spinner"
-import { useToast } from "@/components/ui/use-toast"
-import { PasswordInput } from "@/features/auth"
-import { SelectUserProfiles } from "@/lib/supabase/schema"
-import { zodResolver } from "@hookform/resolvers/zod"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useTransition } from "react"
-import { useForm } from "react-hook-form"
-import { createUser } from "../actions"
-import { AdminUserFormData, adminUserShcema } from "../validations"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { useToast } from "@/components/ui/use-toast";
+import { PasswordInput } from "@/features/auth";
+import { SelectUserProfiles } from "@/lib/supabase/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { createUser } from "../actions";
+import { AdminUserFormData, adminUserShcema } from "../validations";
 
 type AdminUserFormProps = {
-  user?: SelectUserProfiles
-}
+  user?: SelectUserProfiles;
+};
 
 function AdminUserForm({ user }: AdminUserFormProps) {
-  const [isPending, startTransition] = useTransition()
-  const router = useRouter()
-  const { toast } = useToast()
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<AdminUserFormData>({
     resolver: zodResolver(adminUserShcema),
-  })
+  });
 
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = form
+  } = form;
 
   const onSubmit = handleSubmit(
     async ({ name, email, password }: AdminUserFormData) => {
       startTransition(async () => {
         try {
-          await createUser({ email, password, name })
-          router.push("/admin/users")
+          await createUser({ email, password, name });
+          router.push("/admin/users");
 
           toast({
             title: "Created a new user.",
             description: `${name} is created.`,
-          })
+          });
         } catch (err) {
           toast({
             title: "Error",
             description: `${err.message}`,
-          })
+          });
         }
-      })
-    }
-  )
+      });
+    },
+  );
 
   return (
     <Form {...form}>
@@ -142,7 +142,7 @@ function AdminUserForm({ user }: AdminUserFormProps) {
         </div>
       </form>
     </Form>
-  )
+  );
 }
 
-export default AdminUserForm
+export default AdminUserForm;

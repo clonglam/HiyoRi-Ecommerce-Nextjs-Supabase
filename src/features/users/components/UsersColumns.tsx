@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
-import { Button, buttonVariants } from "@/components/ui/button"
-import DeleteDialog from "@/components/ui/deleteDialog"
+import Link from "next/link";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import DeleteDialog from "@/components/ui/deleteDialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
-import { User } from "@supabase/supabase-js"
-import { useToast } from "@/components/ui/use-toast"
-import { useRouter } from "next/navigation"
+import { User } from "@supabase/supabase-js";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const UsersColumns: ColumnDef<User>[] = [
   {
     accessorKey: "id",
     header: () => <div className="text-left capitalize">UserId</div>,
     cell: ({ row }) => {
-      const user = row.original
+      const user = row.original;
 
       return (
         <Link
@@ -30,31 +30,31 @@ const UsersColumns: ColumnDef<User>[] = [
         >
           {user.id}
         </Link>
-      )
+      );
     },
   },
   {
     accessorKey: "name",
     header: () => <div className="text-left capitalize">Name</div>,
     cell: ({ row }) => {
-      const user = row.original
-      return <p>{user.user_metadata.name || "-"}</p>
+      const user = row.original;
+      return <p>{user.user_metadata.name || "-"}</p>;
     },
   },
   {
     accessorKey: "email",
     header: () => <div className="text-left capitalize">Email</div>,
     cell: ({ row }) => {
-      const user = row.original
-      return <p>{user.email}</p>
+      const user = row.original;
+      return <p>{user.email}</p>;
     },
   },
   {
     accessorKey: "role",
     header: () => <div className="text-left capitalize">Role</div>,
     cell: ({ row }) => {
-      const user = row.original
-      return <p>{user.role}</p>
+      const user = row.original;
+      return <p>{user.role}</p>;
     },
   },
 
@@ -62,9 +62,9 @@ const UsersColumns: ColumnDef<User>[] = [
     id: "actions",
     header: () => <div className="text-center capitalize">Actions</div>,
     cell: ({ row }) => {
-      const user = row.original
-      const { toast } = useToast()
-      const router = useRouter()
+      const user = row.original;
+      const { toast } = useToast();
+      const router = useRouter();
 
       const promoteAdminHandler = async (userId: string) => {
         try {
@@ -73,22 +73,22 @@ const UsersColumns: ColumnDef<User>[] = [
             body: JSON.stringify({
               userId,
             }),
-          })
+          });
 
-          const { message } = await res.json()
+          const { message } = await res.json();
           toast({
             title: !res.ok ? "Error" : "Success",
             description: message,
-          })
+          });
 
-          router.refresh()
+          router.refresh();
         } catch (err) {
           toast({
             title: "Error",
             description: "Unexpected Error occured.",
-          })
+          });
         }
-      }
+      };
 
       return (
         <DropdownMenu>
@@ -115,22 +115,22 @@ const UsersColumns: ColumnDef<User>[] = [
             </Button>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
 const DeleteCategoryDialog = ({ categoryId }: { categoryId: string }) => {
   const onClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // await deleteCategoryAction(categoryId)
-  }
+  };
   return (
     <DeleteDialog
       onClickHandler={onClickHandler}
       title="Delete Proejct"
       actionLabel="Delete"
     />
-  )
-}
+  );
+};
 
-export default UsersColumns
+export default UsersColumns;

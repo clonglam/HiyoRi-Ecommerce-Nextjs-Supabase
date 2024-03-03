@@ -1,9 +1,9 @@
-"use client"
-import Image from "next/image"
-import Branding from "@/components/layouts/Branding"
+"use client";
+import Image from "next/image";
+import Branding from "@/components/layouts/Branding";
 
 interface AuthLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
@@ -28,5 +28,5 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         {children}
       </main>
     </div>
-  )
+  );
 }

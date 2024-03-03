@@ -1,6 +1,6 @@
-import React from "react"
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 function ShipReturns({}: Props) {
   return (
@@ -10,7 +10,7 @@ function ShipReturns({}: Props) {
       furniture, innerwear, and food, merchandise can be returned or exchanged
       within 30 days of delivery. Learn more
     </div>
-  )
+  );
 }
 
-export default ShipReturns
+export default ShipReturns;

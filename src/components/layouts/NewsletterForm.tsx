@@ -1,8 +1,8 @@
-"use client"
-import React from "react"
-import { Input } from "../ui/input"
-import { Label } from "../ui/label"
-import { Button } from "../ui/button"
+"use client";
+import React from "react";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { Button } from "../ui/button";
 
 function NewsletterForm() {
   return (
@@ -16,7 +16,7 @@ function NewsletterForm() {
         Submit
       </Button>
     </form>
-  )
+  );
 }
 
-export default NewsletterForm
+export default NewsletterForm;

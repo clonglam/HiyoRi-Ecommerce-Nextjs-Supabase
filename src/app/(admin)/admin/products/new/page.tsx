@@ -1,12 +1,12 @@
-import React, { Suspense } from "react"
-import { notFound } from "next/navigation"
-import AdminShell from "@/components/admin/AdminShell"
-import { ProductForm } from "@/features/products"
-import db from "@/lib/supabase/db"
+import React, { Suspense } from "react";
+import { notFound } from "next/navigation";
+import AdminShell from "@/components/admin/AdminShell";
+import { ProductForm } from "@/features/products";
+import db from "@/lib/supabase/db";
 
 async function NewProjectPage() {
-  const products = await db.query.products.findMany()
-  if (!products) return notFound()
+  const products = await db.query.products.findMany();
+  if (!products) return notFound();
 
   return (
     <AdminShell
@@ -17,7 +17,7 @@ async function NewProjectPage() {
         <ProductForm />
       </Suspense>
     </AdminShell>
-  )
+  );
 }
 
-export default NewProjectPage
+export default NewProjectPage;

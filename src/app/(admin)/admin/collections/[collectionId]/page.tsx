@@ -1,15 +1,15 @@
-import AdminShell from "@/components/admin/AdminShell"
-import { gql } from "@/gql"
-import { getClient } from "@/lib/urql"
+import AdminShell from "@/components/admin/AdminShell";
+import { gql } from "@/gql";
+import { getClient } from "@/lib/urql";
 
-import { notFound } from "next/navigation"
-import { CollectionForm } from "@/features/collections"
+import { notFound } from "next/navigation";
+import { CollectionForm } from "@/features/collections";
 
 type EditCollectionPageProps = {
   params: {
-    collectionId: string
-  }
-}
+    collectionId: string;
+  };
+};
 
 const updateCollectionPageQuery = gql(/* GraphQL */ `
   query UPDATE_COLLECTION_PAGE_QUERY($collectionId: String) {
@@ -23,15 +23,15 @@ const updateCollectionPageQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 async function EditCollectionPage({
   params: { collectionId },
 }: EditCollectionPageProps) {
   const { data } = await getClient().query(updateCollectionPageQuery, {
     collectionId,
-  })
-  if (!data || !data?.collectionsCollection?.edges[0]) return notFound()
+  });
+  if (!data || !data?.collectionsCollection?.edges[0]) return notFound();
 
   return (
     <AdminShell
@@ -42,7 +42,7 @@ async function EditCollectionPage({
         <CollectionForm collection={data.collectionsCollection.edges[0].node} />
       </div>
     </AdminShell>
-  )
+  );
 }
 
-export default EditCollectionPage
+export default EditCollectionPage;

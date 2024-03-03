@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
-import { Button, buttonVariants } from "@/components/ui/button"
-import DeleteDialog from "@/components/ui/deleteDialog"
+import Link from "next/link";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import DeleteDialog from "@/components/ui/deleteDialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { gql, DocumentType } from "@/gql"
+} from "@/components/ui/dropdown-menu";
+import { gql, DocumentType } from "@/gql";
 
 export const ProductColumnFragment = gql(/* GraphQL */ `
   fragment ProductColumnFragment on products {
@@ -35,16 +35,16 @@ export const ProductColumnFragment = gql(/* GraphQL */ `
       slug
     }
   }
-`)
+`);
 
 const ProductsColumns: ColumnDef<{
-  node: DocumentType<typeof ProductColumnFragment>
+  node: DocumentType<typeof ProductColumnFragment>;
 }>[] = [
   {
     accessorKey: "name",
     header: () => <div className="text-left capitalize">Product Name</div>,
     cell: ({ row }) => {
-      const product = row.original.node
+      const product = row.original.node;
 
       return (
         <Link
@@ -53,54 +53,54 @@ const ProductsColumns: ColumnDef<{
         >
           {product.name}
         </Link>
-      )
+      );
     },
   },
   {
     accessorKey: "slug",
     header: () => <div className="">Slug</div>,
     cell: ({ row }) => {
-      const product = row.original.node
+      const product = row.original.node;
 
-      return <div className="font-medium">{product.slug}</div>
+      return <div className="font-medium">{product.slug}</div>;
     },
   },
   {
     accessorKey: "Collection",
     header: () => <div className="">Collection</div>,
     cell: ({ row }) => {
-      const product = row.original.node
+      const product = row.original.node;
 
       return (
         <div className="font-medium">
           {product.collections ? product.collections.label : "-"}
         </div>
-      )
+      );
     },
   },
   {
     accessorKey: "featured",
     header: () => <div className="">Featured</div>,
     cell: ({ row }) => {
-      const product = row.original.node
+      const product = row.original.node;
 
-      return <div className="font-medium">{`${product.featured}`}</div>
+      return <div className="font-medium">{`${product.featured}`}</div>;
     },
   },
   {
     accessorKey: "price",
     header: () => <div className="">Price</div>,
     cell: ({ row }) => {
-      const product = row.original.node
+      const product = row.original.node;
 
-      return <div className="font-medium">{`$ ${product.price}`}</div>
+      return <div className="font-medium">{`$ ${product.price}`}</div>;
     },
   },
   {
     id: "actions",
     header: () => <div className="text-center capitalize">Actions</div>,
     cell: ({ row }) => {
-      const product = row.original.node
+      const product = row.original.node;
 
       return (
         <DropdownMenu>
@@ -125,22 +125,22 @@ const ProductsColumns: ColumnDef<{
             {/* <DeleteCategoryDialog categoryId={category.id} /> */}
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
 const DeleteCategoryDialog = ({ categoryId }: { categoryId: string }) => {
   const onClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // await deleteCategoryAction(categoryId)
-  }
+  };
   return (
     <DeleteDialog
       onClickHandler={onClickHandler}
       title="Delete Proejct"
       actionLabel="Delete"
     />
-  )
-}
+  );
+};
 
-export default ProductsColumns
+export default ProductsColumns;

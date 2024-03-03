@@ -1,4 +1,4 @@
-import { gql } from "@/gql"
+import { gql } from "@/gql";
 
 export const UpdateCollectionMutation = gql(/* GraphQL */ `
   mutation UpdateCollectionMutation(
@@ -26,7 +26,7 @@ export const UpdateCollectionMutation = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 export const CreateCollectionMutation = gql(/* GraphQL */ `
   mutation CreateCollectionMutation(
@@ -53,4 +53,4 @@ export const CreateCollectionMutation = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);

@@ -1,13 +1,13 @@
-import CartSection from "@/features/carts/components/CartSection"
-import CartSectionSkeleton from "@/features/carts/components/CartSectionSkeleton"
-import { Shell } from "@/components/layouts/Shell"
+import CartSection from "@/features/carts/components/CartSection";
+import CartSectionSkeleton from "@/features/carts/components/CartSectionSkeleton";
+import { Shell } from "@/components/layouts/Shell";
 import {
   RecommendationProducts,
   RecommendationProductsSkeleton,
-} from "@/features/products"
+} from "@/features/products";
 
-import Link from "next/link"
-import { Suspense } from "react"
+import Link from "next/link";
+import { Suspense } from "react";
 
 async function CartPage() {
   return (
@@ -25,7 +25,7 @@ async function CartPage() {
         <RecommendationProducts />
       </Suspense>
     </Shell>
-  )
+  );
 }
 
-export default CartPage
+export default CartPage;

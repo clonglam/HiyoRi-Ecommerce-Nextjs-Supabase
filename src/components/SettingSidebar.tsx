@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "./ui/button"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "./ui/button";
 
 interface SettingSidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {
-    href: string
-    title: string
-  }[]
+    href: string;
+    title: string;
+  }[];
 }
 
 export function SettingSidebarNav({
@@ -18,13 +18,13 @@ export function SettingSidebarNav({
   items,
   ...props
 }: SettingSidebarNavProps) {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <nav
       className={cn(
         "flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1",
-        className
+        className,
       )}
       {...props}
     >
@@ -37,12 +37,12 @@ export function SettingSidebarNav({
             pathname === item.href
               ? "bg-muted hover:bg-muted"
               : "hover:bg-transparent hover:underline",
-            "justify-start"
+            "justify-start",
           )}
         >
           {item.title}
         </Link>
       ))}
     </nav>
-  )
+  );
 }

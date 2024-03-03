@@ -1,6 +1,6 @@
-import db from "../db"
-import * as schema from "../schema"
-import { InsertProducts } from "../schema"
+import db from "../db";
+import * as schema from "../schema";
+import { InsertProducts } from "../schema";
 
 const products: InsertProducts[] = [
   {
@@ -63,19 +63,19 @@ const products: InsertProducts[] = [
     badge: "best_sale",
     stock: 0,
   },
-]
+];
 
 const seedProducts = async () => {
   try {
-    await db.delete(schema.products)
+    await db.delete(schema.products);
     await db
       .insert(schema.products)
       .values(products)
       .onConflictDoNothing()
-      .returning()
+      .returning();
   } catch (err) {
-    console.log("Error happen while inserting collections", err)
+    console.log("Error happen while inserting collections", err);
   }
-}
+};
 
-export default seedProducts
+export default seedProducts;

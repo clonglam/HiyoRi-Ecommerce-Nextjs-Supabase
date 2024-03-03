@@ -1,14 +1,14 @@
-"use server"
+"use server";
 
-import AdminShell from "@/components/admin/AdminShell"
-import { getUser, UpdateUserForm } from "@/features/users"
-import { notFound } from "next/navigation"
+import AdminShell from "@/components/admin/AdminShell";
+import { getUser, UpdateUserForm } from "@/features/users";
+import { notFound } from "next/navigation";
 
-type UpdateUserPageProps = { params: { userId: string } }
+type UpdateUserPageProps = { params: { userId: string } };
 
 async function UpdateUserPage({ params: { userId } }: UpdateUserPageProps) {
-  const { user } = await getUser({ userId })
-  if (!user) return notFound()
+  const { user } = await getUser({ userId });
+  if (!user) return notFound();
 
   return (
     <AdminShell
@@ -18,7 +18,7 @@ async function UpdateUserPage({ params: { userId } }: UpdateUserPageProps) {
     >
       <UpdateUserForm user={user} />
     </AdminShell>
-  )
+  );
 }
 
-export default UpdateUserPage
+export default UpdateUserPage;

@@ -1,16 +1,16 @@
-"use client"
-import { DocumentType, gql } from "@/gql"
-import React from "react"
-import { Card, CardContent, CardHeader } from "../../../components/ui/card"
-import Image from "next/image"
-import { cn, formatPrice, keytoUrl } from "@/lib/utils"
-import dayjs from "dayjs"
-import Link from "next/link"
-import { Button, buttonVariants } from "../../../components/ui/button"
+"use client";
+import { DocumentType, gql } from "@/gql";
+import React from "react";
+import { Card, CardContent, CardHeader } from "../../../components/ui/card";
+import Image from "next/image";
+import { cn, formatPrice, keytoUrl } from "@/lib/utils";
+import dayjs from "dayjs";
+import Link from "next/link";
+import { Button, buttonVariants } from "../../../components/ui/button";
 
 type OrdersListProps = {
-  orders: DocumentType<typeof OrdersListFragment>[]
-}
+  orders: DocumentType<typeof OrdersListFragment>[];
+};
 
 export const OrdersListFragment = gql(/* GraphQL */ `
   fragment OrdersListFragment on ordersEdge {
@@ -41,7 +41,7 @@ export const OrdersListFragment = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 function OrdersList({ orders }: OrdersListProps) {
   return (
@@ -74,7 +74,7 @@ function OrdersList({ orders }: OrdersListProps) {
             <div className="py-3 grid grid-cols-12 gap-8">
               <div className="flex flex-col gap-5 col-span-12 md:col-span-8">
                 {order.item.edges.map(({ node }) => {
-                  const product = node.products
+                  const product = node.products;
                   return (
                     <div className="flex items-center gap-5" key={node.id}>
                       <div className="relative w-[120px] h-[120px] min-w-[80px] grow ">
@@ -99,7 +99,7 @@ function OrdersList({ orders }: OrdersListProps) {
                         </p>
                       </div>
                     </div>
-                  )
+                  );
                 })}
               </div>
 
@@ -123,7 +123,7 @@ function OrdersList({ orders }: OrdersListProps) {
         </Card>
       ))}
     </div>
-  )
+  );
 }
 
-export default OrdersList
+export default OrdersList;

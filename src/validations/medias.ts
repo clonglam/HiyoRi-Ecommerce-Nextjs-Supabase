@@ -1,9 +1,9 @@
-import { FileWithPath } from "react-dropzone"
-import { z } from "zod"
+import { FileWithPath } from "react-dropzone";
+import { z } from "zod";
 
 // Constants for validation
-const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
-const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/gif"]
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/gif"];
 
 // Helper function to validate each file in the array
 // export const fileSchema = z.object({
@@ -31,5 +31,5 @@ export const mediaSchema = z.record(
     })
     .refine((file) => !file || (!!file && file.type?.startsWith("image")), {
       message: "Only images are allowed to be sent.",
-    })
-)
+    }),
+);

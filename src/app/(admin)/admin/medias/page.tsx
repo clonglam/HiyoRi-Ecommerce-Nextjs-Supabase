@@ -1,8 +1,8 @@
-import AdminShell from "@/components/admin/AdminShell"
-import { Suspense } from "react"
-import { MediasPageContent } from "@/features/medias"
+import AdminShell from "@/components/admin/AdminShell";
+import { Suspense } from "react";
+import { MediasPageContent } from "@/features/medias";
 
-type Props = {}
+type Props = {};
 
 async function MediasPage({}: Props) {
   return (
@@ -14,7 +14,7 @@ async function MediasPage({}: Props) {
         <MediasPageContent />
       </Suspense>
     </AdminShell>
-  )
+  );
 }
 
-export default MediasPage
+export default MediasPage;

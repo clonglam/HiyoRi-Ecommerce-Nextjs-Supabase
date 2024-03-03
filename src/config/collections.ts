@@ -29,4 +29,4 @@ export const scollCards = [
     alt: "bathroom planning",
     href: "/collections/bathroom",
   },
-]
+];

@@ -1,20 +1,20 @@
-import * as React from "react"
+import * as React from "react";
 
-import { Card, CardContent } from "@/components/ui/card"
-import { gql, DocumentType } from "@/gql"
+import { Card, CardContent } from "@/components/ui/card";
+import { gql, DocumentType } from "@/gql";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
-import Image from "next/image"
-import { keytoUrl } from "@/lib/utils"
+} from "@/components/ui/carousel";
+import Image from "next/image";
+import { keytoUrl } from "@/lib/utils";
 
 type ProductImagesCarouselProps = React.ComponentProps<typeof Carousel> & {
-  images: DocumentType<typeof CarouselImagesFragment>[]
-}
+  images: DocumentType<typeof CarouselImagesFragment>[];
+};
 
 const CarouselImagesFragment = gql(/* GraphQL */ `
   fragment CarouselImagesFragment on product_mediasEdge {
@@ -26,7 +26,7 @@ const CarouselImagesFragment = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 export function ProductImagesCarousel({ images }: ProductImagesCarouselProps) {
   return (
@@ -50,5 +50,5 @@ export function ProductImagesCarousel({ images }: ProductImagesCarouselProps) {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
-  )
+  );
 }

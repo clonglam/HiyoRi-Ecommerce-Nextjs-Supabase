@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
 import {
   ColumnDef,
@@ -18,14 +18,14 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
-import React from "react"
+import React from "react";
 
 interface PaginationTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  pageSize?: number
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  pageSize?: number;
 }
 
 export function PaginationTable<TData, TValue>({
@@ -33,7 +33,7 @@ export function PaginationTable<TData, TValue>({
   data,
   pageSize = 6,
 }: PaginationTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -50,7 +50,7 @@ export function PaginationTable<TData, TValue>({
     state: {
       sorting,
     },
-  })
+  });
 
   return (
     <div className="rounded-md border w-full">
@@ -65,10 +65,10 @@ export function PaginationTable<TData, TValue>({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
-                )
+                );
               })}
             </TableRow>
           ))}
@@ -120,7 +120,7 @@ export function PaginationTable<TData, TValue>({
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default PaginationTable
+export default PaginationTable;

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   FormControl,
   FormDescription,
@@ -6,7 +6,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
 import {
   Select,
@@ -16,17 +16,17 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
-import { useFormContext } from "react-hook-form"
+import { useFormContext } from "react-hook-form";
 
 type BadgeSelectFieldProps = {
-  name: string
-  label: string
-}
+  name: string;
+  label: string;
+};
 
 function BadgeSelectField({ name, label }: BadgeSelectFieldProps) {
-  const { setValue, control } = useFormContext()
+  const { setValue, control } = useFormContext();
 
   return (
     <FormField
@@ -62,7 +62,7 @@ function BadgeSelectField({ name, label }: BadgeSelectFieldProps) {
         </FormItem>
       )}
     />
-  )
+  );
 }
 
-export default BadgeSelectField
+export default BadgeSelectField;

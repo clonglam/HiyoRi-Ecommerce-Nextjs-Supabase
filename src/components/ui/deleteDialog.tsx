@@ -1,5 +1,5 @@
-"use client"
-import React from "react"
+"use client";
+import React from "react";
 
 import {
   AlertDialog,
@@ -11,17 +11,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "./button"
+} from "@/components/ui/alert-dialog";
+import { Button } from "./button";
 
 type DeleteDialogProps = {
-  onClickHandler: (e: React.MouseEvent<HTMLButtonElement>) => void
-  triggerLabel?: string
-  title?: string
-  description?: string
-  cancelLabel?: string
-  actionLabel?: string
-}
+  onClickHandler: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  triggerLabel?: string;
+  title?: string;
+  description?: string;
+  cancelLabel?: string;
+  actionLabel?: string;
+};
 
 function DeleteDialog({
   onClickHandler,
@@ -54,7 +54,7 @@ function DeleteDialog({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }
 
-export default DeleteDialog
+export default DeleteDialog;

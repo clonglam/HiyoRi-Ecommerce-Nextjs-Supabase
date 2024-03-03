@@ -1,10 +1,10 @@
-"use client"
-import { DocumentType, gql } from "@/gql"
+"use client";
+import { DocumentType, gql } from "@/gql";
 
-import Image from "next/image"
-import React from "react"
+import Image from "next/image";
+import React from "react";
 
-import QuantityInput from "../../../components/QuantityInput"
+import QuantityInput from "../../../components/QuantityInput";
 
 import {
   Card,
@@ -13,13 +13,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 
-import { keytoUrl } from "@/lib/utils"
-import { UseQueryExecute } from "@urql/next"
-import Link from "next/link"
-import { Icons } from "../../../components/icons"
-import { Button } from "../../../components/ui/button"
+import { keytoUrl } from "@/lib/utils";
+import { UseQueryExecute } from "@urql/next";
+import Link from "next/link";
+import { Icons } from "../../../components/icons";
+import { Button } from "../../../components/ui/button";
 
 export const CartItemCardFragment = gql(/* GraphQL */ `
   fragment CartItemCardFragment on products {
@@ -34,16 +34,16 @@ export const CartItemCardFragment = gql(/* GraphQL */ `
       alt
     }
   }
-`)
+`);
 
 type CartItemCardProps = React.ComponentProps<typeof Card> & {
-  product: DocumentType<typeof CartItemCardFragment>
-  disabled?: boolean
-  addOneHandler: () => void
-  minusOneHandler: () => void
-  removeHandler: () => void
-  quantity: number
-}
+  product: DocumentType<typeof CartItemCardFragment>;
+  disabled?: boolean;
+  addOneHandler: () => void;
+  minusOneHandler: () => void;
+  removeHandler: () => void;
+  quantity: number;
+};
 
 function CartItemCard({
   product,
@@ -96,7 +96,7 @@ function CartItemCard({
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }
 
-export default CartItemCard
+export default CartItemCard;

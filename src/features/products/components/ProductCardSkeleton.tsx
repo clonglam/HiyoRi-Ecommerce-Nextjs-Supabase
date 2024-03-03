@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const ProductCardSkeleton = () => (
   <div className="w-full border rounded-lg">
@@ -10,6 +10,6 @@ export const ProductCardSkeleton = () => (
       <Skeleton className="w-[80px] h-4" />
     </div>
   </div>
-)
+);
 
-export default ProductCardSkeleton
+export default ProductCardSkeleton;

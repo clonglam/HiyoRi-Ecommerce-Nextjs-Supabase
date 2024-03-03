@@ -1,5 +1,5 @@
-import { type Metadata } from "next"
-import Link from "next/link"
+import { type Metadata } from "next";
+import Link from "next/link";
 
 import {
   Card,
@@ -8,16 +8,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 
-import OAuthLoginButtons from "@/features/auth/components/OAuthLoginButtons"
-import { SigninForm } from "@/features/auth"
-import { Suspense } from "react"
+import OAuthLoginButtons from "@/features/auth/components/OAuthLoginButtons";
+import { SigninForm } from "@/features/auth";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "HIYORI | Sign In",
   description: "Sign in to HIYORI",
-}
+};
 
 export default function SignInPage() {
   return (
@@ -73,5 +73,5 @@ export default function SignInPage() {
         </CardFooter>
       </Card>
     </section>
-  )
+  );
 }

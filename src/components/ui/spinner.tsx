@@ -1,5 +1,5 @@
-import React from "react"
-import { cn } from "@/lib/utils"
+import React from "react";
+import { cn } from "@/lib/utils";
 
 interface SpinnerProps
   extends React.DetailedHTMLProps<
@@ -14,7 +14,7 @@ function Spinner({ className, ...props }: SpinnerProps) {
         aria-hidden="true"
         className={cn(
           "w-5 h-5 text-gray-200 animate-spin fill-primary",
-          className
+          className,
         )}
         viewBox="0 0 100 101"
         fill="none"
@@ -31,9 +31,9 @@ function Spinner({ className, ...props }: SpinnerProps) {
       </svg>
       <span className="sr-only">Loading...</span>
     </div>
-  )
+  );
 }
 
-Spinner.displayName = "Spinner"
+Spinner.displayName = "Spinner";
 
-export { Spinner }
+export { Spinner };

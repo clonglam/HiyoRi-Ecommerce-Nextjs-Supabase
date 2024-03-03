@@ -1,4 +1,4 @@
-import React, { ReactComponentElement } from "react"
+import React, { ReactComponentElement } from "react";
 import {
   Select,
   SelectContent,
@@ -7,17 +7,17 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../../../components/ui/select"
+} from "../../../components/ui/select";
 
-type Selection = { value: string; label: string }
+type Selection = { value: string; label: string };
 
 type SelectionFilterProps = React.ComponentProps<typeof Select> & {
-  id: string
-  selectionLabel?: string
-  items: Selection[]
-  placeholder?: string
-  className?: string
-}
+  id: string;
+  selectionLabel?: string;
+  items: Selection[];
+  placeholder?: string;
+  className?: string;
+};
 
 function FilterSelection({
   items,
@@ -43,7 +43,7 @@ function FilterSelection({
         </SelectGroup>
       </SelectContent>
     </Select>
-  )
+  );
 }
 
-export default FilterSelection
+export default FilterSelection;

@@ -1,8 +1,8 @@
-import AdminShell from "@/components/admin/AdminShell"
-import { AdminUserForm } from "@/features/users"
-import React from "react"
+import AdminShell from "@/components/admin/AdminShell";
+import { AdminUserForm } from "@/features/users";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 function NewUserPage({}: Props) {
   return (
@@ -13,7 +13,7 @@ function NewUserPage({}: Props) {
     >
       <AdminUserForm />
     </AdminShell>
-  )
+  );
 }
 
-export default NewUserPage
+export default NewUserPage;

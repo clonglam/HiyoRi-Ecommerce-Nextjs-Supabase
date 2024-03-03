@@ -1,1 +1,1 @@
-export { default as PaginationTable } from "./PaginationTable"
+export { default as PaginationTable } from "./PaginationTable";

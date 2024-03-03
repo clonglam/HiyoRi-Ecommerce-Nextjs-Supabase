@@ -1,8 +1,8 @@
-import React, { Suspense } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { DocumentType, gql } from "@/gql"
-import { cn, keytoUrl } from "@/lib/utils"
+import React, { Suspense } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { DocumentType, gql } from "@/gql";
+import { cn, keytoUrl } from "@/lib/utils";
 
 import {
   Card,
@@ -11,20 +11,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { AddToCartButton } from "@/features/carts"
-import { AddToWishListButton } from "@/features/wishlists"
-import { Rating } from "@/components/ui/rating"
-import { BadgeType } from "@/lib/supabase/schema"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/card";
+import { AddToCartButton } from "@/features/carts";
+import { AddToWishListButton } from "@/features/wishlists";
+import { Rating } from "@/components/ui/rating";
+import { BadgeType } from "@/lib/supabase/schema";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
 
-type CardProps = React.ComponentProps<typeof Card>
+type CardProps = React.ComponentProps<typeof Card>;
 
 export type ProductCardProps = CardProps & {
-  product: DocumentType<typeof ProductCardFragment>
-}
+  product: DocumentType<typeof ProductCardFragment>;
+};
 
 export const ProductCardFragment = gql(/* GraphQL */ `
   fragment ProductCardFragment on products {
@@ -46,14 +46,14 @@ export const ProductCardFragment = gql(/* GraphQL */ `
       slug
     }
   }
-`)
+`);
 
 export function ProductCard({
   className,
   product,
   ...props
 }: ProductCardProps) {
-  const { id, name, slug, featuredImage, badge, price } = product
+  const { id, name, slug, featuredImage, badge, price } = product;
 
   return (
     <Card
@@ -119,7 +119,7 @@ export function ProductCard({
         </Suspense>
       </CardFooter>
     </Card>
-  )
+  );
 }
 
-export default ProductCard
+export default ProductCard;

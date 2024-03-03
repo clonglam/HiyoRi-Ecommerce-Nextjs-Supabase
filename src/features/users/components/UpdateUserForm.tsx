@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useTransition } from "react"
-import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
 
 import {
   Form,
@@ -12,38 +12,38 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
-import Link from "next/link"
+import Link from "next/link";
 
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-import { PasswordInput } from "@/features/auth"
-import { Spinner } from "@/components/ui/spinner"
-import { useToast } from "@/components/ui/use-toast"
-import { User } from "@supabase/supabase-js"
-import { useRouter } from "next/navigation"
-import { AdminUserFormData, adminUserShcema } from "../validations"
+import { PasswordInput } from "@/features/auth";
+import { Spinner } from "@/components/ui/spinner";
+import { useToast } from "@/components/ui/use-toast";
+import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
+import { AdminUserFormData, adminUserShcema } from "../validations";
 
 type AdminUserFormProps = {
-  user?: User
-}
+  user?: User;
+};
 
 function UpdateUserForm({ user }: AdminUserFormProps) {
-  const [isPending, startTransition] = useTransition()
-  const router = useRouter()
-  const { toast } = useToast()
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<AdminUserFormData>({
     resolver: zodResolver(adminUserShcema),
-  })
+  });
 
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = form
+  } = form;
 
   const onSubmit = handleSubmit(
     async ({ name, email, password }: AdminUserFormData) => {
@@ -62,8 +62,8 @@ function UpdateUserForm({ user }: AdminUserFormProps) {
       //       })
       //     }
       //   })
-    }
-  )
+    },
+  );
 
   return (
     <Form {...form}>
@@ -144,7 +144,7 @@ function UpdateUserForm({ user }: AdminUserFormProps) {
         </div>
       </form>
     </Form>
-  )
+  );
 }
 
-export default UpdateUserForm
+export default UpdateUserForm;

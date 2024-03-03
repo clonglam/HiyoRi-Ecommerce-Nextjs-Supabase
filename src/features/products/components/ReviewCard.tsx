@@ -1,9 +1,9 @@
-import React from "react"
+import React from "react";
 
-type ReviewCardProps = {}
+type ReviewCardProps = {};
 
 function ReviewCard({}: ReviewCardProps) {
-  return <div>ReviewCard</div>
+  return <div>ReviewCard</div>;
 }
 
-export default ReviewCard
+export default ReviewCard;

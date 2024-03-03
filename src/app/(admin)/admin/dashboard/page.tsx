@@ -1,21 +1,21 @@
-import { CalendarDateRangePicker } from "@/components/admin/dashboard/DateRangePicker"
-import { Overview } from "@/components/admin/dashboard/Overview"
-import { RecentSales } from "@/components/admin/dashboard/RecentSales"
-import { Button } from "@/components/ui/button"
+import { CalendarDateRangePicker } from "@/components/admin/dashboard/DateRangePicker";
+import { Overview } from "@/components/admin/dashboard/Overview";
+import { RecentSales } from "@/components/admin/dashboard/RecentSales";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Metadata } from "next"
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Example dashboard app built using the components.",
-}
+};
 
 export default function DashboardPage() {
   return (
@@ -173,5 +173,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

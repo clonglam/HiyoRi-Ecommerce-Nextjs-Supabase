@@ -1,13 +1,13 @@
-"use client"
-import { DocumentType, gql } from "@/gql"
-import { keytoUrl } from "@/lib/utils"
-import Image from "next/image"
-import Link from "next/link"
-import { Card, CardContent, CardHeader } from "../../../components/ui/card"
+"use client";
+import { DocumentType, gql } from "@/gql";
+import { keytoUrl } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { Card, CardContent, CardHeader } from "../../../components/ui/card";
 
 type BuyAgainCardProps = {
-  products: DocumentType<typeof BuyAgainCardFragment>[]
-}
+  products: DocumentType<typeof BuyAgainCardFragment>[];
+};
 
 export const BuyAgainCardFragment = gql(/* GraphQL */ `
   fragment BuyAgainCardFragment on productsEdge {
@@ -25,7 +25,7 @@ export const BuyAgainCardFragment = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 function BuyAgainCard({ products }: BuyAgainCardProps) {
   return (
@@ -58,7 +58,7 @@ function BuyAgainCard({ products }: BuyAgainCardProps) {
         ))}
       </CardContent>
     </Card>
-  )
+  );
 }
 
-export default BuyAgainCard
+export default BuyAgainCard;

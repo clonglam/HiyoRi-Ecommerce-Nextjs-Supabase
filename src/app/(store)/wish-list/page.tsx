@@ -1,12 +1,12 @@
-import { Shell } from "@/components/layouts/Shell"
+import { Shell } from "@/components/layouts/Shell";
 import {
   RecommendationProducts,
   RecommendationProductsSkeleton,
-} from "@/features/products"
-import Link from "next/link"
-import React, { Suspense } from "react"
+} from "@/features/products";
+import Link from "next/link";
+import React, { Suspense } from "react";
 
-type Props = {}
+type Props = {};
 
 function WishListPage({}: Props) {
   return (
@@ -24,7 +24,7 @@ function WishListPage({}: Props) {
         <RecommendationProducts />
       </Suspense>
     </Shell>
-  )
+  );
 }
 
-export default WishListPage
+export default WishListPage;

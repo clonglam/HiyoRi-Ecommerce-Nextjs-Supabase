@@ -1,10 +1,10 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode } from "react";
 
 type DisabledFormDataProps = {
-  data: ReactNode
-  label: string
-  htmlFor?: string
-}
+  data: ReactNode;
+  label: string;
+  htmlFor?: string;
+};
 
 function DisabledFormData({ data, label, htmlFor }: DisabledFormDataProps) {
   return (
@@ -17,7 +17,7 @@ function DisabledFormData({ data, label, htmlFor }: DisabledFormDataProps) {
       </label>
       <p className="text-sm text-muted-foreground">{data}</p>
     </div>
-  )
+  );
 }
 
-export default DisabledFormData
+export default DisabledFormData;

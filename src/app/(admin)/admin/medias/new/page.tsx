@@ -1,10 +1,10 @@
-import { redirect } from "next/navigation"
-import React from "react"
+import { redirect } from "next/navigation";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 function AddMediaPage({}: Props) {
-  return <div>AddMediaPage</div>
+  return <div>AddMediaPage</div>;
 }
 
-export default AddMediaPage
+export default AddMediaPage;

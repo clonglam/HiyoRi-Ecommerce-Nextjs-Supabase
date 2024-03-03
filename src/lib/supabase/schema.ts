@@ -1,5 +1,5 @@
-import { createId } from "@paralleldrive/cuid2"
-import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm"
+import { createId } from "@paralleldrive/cuid2";
+import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import {
   boolean,
   decimal,
@@ -12,7 +12,7 @@ import {
   timestamp,
   uuid,
   varchar,
-} from "drizzle-orm/pg-core"
+} from "drizzle-orm/pg-core";
 
 // User Trigger
 // https://supabase.com/docs/guides/auth/managing-user-data
@@ -29,10 +29,10 @@ export const profiles = pgTable("profiles", {
   })
     .defaultNow()
     .notNull(),
-})
+});
 
-export type SelectUserProfiles = InferSelectModel<typeof profiles>
-export type InsertUserProfiles = InferInsertModel<typeof profiles>
+export type SelectUserProfiles = InferSelectModel<typeof profiles>;
+export type InsertUserProfiles = InferInsertModel<typeof profiles>;
 
 export const carts = pgTable(
   "carts",
@@ -62,16 +62,16 @@ export const carts = pgTable(
       })
         .onDelete("cascade")
         .onUpdate("cascade"),
-    }
-  }
-)
+    };
+  },
+);
 
 export const cartsRelations = relations(carts, ({ one }) => ({
   product: one(products, {
     fields: [carts.productId],
     references: [products.id],
   }),
-}))
+}));
 
 export const wishlist = pgTable(
   "wishlist",
@@ -100,12 +100,12 @@ export const wishlist = pgTable(
       })
         .onDelete("cascade")
         .onUpdate("cascade"),
-    }
-  }
-)
+    };
+  },
+);
 
-export type SelectWishlist = InferSelectModel<typeof wishlist>
-export type InsertWishlist = InferInsertModel<typeof wishlist>
+export type SelectWishlist = InferSelectModel<typeof wishlist>;
+export type InsertWishlist = InferInsertModel<typeof wishlist>;
 
 export const comments = pgTable(
   "comments",
@@ -145,9 +145,9 @@ export const comments = pgTable(
       })
         .onDelete("cascade")
         .onUpdate("cascade"),
-    }
-  }
-)
+    };
+  },
+);
 
 export const products = pgTable(
   "products",
@@ -196,18 +196,18 @@ export const products = pgTable(
         foreignColumns: [collections.id],
         name: "collection",
       }),
-    }
-  }
-)
+    };
+  },
+);
 
 export const productsRelations = relations(products, ({ one }) => ({
   featuredImage: one(productMedias, {
     fields: [products.featuredImageId],
     references: [productMedias.id],
   }),
-}))
+}));
 
-export type PaymentStatus = "paid" | "unpaid" | "no_payment_required"
+export type PaymentStatus = "paid" | "unpaid" | "no_payment_required";
 
 export const orders = pgTable(
   "orders",
@@ -243,18 +243,18 @@ export const orders = pgTable(
         foreignColumns: [profiles.id],
         name: "orders_profiles_fk",
       }),
-    }
-  }
-)
+    };
+  },
+);
 
-export type SelectOrders = InferSelectModel<typeof orders>
-export type InsertOrders = InferInsertModel<typeof orders>
+export type SelectOrders = InferSelectModel<typeof orders>;
+export type InsertOrders = InferInsertModel<typeof orders>;
 export const ordersRelations = relations(orders, ({ one }) => ({
   address: one(address, {
     fields: [orders.addressId],
     references: [address.id],
   }),
-}))
+}));
 
 export const orderLines = pgTable(
   "order_lines",
@@ -293,12 +293,12 @@ export const orderLines = pgTable(
       })
         .onDelete("restrict")
         .onUpdate("cascade"),
-    }
-  }
-)
+    };
+  },
+);
 
-export type SelectOrderLines = InferSelectModel<typeof orderLines>
-export type InsertOrderLines = InferInsertModel<typeof orderLines>
+export type SelectOrderLines = InferSelectModel<typeof orderLines>;
+export type InsertOrderLines = InferInsertModel<typeof orderLines>;
 
 export const orderLinesRelations = relations(orderLines, ({ one }) => ({
   product: one(products, {
@@ -309,7 +309,7 @@ export const orderLinesRelations = relations(orderLines, ({ one }) => ({
     fields: [orderLines.productId],
     references: [orders.id],
   }),
-}))
+}));
 
 export const address = pgTable("address", {
   id: text("id")
@@ -325,15 +325,15 @@ export const address = pgTable("address", {
   userProfileId: uuid("userProfileId").references(() => profiles.id, {
     onDelete: "cascade",
   }),
-})
+});
 
 export const addressRelations = relations(address, ({ one }) => ({
   profile: one(profiles, {
     fields: [address.userProfileId],
     references: [profiles.id],
   }),
-}))
-export type InsertAddress = InferInsertModel<typeof address>
+}));
+export type InsertAddress = InferInsertModel<typeof address>;
 
 export const productMedias = pgTable(
   "product_medias",
@@ -366,14 +366,14 @@ export const productMedias = pgTable(
       })
         .onDelete("cascade")
         .onUpdate("cascade"),
-    }
-  }
-)
+    };
+  },
+);
 
-export type BadgeType = "best_sale" | "featured" | "new_product"
+export type BadgeType = "best_sale" | "featured" | "new_product";
 
-export type SelectProducts = InferSelectModel<typeof products>
-export type InsertProducts = InferInsertModel<typeof products>
+export type SelectProducts = InferSelectModel<typeof products>;
+export type InsertProducts = InferInsertModel<typeof products>;
 
 export const collections = pgTable(
   "collections",
@@ -398,12 +398,12 @@ export const collections = pgTable(
         foreignColumns: [medias.id],
         name: "featured_image",
       }),
-    }
-  }
-)
+    };
+  },
+);
 
-export type SelectCollection = InferSelectModel<typeof collections>
-export type InsertCollection = InferInsertModel<typeof collections>
+export type SelectCollection = InferSelectModel<typeof collections>;
+export type InsertCollection = InferInsertModel<typeof collections>;
 
 export const medias = pgTable("medias", {
   id: text("id")
@@ -414,10 +414,10 @@ export const medias = pgTable("medias", {
   alt: varchar("alt", { length: 255 }).notNull(),
   createdAt: timestamp("created_at", { mode: "string" }).defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }).defaultNow(),
-})
+});
 
-export type SelectMedia = InferSelectModel<typeof medias>
-export type InsertMedia = InferInsertModel<typeof medias>
+export type SelectMedia = InferSelectModel<typeof medias>;
+export type InsertMedia = InferInsertModel<typeof medias>;
 
 // https://stackoverflow.com/questions/24923469/modeling-product-variants
 

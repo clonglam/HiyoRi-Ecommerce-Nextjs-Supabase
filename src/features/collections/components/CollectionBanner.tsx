@@ -1,7 +1,7 @@
-import { gql, DocumentType } from "@/gql"
-import { keytoUrl } from "@/lib/utils"
-import Image from "next/image"
-import React from "react"
+import { gql, DocumentType } from "@/gql";
+import { keytoUrl } from "@/lib/utils";
+import Image from "next/image";
+import React from "react";
 
 const CollectionBannerFragment = gql(/* GraphQL */ `
   fragment CollectionBannerFragment on collections {
@@ -14,14 +14,14 @@ const CollectionBannerFragment = gql(/* GraphQL */ `
       alt
     }
   }
-`)
+`);
 
 function CollectionBanner({
   collectionBannerData,
 }: {
-  collectionBannerData: DocumentType<typeof CollectionBannerFragment>
+  collectionBannerData: DocumentType<typeof CollectionBannerFragment>;
 }) {
-  const { label, featuredImage } = collectionBannerData
+  const { label, featuredImage } = collectionBannerData;
   return (
     <div className="relative w-full md:container-2xl mx-auto h-[220px] md:h-[280px] overflow-hidden object-center object-cover mb-8">
       <Image
@@ -35,7 +35,7 @@ function CollectionBanner({
         {label}
       </h1>
     </div>
-  )
+  );
 }
 
-export default CollectionBanner
+export default CollectionBanner;

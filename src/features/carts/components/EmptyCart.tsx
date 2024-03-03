@@ -1,8 +1,8 @@
-import React from "react"
-import Link from "next/link"
-import { buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
-import { cn } from "@/lib/utils"
+import React from "react";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
+import { cn } from "@/lib/utils";
 
 function EmptyCart() {
   return (
@@ -16,7 +16,7 @@ function EmptyCart() {
         Continue shopping
       </Link>
     </section>
-  )
+  );
 }
 
-export default EmptyCart
+export default EmptyCart;

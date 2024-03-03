@@ -1,11 +1,11 @@
-import { Shell } from "@/components/layouts/Shell"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { OrderProgress } from "@/features/orders"
-import Link from "next/link"
+import { Shell } from "@/components/layouts/Shell";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { OrderProgress } from "@/features/orders";
+import Link from "next/link";
 
 type TrackOrderProps = {
-  params: { orderId: string }
-}
+  params: { orderId: string };
+};
 
 function TrackOrderPage({ params: { orderId } }: TrackOrderProps) {
   return (
@@ -53,7 +53,7 @@ function TrackOrderPage({ params: { orderId } }: TrackOrderProps) {
         </Card>
       </section>
     </Shell>
-  )
+  );
 }
 
-export default TrackOrderPage
+export default TrackOrderPage;

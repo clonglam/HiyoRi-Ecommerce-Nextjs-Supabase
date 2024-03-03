@@ -1,9 +1,9 @@
-"use client"
-import { SelectCollection } from "@/lib/supabase/schema"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import React from "react"
-import { Button } from "../../../components/ui/button"
-import { Separator } from "../../../components/ui/separator"
+"use client";
+import { SelectCollection } from "@/lib/supabase/schema";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React from "react";
+import { Button } from "../../../components/ui/button";
+import { Separator } from "../../../components/ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -11,15 +11,15 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../../../components/ui/sheet"
+} from "../../../components/ui/sheet";
 
-type Props = { collections: SelectCollection[] }
+type Props = { collections: SelectCollection[] };
 
 function FilterSheet({ collections }: Props) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const [isPending, startTransition] = React.useTransition()
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = React.useTransition();
 
   return (
     <Sheet>
@@ -217,7 +217,7 @@ function FilterSheet({ collections }: Props) {
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
 
-export default FilterSheet
+export default FilterSheet;

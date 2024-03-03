@@ -1,6 +1,6 @@
-import { InsertOrderLines } from "../schema"
-import db from "../db"
-import * as schema from "../schema"
+import { InsertOrderLines } from "../schema";
+import db from "../db";
+import * as schema from "../schema";
 
 const address: schema.InsertAddress[] = [
   {
@@ -19,21 +19,21 @@ const address: schema.InsertAddress[] = [
     postal_code: "94538",
     state: "CA",
   },
-]
+];
 
 const seedAddress = async () => {
   try {
-    await db.delete(schema.address)
+    await db.delete(schema.address);
 
     const insertedOrders = await db
       .insert(schema.address)
       .values(address)
       .onConflictDoNothing()
-      .returning()
-    if (insertedOrders != null) console.log(`address are added to the DB.`)
+      .returning();
+    if (insertedOrders != null) console.log(`address are added to the DB.`);
   } catch (err) {
-    console.log("Error happen while inserting address", err)
+    console.log("Error happen while inserting address", err);
   }
-}
+};
 
-export default seedAddress
+export default seedAddress;

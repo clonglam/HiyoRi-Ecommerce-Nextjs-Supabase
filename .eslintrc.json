@@ -14,6 +14,8 @@
     "no-empty-pattern": "off",
     "no-case-declarations": "off",
     "no-constant-condition": "off",
-    "react-hooks/rules-of-hooks": "off"
+    "react-hooks/rules-of-hooks": "off",
+    "no-undef": "off",
+    "@typescript-eslint/no-var-requires": "off"
   }
 }

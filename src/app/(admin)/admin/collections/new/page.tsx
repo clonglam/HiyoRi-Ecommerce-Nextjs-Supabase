@@ -1,7 +1,7 @@
-import AdminShell from "@/components/admin/AdminShell"
-import { CollectionForm } from "@/features/collections"
+import AdminShell from "@/components/admin/AdminShell";
+import { CollectionForm } from "@/features/collections";
 
-type Props = {}
+type Props = {};
 
 async function NewProjectPage({}: Props) {
   return (
@@ -11,7 +11,7 @@ async function NewProjectPage({}: Props) {
     >
       <CollectionForm />
     </AdminShell>
-  )
+  );
 }
 
-export default NewProjectPage
+export default NewProjectPage;

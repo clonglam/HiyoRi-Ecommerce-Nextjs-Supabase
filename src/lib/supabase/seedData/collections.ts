@@ -1,5 +1,5 @@
-import db from "../db"
-import * as schema from "../schema"
+import db from "../db";
+import * as schema from "../schema";
 
 const collections = [
   {
@@ -36,22 +36,22 @@ const collections = [
     description: "",
     featuredImageId: "4",
   },
-]
+];
 
 const seedCollections = async () => {
   try {
-    await db.delete(schema.collections)
+    await db.delete(schema.collections);
 
     const insertedCollections = await db
       .insert(schema.collections)
       .values(collections)
       .onConflictDoNothing()
-      .returning()
+      .returning();
     if (insertedCollections != null)
-      console.log(`collections are added to the DB.`)
+      console.log(`collections are added to the DB.`);
   } catch (err) {
-    console.log("Error happen while inserting collections", err)
+    console.log("Error happen while inserting collections", err);
   }
-}
+};
 
-export default seedCollections
+export default seedCollections;

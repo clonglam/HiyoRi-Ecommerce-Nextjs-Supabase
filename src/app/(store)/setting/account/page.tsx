@@ -1,9 +1,9 @@
-import React from "react"
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 function AccountPage({}: Props) {
-  return <div>Account Page</div>
+  return <div>Account Page</div>;
 }
 
-export default AccountPage
+export default AccountPage;

@@ -1,9 +1,9 @@
-import { type Metadata } from "next"
-import { Suspense } from "react"
-import Link from "next/link"
+import { type Metadata } from "next";
+import { Suspense } from "react";
+import Link from "next/link";
 
-import OAuthLoginButtons from "@/features/auth/components/OAuthLoginButtons"
-import { SignupForm } from "@/features/auth"
+import OAuthLoginButtons from "@/features/auth/components/OAuthLoginButtons";
+import { SignupForm } from "@/features/auth";
 import {
   Card,
   CardContent,
@@ -11,12 +11,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Sign Up",
   description: "Sign up for an account",
-}
+};
 
 export default function SignUpPage() {
   return (
@@ -66,5 +66,5 @@ export default function SignUpPage() {
         </CardFooter>
       </Card>
     </section>
-  )
+  );
 }

@@ -1,2 +1,2 @@
-export * from "../carts/validations"
-export * from "./components"
+export * from "../carts/validations";
+export * from "./components";

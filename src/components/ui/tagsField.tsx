@@ -1,15 +1,15 @@
-"use client"
-import { FC } from "react"
-import { useFormContext, Controller } from "react-hook-form"
-import TagsInput from "./tagsInput"
+"use client";
+import { FC } from "react";
+import { useFormContext, Controller } from "react-hook-form";
+import TagsInput from "./tagsInput";
 
 interface TagsFieldProps {
-  name: string
-  defaultValue?: string[]
+  name: string;
+  defaultValue?: string[];
 }
 
 export const TagsField: FC<TagsFieldProps> = ({ name, defaultValue }) => {
-  const { control, getValues, setValue } = useFormContext() // Use the form context
+  const { control, getValues, setValue } = useFormContext(); // Use the form context
 
   return (
     <Controller
@@ -24,7 +24,7 @@ export const TagsField: FC<TagsFieldProps> = ({ name, defaultValue }) => {
         />
       )}
     />
-  )
-}
+  );
+};
 
-export default TagsField
+export default TagsField;

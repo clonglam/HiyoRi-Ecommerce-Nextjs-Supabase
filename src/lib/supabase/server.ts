@@ -1,14 +1,14 @@
-import { env } from "@/env.mjs"
+import { env } from "@/env.mjs";
 
-import { CookieOptions, createServerClient } from "@supabase/ssr"
-import { cookies } from "next/headers"
+import { CookieOptions, createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 
 export function createClient({
   cookieStore,
   isAdmin = false,
 }: {
-  cookieStore: ReturnType<typeof cookies>
-  isAdmin?: boolean
+  cookieStore: ReturnType<typeof cookies>;
+  isAdmin?: boolean;
 }) {
   return createServerClient(
     `https://${env.NEXT_PUBLIC_SUPABASE_PROJECT_REF}.supabase.co`,
@@ -16,17 +16,17 @@ export function createClient({
     {
       cookies: {
         get(name: string) {
-          return cookieStore.get(name)?.value
+          return cookieStore.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
-          cookieStore.set({ name, value, ...options })
+          cookieStore.set({ name, value, ...options });
         },
         remove(name: string, options: CookieOptions) {
-          cookieStore.set({ name, value: "", ...options })
+          cookieStore.set({ name, value: "", ...options });
         },
       },
-    }
-  )
+    },
+  );
 }
 
-export default createClient
+export default createClient;

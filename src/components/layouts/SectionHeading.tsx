@@ -1,13 +1,13 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode } from "react";
 
 interface HeaderProps
   extends React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > {
-  heading: string
-  description?: string
-  children?: ReactNode
+  heading: string;
+  description?: string;
+  children?: ReactNode;
 }
 
 function SectionHeading({
@@ -24,7 +24,7 @@ function SectionHeading({
       </p>
       {/* {children} */}
     </section>
-  )
+  );
 }
 
-export default SectionHeading
+export default SectionHeading;

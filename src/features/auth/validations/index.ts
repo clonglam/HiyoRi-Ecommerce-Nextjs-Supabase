@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { z } from "zod";
 
 export const authSchema = z.object({
   email: z.string().email({
@@ -14,7 +14,7 @@ export const authSchema = z.object({
       message:
         "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character",
     }),
-})
+});
 
 export const signupSchema = z.object({
   email: z.string().email({
@@ -31,4 +31,4 @@ export const signupSchema = z.object({
       message:
         "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character",
     }),
-})
+});

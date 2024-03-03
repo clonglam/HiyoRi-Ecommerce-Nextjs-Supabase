@@ -1,11 +1,11 @@
-import { Suspense } from "react"
-import CartNav from "../../features/carts/components/CartNav"
-import Branding from "./Branding"
-import MobileSearchInput from "./MobileSearchInput"
-import { SideMenu } from "./SideMenu"
-import CartLink from "../../features/carts/components/CartLink"
+import { Suspense } from "react";
+import CartNav from "../../features/carts/components/CartNav";
+import Branding from "./Branding";
+import MobileSearchInput from "./MobileSearchInput";
+import { SideMenu } from "./SideMenu";
+import CartLink from "../../features/carts/components/CartLink";
 
-type Props = { adminLayout: boolean }
+type Props = { adminLayout: boolean };
 
 function MobileNavbar({ adminLayout }: Props) {
   return (
@@ -20,7 +20,7 @@ function MobileNavbar({ adminLayout }: Props) {
         {!adminLayout && <CartNav />}
       </Suspense>
     </div>
-  )
+  );
 }
 
-export default MobileNavbar
+export default MobileNavbar;
