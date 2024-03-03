@@ -25,6 +25,7 @@ const QuantityInput = React.forwardRef<HTMLInputElement, QuantitiyInputProps>(
       >
         <input
           {...props}
+          aria-label="quantity"
           type="number"
           value={value}
           ref={ref}
@@ -36,14 +37,14 @@ const QuantityInput = React.forwardRef<HTMLInputElement, QuantitiyInputProps>(
           className="text-xl order-1"
           onClick={minusOneHandler}
         >
-          <Icons.minus />
+          <Icons.minus aria-label="minus" />
         </button>
         <button
           type="button"
           className="text-xl order-3"
           onClick={addOneHandler}
         >
-          <Icons.add />
+          <Icons.add aria-label="add" />
         </button>
       </div>
     )
