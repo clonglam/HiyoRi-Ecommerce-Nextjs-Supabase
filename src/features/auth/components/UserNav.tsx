@@ -1,10 +1,11 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import React from "react";
-import { Icons } from "@/components/icons";
-import { useAuth } from "@/providers/AuthProvider";
+import { Icons } from "@/components/icons"
+import { useAuth } from "@/providers/AuthProvider"
+import Link from "next/link"
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,21 +15,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import supabaseClient from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { isAdmin } from "@/features/users";
+} from "@/components/ui/dropdown-menu"
+import supabaseClient from "@/lib/supabase/client"
+import { getNameInitials } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 
 function UserNav() {
-  const router = useRouter();
-  const { user } = useAuth();
+  const router = useRouter()
+  const { user } = useAuth()
 
   const logout = () => {
-    supabaseClient.auth.signOut();
-    router.refresh();
-  };
+    supabaseClient.auth.signOut()
+    router.refresh()
+  }
 
   return (
     <>
@@ -43,10 +42,14 @@ function UserNav() {
                 {/* TODO: UPDATE AVATOR IMAGE & NAME */}
                 <AvatarImage
                   src="/avatars/01.png"
-                  alt={(user.user_metadata.name ?? "User").slice(1)}
+                  alt={getNameInitials(
+                    (user.user_metadata.name as string) ?? "Name"
+                  )}
                 />
                 <AvatarFallback>
-                  {user.user_metadata.name || "U"}
+                  {getNameInitials(
+                    (user.user_metadata.name as string) ?? "Name"
+                  )}
                 </AvatarFallback>
               </Avatar>
             </Button>
@@ -116,7 +119,7 @@ function UserNav() {
         </Link>
       )}
     </>
-  );
+  )
 }
 
-export default UserNav;
+export default UserNav

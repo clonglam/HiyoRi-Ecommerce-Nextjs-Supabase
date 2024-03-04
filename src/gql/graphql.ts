@@ -4954,7 +4954,7 @@ export const ProductDetailPageQueryDocument = {
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "first" },
-                value: { kind: "IntValue", value: "5" },
+                value: { kind: "IntValue", value: "4" },
               },
             ],
             selectionSet: {

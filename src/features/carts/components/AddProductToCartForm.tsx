@@ -13,7 +13,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-import { useCartStore } from "@/features/carts"
 import { useAuth } from "@/providers/AuthProvider"
 import useCartActions from "../hooks/useCartActions"
 import { AddProductCartData, AddProductToCartSchema } from "../validations"
@@ -24,8 +23,7 @@ interface AddProductToCartFormProps {
 
 function AddProductToCartForm({ productId }: AddProductToCartFormProps) {
   const { user } = useAuth()
-  const { authAddOrUpdateProduct } = useCartActions(user, productId)
-  const addProductToStore = useCartStore((s) => s.addProductToCart)
+  const { addProductToCart } = useCartActions(user, productId)
   const maxQuantity = 8
 
   const form = useForm<AddProductCartData>({
@@ -36,11 +34,7 @@ function AddProductToCartForm({ productId }: AddProductToCartFormProps) {
   })
 
   async function onSubmit(values: AddProductCartData) {
-    if (user) {
-      await authAddOrUpdateProduct(values.quantity)
-    } else {
-      addProductToStore(productId, values.quantity)
-    }
+    addProductToCart(values.quantity)
   }
 
   const addOne = () => {

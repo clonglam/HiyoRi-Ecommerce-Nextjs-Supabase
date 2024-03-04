@@ -58,7 +58,7 @@ const ProductDetailPageQuery = gql(/* GraphQL */ `
         }
       }
     }
-    recommendations: productsCollection(first: 5) {
+    recommendations: productsCollection(first: 4) {
       edges {
         node {
           id

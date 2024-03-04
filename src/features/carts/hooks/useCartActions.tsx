@@ -10,7 +10,7 @@ function useCartActions(user: User | null, productId: string) {
   const { toast } = useToast()
   const [, addToCart] = useMutation(createCartMutation)
   const [, updateCart] = useMutation(updateCartsMutation)
-  // const addProductToCart = useCartStore((s) => s.addProductToCart)
+  const addProductStorage = useCartStore((s) => s.addProductToCart)
 
   const [{ data }, refetch] = useQuery({
     query: FetchCartQuery,
@@ -45,12 +45,15 @@ function useCartActions(user: User | null, productId: string) {
     }
   }
 
-  // const guestAddProduct = (quantity: number) => {
-  //   addProductToCart(productId, quantity)
-  //   toast({ title: "Sucess, Added a Product to the Cart." })
-  // }
+  const guestAddProduct = (quantity: number) => {
+    addProductStorage(productId, quantity)
+    toast({ title: "Sucess, Added a Product to the Cart." })
+  }
 
-  return { authAddOrUpdateProduct }
+  const addProductToCart = (quantity: number) =>
+    !user ? guestAddProduct(quantity) : authAddOrUpdateProduct(quantity)
+
+  return { addProductToCart }
 }
 
 export default useCartActions
