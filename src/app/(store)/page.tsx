@@ -1,25 +1,25 @@
-import { getCurrentUser } from "@/features/users/actions";
-import { Icons } from "@/components/icons";
-import { Shell } from "@/components/layouts/Shell";
-import { buttonVariants } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { getCurrentUser } from "@/features/users/actions"
+import { Icons } from "@/components/icons"
+import { Shell } from "@/components/layouts/Shell"
+import { buttonVariants } from "@/components/ui/button"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
   CollectionCardFragment,
   CollectionsCard,
   CollectionsCardSkeleton,
-} from "@/features/collections";
+} from "@/features/collections"
 import {
   ProductCard,
   ProductCardFragment,
   ProductCardSkeleton,
-} from "@/features/products";
-import { DocumentType, gql } from "@/gql";
-import { getClient } from "@/lib/urql";
-import { cn, keytoUrl } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
+} from "@/features/products"
+import { DocumentType, gql } from "@/gql"
+import { getClient } from "@/lib/urql"
+import { cn, keytoUrl } from "@/lib/utils"
+import Image from "next/image"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import { Suspense } from "react"
 
 const LandingRouteQuery = gql(/* GraphQL */ `
   query LandingRouteQuery($user_id: UUID) {
@@ -65,19 +65,19 @@ const LandingRouteQuery = gql(/* GraphQL */ `
       }
     }
   }
-`);
+`)
 
 export default async function Home() {
-  const currentUser = await getCurrentUser();
+  const currentUser = await getCurrentUser()
 
   const { data } = await getClient().query(LandingRouteQuery, {
     user_id: currentUser?.id,
-  });
+  })
 
-  if (data === null) return notFound();
+  if (data === null) return notFound()
 
   return (
-    <main className="min-h-screen">
+    <main>
       <HeroSection />
 
       <Shell>
@@ -98,7 +98,7 @@ export default async function Home() {
         <LessIsMoreCard />
       </Shell>
     </main>
-  );
+  )
 }
 
 function HeroSection() {
@@ -133,7 +133,7 @@ function HeroSection() {
                 buttonVariants({ variant: "outline", size: "lg" }),
                 "border-2 border-white text-white rounded px-8 py-3 ",
                 "md:px-16 md:py-6",
-                "hover:text-zinc-600 hover:bg-white",
+                "hover:text-zinc-600 hover:bg-white"
               )}
             >
               New in
@@ -145,7 +145,7 @@ function HeroSection() {
               className={cn(
                 buttonVariants({ variant: "default", size: "lg" }),
                 "border-2 border-primary text-white rounded px-8 py-3 ",
-                "md:px-16 md:py-6",
+                "md:px-16 md:py-6"
               )}
             >
               View the Code
@@ -154,15 +154,15 @@ function HeroSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 interface FeaturedProductsCards {
-  products: { node: DocumentType<typeof ProductCardFragment> }[];
+  products: { node: DocumentType<typeof ProductCardFragment> }[]
 }
 
 interface CollectionsCardsProps {
-  collections: { node: DocumentType<typeof CollectionCardFragment> }[];
+  collections: { node: DocumentType<typeof CollectionCardFragment> }[]
 }
 
 function ProductSubCollectionsCircles({ collections }: CollectionsCardsProps) {
@@ -176,7 +176,7 @@ function ProductSubCollectionsCircles({ collections }: CollectionsCardsProps) {
           <div
             className={cn(
               "relative bg-secondary rounded-full flex justify-center items-center",
-              "w-[280px] h-[280px]",
+              "w-[280px] h-[280px]"
               // "md:w-[320px] md:h-[320px]"
               // "lg:w-[360px] lg:h-[360px]"
             )}
@@ -188,7 +188,7 @@ function ProductSubCollectionsCircles({ collections }: CollectionsCardsProps) {
               height={320}
               className={cn(
                 "object-center object-cover hover:scale-105 transition-all duration-500",
-                "w-[240px] h-[240px]",
+                "w-[240px] h-[240px]"
                 // "md:w-[280px] md:h-[280px]",
                 // "lg:w-[320px] lg:h-[320px]"
               )}
@@ -200,11 +200,11 @@ function ProductSubCollectionsCircles({ collections }: CollectionsCardsProps) {
         </Link>
       ))}
     </section>
-  );
+  )
 }
 
 interface FeaturedProductsCardsProps {
-  products: { node: DocumentType<typeof ProductCardFragment> }[];
+  products: { node: DocumentType<typeof ProductCardFragment> }[]
 }
 
 function FeaturedProductsCards({ products }: FeaturedProductsCardsProps) {
@@ -232,7 +232,7 @@ function FeaturedProductsCards({ products }: FeaturedProductsCardsProps) {
         </Suspense>
       </div>
     </section>
-  );
+  )
 }
 
 function CollectionGrid() {
@@ -280,7 +280,7 @@ function CollectionGrid() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function CollectionRectCard({ collections }: CollectionsCardsProps) {
@@ -299,7 +299,7 @@ function CollectionRectCard({ collections }: CollectionsCardsProps) {
       </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
-  );
+  )
 }
 
 function DifferentFeatureCards() {
@@ -328,7 +328,7 @@ function DifferentFeatureCards() {
       description:
         "Thanks to Mealshare, every purchase directly donates a meal to a youth in need.",
     },
-  ];
+  ]
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-5 gap-y-8 gap-x-5 md:gap-x-12 mx-auto">
       {features.map(({ Icon, title, description }, index) => (
@@ -349,7 +349,7 @@ function DifferentFeatureCards() {
         </div>
       ))}
     </section>
-  );
+  )
 }
 
 function LessIsMoreCard() {
@@ -383,5 +383,5 @@ function LessIsMoreCard() {
         </Link>
       </div>
     </section>
-  );
+  )
 }

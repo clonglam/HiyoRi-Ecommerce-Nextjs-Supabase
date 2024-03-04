@@ -1,41 +1,73 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[og-image](https://hiyori-backpack.s3.us-west-2.amazonaws.com/Hiyori-nextjs-supabase-graphql-og.jpg)
 
-## Project Features
+> > We are Keep developing the project.
 
-1. User Management
-2. Product Management
-3. Product Stocking
-4. Category
-5. Product Variation
-6. Grahpql Fetching
-7. Payment
-8. Shipping
-9. Order Status
-10. Reviews & Comments
+# Hiyori - E-commerce with Custom CMS
 
-## Overview
+[Hiyori](https://hiyori.hugo-coding.com) is a cutting-edge e-commerce platform equipped with a custom Content Management System (CMS), designed to provide an exceptional online shopping experience. Built using the latest web technologies such as Next.js 14, GraphQL, Supabase, Drizzle, ShadcnUI, and TailwindCSS, Hiyori offers seamless, fast, and responsive interactions across all devices.
 
-We plan to handle the whole system in AWS Amplify.
+## Features
 
-1. User Searching Product
+- **Custom CMS:** Tailor-made content management for products, categories, and promotional content, giving you complete control over your e-commerce content.
+- **Dynamic Product Display:** Utilizes GraphQL for efficient and dynamic product queries, ensuring that your customers always have access to the latest items and details.
+- **Secure Authentication and Authorization:** Powered by Supabase for secure user authentication and authorization, safeguarding user data and transactions.
+- **Responsive Design:** A mobile-first approach with TailwindCSS and ShadcnUI, ensuring an optimal shopping experience on any device.
+- **State Management:** Integrated with Drizzle for predictable state management, making the user interface highly responsive and interactive.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js 14:** A React framework for building user interfaces with server-side rendering and static site generation capabilities.
+- **GraphQL:** A query language for your API, allowing for fetching precise data requests.
+- **Supabase:** An open-source Firebase alternative providing databases, authentication, and real-time subscriptions.
+- **Drizzle:** A library to manage application state with Redux store in a simpler and predictable way.
+- **ShadcnUI:** A modern UI library for React, enabling the creation of beautiful, responsive designs.
+- **TailwindCSS:** A utility-first CSS framework for rapidly building custom designs.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Getting Started
 
-## Learn More
+To get a local copy up and running, follow these simple steps:
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Node.js (v12.x or later)
+- npm or yarn
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Installation
 
-## Deploy on Vercel
+1. Clone the repository:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   git clone https://github.com/yourusername/hiyori.git
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2. Navigate to the project directory:
+
+   ```bash
+   cd hiyori
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+Open http://localhost:3000 with your browser to see the result.
+
+## Contributing
+
+We welcome contributions to Hiyori! Please read our Contributing Guide for details on our code of conduct and the process for submitting pull requests to us.
+
+## License
+
+Hiyori is licensed under the MIT License. See the license file for more information.
+
+## Acknowledgments
+
+- Special thanks to all libraries and frameworks that made Hiyori possible.
+- Shoutout to the community for supporting and using Hiyori.

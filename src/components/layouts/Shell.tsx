@@ -1,14 +1,14 @@
-import * as React from "react";
+import * as React from "react"
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 interface ShellProps
   extends React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > {
-  children: React.ReactNode;
-  layout?: "default" | "dashboard" | "narrow";
+  children: React.ReactNode
+  layout?: "default" | "dashboard" | "narrow"
 }
 
 export function Shell({
@@ -24,11 +24,11 @@ export function Shell({
         layout === "default" && "container",
         layout === "narrow" && "container max-w-5xl",
 
-        className,
+        className
       )}
       {...props}
     >
       {children}
     </section>
-  );
+  )
 }
