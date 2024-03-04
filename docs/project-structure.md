@@ -1,5 +1,7 @@
 # 🗄️ Project Structure
 
+<!-- Thanks for https://github.com/alan2207/bulletproof-react -->
+
 Most of the code lives in the `src` folder and looks like this:
 
 ```sh

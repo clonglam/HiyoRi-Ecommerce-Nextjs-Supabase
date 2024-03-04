@@ -1,9 +1,9 @@
-"use client";
-import { useMutation } from "urql";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { QuantityInput } from "@/components/QuantityInput";
-import { Button } from "@/components/ui/button";
+"use client"
+import { useMutation } from "urql"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { QuantityInput } from "@/components/QuantityInput"
+import { Button } from "@/components/ui/button"
 
 import {
   Form,
@@ -12,46 +12,49 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/components/ui/form"
 
-import { useAuth } from "@/providers/AuthProvider";
-import { createCartMutation } from "@/features/carts";
-import { AddProductCartData, AddProductToCartSchema } from "../validations";
+import { useAuth } from "@/providers/AuthProvider"
+import { createCartMutation, useCartStore } from "@/features/carts"
+import { AddProductCartData, AddProductToCartSchema } from "../validations"
 
 interface AddProductToCartFormProps {
-  productId: string;
+  productId: string
 }
 
 function AddProductToCartForm({ productId }: AddProductToCartFormProps) {
-  const [, addToCart] = useMutation(createCartMutation);
-  const { user } = useAuth();
-  const maxQuantity = 8;
+  const { user } = useAuth()
+  const [, addToCart] = useMutation(createCartMutation)
+  const addProductToStore = useCartStore((s) => s.addProductToCart)
+  const maxQuantity = 8
 
   const form = useForm<AddProductCartData>({
     resolver: zodResolver(AddProductToCartSchema),
     defaultValues: {
       quantity: 1,
     },
-  });
+  })
 
   function onSubmit(values: AddProductCartData) {
     if (user) {
+      addToCart({ productId, quantity: values.quantity, userId: user.id })
       // add Product to Carts.
       // server one
+    } else {
+      addProductToStore(productId, values.quantity)
     }
-    // Add the product to local storage
 
     // console.log(values)
   }
 
   const addOne = () => {
-    const currQuantity = form.getValues("quantity");
-    if (currQuantity < maxQuantity) form.setValue("quantity", currQuantity + 1);
-  };
+    const currQuantity = form.getValues("quantity")
+    if (currQuantity < maxQuantity) form.setValue("quantity", currQuantity + 1)
+  }
   const minusOne = () => {
-    const currQuantity = form.getValues("quantity");
-    if (currQuantity > 1) form.setValue("quantity", currQuantity - 1);
-  };
+    const currQuantity = form.getValues("quantity")
+    if (currQuantity > 1) form.setValue("quantity", currQuantity - 1)
+  }
 
   return (
     <Form {...form}>
@@ -76,7 +79,7 @@ function AddProductToCartForm({ productId }: AddProductToCartFormProps) {
         <Button type="submit">Add to Cart</Button>
       </form>
     </Form>
-  );
+  )
 }
 
-export default AddProductToCartForm;
+export default AddProductToCartForm

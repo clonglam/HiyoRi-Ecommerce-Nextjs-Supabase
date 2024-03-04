@@ -8,8 +8,6 @@
 
 ## Features
 
-## Features
-
 - **Searching Feature with GraphQL**: Dynamic and efficient searching, allowing complex queries with optimized data fetching.
 - **Stripe Checkout with Webhooks**: Seamless payment processing integrated with real-time notifications for automated order and inventory management.
 - **Custom CMS**: Easy management for orders, users, products, and collections through a user-friendly interface designed for e-commerce.
@@ -23,6 +21,12 @@
 - **Middleware for Admin Page and Route Protection**: Secures sensitive areas with custom middleware, restricting access to authorized users.
 - **Responsive Design**: Ensures an optimal viewing experience across all devices, from desktops to smartphones.
 - **SEO**: Implements best practices for search engine optimization to improve visibility and drive organic traffic.
+
+## Upcoming Feature
+
+- Unit Test for most of the components
+- Update Order Progress Components
+-
 
 ## Technologies
 
