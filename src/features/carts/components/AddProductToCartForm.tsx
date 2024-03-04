@@ -1,9 +1,8 @@
 "use client"
-import { useMutation } from "urql"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
 import { QuantityInput } from "@/components/QuantityInput"
 import { Button } from "@/components/ui/button"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 
 import {
   Form,
@@ -14,8 +13,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
+import { useCartStore } from "@/features/carts"
 import { useAuth } from "@/providers/AuthProvider"
-import { createCartMutation, useCartStore } from "@/features/carts"
+import useCartActions from "../hooks/useCartActions"
 import { AddProductCartData, AddProductToCartSchema } from "../validations"
 
 interface AddProductToCartFormProps {
@@ -24,7 +24,7 @@ interface AddProductToCartFormProps {
 
 function AddProductToCartForm({ productId }: AddProductToCartFormProps) {
   const { user } = useAuth()
-  const [, addToCart] = useMutation(createCartMutation)
+  const { authAddOrUpdateProduct } = useCartActions(user, productId)
   const addProductToStore = useCartStore((s) => s.addProductToCart)
   const maxQuantity = 8
 
@@ -35,16 +35,12 @@ function AddProductToCartForm({ productId }: AddProductToCartFormProps) {
     },
   })
 
-  function onSubmit(values: AddProductCartData) {
+  async function onSubmit(values: AddProductCartData) {
     if (user) {
-      addToCart({ productId, quantity: values.quantity, userId: user.id })
-      // add Product to Carts.
-      // server one
+      await authAddOrUpdateProduct(values.quantity)
     } else {
       addProductToStore(productId, values.quantity)
     }
-
-    // console.log(values)
   }
 
   const addOne = () => {
