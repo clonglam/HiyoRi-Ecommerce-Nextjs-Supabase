@@ -1,15 +1,16 @@
-import { getMedia } from "@/_actions/medias";
-import UpdateMediaForm from "@/components/admin/media/UpdateMediaForm";
-import Modal from "@/components/ui/Modal";
-import { keytoUrl } from "@/lib/utils";
-import Image from "next/image";
-import { notFound } from "next/navigation";
+import { getMedia } from "@/_actions/medias"
+import { UpdateMediaForm } from "@/features/medias"
+import Modal from "@/components/ui/Modal"
+import { keytoUrl } from "@/lib/utils"
+import Image from "next/image"
+import { notFound } from "next/navigation"
 
-type Props = { params: { mediaId: string } };
+type Props = { params: { mediaId: string } }
 
 async function EditMediaModals({ params: { mediaId } }: Props) {
-  const media = await getMedia(mediaId);
-  if (!media) return notFound();
+  // TODO: Change from server Action to GrahpQL
+  const media = await getMedia(mediaId)
+  if (!media) return notFound()
 
   return (
     <Modal header="Modify Image" containerClassName="px-5">
@@ -28,7 +29,7 @@ async function EditMediaModals({ params: { mediaId } }: Props) {
         </div>
       </div>
     </Modal>
-  );
+  )
 }
 
-export default EditMediaModals;
+export default EditMediaModals
