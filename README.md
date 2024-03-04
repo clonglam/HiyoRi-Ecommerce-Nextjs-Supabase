@@ -1,6 +1,6 @@
-[og-image](https://hiyori-backpack.s3.us-west-2.amazonaws.com/Hiyori-nextjs-supabase-graphql-og.jpg)
+![og-image](https://hiyori-backpack.s3.us-west-2.amazonaws.com/Hiyori-nextjs-supabase-graphql-og.jpg)
 
-> > We are Keep developing the project.
+> We are Keep developing the project.
 
 # Hiyori - E-commerce with Custom CMS
 
@@ -8,11 +8,21 @@
 
 ## Features
 
-- **Custom CMS:** Tailor-made content management for products, categories, and promotional content, giving you complete control over your e-commerce content.
-- **Dynamic Product Display:** Utilizes GraphQL for efficient and dynamic product queries, ensuring that your customers always have access to the latest items and details.
-- **Secure Authentication and Authorization:** Powered by Supabase for secure user authentication and authorization, safeguarding user data and transactions.
-- **Responsive Design:** A mobile-first approach with TailwindCSS and ShadcnUI, ensuring an optimal shopping experience on any device.
-- **State Management:** Integrated with Drizzle for predictable state management, making the user interface highly responsive and interactive.
+## Features
+
+- **Searching Feature with GraphQL**: Dynamic and efficient searching, allowing complex queries with optimized data fetching.
+- **Stripe Checkout with Webhooks**: Seamless payment processing integrated with real-time notifications for automated order and inventory management.
+- **Custom CMS**: Easy management for orders, users, products, and collections through a user-friendly interface designed for e-commerce.
+- **Next.js 14 AppDir Support**: Utilizes the latest Next.js features for improved routing, page organization, and performance.
+- **Authentication**: Secure login options using credentials or OAuth with Google, ensuring flexibility and security.
+- **Guest and User Cart Sync**: Synchronizes carts between guest and logged-in states, improving shopping experience and purchase flow.
+- **Custom Media Uploader to S3 Bucket**: Efficient media management with direct upload to Amazon S3, optimizing content delivery.
+- **Database Creation with Drizzle ORM**: Simplified database management with object-relational mapping, enhancing data integrity and developer efficiency.
+- **Supabase Row Security**: Implements row-level security for fine-grained access control, protecting sensitive data.
+- **Zod Validation for Form & Route Data**: Ensures data integrity with powerful validation for form inputs and route parameters.
+- **Middleware for Admin Page and Route Protection**: Secures sensitive areas with custom middleware, restricting access to authorized users.
+- **Responsive Design**: Ensures an optimal viewing experience across all devices, from desktops to smartphones.
+- **SEO**: Implements best practices for search engine optimization to improve visibility and drive organic traffic.
 
 ## Technologies
 
