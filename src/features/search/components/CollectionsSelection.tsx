@@ -1,4 +1,4 @@
-import { Icons } from "@/components/layouts/icons"
+import { Icons } from "@/components/layouts/icons";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -6,13 +6,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { DropdownMenuTriggerProps } from "@radix-ui/react-dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import { DropdownMenuTriggerProps } from "@radix-ui/react-dropdown-menu";
 
 interface CollectionsSelectionProps extends DropdownMenuTriggerProps {
-  selections: { id: string; label: string }[]
-  value: string[]
-  onCheckedChange: (id: string) => void
+  selections: { id: string; label: string }[];
+  value: string[];
+  onCheckedChange: (id: string) => void;
 }
 
 function CollectionsSelection({
@@ -41,7 +41,7 @@ function CollectionsSelection({
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
-export default CollectionsSelection
+export default CollectionsSelection;

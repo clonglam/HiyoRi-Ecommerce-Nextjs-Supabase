@@ -1,14 +1,14 @@
-"use client"
-import React, { useState } from "react"
-import { gql, DocumentType } from "@/gql"
+"use client";
+import React, { useState } from "react";
+import { gql, DocumentType } from "@/gql";
 
-import Image from "next/image"
-import { Icons } from "../../../components/layouts/icons"
-import { keytoUrl } from "@/lib/utils"
+import Image from "next/image";
+import { Icons } from "../../../components/layouts/icons";
+import { keytoUrl } from "@/lib/utils";
 
 type ProductImageShowcaseProps = React.HTMLAttributes<HTMLDivElement> & {
-  data: DocumentType<typeof ProductImageShowcaseFragment>
-}
+  data: DocumentType<typeof ProductImageShowcaseFragment>;
+};
 
 const ProductImageShowcaseFragment = gql(/* GraphQL */ `
   fragment ProductImageShowcaseFragment on products {
@@ -31,28 +31,28 @@ const ProductImageShowcaseFragment = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 function ProductImageShowcase({ data }: ProductImageShowcaseProps) {
   const allImages = [
     data.featuredImage,
     ...(data.images?.edges.map(({ node }) => node.media) || []),
-  ]
+  ];
 
-  const [activeImageIndex, setActiveImageIndex] = useState(0)
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const nextImage = () => {
     if (activeImageIndex < allImages.length - 1) {
-      setActiveImageIndex((prevIndex) => prevIndex + 1)
+      setActiveImageIndex((prevIndex) => prevIndex + 1);
     }
-  }
+  };
 
   // Function to navigate to the previous image
   const prevImage = () => {
     if (activeImageIndex > 0) {
-      setActiveImageIndex((prevIndex) => prevIndex - 1)
+      setActiveImageIndex((prevIndex) => prevIndex - 1);
     }
-  }
+  };
   return (
     <section className="flex md:flex-row flex-col items-center gap-x-8 gap-y-5">
       {/* Active Image Display */}
@@ -101,7 +101,7 @@ function ProductImageShowcase({ data }: ProductImageShowcaseProps) {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default ProductImageShowcase
+export default ProductImageShowcase;

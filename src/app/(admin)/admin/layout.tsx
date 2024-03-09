@@ -1,12 +1,12 @@
-import { SidebarNav } from "@/components/admin/SidebarNav"
-import { ScrollArea } from "@/components/ui/scrollArea"
-import { dashboardConfig } from "@/config/dashboard"
-import createServerClient from "@/lib/supabase/server"
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+import { SidebarNav } from "@/components/admin/SidebarNav";
+import { ScrollArea } from "@/components/ui/scrollArea";
+import { dashboardConfig } from "@/config/dashboard";
+import createServerClient from "@/lib/supabase/server";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 interface DashboardLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default async function DashboardLayout({
@@ -34,5 +34,5 @@ export default async function DashboardLayout({
         {children}
       </main>
     </div>
-  )
+  );
 }

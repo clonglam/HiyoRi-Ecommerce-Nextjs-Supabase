@@ -6,18 +6,18 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import React from "react"
+} from "@/components/ui/select";
+import React from "react";
 
-type Selection = { value: string; label: string }
+type Selection = { value: string; label: string };
 
 type SelectionFilterProps = React.ComponentProps<typeof Select> & {
-  id: string
-  selectionLabel?: string
-  items: Selection[]
-  placeholder?: string
-  className?: string
-}
+  id: string;
+  selectionLabel?: string;
+  items: Selection[];
+  placeholder?: string;
+  className?: string;
+};
 
 function SortSelection({
   items,
@@ -43,7 +43,7 @@ function SortSelection({
         </SelectGroup>
       </SelectContent>
     </Select>
-  )
+  );
 }
 
-export default SortSelection
+export default SortSelection;

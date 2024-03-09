@@ -1,7 +1,7 @@
-import React from "react"
-import { gql, DocumentType } from "@/gql"
+import React from "react";
+import { gql, DocumentType } from "@/gql";
 
-import Header from "@/components/layouts/Header"
+import Header from "@/components/layouts/Header";
 
 const ProductCommentsSectionFragment = gql(/* GraphQL */ `
   fragment ProductCommentsSectionFragment on comments {
@@ -11,14 +11,14 @@ const ProductCommentsSectionFragment = gql(/* GraphQL */ `
       name
     }
   }
-`)
+`);
 
 function ProductCommentsSection({
   comments,
   totalComments,
 }: {
-  totalComments: number
-  comments: DocumentType<typeof ProductCommentsSectionFragment>[]
+  totalComments: number;
+  comments: DocumentType<typeof ProductCommentsSectionFragment>[];
 }) {
   return (
     <Header heading={`Product Comments`}>
@@ -32,7 +32,7 @@ function ProductCommentsSection({
         </div>
       )}
     </Header>
-  )
+  );
 }
 
-export default ProductCommentsSection
+export default ProductCommentsSection;

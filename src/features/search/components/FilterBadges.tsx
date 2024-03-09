@@ -1,23 +1,23 @@
-"use client"
-import { SearchQuery } from "@/features/search"
-import { cn } from "@/lib/utils"
-import { usePathname, useRouter } from "next/navigation"
-import { Icons } from "@/components/layouts/icons"
-import { Badge } from "@/components/ui/badge"
+"use client";
+import { SearchQuery } from "@/features/search";
+import { cn } from "@/lib/utils";
+import { usePathname, useRouter } from "next/navigation";
+import { Icons } from "@/components/layouts/icons";
+import { Badge } from "@/components/ui/badge";
 
 type FilterBadgesProps = {
-  query: SearchQuery
-  collections?: { label: string; id: string }[]
-  onDeleteHandler: (key: string, value?: string) => void
-}
+  query: SearchQuery;
+  collections?: { label: string; id: string }[];
+  onDeleteHandler: (key: string, value?: string) => void;
+};
 
 function FilterBadges({
   query,
   collections,
   onDeleteHandler,
 }: FilterBadgesProps) {
-  const pathname = usePathname()
-  const router = useRouter()
+  const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <section className="gap-x-10 md:flex hidden">
@@ -56,8 +56,8 @@ function FilterBadges({
               <button
                 onClick={() => {
                   const deletedcollections = query.collections.filter(
-                    (c) => c !== collection.id
-                  )
+                    (c) => c !== collection.id,
+                  );
                   router.push(
                     pathname +
                       "?" +
@@ -66,22 +66,22 @@ function FilterBadges({
                         deletedcollections.length > 0
                           ? JSON.stringify(
                               query.collections.filter(
-                                (c) => c !== collection.id
-                              )
+                                (c) => c !== collection.id,
+                              ),
                             )
-                          : undefined
-                      )
-                  )
+                          : undefined,
+                      ),
+                  );
                 }}
                 className={cn("rounded-full")}
               >
                 <Icons.close width={15} height={15} />
               </button>
             </Badge>
-          ) : null
+          ) : null,
         )}
     </section>
-  )
+  );
 }
 
-export default FilterBadges
+export default FilterBadges;

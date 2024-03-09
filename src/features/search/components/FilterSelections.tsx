@@ -1,6 +1,6 @@
-"use client"
-import { useCallback, useEffect, useState } from "react"
-import * as z from "zod"
+"use client";
+import { useCallback, useEffect, useState } from "react";
+import * as z from "zod";
 
 import {
   DropdownMenu,
@@ -8,7 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Sheet,
   SheetContent,
@@ -16,45 +16,45 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { SelectCollection } from "@/lib/supabase/schema"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+} from "@/components/ui/sheet";
+import { SelectCollection } from "@/lib/supabase/schema";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { Icons } from "@/components/layouts/icons"
-import PriceRange from "@/components/ui/PriceRange"
-import { useDebounce } from "@/features/cms/hooks/use-debounce"
-import CollectionsSelection from "@/features/search/components/CollectionsSelection"
-import { SearchQuery } from "@/features/search/hooks/useSearchStore"
-import { SortEnum } from "@/validations/products"
-import React from "react"
-import FilterBadges from "./FilterBadges"
-import SortSelection from "./SortSelection"
+import { Icons } from "@/components/layouts/icons";
+import PriceRange from "@/components/ui/PriceRange";
+import { useDebounce } from "@/features/cms/hooks/use-debounce";
+import CollectionsSelection from "@/features/search/components/CollectionsSelection";
+import { SearchQuery } from "@/features/search/hooks/useSearchStore";
+import { SortEnum } from "@/validations/products";
+import React from "react";
+import FilterBadges from "./FilterBadges";
+import SortSelection from "./SortSelection";
 
 type Props = {
-  collectionsSection?: SelectCollection[]
-  shopLayout?: boolean
-}
+  collectionsSection?: SelectCollection[];
+  shopLayout?: boolean;
+};
 
 function FilterSelections({ collectionsSection, shopLayout = true }: Props) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const [isPending, startTransition] = React.useTransition()
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isPending, startTransition] = React.useTransition();
 
   const [query, setQuery] = useState<SearchQuery>({
     collections: [],
-  })
+  });
 
-  const searchParams = useSearchParams()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const priceRange = searchParams.get("price_range")
-    const range = priceRange ? priceRange.split("-") : undefined
+    const priceRange = searchParams.get("price_range");
+    const range = priceRange ? priceRange.split("-") : undefined;
 
     const collections =
-      (JSON.parse(searchParams.get("collections")) as string[]) ?? []
-    const sort = searchParams.get("sort") ?? undefined
-    const search = searchParams.get("search") ?? undefined
+      (JSON.parse(searchParams.get("collections")) as string[]) ?? [];
+    const sort = searchParams.get("sort") ?? undefined;
+    const search = searchParams.get("search") ?? undefined;
 
     setQuery({
       sort: sort ? SortEnum[sort] : undefined,
@@ -64,68 +64,68 @@ function FilterSelections({ collectionsSection, shopLayout = true }: Props) {
           : undefined,
       collections,
       search,
-    })
-  }, [searchParams])
+    });
+  }, [searchParams]);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
-      params.set(name, value)
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
 
-      return params.toString()
+      return params.toString();
     },
-    [searchParams]
-  )
+    [searchParams],
+  );
 
   const removeQueryString = useCallback(
     (name: string, value?: string) => {
-      const params = new URLSearchParams(searchParams.toString())
-      console.log("name", name)
-      value ? params.set(name, value) : params.delete(name)
-      return params.toString()
+      const params = new URLSearchParams(searchParams.toString());
+      console.log("name", name);
+      value ? params.set(name, value) : params.delete(name);
+      return params.toString();
     },
-    [searchParams]
-  )
+    [searchParams],
+  );
 
-  const debouncedPrice = useDebounce(query.priceRange ?? [0, 10000], 500)
+  const debouncedPrice = useDebounce(query.priceRange ?? [0, 10000], 500);
 
   React.useEffect(() => {
-    const [min, max] = debouncedPrice
+    const [min, max] = debouncedPrice;
     if (
       query.priceRange !== undefined &&
       !(query.priceRange[0] === 0 && query.priceRange[1] === 10000)
     )
       startTransition(() => {
         router.push(
-          `${pathname}?${createQueryString("price_range", `${min}-${max}`)}`
-        )
-      })
-  }, [debouncedPrice])
+          `${pathname}?${createQueryString("price_range", `${min}-${max}`)}`,
+        );
+      });
+  }, [debouncedPrice]);
 
   const collectionChangeHandler = (collectionId: string) => {
-    const oldValue = query.collections ?? []
+    const oldValue = query.collections ?? [];
 
     if (oldValue.includes(collectionId)) {
-      const collections = oldValue.filter((item) => item !== collectionId)
-      setQuery({ ...query, collections })
+      const collections = oldValue.filter((item) => item !== collectionId);
+      setQuery({ ...query, collections });
       router.push(
         pathname +
           "?" +
-          createQueryString("collections", JSON.stringify(collections))
-      )
+          createQueryString("collections", JSON.stringify(collections)),
+      );
     } else {
-      const collections = [...oldValue, collectionId]
-      setQuery({ ...query, collections })
+      const collections = [...oldValue, collectionId];
+      setQuery({ ...query, collections });
       router.push(
         pathname +
           "?" +
           removeQueryString(
             "collections",
-            collections.length > 0 ? JSON.stringify(collections) : undefined
-          )
-      )
+            collections.length > 0 ? JSON.stringify(collections) : undefined,
+          ),
+      );
     }
-  }
+  };
 
   return (
     <>
@@ -185,8 +185,8 @@ function FilterSelections({ collectionsSection, shopLayout = true }: Props) {
             id="sort"
             disabled={isLoading}
             onValueChange={(sort) => {
-              setQuery({ ...query, sort: SortEnum[sort] })
-              router.push(`${pathname}?${createQueryString("sort", sort)}`)
+              setQuery({ ...query, sort: SortEnum[sort] });
+              router.push(`${pathname}?${createQueryString("sort", sort)}`);
             }}
             items={Object.entries(SortEnum).map(([key, value]) => ({
               value: key,
@@ -241,10 +241,10 @@ function FilterSelections({ collectionsSection, shopLayout = true }: Props) {
                     setQuery({ ...query, priceRange })
                   }
                   onReset={() => {
-                    setQuery({ ...query, priceRange: undefined })
+                    setQuery({ ...query, priceRange: undefined });
                     router.push(
-                      pathname + "?" + removeQueryString("price_range")
-                    )
+                      pathname + "?" + removeQueryString("price_range"),
+                    );
                   }}
                 />
               </div>
@@ -257,8 +257,8 @@ function FilterSelections({ collectionsSection, shopLayout = true }: Props) {
                 id="sort"
                 disabled={isLoading}
                 onValueChange={(sort) => {
-                  setQuery({ ...query, sort: SortEnum[sort] })
-                  router.push(`${pathname}?${createQueryString("sort", sort)}`)
+                  setQuery({ ...query, sort: SortEnum[sort] });
+                  router.push(`${pathname}?${createQueryString("sort", sort)}`);
                 }}
                 defaultValue={query.sort}
                 items={Object.entries(SortEnum).map(([key, value]) => ({
@@ -278,7 +278,7 @@ function FilterSelections({ collectionsSection, shopLayout = true }: Props) {
         onDeleteHandler={removeQueryString}
       />
     </>
-  )
+  );
 }
 
-export default FilterSelections
+export default FilterSelections;

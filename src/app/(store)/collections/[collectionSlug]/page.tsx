@@ -1,32 +1,32 @@
-import SectionHeading from "@/components/layouts/SectionHeading"
-import { Shell } from "@/components/layouts/Shell"
-import { Skeleton } from "@/components/ui/skeleton"
-import { CollectionBanner } from "@/features/collections"
-import { SearchProductsGridSkeleton } from "@/features/products"
+import SectionHeading from "@/components/layouts/SectionHeading";
+import { Shell } from "@/components/layouts/Shell";
+import { Skeleton } from "@/components/ui/skeleton";
+import { CollectionBanner } from "@/features/collections";
+import { SearchProductsGridSkeleton } from "@/features/products";
 import {
   FilterSelections,
   SearchProductsInifiteScroll,
-} from "@/features/search"
-import { gql } from "@/gql"
-import { getClient } from "@/lib/urql"
-import { toTitleCase, unslugify } from "@/lib/utils"
-import { notFound } from "next/navigation"
-import { Suspense } from "react"
+} from "@/features/search";
+import { gql } from "@/gql";
+import { getClient } from "@/lib/urql";
+import { toTitleCase, unslugify } from "@/lib/utils";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 interface CategoryPageProps {
   params: {
-    collectionSlug: string
-  }
+    collectionSlug: string;
+  };
   searchParams: {
-    [key: string]: string | string[] | undefined
-  }
+    [key: string]: string | string[] | undefined;
+  };
 }
 
 export function generateMetadata({ params }: CategoryPageProps) {
   return {
     title: `HIYORI | ${toTitleCase(unslugify(params.collectionSlug))}`,
     description: `HIYORI | Buy ${params.collectionSlug} funiture.`,
-  }
+  };
 }
 
 const CollectionRouteQuery = gql(/* GraphQL */ `
@@ -57,14 +57,14 @@ const CollectionRouteQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 async function CategoryPage({ params, searchParams }: CategoryPageProps) {
-  const { collectionSlug } = params
+  const { collectionSlug } = params;
 
   const { data } = await getClient().query(CollectionRouteQuery, {
     collectionSlug,
-  })
+  });
 
   if (
     data === null ||
@@ -72,14 +72,14 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
     data?.collectionsCollection === null ||
     data?.collectionsCollection?.edges[0].node.productsCollection === null
   )
-    return notFound()
+    return notFound();
 
   const productsList =
-    data?.collectionsCollection?.edges[0].node.productsCollection
+    data?.collectionsCollection?.edges[0].node.productsCollection;
 
-  if (!productsList) return notFound()
+  if (!productsList) return notFound();
 
-  const collection = data.collectionsCollection.edges[0].node
+  const collection = data.collectionsCollection.edges[0].node;
   return (
     <Shell>
       <CollectionBanner
@@ -107,7 +107,7 @@ async function CategoryPage({ params, searchParams }: CategoryPageProps) {
         />
       </Suspense>
     </Shell>
-  )
+  );
 }
 
-export default CategoryPage
+export default CategoryPage;

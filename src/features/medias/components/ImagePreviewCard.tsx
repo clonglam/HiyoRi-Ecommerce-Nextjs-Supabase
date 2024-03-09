@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { gql } from "@/gql"
-import Image from "next/image"
-import React from "react"
-import { Card } from "../../../components/ui/card"
+import { gql } from "@/gql";
+import Image from "next/image";
+import React from "react";
+import { Card } from "../../../components/ui/card";
 
-import { cn, keytoUrl } from "@/lib/utils"
-import { useQuery } from "@urql/next"
-import { Icons } from "../../../components/layouts/icons"
-import { Skeleton } from "../../../components/ui/skeleton"
+import { cn, keytoUrl } from "@/lib/utils";
+import { useQuery } from "@urql/next";
+import { Icons } from "../../../components/layouts/icons";
+import { Skeleton } from "../../../components/ui/skeleton";
 
 interface ImagePreviewCard extends React.ComponentProps<typeof Card> {
-  mediaId: string
+  mediaId: string;
 }
 
 export const FetchMediaQuery = gql(/* GraphQL */ `
@@ -26,7 +26,7 @@ export const FetchMediaQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 function ImagePreviewCard({ mediaId }: ImagePreviewCard) {
   const [{ data, fetching, error }] = useQuery({
@@ -34,19 +34,19 @@ function ImagePreviewCard({ mediaId }: ImagePreviewCard) {
     variables: {
       mediaId: mediaId,
     },
-  })
+  });
 
   if (fetching)
     return (
       <div>
         <Skeleton />
       </div>
-    )
+    );
 
-  if (error) return <div>Error! Media fetch error</div>
+  if (error) return <div>Error! Media fetch error</div>;
 
   if (data && data.mediasCollection.edges[0].node) {
-    const media = data.mediasCollection.edges[0].node
+    const media = data.mediasCollection.edges[0].node;
     return (
       <Card className="group relative">
         <div className="relative">
@@ -59,13 +59,13 @@ function ImagePreviewCard({ mediaId }: ImagePreviewCard) {
           />
           <Icons.edit
             className={cn(
-              "absolute w-5 h-5 right-2 top-2 hidden group-hover:block"
+              "absolute w-5 h-5 right-2 top-2 hidden group-hover:block",
             )}
           />
         </div>
       </Card>
-    )
+    );
   }
 }
 
-export default ImagePreviewCard
+export default ImagePreviewCard;

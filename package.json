@@ -113,7 +113,7 @@
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "autoprefixer": "^10.0.1",
     "concurrently": "^8.2.2",
-    "cross-undici-fetch": "^0.4.14",
+    "cross-undici-fetch": "^0.4.10",
     "cypress": "^13.6.6",
     "drizzle-kit": "^0.20.13",
     "eslint": "^8",

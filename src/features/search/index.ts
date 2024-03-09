@@ -1,2 +1,2 @@
-export * from "./hooks/useSearchStore"
-export * from "./components"
+export * from "./hooks/useSearchStore";
+export * from "./components";
