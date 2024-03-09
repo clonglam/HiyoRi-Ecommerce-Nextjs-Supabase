@@ -1,10 +1,10 @@
-![og-image](https://hiyori-backpack.s3.us-west-2.amazonaws.com/Hiyori-nextjs-supabase-graphql-og.jpg)
+![og-image](https://Shopping-backpack.s3.us-west-2.amazonaws.com/Shopping-nextjs-supabase-graphql-og.jpg)
 
 > We are Keep developing the project.
 
-# Hiyori - E-commerce with Custom CMS
+# Peable Shopping - E-commerce with Custom CMS
 
-[Hiyori](https://hiyori.hugo-coding.com) is a cutting-edge e-commerce platform equipped with a custom Content Management System (CMS), designed to provide an exceptional online shopping experience. Built using the latest web technologies such as Next.js 14, GraphQL, Supabase, Drizzle, ShadcnUI, and TailwindCSS, Hiyori offers seamless, fast, and responsive interactions across all devices.
+[Shopping](https://Shopping.hugo-coding.com) is a cutting-edge e-commerce platform equipped with a custom Content Management System (CMS), designed to provide an exceptional online shopping experience. Built using the latest web technologies such as Next.js 14, GraphQL, Supabase, Drizzle, ShadcnUI, and TailwindCSS, Shopping offers seamless, fast, and responsive interactions across all devices.
 
 ## Features
 
@@ -51,13 +51,13 @@ To get a local copy up and running, follow these simple steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/hiyori.git
+   git clone https://github.com/PeableOfficial/Shopping.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd hiyori
+   cd Shopping
    ```
 
 3. Install dependencies:
@@ -75,13 +75,13 @@ Open http://localhost:3000 with your browser to see the result.
 
 ## Contributing
 
-We welcome contributions to Hiyori! Please read our Contributing Guide for details on our code of conduct and the process for submitting pull requests to us.
+We welcome contributions to Shopping! Please read our Contributing Guide for details on our code of conduct and the process for submitting pull requests to us.
 
 ## License
 
-Hiyori is licensed under the MIT License. See the license file for more information.
+Shopping is licensed under the MIT License. See the license file for more information.
 
 ## Acknowledgments
 
-- Special thanks to all libraries and frameworks that made Hiyori possible.
-- Shoutout to the community for supporting and using Hiyori.
+- Special thanks to all libraries and frameworks that made Shopping possible.
+- Shoutout to the community for supporting and using Shopping.
