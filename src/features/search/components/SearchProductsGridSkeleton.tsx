@@ -1,6 +1,6 @@
-import React from "react";
-import { Skeleton } from "../../../components/ui/skeleton";
-import { ProductCardSkeleton } from "./ProductCardSkeleton";
+import React from "react"
+import { Skeleton } from "../../../components/ui/skeleton"
+import { ProductCardSkeleton } from "../../products/components/ProductCardSkeleton"
 
 function SearchProductsGridSkeleton() {
   return (
@@ -13,7 +13,7 @@ function SearchProductsGridSkeleton() {
         ))}
       </section>
     </div>
-  );
+  )
 }
 
-export default SearchProductsGridSkeleton;
+export default SearchProductsGridSkeleton

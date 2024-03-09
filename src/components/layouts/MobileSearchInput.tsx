@@ -1,13 +1,13 @@
-"use client";
-import React, { useState } from "react";
-import { Icons } from "../icons";
-import { Button } from "../ui/button";
-import SearchInput from "./SearchInput";
+"use client"
+import React, { useState } from "react"
+import { Icons } from "./icons"
+import { Button } from "../ui/button"
+import SearchInput from "./SearchInput"
 
-type Props = {};
+type Props = {}
 
 function MobileSearchInput({}: Props) {
-  const [openSearchBar, setOpenSearchBar] = useState(false);
+  const [openSearchBar, setOpenSearchBar] = useState(false)
   return (
     <>
       {openSearchBar ? (
@@ -23,7 +23,7 @@ function MobileSearchInput({}: Props) {
         </Button>
       )}
     </>
-  );
+  )
 }
 
-export default MobileSearchInput;
+export default MobileSearchInput

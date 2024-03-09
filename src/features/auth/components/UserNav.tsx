@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
-import { Icons } from "@/components/icons";
-import { useAuth } from "@/providers/AuthProvider";
-import Link from "next/link";
+import { Icons } from "@/components/layouts/icons"
+import { useAuth } from "@/providers/AuthProvider"
+import Link from "next/link"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,19 +15,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import supabaseClient from "@/lib/supabase/client";
-import { getNameInitials } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+} from "@/components/ui/dropdown-menu"
+import supabaseClient from "@/lib/supabase/client"
+import { getNameInitials } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 
 function UserNav() {
-  const router = useRouter();
-  const { user } = useAuth();
+  const router = useRouter()
+  const { user } = useAuth()
 
   const logout = () => {
-    supabaseClient.auth.signOut();
-    router.refresh();
-  };
+    supabaseClient.auth.signOut()
+    router.refresh()
+  }
 
   return (
     <>
@@ -43,12 +43,12 @@ function UserNav() {
                 <AvatarImage
                   src="/avatars/01.png"
                   alt={getNameInitials(
-                    (user.user_metadata.name as string) ?? "Name",
+                    (user.user_metadata.name as string) ?? "Name"
                   )}
                 />
                 <AvatarFallback>
                   {getNameInitials(
-                    (user.user_metadata.name as string) ?? "Name",
+                    (user.user_metadata.name as string) ?? "Name"
                   )}
                 </AvatarFallback>
               </Avatar>
@@ -119,7 +119,7 @@ function UserNav() {
         </Link>
       )}
     </>
-  );
+  )
 }
 
-export default UserNav;
+export default UserNav

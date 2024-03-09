@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { createInsertSchema } from "drizzle-zod"
-import { useTransition } from "react"
-import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createInsertSchema } from "drizzle-zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
 
 import {
   Form,
@@ -11,13 +11,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import Link from "next/link"
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
-import DisabledFormData from "@/components/ui/DisabledFormData"
+import DisabledFormData from "@/components/ui/DisabledFormData";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,39 +28,39 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Spinner } from "@/components/ui/spinner"
-import { useToast } from "@/components/ui/use-toast"
-import { InsertMedia, SelectMedia, medias } from "@/lib/supabase/schema"
-import { useRouter } from "next/navigation"
+} from "@/components/ui/alert-dialog";
+import { Spinner } from "@/components/ui/spinner";
+import { useToast } from "@/components/ui/use-toast";
+import { InsertMedia, SelectMedia, medias } from "@/lib/supabase/schema";
+import { useRouter } from "next/navigation";
 
 type UpdateMediaFormProps = {
-  media?: SelectMedia
-}
+  media?: SelectMedia;
+};
 
 function UpdateMediaForm({ media }: UpdateMediaFormProps) {
-  const [isPending, startTransition] = useTransition()
-  const router = useRouter()
-  const { toast } = useToast()
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<InsertMedia>({
     resolver: zodResolver(createInsertSchema(medias)),
     defaultValues: media,
-  })
+  });
 
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = form
+  } = form;
 
   const deleteHandler = () => {
-    console.log("Delete")
-    router.push("/admin/medias")
-    router.refresh()
-    toast({ title: "Image Deleted" })
-  }
+    console.log("Delete");
+    router.push("/admin/medias");
+    router.refresh();
+    toast({ title: "Image Deleted" });
+  };
 
   const onSubmit = handleSubmit(async (data: InsertMedia) => {
     // startTransition(async () => {
@@ -80,7 +80,7 @@ function UpdateMediaForm({ media }: UpdateMediaFormProps) {
     //     toast
     //   }
     // })
-  })
+  });
 
   return (
     <Form {...form}>
@@ -151,7 +151,7 @@ function UpdateMediaForm({ media }: UpdateMediaFormProps) {
         </div>
       </form>
     </Form>
-  )
+  );
 }
 
-export default UpdateMediaForm
+export default UpdateMediaForm;

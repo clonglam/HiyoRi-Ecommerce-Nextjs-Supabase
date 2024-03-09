@@ -1,6 +1,6 @@
-import React from "react";
-import Header from "@/components/Header";
-import { ProductCardSkeleton } from "./ProductCardSkeleton";
+import React from "react"
+import Header from "@/components/layouts/Header"
+import { ProductCardSkeleton } from "./ProductCardSkeleton"
 
 function RecommendationProductsSkeleton() {
   return (
@@ -11,7 +11,7 @@ function RecommendationProductsSkeleton() {
         ))}
       </div>
     </Header>
-  );
+  )
 }
 
-export default RecommendationProductsSkeleton;
+export default RecommendationProductsSkeleton

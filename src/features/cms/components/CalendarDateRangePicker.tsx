@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
+import { Icons } from "@/components/layouts/icons"
 import { Calendar } from "@/components/ui/calendar"
 
 export function CalendarDateRangePicker({

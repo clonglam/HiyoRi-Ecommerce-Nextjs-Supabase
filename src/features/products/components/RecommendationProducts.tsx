@@ -1,13 +1,13 @@
-"use client";
-import { gql } from "@/gql";
-import { useQuery } from "@urql/next";
-import React from "react";
-import Header from "@/components/Header";
-import { ProductCard } from "@/features/products";
-import ProductCardSkeleton from "./RecommendationProductsSkeleton";
+"use client"
+import { gql } from "@/gql"
+import { useQuery } from "@urql/next"
+import React from "react"
+import Header from "@/components/layouts/Header"
+import { ProductCard } from "@/features/products"
+import ProductCardSkeleton from "./RecommendationProductsSkeleton"
 
 export type RecommendationProductsProps =
-  React.HTMLAttributes<HTMLDivElement> & {};
+  React.HTMLAttributes<HTMLDivElement> & {}
 
 const RecomendationProductsQuery = gql(/* GraphQL */ `
   query RecomendationProductsQuery($first: Int!) {
@@ -20,7 +20,7 @@ const RecomendationProductsQuery = gql(/* GraphQL */ `
       }
     }
   }
-`);
+`)
 
 function RecommendationProducts({}: RecommendationProductsProps) {
   const [{ data, fetching, error }, refetch] = useQuery({
@@ -28,7 +28,7 @@ function RecommendationProducts({}: RecommendationProductsProps) {
     variables: {
       first: 4,
     },
-  });
+  })
 
   if (fetching)
     return (
@@ -39,9 +39,9 @@ function RecommendationProducts({}: RecommendationProductsProps) {
           ))}
         </div>
       </Header>
-    );
+    )
 
-  if (!data || error) return <></>;
+  if (!data || error) return <></>
 
   return (
     <Header heading={`We Think You'll Love`}>
@@ -52,7 +52,7 @@ function RecommendationProducts({}: RecommendationProductsProps) {
           ))}
       </div>
     </Header>
-  );
+  )
 }
 
-export default RecommendationProducts;
+export default RecommendationProducts

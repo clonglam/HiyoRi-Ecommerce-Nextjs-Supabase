@@ -1,61 +1,61 @@
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/layouts/icons"
 // import { type Product } from "@/supabase/schema"
-import type { FileWithPath } from "react-dropzone";
+import type { FileWithPath } from "react-dropzone"
 
 export type BaseEntity = {
-  id: string;
-  createdAt: number;
-};
+  id: string
+  createdAt: number
+}
 export interface NavItem {
-  title: string;
-  href?: string;
-  disabled?: boolean;
-  external?: boolean;
-  icon?: keyof typeof Icons;
-  label?: string;
-  description?: string;
+  title: string
+  href?: string
+  disabled?: boolean
+  external?: boolean
+  icon?: keyof typeof Icons
+  label?: string
+  description?: string
 }
 
 export interface NavItemWithChildren extends NavItem {
-  items: NavItemWithChildren[];
+  items: NavItemWithChildren[]
 }
 
 export interface NavItemWithOptionalChildren extends NavItem {
-  items?: NavItemWithChildren[];
+  items?: NavItemWithChildren[]
 }
 
-export type MainNavItem = NavItemWithOptionalChildren;
+export type MainNavItem = NavItemWithOptionalChildren
 
-export type SidebarNavItem = NavItemWithChildren;
+export type SidebarNavItem = NavItemWithChildren
 
-export type UserRole = "user" | "admin";
+export type UserRole = "user" | "admin"
 
 export type Option = {
-  label: string;
-  value: string;
-};
+  label: string
+  value: string
+}
 
 export type FileWithPreview = FileWithPath & {
-  preview: string;
-};
+  preview: string
+}
 
 export type StoredFile = {
-  id: string;
-  name: string;
-  url: string;
-};
+  id: string
+  name: string
+  url: string
+}
 
 export type CartItem = {
-  productId: number;
-  quantity: number;
-};
+  productId: number
+  quantity: number
+}
 
 export type ImageType = {
-  alt: string;
-  src: string;
-};
+  alt: string
+  src: string
+}
 export interface CheckoutItem extends CartItem {
-  price: number;
+  price: number
 }
 
 // export interface CartLineItem
@@ -67,8 +67,8 @@ export interface CheckoutItem extends CartItem {
 // }
 
 export type SubscriptionPlan = {
-  name: string;
-  description: string;
-  stripePriceId: string;
-  monthlyPrice?: number | null;
-};
+  name: string
+  description: string
+  stripePriceId: string
+  monthlyPrice?: number | null
+}

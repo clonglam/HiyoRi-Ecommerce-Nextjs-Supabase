@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
-import { gql } from "@/gql";
-import { SearchQuery, SearchQueryVariables } from "@/gql/graphql";
-import { useQuery } from "@urql/next";
-import { Button } from "@/components/ui/button";
-import ProductCard from "./ProductCard";
-import SearchProductsGridSkeleton from "./SearchProductsGridSkeleton";
+import { gql } from "@/gql"
+import { SearchQuery, SearchQueryVariables } from "@/gql/graphql"
+import { useQuery } from "@urql/next"
+import { Button } from "@/components/ui/button"
+import { ProductCard } from "@/features/products"
+import SearchProductsGridSkeleton from "./SearchProductsGridSkeleton"
 
 const ProductSearch = gql(/* GraphQL */ `
   query Search(
@@ -42,25 +42,25 @@ const ProductSearch = gql(/* GraphQL */ `
       }
     }
   }
-`);
+`)
 
 const SearchResultPage = ({
   variables,
   onLoadMore,
   isLastPage,
 }: {
-  variables: SearchQueryVariables;
-  onLoadMore: (cursor: string) => void;
-  isLastPage: boolean;
+  variables: SearchQueryVariables
+  onLoadMore: (cursor: string) => void
+  isLastPage: boolean
 }) => {
   const [result] = useQuery<SearchQuery, SearchQueryVariables>({
     query: ProductSearch,
     variables,
-  });
+  })
 
-  const { data, fetching, error } = result;
+  const { data, fetching, error } = result
 
-  const products = data?.productsCollection;
+  const products = data?.productsCollection
 
   return (
     <div>
@@ -95,7 +95,7 @@ const SearchResultPage = ({
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SearchResultPage;
+export default SearchResultPage

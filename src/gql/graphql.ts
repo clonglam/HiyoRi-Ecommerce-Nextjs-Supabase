@@ -2154,44 +2154,6 @@ export type ProductDetailPageQueryQuery = {
   } | null;
 };
 
-export type FetchMediaGridQueryQueryVariables = Exact<{
-  first?: InputMaybe<Scalars["Int"]>;
-  after?: InputMaybe<Scalars["Cursor"]>;
-}>;
-
-export type FetchMediaGridQueryQuery = {
-  __typename?: "Query";
-  mediasCollection?: {
-    __typename: "mediasConnection";
-    edges: Array<{
-      __typename?: "mediasEdge";
-      cursor: string;
-      node: { __typename?: "medias"; id: string; alt: string; key: string };
-    }>;
-  } | null;
-};
-
-export type MediaGridFragmentFragment = {
-  __typename?: "mediasEdge";
-  cursor: string;
-  node: { __typename?: "medias"; id: string; alt: string; key: string };
-};
-
-export type FetchMediaQueryQueryVariables = Exact<{
-  mediaId?: InputMaybe<Scalars["String"]>;
-}>;
-
-export type FetchMediaQueryQuery = {
-  __typename?: "Query";
-  mediasCollection?: {
-    __typename?: "mediasConnection";
-    edges: Array<{
-      __typename?: "mediasEdge";
-      node: { __typename?: "medias"; id: string; alt: string; key: string };
-    }>;
-  } | null;
-};
-
 export type CartItemCardFragmentFragment = {
   __typename?: "products";
   id: string;
@@ -2471,6 +2433,21 @@ export type ImageGridFragmentFragment = {
   alt: string;
 };
 
+export type FetchMediaQueryQueryVariables = Exact<{
+  mediaId?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type FetchMediaQueryQuery = {
+  __typename?: "Query";
+  mediasCollection?: {
+    __typename?: "mediasConnection";
+    edges: Array<{
+      __typename?: "mediasEdge";
+      node: { __typename?: "medias"; id: string; alt: string; key: string };
+    }>;
+  } | null;
+};
+
 export type MediasPageContentQueryQueryVariables = Exact<{
   first?: InputMaybe<Scalars["Int"]>;
   after?: InputMaybe<Scalars["Cursor"]>;
@@ -2637,6 +2614,43 @@ export type RecomendationProductsQueryQuery = {
   } | null;
 };
 
+export type ProductFormQueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ProductFormQueryQuery = {
+  __typename?: "Query";
+  collectionsCollection?: {
+    __typename: "collectionsConnection";
+    edges: Array<{
+      __typename?: "collectionsEdge";
+      node: { __typename?: "collections"; id: string; label: string };
+    }>;
+  } | null;
+};
+
+export type ProductColumnFragmentFragment = {
+  __typename?: "products";
+  id: string;
+  name: string;
+  description?: string | null;
+  rating: any;
+  slug: string;
+  badge?: string | null;
+  price: any;
+  featured?: boolean | null;
+  featuredImage: {
+    __typename?: "medias";
+    id: string;
+    key: string;
+    alt: string;
+  };
+  collections?: {
+    __typename?: "collections";
+    id: string;
+    label: string;
+    slug: string;
+  } | null;
+};
+
 export type SearchQueryVariables = Exact<{
   search?: InputMaybe<Scalars["String"]>;
   lower?: InputMaybe<Scalars["BigFloat"]>;
@@ -2684,43 +2698,6 @@ export type SearchQuery = {
   } | null;
 };
 
-export type ProductFormQueryQueryVariables = Exact<{ [key: string]: never }>;
-
-export type ProductFormQueryQuery = {
-  __typename?: "Query";
-  collectionsCollection?: {
-    __typename: "collectionsConnection";
-    edges: Array<{
-      __typename?: "collectionsEdge";
-      node: { __typename?: "collections"; id: string; label: string };
-    }>;
-  } | null;
-};
-
-export type ProductColumnFragmentFragment = {
-  __typename?: "products";
-  id: string;
-  name: string;
-  description?: string | null;
-  rating: any;
-  slug: string;
-  badge?: string | null;
-  price: any;
-  featured?: boolean | null;
-  featuredImage: {
-    __typename?: "medias";
-    id: string;
-    key: string;
-    alt: string;
-  };
-  collections?: {
-    __typename?: "collections";
-    id: string;
-    label: string;
-    slug: string;
-  } | null;
-};
-
 export type AddProductToWishListMutationVariables = Exact<{
   productId?: InputMaybe<Scalars["String"]>;
   userId?: InputMaybe<Scalars["UUID"]>;
@@ -2752,37 +2729,6 @@ export type RemoveWishlistItemMutationMutation = {
   };
 };
 
-export const MediaGridFragmentFragmentDoc = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "MediaGridFragment" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "mediasEdge" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          { kind: "Field", name: { kind: "Name", value: "cursor" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "node" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "alt" } },
-                { kind: "Field", name: { kind: "Name", value: "key" } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<MediaGridFragmentFragment, unknown>;
 export const CartItemCardFragmentFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -5167,204 +5113,6 @@ export const ProductDetailPageQueryDocument = {
   ProductDetailPageQueryQuery,
   ProductDetailPageQueryQueryVariables
 >;
-export const FetchMediaGridQueryDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "FetchMediaGridQuery" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "first" },
-          },
-          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
-        },
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "after" },
-          },
-          type: { kind: "NamedType", name: { kind: "Name", value: "Cursor" } },
-        },
-      ],
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "mediasCollection" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "first" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "first" },
-                },
-              },
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "after" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "after" },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "__typename" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "edges" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "FragmentSpread",
-                        name: { kind: "Name", value: "MediaGridFragment" },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "MediaGridFragment" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "mediasEdge" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          { kind: "Field", name: { kind: "Name", value: "cursor" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "node" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "alt" } },
-                { kind: "Field", name: { kind: "Name", value: "key" } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  FetchMediaGridQueryQuery,
-  FetchMediaGridQueryQueryVariables
->;
-export const FetchMediaQueryDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "FetchMediaQuery" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "mediaId" },
-          },
-          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
-        },
-      ],
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "mediasCollection" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "filter" },
-                value: {
-                  kind: "ObjectValue",
-                  fields: [
-                    {
-                      kind: "ObjectField",
-                      name: { kind: "Name", value: "id" },
-                      value: {
-                        kind: "ObjectValue",
-                        fields: [
-                          {
-                            kind: "ObjectField",
-                            name: { kind: "Name", value: "eq" },
-                            value: {
-                              kind: "Variable",
-                              name: { kind: "Name", value: "mediaId" },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "edges" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "node" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "alt" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "key" },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  FetchMediaQueryQuery,
-  FetchMediaQueryQueryVariables
->;
 export const FetchGuestCartQueryDocument = {
   kind: "Document",
   definitions: [
@@ -6588,6 +6336,101 @@ export const CreateCollectionMutationDocument = {
   CreateCollectionMutationMutation,
   CreateCollectionMutationMutationVariables
 >;
+export const FetchMediaQueryDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "FetchMediaQuery" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "mediaId" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediasCollection" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "filter" },
+                value: {
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "id" },
+                      value: {
+                        kind: "ObjectValue",
+                        fields: [
+                          {
+                            kind: "ObjectField",
+                            name: { kind: "Name", value: "eq" },
+                            value: {
+                              kind: "Variable",
+                              name: { kind: "Name", value: "mediaId" },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "alt" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "key" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  FetchMediaQueryQuery,
+  FetchMediaQueryQueryVariables
+>;
 export const MediasPageContentQueryDocument = {
   kind: "Document",
   definitions: [
@@ -6846,6 +6689,95 @@ export const RecomendationProductsQueryDocument = {
 } as unknown as DocumentNode<
   RecomendationProductsQueryQuery,
   RecomendationProductsQueryQueryVariables
+>;
+export const ProductFormQueryDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "ProductFormQuery" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "collectionsCollection" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "orderBy" },
+                value: {
+                  kind: "ListValue",
+                  values: [
+                    {
+                      kind: "ObjectValue",
+                      fields: [
+                        {
+                          kind: "ObjectField",
+                          name: { kind: "Name", value: "label" },
+                          value: { kind: "EnumValue", value: "AscNullsLast" },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "CollectionSelectFieldFragment",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CollectionSelectFieldFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "collections" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ProductFormQueryQuery,
+  ProductFormQueryQueryVariables
 >;
 export const SearchDocument = {
   kind: "Document",
@@ -7168,95 +7100,6 @@ export const SearchDocument = {
     },
   ],
 } as unknown as DocumentNode<SearchQuery, SearchQueryVariables>;
-export const ProductFormQueryDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "ProductFormQuery" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "collectionsCollection" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "orderBy" },
-                value: {
-                  kind: "ListValue",
-                  values: [
-                    {
-                      kind: "ObjectValue",
-                      fields: [
-                        {
-                          kind: "ObjectField",
-                          name: { kind: "Name", value: "label" },
-                          value: { kind: "EnumValue", value: "AscNullsLast" },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "__typename" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "edges" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "node" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "FragmentSpread",
-                              name: {
-                                kind: "Name",
-                                value: "CollectionSelectFieldFragment",
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "CollectionSelectFieldFragment" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "collections" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          { kind: "Field", name: { kind: "Name", value: "id" } },
-          { kind: "Field", name: { kind: "Name", value: "label" } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  ProductFormQueryQuery,
-  ProductFormQueryQueryVariables
->;
 export const AddProductToWishListDocument = {
   kind: "Document",
   definitions: [

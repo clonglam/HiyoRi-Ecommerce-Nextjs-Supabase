@@ -1,15 +1,15 @@
-import React, { ReactNode } from "react";
-import { Icons } from "../icons";
-import Link from "next/link";
-import { Button } from "../ui/button";
-import BackButton from "../layouts/BackButton";
+import React, { ReactNode } from "react"
+import { Icons } from "../layouts/icons"
+import Link from "next/link"
+import { Button } from "../ui/button"
+import BackButton from "../layouts/BackButton"
 
 type AdminShellProps = {
-  heading: string;
-  description: string;
-  showBackButton?: boolean;
-  children: ReactNode;
-};
+  heading: string
+  description: string
+  showBackButton?: boolean
+  children: ReactNode
+}
 
 function AdminShell({
   heading,
@@ -35,7 +35,7 @@ function AdminShell({
 
       {children}
     </section>
-  );
+  )
 }
 
-export default AdminShell;
+export default AdminShell
