@@ -25,21 +25,30 @@ import {
   ShoppingCart,
   Star,
   Tag,
+  Image,
   Twitter,
   User,
   X,
   type LucideIcon,
   type LucideProps,
   Award,
-} from "lucide-react";
+  CircleDashed,
+  Folder,
+  LayoutDashboard,
+  Receipt,
+} from "lucide-react"
 
-export type Icon = LucideIcon;
+export type Icon = LucideIcon
 
 export const Icons = {
   search: Search,
   heart: Heart,
   close: X,
+  folder: Folder,
+  layoutDashboard: LayoutDashboard,
+  receipt: Receipt,
   spinner: Loader2,
+  pending: CircleDashed,
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   chevronsLeft: ChevronsLeft,
@@ -66,6 +75,7 @@ export const Icons = {
   dollarSign: DollarSign,
   package: Package,
   globe: Globe,
+  image: Image,
 
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>
@@ -100,4 +110,4 @@ export const Icons = {
       />
     </svg>
   ),
-};
+}

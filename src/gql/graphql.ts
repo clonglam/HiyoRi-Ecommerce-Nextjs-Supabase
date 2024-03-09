@@ -1838,6 +1838,37 @@ export type AdminCollectionsPageQueryQuery = {
   } | null;
 };
 
+export type AdminOrdersPageQueryQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminOrdersPageQueryQuery = {
+  __typename?: "Query";
+  ordersCollection?: {
+    __typename?: "ordersConnection";
+    edges: Array<{
+      __typename?: "ordersEdge";
+      node: {
+        __typename: "orders";
+        id: string;
+        order_status?: string | null;
+        payment_status: string;
+        order_linesCollection?: {
+          __typename?: "order_linesConnection";
+          edges: Array<{
+            __typename?: "order_linesEdge";
+            node: {
+              __typename?: "order_lines";
+              id: string;
+              product_id: string;
+            };
+          }>;
+        } | null;
+      };
+    }>;
+  } | null;
+};
+
 export type AdminProductsPageQueryQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -2525,6 +2556,20 @@ export type OrdersListFragmentFragment = {
   };
 };
 
+export type OrderColumnsFragmentFragment = {
+  __typename?: "orders";
+  id: string;
+  order_status?: string | null;
+  payment_status: string;
+  order_linesCollection?: {
+    __typename?: "order_linesConnection";
+    edges: Array<{
+      __typename?: "order_linesEdge";
+      node: { __typename?: "order_lines"; id: string; product_id: string };
+    }>;
+  } | null;
+};
+
 export type ProductCardFragmentFragment = {
   __typename?: "products";
   id: string;
@@ -3141,6 +3186,62 @@ export const OrdersListFragmentFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<OrdersListFragmentFragment, unknown>;
+export const OrderColumnsFragmentFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "OrderColumnsFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "orders" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "order_status" } },
+          { kind: "Field", name: { kind: "Name", value: "payment_status" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "order_linesCollection" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "product_id" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<OrderColumnsFragmentFragment, unknown>;
 export const ProductCardFragmentFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -3604,6 +3705,138 @@ export const AdminCollectionsPageQueryDocument = {
 } as unknown as DocumentNode<
   AdminCollectionsPageQueryQuery,
   AdminCollectionsPageQueryQueryVariables
+>;
+export const AdminOrdersPageQueryDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "AdminOrdersPageQuery" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "ordersCollection" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "orderBy" },
+                value: {
+                  kind: "ListValue",
+                  values: [
+                    {
+                      kind: "ObjectValue",
+                      fields: [
+                        {
+                          kind: "ObjectField",
+                          name: { kind: "Name", value: "created_at" },
+                          value: { kind: "EnumValue", value: "DescNullsLast" },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "__typename" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "OrderColumnsFragment",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "OrderColumnsFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "orders" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "order_status" } },
+          { kind: "Field", name: { kind: "Name", value: "payment_status" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "order_linesCollection" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "product_id" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminOrdersPageQueryQuery,
+  AdminOrdersPageQueryQueryVariables
 >;
 export const AdminProductsPageQueryDocument = {
   kind: "Document",

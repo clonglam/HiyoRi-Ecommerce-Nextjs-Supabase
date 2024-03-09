@@ -1,18 +1,19 @@
-import AdminShell from "@/components/admin/AdminShell";
-import { buttonVariants } from "@/components/ui/button";
-import { ProductsColumns, ProductsDataTable } from "@/features/products";
-import { gql } from "@/gql";
-import { getClient } from "@/lib/urql";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import AdminShell from "@/components/admin/AdminShell"
+import { buttonVariants } from "@/components/ui/button"
+import { DataTableSkeleton } from "@/features/cms"
+import { ProductsColumns, ProductsDataTable } from "@/features/products"
+import { gql } from "@/gql"
+import { getClient } from "@/lib/urql"
+import { cn } from "@/lib/utils"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import { Suspense } from "react"
 
 type AdminProjectsPageProps = {
   searchParams: {
-    [key: string]: string | string[] | undefined;
-  };
-};
+    [key: string]: string | string[] | undefined
+  }
+}
 
 async function ProductsPage({ searchParams }: AdminProjectsPageProps) {
   const AdminProductsPageQuery = gql(/* GraphQL */ `
@@ -26,11 +27,11 @@ async function ProductsPage({ searchParams }: AdminProjectsPageProps) {
         }
       }
     }
-  `);
+  `)
 
-  const { data } = await getClient().query(AdminProductsPageQuery, {});
+  const { data } = await getClient().query(AdminProductsPageQuery, {})
 
-  if (!data) return notFound();
+  if (!data) return notFound()
 
   return (
     <AdminShell
@@ -43,14 +44,14 @@ async function ProductsPage({ searchParams }: AdminProjectsPageProps) {
         </Link>
       </section>
 
-      <Suspense>
+      <Suspense fallback={<DataTableSkeleton />}>
         <ProductsDataTable
           columns={ProductsColumns}
           data={data.productsCollection?.edges || []}
         />
       </Suspense>
     </AdminShell>
-  );
+  )
 }
 
-export default ProductsPage;
+export default ProductsPage

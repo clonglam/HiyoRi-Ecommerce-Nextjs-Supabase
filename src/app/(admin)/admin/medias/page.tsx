@@ -1,8 +1,8 @@
-import AdminShell from "@/components/admin/AdminShell";
-import { Suspense } from "react";
-import { MediasPageContent } from "@/features/medias";
+import AdminShell from "@/components/admin/AdminShell"
+import { ImageGridSkeleton, MediasPageContent } from "@/features/medias"
+import { Suspense } from "react"
 
-type Props = {};
+type Props = {}
 
 async function MediasPage({}: Props) {
   return (
@@ -10,11 +10,11 @@ async function MediasPage({}: Props) {
       heading="Medias"
       description="You can add/edit the medias from the dashboard"
     >
-      <Suspense fallback={<>Loading...</>}>
+      <Suspense fallback={<ImageGridSkeleton />}>
         <MediasPageContent />
       </Suspense>
     </AdminShell>
-  );
+  )
 }
 
-export default MediasPage;
+export default MediasPage
