@@ -1,26 +1,26 @@
-import { SidebarNav } from "@/components/admin/SidebarNav"
-import { ScrollArea } from "@/components/ui/scrollArea"
-import { dashboardConfig } from "@/config/dashboard"
-import createServerClient from "@/lib/supabase/server"
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+import { SidebarNav } from "@/components/admin/SidebarNav";
+import { ScrollArea } from "@/components/ui/scrollArea";
+import { dashboardConfig } from "@/config/dashboard";
+import createServerClient from "@/lib/supabase/server";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 interface DashboardLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const cookieStore = cookies()
-  const supabase = createServerClient({ cookieStore })
+  const cookieStore = cookies();
+  const supabase = createServerClient({ cookieStore });
 
   const {
     data: { user },
     error: authError,
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
   if (authError || !user) {
-    redirect("/sign-in")
+    redirect("/sign-in");
   }
 
   return (
@@ -34,5 +34,5 @@ export default async function DashboardLayout({
         {children}
       </main>
     </div>
-  )
+  );
 }
