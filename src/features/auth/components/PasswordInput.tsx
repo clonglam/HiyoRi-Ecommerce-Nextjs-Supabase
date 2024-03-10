@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 
-import { Icons } from "@/components/layouts/icons"
-import { Button } from "@/components/ui/button"
-import { type InputProps } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
+import { Icons } from "@/components/layouts/icons";
+import { Button } from "@/components/ui/button";
+import { type InputProps } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
-    const [showPassword, setShowPassword] = React.useState(false)
+    const [showPassword, setShowPassword] = React.useState(false);
     return (
       <div className="relative border p-2 border-primary">
         <input
@@ -17,7 +17,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           className={cn(
             "pr-10 focus:ring-0 focus-visible:ring-0 focus:border-0 focus:ring-offset-0 focus:outline-none",
-            className
+            className,
           )}
           type={showPassword ? "text" : "Password"}
         />
@@ -39,9 +39,9 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
           </span>
         </Button>
       </div>
-    )
-  }
-)
-PasswordInput.displayName = "PasswordInput"
+    );
+  },
+);
+PasswordInput.displayName = "PasswordInput";
 
-export { PasswordInput }
+export { PasswordInput };

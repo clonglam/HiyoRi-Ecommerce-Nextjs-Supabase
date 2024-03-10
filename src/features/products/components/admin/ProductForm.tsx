@@ -1,10 +1,5 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { createInsertSchema } from "drizzle-zod"
-import { Suspense, useTransition } from "react"
-import { useForm } from "react-hook-form"
-
 import { createProductAction, updateProductAction } from "@/_actions/products"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
@@ -17,18 +12,27 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Spinner } from "@/components/ui/spinner"
 import TagsField from "@/components/ui/tagsField"
 import { useToast } from "@/components/ui/use-toast"
-import ImageDialog from "@/features/medias/components/ImageDialog"
+import { BadgeSelectField } from "@/features/cms"
+import { ImageDialog } from "@/features/medias"
 import { InsertProducts, SelectProducts, products } from "@/lib/supabase/schema"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery } from "@urql/next"
+import { createInsertSchema } from "drizzle-zod"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { Suspense, useTransition } from "react"
+import { useForm } from "react-hook-form"
 import { gql } from "urql"
-import BadgeSelectField from "../../../cms/components/BadgeSelectField"
-import CollectionSelectField from "../../../collections/components/admin/CollectionSelectField"
-import { Checkbox } from "@/components/ui/checkbox"
 
 type ProductsFormProps = {
   product?: SelectProducts
@@ -39,7 +43,8 @@ export const ProductFormQuery = gql(/* GraphQL */ `
       __typename
       edges {
         node {
-          ...CollectionSelectFieldFragment
+          id
+          label
         }
       }
     }
@@ -87,7 +92,7 @@ function ProductFrom({ product }: ProductsFormProps) {
     })
   })
 
-  console.log("data", data)
+  console.log("!!data", data)
   return (
     <Form {...form}>
       <form
@@ -134,7 +139,7 @@ function ProductFrom({ product }: ProductsFormProps) {
             <FormMessage />
           </FormItem>
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="featured"
             render={({ field }) => (
@@ -153,16 +158,46 @@ function ProductFrom({ product }: ProductsFormProps) {
                 </FormDescription>
               </FormItem>
             )}
-          />
-
-          {data && data.collectionsCollection && (
-            <CollectionSelectField
-              label="Collections"
-              collections={data.collectionsCollection.edges}
-              name="collectionId"
-              description="Select a Collection for the products."
-            />
-          )}
+          /> */}
+          <Suspense>
+            {data && data.collectionsCollection && (
+              <FormField
+                control={control}
+                name={"collectionId"}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{"Collections"}</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value || undefined}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a collection" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {data.collectionsCollection.edges.map(
+                          ({ node: collection }) => (
+                            <SelectItem
+                              value={collection.id}
+                              key={collection.id}
+                            >
+                              {collection.label}
+                            </SelectItem>
+                          )
+                        )}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      {"Select a Collection for the products."}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+          </Suspense>
 
           <BadgeSelectField name="badge" label={""} />
 
