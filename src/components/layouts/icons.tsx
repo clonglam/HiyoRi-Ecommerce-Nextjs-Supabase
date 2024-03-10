@@ -36,9 +36,9 @@ import {
   Folder,
   LayoutDashboard,
   Receipt,
-} from "lucide-react"
+} from "lucide-react";
 
-export type Icon = LucideIcon
+export type Icon = LucideIcon;
 
 export const Icons = {
   search: Search,
@@ -110,4 +110,4 @@ export const Icons = {
       />
     </svg>
   ),
-}
+};

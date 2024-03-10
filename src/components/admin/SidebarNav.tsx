@@ -1,25 +1,25 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import type { SidebarNavItem } from "@/types"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { SidebarNavItem } from "@/types";
 
-import { cn } from "@/lib/utils"
-import { Icons } from "../layouts/icons"
+import { cn } from "@/lib/utils";
+import { Icons } from "../layouts/icons";
 
 export interface SidebarNavProps {
-  items: SidebarNavItem[]
+  items: SidebarNavItem[];
 }
 
 export function SidebarNav({ items }: SidebarNavProps) {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
-  if (!items?.length) return null
+  if (!items?.length) return null;
 
   return (
     <div className="flex w-full flex-col gap-2">
       {items.map((item, index) => {
-        const Icon = Icons[item.icon ?? "chevronLeft"]
+        const Icon = Icons[item.icon ?? "chevronLeft"];
 
         return item.href ? (
           <Link
@@ -34,7 +34,7 @@ export function SidebarNav({ items }: SidebarNavProps) {
                 pathname === item.href
                   ? "bg-muted font-medium text-foreground"
                   : "text-muted-foreground",
-                item.disabled && "pointer-events-none opacity-60"
+                item.disabled && "pointer-events-none opacity-60",
               )}
             >
               <Icon className="mr-2 h-4 w-4" aria-hidden="true" />
@@ -48,8 +48,8 @@ export function SidebarNav({ items }: SidebarNavProps) {
           >
             {item.title}
           </span>
-        )
+        );
       })}
     </div>
-  )
+  );
 }

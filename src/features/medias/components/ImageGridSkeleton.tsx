@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/ui/skeleton"
-import React from "react"
+import { Skeleton } from "@/components/ui/skeleton";
+import React from "react";
 
 function ImageGridSkeleton() {
   return (
@@ -8,7 +8,7 @@ function ImageGridSkeleton() {
         <Skeleton className="w-[120px] h-[120px]" key={`skeleton ${index}`} />
       ))}
     </div>
-  )
+  );
 }
 
-export default ImageGridSkeleton
+export default ImageGridSkeleton;

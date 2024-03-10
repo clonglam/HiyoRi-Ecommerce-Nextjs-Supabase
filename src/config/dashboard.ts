@@ -1,8 +1,8 @@
-import type { SidebarNavItem } from "@/types"
+import type { SidebarNavItem } from "@/types";
 
 export type DashboardConfig = {
-  sidebarNav: SidebarNavItem[]
-}
+  sidebarNav: SidebarNavItem[];
+};
 
 export const dashboardConfig: DashboardConfig = {
   sidebarNav: [
@@ -43,4 +43,4 @@ export const dashboardConfig: DashboardConfig = {
       items: [],
     },
   ],
-}
+};

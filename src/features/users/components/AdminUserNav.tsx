@@ -1,7 +1,7 @@
-"use client"
-import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import Link from "next/link"
+"use client";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 function AdminUserNav() {
   return (
@@ -10,7 +10,7 @@ function AdminUserNav() {
         Create New User
       </Link>
     </section>
-  )
+  );
 }
 
-export default AdminUserNav
+export default AdminUserNav;

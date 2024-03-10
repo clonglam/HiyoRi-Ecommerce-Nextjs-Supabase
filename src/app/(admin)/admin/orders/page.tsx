@@ -1,18 +1,18 @@
-import AdminShell from "@/components/admin/AdminShell"
-import { buttonVariants } from "@/components/ui/button"
-import { DataTable } from "@/features/cms"
-import { OrdersColumns } from "@/features/orders"
-import { gql } from "@/gql"
-import { getClient } from "@/lib/urql"
-import { cn } from "@/lib/utils"
-import Link from "next/link"
-import { notFound } from "next/navigation"
+import AdminShell from "@/components/admin/AdminShell";
+import { buttonVariants } from "@/components/ui/button";
+import { DataTable } from "@/features/cms";
+import { OrdersColumns } from "@/features/orders";
+import { gql } from "@/gql";
+import { getClient } from "@/lib/urql";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 type AdminOrdersPageProps = {
   searchParams: {
-    [key: string]: string | string[] | undefined
-  }
-}
+    [key: string]: string | string[] | undefined;
+  };
+};
 
 const AdminOrdersPageQuery = gql(/* GraphQL */ `
   query AdminOrdersPageQuery {
@@ -26,12 +26,12 @@ const AdminOrdersPageQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 async function OrdersPage({ searchParams }: AdminOrdersPageProps) {
-  const { data } = await getClient().query(AdminOrdersPageQuery, {})
+  const { data } = await getClient().query(AdminOrdersPageQuery, {});
 
-  if (!data) return notFound()
+  if (!data) return notFound();
 
   return (
     <AdminShell
@@ -49,7 +49,7 @@ async function OrdersPage({ searchParams }: AdminOrdersPageProps) {
         data={data.ordersCollection.edges || []}
       />
     </AdminShell>
-  )
+  );
 }
 
-export default OrdersPage
+export default OrdersPage;
