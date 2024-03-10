@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { createProductAction, updateProductAction } from "@/_actions/products"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { createProductAction, updateProductAction } from "@/_actions/products";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,33 +10,37 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Spinner } from "@/components/ui/spinner"
-import TagsField from "@/components/ui/tagsField"
-import { useToast } from "@/components/ui/use-toast"
-import { BadgeSelectField } from "@/features/cms"
-import { ImageDialog } from "@/features/medias"
-import { InsertProducts, SelectProducts, products } from "@/lib/supabase/schema"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useQuery } from "@urql/next"
-import { createInsertSchema } from "drizzle-zod"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Suspense, useTransition } from "react"
-import { useForm } from "react-hook-form"
-import { gql } from "urql"
+} from "@/components/ui/select";
+import { Spinner } from "@/components/ui/spinner";
+import TagsField from "@/components/ui/tagsField";
+import { useToast } from "@/components/ui/use-toast";
+import { BadgeSelectField } from "@/features/cms";
+import { ImageDialog } from "@/features/medias";
+import {
+  InsertProducts,
+  SelectProducts,
+  products,
+} from "@/lib/supabase/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@urql/next";
+import { createInsertSchema } from "drizzle-zod";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Suspense, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { gql } from "urql";
 
 type ProductsFormProps = {
-  product?: SelectProducts
-}
+  product?: SelectProducts;
+};
 export const ProductFormQuery = gql(/* GraphQL */ `
   query ProductFormQuery {
     collectionsCollection(orderBy: [{ label: AscNullsLast }]) {
@@ -49,50 +53,50 @@ export const ProductFormQuery = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 function ProductFrom({ product }: ProductsFormProps) {
-  const [isPending, startTransition] = useTransition()
-  const router = useRouter()
-  const { toast } = useToast()
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const { toast } = useToast();
 
   const [{ data }] = useQuery({
     query: ProductFormQuery,
-  })
+  });
 
   const form = useForm<InsertProducts>({
     resolver: zodResolver(createInsertSchema(products)),
     defaultValues: { ...product },
-  })
+  });
 
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = form
+  } = form;
 
   const onSubmit = handleSubmit(async (data: InsertProducts) => {
     startTransition(async () => {
       try {
         product
           ? await updateProductAction(product.id, data)
-          : await createProductAction(data)
+          : await createProductAction(data);
 
-        router.push("/admin/products")
-        router.refresh()
+        router.push("/admin/products");
+        router.refresh();
 
         toast({
           title: `Product is ${product ? "updated" : "created"}.`,
           description: `${data.name}`,
-        })
+        });
       } catch (err) {
         // console.log("unexpected Error Occured")
       }
-    })
-  })
+    });
+  });
 
-  console.log("!!data", data)
+  console.log("!!data", data);
   return (
     <Form {...form}>
       <form
@@ -185,7 +189,7 @@ function ProductFrom({ product }: ProductsFormProps) {
                             >
                               {collection.label}
                             </SelectItem>
-                          )
+                          ),
                         )}
                       </SelectContent>
                     </Select>
@@ -275,7 +279,7 @@ function ProductFrom({ product }: ProductsFormProps) {
         </div>
       </form>
     </Form>
-  )
+  );
 }
 
-export default ProductFrom
+export default ProductFrom;

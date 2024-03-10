@@ -1,18 +1,18 @@
-import Header from "@/components/layouts/Header"
-import { Shell } from "@/components/layouts/Shell"
-import { Skeleton } from "@/components/ui/skeleton"
-import { listCollectionsAction } from "@/features/collections"
-import { SearchProductsGridSkeleton } from "@/features/products"
+import Header from "@/components/layouts/Header";
+import { Shell } from "@/components/layouts/Shell";
+import { Skeleton } from "@/components/ui/skeleton";
+import { listCollectionsAction } from "@/features/collections";
+import { SearchProductsGridSkeleton } from "@/features/products";
 import {
   FilterSelections,
   SearchProductsInifiteScroll,
-} from "@/features/search"
-import { Suspense } from "react"
+} from "@/features/search";
+import { Suspense } from "react";
 
 interface ProductsPageProps {
   searchParams: {
-    [key: string]: string | string[] | undefined
-  }
+    [key: string]: string | string[] | undefined;
+  };
 }
 
 async function ProductsPage({}: ProductsPageProps) {
@@ -39,7 +39,7 @@ async function ProductsPage({}: ProductsPageProps) {
         <SearchProductsInifiteScroll />
       </Suspense>
     </Shell>
-  )
+  );
 }
 
-export default ProductsPage
+export default ProductsPage;
