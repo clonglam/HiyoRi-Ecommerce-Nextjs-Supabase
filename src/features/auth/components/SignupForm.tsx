@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useSearchParams, useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { createClient } from "@/lib/supabase/client"
-import { zodResolver } from "@hookform/resolvers/zod"
-import type { z } from "zod"
+import * as React from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { createClient } from "@/lib/supabase/client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { z } from "zod";
 
-import { Icons } from "@/components/layouts/icons"
-import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/layouts/icons";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -16,21 +16,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-import { useToast } from "@/components/ui/use-toast"
-import { PasswordInput } from "./PasswordInput"
-import { signupSchema } from "../validations"
+import { useToast } from "@/components/ui/use-toast";
+import { PasswordInput } from "./PasswordInput";
+import { signupSchema } from "../validations";
 
-type FormData = z.infer<typeof signupSchema>
+type FormData = z.infer<typeof signupSchema>;
 
 export function SignUpForm() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const { toast } = useToast()
-  const supabase = createClient()
-  const [isLoading, setIsLoading] = React.useState(false)
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { toast } = useToast();
+  const supabase = createClient();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(signupSchema),
@@ -39,10 +39,10 @@ export function SignUpForm() {
       email: searchParams.get("email") || "",
       password: searchParams.get("password") || "",
     },
-  })
+  });
 
   async function onSubmit({ email, password, name }: FormData) {
-    setIsLoading(true)
+    setIsLoading(true);
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -52,21 +52,21 @@ export function SignUpForm() {
           name,
         },
       },
-    })
-    const from = searchParams?.get("from")
+    });
+    const from = searchParams?.get("from");
 
     if (data) {
-      router.push(from ? from : "/")
+      router.push(from ? from : "/");
     }
 
-    const unknownError = "Something went wrong, please try again."
+    const unknownError = "Something went wrong, please try again.";
 
     if (error) {
       toast({
         title: "Error",
         description: error?.message || unknownError,
-      })
-      setIsLoading(false)
+      });
+      setIsLoading(false);
     }
   }
 
@@ -128,7 +128,7 @@ export function SignUpForm() {
         </Button>
       </form>
     </Form>
-  )
+  );
 }
 
-export default SignUpForm
+export default SignUpForm;
