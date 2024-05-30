@@ -44,18 +44,21 @@ export function SignInForm() {
     if (error) toast({ title: "Error", description: error });
   }, [searchParams]);
 
-  async function onSubmit({ email, password }: FormData) {
-    try {
-      const user = await supabase.auth.signInWithPassword({
+  function onSubmit({ email, password }: FormData) {
+    startTransition(async () => {
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-      toast({ title: "Login Sucess" });
-      router.push(searchParams?.get("from") || "/");
-    } catch (err) {
-      const unknownError = "Something went wrong, please try again.";
-      toast({ title: "Error", description: unknownError });
-    }
+      console.log("data", data);
+
+      if (error) {
+        toast({ title: "Error", description: error.message });
+      } else {
+        toast({ title: "Login Sucess" });
+        router.push(searchParams?.get("from") || "/");
+      }
+    });
   }
 
   return (
@@ -71,7 +74,7 @@ export function SignInForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="hugolam922@gmail.com" {...field} />
+                <Input placeholder="email@domain.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -84,7 +87,11 @@ export function SignInForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="**********" {...field} />
+                <PasswordInput
+                  placeholder="**********"
+                  {...field}
+                  className="w-full"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

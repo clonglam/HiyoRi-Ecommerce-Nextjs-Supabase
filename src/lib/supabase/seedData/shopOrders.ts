@@ -9,7 +9,7 @@ const orders: InsertOrders[] = [
     currency: "cad",
     order_status: "Paid",
     payment_status: "paid",
-    email: "hugolam922@gmail.com",
+    email: "email@domain.com",
     name: "Hugo",
     payment_method: "",
     addressId: "2",

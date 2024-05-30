@@ -1,8 +1,8 @@
-import AdminShell from "@/components/admin/AdminShell"
-import { ImageGridSkeleton, MediasPageContent } from "@/features/medias"
-import { Suspense } from "react"
+import AdminShell from "@/components/admin/AdminShell";
+import { ImageGridSkeleton, MediasPageContent } from "@/features/medias";
+import { Suspense } from "react";
 
-type Props = {}
+type Props = {};
 
 async function MediasPage({}: Props) {
   return (
@@ -14,7 +14,7 @@ async function MediasPage({}: Props) {
         <MediasPageContent />
       </Suspense>
     </AdminShell>
-  )
+  );
 }
 
-export default MediasPage
+export default MediasPage;

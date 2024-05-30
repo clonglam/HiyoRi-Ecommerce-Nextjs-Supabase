@@ -2408,12 +2408,6 @@ export type CollectionFromFragmentFragment = {
   featured_image_id: string;
 };
 
-export type CollectionSelectFieldFragmentFragment = {
-  __typename?: "collections";
-  id: string;
-  label: string;
-};
-
 export type UpdateCollectionMutationMutationVariables = Exact<{
   id?: InputMaybe<Scalars["String"]>;
   slug?: InputMaybe<Scalars["String"]>;
@@ -2924,26 +2918,6 @@ export const CollectionFromFragmentFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<CollectionFromFragmentFragment, unknown>;
-export const CollectionSelectFieldFragmentFragmentDoc = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "CollectionSelectFieldFragment" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "collections" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          { kind: "Field", name: { kind: "Name", value: "id" } },
-          { kind: "Field", name: { kind: "Name", value: "label" } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<CollectionSelectFieldFragmentFragment, unknown>;
 export const ProductCommentsSectionFragmentFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -6974,11 +6948,12 @@ export const ProductFormQueryDocument = {
                           kind: "SelectionSet",
                           selections: [
                             {
-                              kind: "FragmentSpread",
-                              name: {
-                                kind: "Name",
-                                value: "CollectionSelectFieldFragment",
-                              },
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "label" },
                             },
                           ],
                         },
@@ -6989,21 +6964,6 @@ export const ProductFormQueryDocument = {
               ],
             },
           },
-        ],
-      },
-    },
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "CollectionSelectFieldFragment" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "collections" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          { kind: "Field", name: { kind: "Name", value: "id" } },
-          { kind: "Field", name: { kind: "Name", value: "label" } },
         ],
       },
     },

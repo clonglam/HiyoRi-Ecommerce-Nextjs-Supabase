@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
-import { Button, buttonVariants } from "@/components/ui/button"
-import DeleteDialog from "@/components/ui/deleteDialog"
+import Link from "next/link";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import DeleteDialog from "@/components/ui/deleteDialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { gql, DocumentType } from "@/gql"
-import { cn } from "@/lib/utils"
-import { Icon } from "@radix-ui/react-select"
-import { Icons } from "@/components/layouts/icons"
-import { Badge } from "@/components/ui/badge"
+} from "@/components/ui/dropdown-menu";
+import { gql, DocumentType } from "@/gql";
+import { cn } from "@/lib/utils";
+import { Icon } from "@radix-ui/react-select";
+import { Icons } from "@/components/layouts/icons";
+import { Badge } from "@/components/ui/badge";
 
 export const OrderColumnsFragment = gql(/* GraphQL */ `
   fragment OrderColumnsFragment on orders {
@@ -31,16 +31,16 @@ export const OrderColumnsFragment = gql(/* GraphQL */ `
       }
     }
   }
-`)
+`);
 
 const OrdersColumns: ColumnDef<{
-  node: DocumentType<typeof OrderColumnsFragment>
+  node: DocumentType<typeof OrderColumnsFragment>;
 }>[] = [
   {
     accessorKey: "label",
     header: () => <div className="text-left capitalize">Label</div>,
     cell: ({ row }) => {
-      const order = row.original.node
+      const order = row.original.node;
 
       return (
         <Link
@@ -49,14 +49,14 @@ const OrdersColumns: ColumnDef<{
         >
           {order.id}
         </Link>
-      )
+      );
     },
   },
   {
     accessorKey: "order_status",
     header: () => <div className="">Order Status</div>,
     cell: ({ row }) => {
-      const order = row.original.node
+      const order = row.original.node;
 
       return (
         <div className="font-medium flex items-center gap-3">
@@ -69,20 +69,22 @@ const OrdersColumns: ColumnDef<{
           )}
           {order.order_status}
         </div>
-      )
+      );
     },
   },
   {
     accessorKey: "payment_status",
     header: () => <div className="text-left capitalize">Payment Status</div>,
     cell: ({ row }) => {
-      const order = row.original.node
+      const order = row.original.node;
 
       return (
         <div
           className={cn(
             "font-medium capitalize px-5 py-1 flex items-center",
-            order.payment_status == "unpaid" ? "text-red-500" : "text-green-500"
+            order.payment_status == "unpaid"
+              ? "text-red-500"
+              : "text-green-500",
           )}
         >
           <Badge
@@ -90,20 +92,20 @@ const OrdersColumns: ColumnDef<{
             className={cn(
               order.payment_status == "unpaid"
                 ? "text-red-500 border-red-500"
-                : "text-green-500 border-green-500"
+                : "text-green-500 border-green-500",
             )}
           >
             {order.payment_status}
           </Badge>
         </div>
-      )
+      );
     },
   },
   {
     id: "actions",
     header: () => <div className="text-center capitalize">Actions</div>,
     cell: ({ row }) => {
-      const order = row.original.node
+      const order = row.original.node;
 
       return (
         <DropdownMenu>
@@ -128,22 +130,22 @@ const OrdersColumns: ColumnDef<{
             {/* <DeleteCategoryDialog categoryId={category.id} /> */}
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
 const DeleteCollectionDialog = ({ collectionId }: { collectionId: string }) => {
   const onClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // await deleteCategoryAction(categoryId)
-  }
+  };
   return (
     <DeleteDialog
       onClickHandler={onClickHandler}
       title="Delete Collection"
       actionLabel="Delete"
     />
-  )
-}
+  );
+};
 
-export default OrdersColumns
+export default OrdersColumns;

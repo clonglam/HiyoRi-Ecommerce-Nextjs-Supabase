@@ -16,13 +16,14 @@ interface ProductsPageProps {
 }
 
 async function ProductsPage({}: ProductsPageProps) {
-  const collectionsData = await listCollectionsAction();
+  // TODO: PROBLEM in server actrion
+  // const collectionsData = await listCollectionsAction();
 
   return (
     <Shell>
       <Header heading="Shop Now" />
 
-      <Suspense
+      {/* <Suspense
         fallback={
           <div>
             <Skeleton className="max-w-xl h-8 mb-3" />
@@ -32,6 +33,7 @@ async function ProductsPage({}: ProductsPageProps) {
       >
         <FilterSelections collectionsSection={collectionsData} />
       </Suspense>
+       */}
 
       <Suspense fallback={<SearchProductsGridSkeleton />}>
         <SearchProductsInifiteScroll />

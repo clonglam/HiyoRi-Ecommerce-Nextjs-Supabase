@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/ui/skeleton"
-import React from "react"
+import { Skeleton } from "@/components/ui/skeleton";
+import React from "react";
 
 function DataTableSkeleton() {
   return (
@@ -21,7 +21,7 @@ function DataTableSkeleton() {
       <Skeleton className="h-6" />
       <Skeleton className="h-6" />
     </div>
-  )
+  );
 }
 
-export default DataTableSkeleton
+export default DataTableSkeleton;

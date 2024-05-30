@@ -24,9 +24,12 @@
 
 ## Upcoming Feature
 
-- Unit Test for most of the components
-- Update Order Progress Components
--
+- Admin dashboard with realtime data
+- Ordering status
+- Products Stocking
+- Products Variants
+
+
 
 ## Technologies
 
