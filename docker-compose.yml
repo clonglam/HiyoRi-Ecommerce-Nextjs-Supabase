@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  hiyori-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hiyori-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    # Memory limits to prevent EC2 from being overwhelmed
+    # Adjust these values based on your EC2 instance size
+    # Note: For docker-compose, use mem_limit instead of deploy.resources
+    mem_limit: 2g
+    mem_reservation: 512m
+    cpus: 2.0
+    # Health check to ensure the app is running properly
+    # Checks the /api/health endpoint
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # Security: run as non-root user (optional, but recommended)
+    # user: "node"
+    networks:
+      - hiyori-network
+
+networks:
+  hiyori-network:
+    driver: bridge
+

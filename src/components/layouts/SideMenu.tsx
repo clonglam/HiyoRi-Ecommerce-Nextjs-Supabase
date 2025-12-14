@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetFooter,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { siteConfig } from "@/config/site"
-import Link from "next/link"
-import { Icons } from "./icons"
-import Branding from "./Branding"
-import SocialMedias from "./SocialMedias"
+} from "@/components/ui/sheet";
+import { siteConfig } from "@/config/site";
+import Link from "next/link";
+import { Icons } from "./icons";
+import Branding from "./Branding";
+import SocialMedias from "./SocialMedias";
 
 export function SideMenu() {
   return (
@@ -55,5 +55,5 @@ export function SideMenu() {
         </SheetFooter>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

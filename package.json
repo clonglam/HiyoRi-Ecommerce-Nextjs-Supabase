@@ -5,8 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "graphql-codegen & next build",
-    "start": "next start",
+    "start": "node .next/standalone/server.js",
     "lint": "next lint --ignore-path .gitignore .",
+    "export": "next build && next export",
+    "serve:out": "serve out",
+    "serve": "npm run build && npm run start" ,
     "test": "jest",
     "format": "prettier --ignore-path .gitignore --write \"**/*.{ts,tsx,css,scss}\"",
     "coverage": "npm test --coverage --watchAll --collectCoverageFrom='src/components'",
@@ -16,6 +19,7 @@
     "db:studio": "npx drizzle-kit studio",
     "db:seed": "tsx -r dotenv/config ./src/lib/supabase/seed.ts",
     "db:drop": "drizzle-kit drop --config=drizzle.config.ts",
+    
     "codegen": "graphql-codegen",
     "codegen:fetch": "node --no-warnings scripts/fetchGraphQLSchema",
     "codegen:watch": "npm run codegen -- --watch",
