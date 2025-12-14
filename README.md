@@ -6,6 +6,8 @@
 
 [Hiyori](https://hiyori.hugo-coding.com) is a cutting-edge e-commerce platform equipped with a custom Content Management System (CMS), designed to provide an exceptional online shopping experience. Built using the latest web technologies such as Next.js 14, GraphQL, Supabase, Drizzle, ShadcnUI, and TailwindCSS, Hiyori offers seamless, fast, and responsive interactions across all devices.
 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/clong)
+
 ## Features
 
 - **Searching Feature with GraphQL**: Dynamic and efficient searching, allowing complex queries with optimized data fetching.
