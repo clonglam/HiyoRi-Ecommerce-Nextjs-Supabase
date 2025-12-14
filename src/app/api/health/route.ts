@@ -7,7 +7,6 @@ export async function GET() {
       timestamp: new Date().toISOString(),
       service: "hiyori-app",
     },
-    { status: 200 }
+    { status: 200 },
   );
 }
-
